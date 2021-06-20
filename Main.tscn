@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://materials/BuildingMaterialA.tres" type="Material" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 4, 6, 8 )
+
+[node name="Main" type="Spatial"]
+
+[node name="SampleBuildery" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 3, 0 )
+layers = 2
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="PrimaryCamera" type="Camera" parent="."]
+transform = Transform( -0.707107, -0.298836, -0.640856, 0, 0.906308, -0.422618, 0.707107, -0.298836, -0.640856, 2, 0, -5.5 )
+cull_mask = 3
+current = true
+size = 9.0

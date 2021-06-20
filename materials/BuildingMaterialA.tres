@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://materials/StreetDarkWindowShader.tres" type="Shader" id=1]
+[ext_resource path="res://textures/transparent.png" type="Texture" id=2]
+[ext_resource path="res://textures/street_dark_fade.png" type="Texture" id=3]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/dark_color = Color( 0.168627, 0.0588235, 0.329412, 1 )
+shader_param/street_color = Color( 1, 0.309804, 0.411765, 1 )
+shader_param/window_color = null
+shader_param/triplanar_scale = Vector3( 0.1, 0.1, 0.1 )
+shader_param/triplanar_offset = Vector3( 0, 0, 0 )
+shader_param/triplanar_sharpness = 9.0
+shader_param/texture_street_dark = ExtResource( 3 )
+shader_param/texture_windows = ExtResource( 2 )
