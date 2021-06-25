@@ -80,6 +80,9 @@ function build_row {
 
     # We always reset the chain count for the first window
     CHAIN_REMAIN=0
+    
+    # We'll stick the images we want to glue together into this array
+    local img_arr=()
 
     # For each window...
     for x in `seq 1 $BLD_COLUMNS`;
@@ -90,20 +93,15 @@ function build_row {
             roll_new_state
         fi
         
-        # If this is the first window, we need to copy over a single image to
-        # serve as the "seed".
-        if [ "$x" -le 1 ] 
-        then
-            cp -f $WINDOW_IMAGE $ROW_IMAGE
-        # Otherwise, we need to append the current image to the existing row
-        # image
-        else
-            magick convert $ROW_IMAGE $WINDOW_IMAGE +append $ROW_IMAGE
-        fi
+        # Stick the current image into the array
+        img_arr=("${img_arr[@]}" "$WINDOW_IMAGE")
 
         # Now that we've placed a window, decrement our chain-remaining count
         CHAIN_REMAIN=$(($CHAIN_REMAIN - 1))
-    done  
+    done
+    
+    # Glue it all together!
+    magick convert "${img_arr[@]}" +append $ROW_IMAGE 
 }
 
 # Builds out a whole texture to the OUTPUT_IMAGE, row-by-row.
