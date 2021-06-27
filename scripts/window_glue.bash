@@ -20,7 +20,7 @@
 # Variables/Constants
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # What are the window files we'll be using?
-WINDOW_ON_PNG=16A_02.png
+WINDOW_ON_PNG=""
 WINDOW_OFF_PNG=16T.png
 
 # What's the maximum and minimum length for a consecutive chain of windows?
@@ -87,7 +87,9 @@ function ctrl_c {
 
 # Ask if this is a vertically arranged building or a horizontally arranged
 # building
-whiptail --yes-button "Horizontal" --no-button "Vertical" --yesno \
+whiptail \
+    --title "Horizontal or Vertical Construction?" \
+    --yes-button "Horizontal" --no-button "Vertical" --yesno \
     "Is this texture vertically-oriented or horizontally oriented?" \
     10 65
 
@@ -109,6 +111,26 @@ else
     WHOLE_SEQUENCE=$COLUMN_SEQUENCE
     WHOLE_APPEND=$HORIZONTAL_APPEND
 fi
+
+WINDOW_ON_PNG=$(whiptail \
+    --title "Choose a window texture!" \
+    --menu "Choose a dithering strategy." 15 35 8 \
+        16A_01.png  "Full" \
+        16A_02.png  "No Edge" \
+        16A_03.png  "Bottom Contact" \
+        16A_04.png  "Top Slice" \
+        16A_05.png  "Horizontal Bar" \
+        16A_06.png  "Vertical Bar"\
+    3>&1 1>&2 2>&3
+)  
+
+if [ "$?" -eq 1 ]
+then
+    echo "Operation cancelled."
+    exit
+fi
+
+echo $WINDOW_ON_PNG
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Build Functions
