@@ -1,0 +1,90 @@
+[gd_resource type="VisualShader" load_steps=5 format=2]
+
+[sub_resource type="VisualShaderNodeVectorScalarMix" id=1]
+
+[sub_resource type="VisualShaderNodeTextureUniformTriplanar" id=9]
+uniform_name = "texture_street_dark"
+
+[sub_resource type="VisualShaderNodeColorUniform" id=6]
+uniform_name = "dark_color"
+
+[sub_resource type="VisualShaderNodeColorUniform" id=7]
+uniform_name = "street_color"
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx;
+
+uniform vec4 dark_color : hint_color;
+uniform vec4 street_color : hint_color;
+uniform sampler2D texture_street_dark;
+
+
+// TRIPLANAR FUNCTION GLOBAL CODE
+	vec4 triplanar_texture(sampler2D p_sampler, vec3 p_weights, vec3 p_triplanar_pos) {
+		vec4 samp = vec4(0.0);
+		samp += texture(p_sampler, p_triplanar_pos.xy) * p_weights.z;
+		samp += texture(p_sampler, p_triplanar_pos.xz) * p_weights.y;
+		samp += texture(p_sampler, p_triplanar_pos.zy * vec2(-1.0, 1.0)) * p_weights.x;
+		return samp;
+	}
+
+	uniform vec3 triplanar_scale = vec3(1.0, 1.0, 1.0);
+	uniform vec3 triplanar_offset;
+	uniform float triplanar_sharpness = 0.5;
+
+	varying vec3 triplanar_power_normal;
+	varying vec3 triplanar_pos;
+
+void vertex() {
+// Output:0
+
+	// TRIPLANAR FUNCTION VERTEX CODE
+		triplanar_power_normal = pow(abs(NORMAL), vec3(triplanar_sharpness));
+		triplanar_power_normal /= dot(triplanar_power_normal, vec3(1.0));
+		triplanar_pos = VERTEX * triplanar_scale + triplanar_offset;
+		triplanar_pos *= vec3(1.0, -1.0, 1.0);
+}
+
+void fragment() {
+// ColorUniform:4
+	vec3 n_out4p0 = dark_color.rgb;
+	float n_out4p1 = dark_color.a;
+
+// ColorUniform:5
+	vec3 n_out5p0 = street_color.rgb;
+	float n_out5p1 = street_color.a;
+
+// TextureUniformTriplanar:27
+	vec3 n_out27p0;
+	float n_out27p1;
+	{
+		vec4 n_tex_read = triplanar_texture( texture_street_dark, triplanar_power_normal, triplanar_pos );
+		n_out27p0 = n_tex_read.rgb;
+		n_out27p1 = n_tex_read.a;
+	}
+
+// VectorScalarMix:22
+	vec3 n_out22p0 = mix(n_out4p0, n_out5p0, n_out27p1);
+
+// Output:0
+	ALBEDO = n_out22p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( -53.1275, -150 )
+nodes/fragment/0/position = Vector2( 640, -40 )
+nodes/fragment/4/node = SubResource( 6 )
+nodes/fragment/4/position = Vector2( 160, -120 )
+nodes/fragment/5/node = SubResource( 7 )
+nodes/fragment/5/position = Vector2( 160, 0 )
+nodes/fragment/22/node = SubResource( 1 )
+nodes/fragment/22/position = Vector2( 380, 40 )
+nodes/fragment/27/node = SubResource( 9 )
+nodes/fragment/27/position = Vector2( 80, 120 )
+nodes/fragment/connections = PoolIntArray( 5, 0, 22, 1, 4, 0, 22, 0, 27, 1, 22, 2, 22, 0, 0, 0 )
