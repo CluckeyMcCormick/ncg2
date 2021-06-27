@@ -1,7 +1,7 @@
 
 # We're gonna ignore the script outputs
 scripts/output_building.png
-scripts/row.png
+scripts/component.png
 
 # Godot-specific ignores
 .import/

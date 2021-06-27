@@ -40,9 +40,7 @@ BLD_COLUMNS=32
 BLD_ROWS=32
 
 # When we build an row image, what is that image called?
-ROW_IMAGE=row.png
-# When we build an column image, what is that image called?
-COLUMN_IMAGE=column.png
+COMPONENT_IMAGE=component.png
 # What are we outputting to?
 OUTPUT_IMAGE=output_building.png
 
@@ -50,6 +48,67 @@ OUTPUT_IMAGE=output_building.png
 WINDOW_IMAGE="AAA"
 # How many windows remain in the current chain?
 CHAIN_REMAIN=0
+
+# We glue together the different images by using the `seq` command to do a for
+# loop.
+# What `seq` command do we use for columns?
+COLUMN_SEQUENCE="seq 1 $BLD_COLUMNS"
+# What `seq` command do we use for rows?
+ROW_SEQUENCE="seq 1 $BLD_ROWS"
+
+# To attach images to each other using the magick-convert command, we need to
+# use an 'append' keyword/argument.
+# What append do we use when trying to glue together images horizontally?
+HORIZONTAL_APPEND="+append"
+# What append do we use when trying to glue together images vertically?
+VERTICAL_APPEND="-append"
+
+# What sequence command do we use in the `build_component` function?
+COMPONENT_SEQUENCE=$COLUMN_SEQUENCE
+# What sequence command do we use in the `build_whole` function?
+WHOLE_SEQUENCE=$ROW_SEQUENCE
+
+# What append do we use in the `build_component` function?
+COMPONENT_APPEND=$HORIZONTAL_APPEND
+# What append do we use in the `build_whole` function?
+WHOLE_APPEND=$VERTICAL_APPEND
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Set Up
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# For some reason the CTRL+C interrupt only works 50% of the time normally
+# (because of ImageMagick, I think), and defining this trap function makes it
+# work near 100% of the time.
+trap ctrl_c INT
+function ctrl_c {
+    exit
+}
+
+# Ask if this is a vertically arranged building or a horizontally arranged
+# building
+whiptail --yes-button "Horizontal" --no-button "Vertical" --yesno \
+    "Is this texture vertically-oriented or horizontally oriented?" \
+    10 65
+
+# If the output from whiptail was 0, then it was the "yes" button - in this
+# case, that's "Horizontal".
+if [ "$?" -eq 0 ]
+then
+    # Set the variables for the build_component function
+    COMPONENT_SEQUENCE=$COLUMN_SEQUENCE
+    COMPONENT_APPEND=$HORIZONTAL_APPEND
+    # Set the variables for the build_whole function
+    WHOLE_SEQUENCE=$ROW_SEQUENCE
+    WHOLE_APPEND=$VERTICAL_APPEND
+else
+    # Set the variables for the build_component function
+    COMPONENT_SEQUENCE=$ROW_SEQUENCE
+    COMPONENT_APPEND=$VERTICAL_APPEND
+    # Set the variables for the build_whole function
+    WHOLE_SEQUENCE=$COLUMN_SEQUENCE
+    WHOLE_APPEND=$HORIZONTAL_APPEND
+fi
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Build Functions
@@ -76,7 +135,7 @@ function roll_new_state {
 }
 
 # Builds a single row of an image to the ROW_IMAGE file
-function build_row {
+function build_component {
 
     # We always reset the chain count for the first window
     CHAIN_REMAIN=0
@@ -85,7 +144,7 @@ function build_row {
     local img_arr=()
 
     # For each window...
-    for x in `seq 1 $BLD_COLUMNS`;
+    for x in `$COMPONENT_SEQUENCE`;
     do
         # If the chain was completed, roll a new state
         if [ "$CHAIN_REMAIN" -le 0 ]
@@ -101,16 +160,16 @@ function build_row {
     done
     
     # Glue it all together!
-    magick convert "${img_arr[@]}" +append $ROW_IMAGE 
+    magick convert "${img_arr[@]}" $COMPONENT_APPEND $COMPONENT_IMAGE 
 }
 
-# Builds out a whole texture to the OUTPUT_IMAGE, row-by-row.
-function build_row_based_building {
+# Builds out a whole texture to the OUTPUT_IMAGE, component-by-component.
+function build_whole {
     # For each window...
-    for y in `seq 1 $BLD_ROWS`;
+    for y in `$WHOLE_SEQUENCE`;
     do
         # Make a new row
-        build_row
+        build_component
         
         echo "ROW $y Complete!"
         
@@ -118,14 +177,14 @@ function build_row_based_building {
         # serve as the "seed".
         if [ "$y" -le 1 ] 
         then
-            cp -f $ROW_IMAGE $OUTPUT_IMAGE
+            cp -f $COMPONENT_IMAGE $OUTPUT_IMAGE
         # Otherwise, we need to append the current image to the existing row
         # image
         else
-            magick convert $OUTPUT_IMAGE $ROW_IMAGE -append $OUTPUT_IMAGE
+            magick convert $OUTPUT_IMAGE $COMPONENT_IMAGE $WHOLE_APPEND $OUTPUT_IMAGE
         fi
     done 
 }
 
-build_row_based_building
+build_whole
 
