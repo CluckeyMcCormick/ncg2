@@ -11,6 +11,7 @@ texture_type = 1
 [sub_resource type="VisualShaderNodeVectorScalarMix" id=3]
 
 [sub_resource type="VisualShaderNodeVectorScalarMix" id=4]
+output_port_for_preview = 0
 
 [sub_resource type="VisualShaderNodeColorUniform" id=5]
 uniform_name = "dark_color"
@@ -105,7 +106,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -0.0561161, -146.318 )
+graph_offset = Vector2( -74.02, -137 )
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 860, 140 )
 nodes/fragment/4/node = SubResource( 5 )
@@ -117,7 +118,7 @@ nodes/fragment/6/position = Vector2( 220, 160 )
 nodes/fragment/10/node = SubResource( 1 )
 nodes/fragment/10/position = Vector2( -100, 0 )
 nodes/fragment/11/node = SubResource( 2 )
-nodes/fragment/11/position = Vector2( 180, 280 )
+nodes/fragment/11/position = Vector2( 140, 280 )
 nodes/fragment/22/node = SubResource( 3 )
 nodes/fragment/22/position = Vector2( 380, 40 )
 nodes/fragment/23/node = SubResource( 4 )
