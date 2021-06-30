@@ -12,7 +12,7 @@ uniform_name = "texture_windows"
 [sub_resource type="VisualShaderNodeInput" id=4]
 input_name = "uv2"
 
-[sub_resource type="VisualShaderNodeTextureUniform" id=9]
+[sub_resource type="VisualShaderNodeTextureUniform" id=5]
 uniform_name = "texture_street_dark2"
 
 [sub_resource type="VisualShaderNodeColorUniform" id=6]
@@ -91,7 +91,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -466.78, -75 )
+graph_offset = Vector2( 0, -330 )
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 860, 140 )
 nodes/fragment/4/node = SubResource( 6 )
@@ -108,6 +108,6 @@ nodes/fragment/24/node = SubResource( 3 )
 nodes/fragment/24/position = Vector2( 220, 280 )
 nodes/fragment/25/node = SubResource( 4 )
 nodes/fragment/25/position = Vector2( 40, 360 )
-nodes/fragment/28/node = SubResource( 9 )
+nodes/fragment/28/node = SubResource( 5 )
 nodes/fragment/28/position = Vector2( -80, 0 )
 nodes/fragment/connections = PoolIntArray( 5, 0, 22, 1, 4, 0, 22, 0, 22, 0, 23, 0, 6, 0, 23, 1, 23, 0, 0, 0, 24, 1, 23, 2, 25, 0, 24, 0, 28, 1, 22, 2 )
