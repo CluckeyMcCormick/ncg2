@@ -1,7 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://materials/LightWindowShader.tres" type="Shader" id=1]
+[ext_resource path="res://textures/no_edge_horizontal.png" type="Texture" id=2]
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/street_color_l = Color( 0.168627, 0.0588235, 0.329412, 1 )
+shader_param/dark_color = Color( 0.168627, 0.0588235, 0.329412, 1 )
+shader_param/window_color = Color( 0.694118, 1, 0.972549, 1 )
+shader_param/TextureUniform = ExtResource( 2 )

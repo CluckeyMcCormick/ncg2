@@ -26,7 +26,7 @@ uniform_name = "window_color"
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, world_vertex_coords;
+render_mode specular_schlick_ggx, unshaded, world_vertex_coords;
 
 uniform vec4 dark_color : hint_color;
 uniform vec4 street_color : hint_color;
@@ -91,7 +91,8 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 0, -330 )
+graph_offset = Vector2( 249.806, -128.25 )
+flags/unshaded = true
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 860, 140 )
 nodes/fragment/4/node = SubResource( 6 )

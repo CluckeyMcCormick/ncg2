@@ -1,46 +1,48 @@
 [gd_resource type="VisualShader" load_steps=14 format=2]
 
-[sub_resource type="VisualShaderNodeColorUniform" id=7]
-uniform_name = "street_color"
-
-[sub_resource type="VisualShaderNodeColorUniform" id=8]
-uniform_name = "window_color"
-
-[sub_resource type="VisualShaderNodeInput" id=12]
+[sub_resource type="VisualShaderNodeInput" id=3]
 input_name = "attenuation"
 
-[sub_resource type="VisualShaderNodeVectorClamp" id=13]
+[sub_resource type="VisualShaderNodeVectorClamp" id=4]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=14]
+[sub_resource type="VisualShaderNodeVectorOp" id=5]
 operator = 2
 
-[sub_resource type="VisualShaderNodeVectorOp" id=15]
-operator = 2
+[sub_resource type="VisualShaderNodeVectorInterp" id=6]
 
-[sub_resource type="VisualShaderNodeVectorInterp" id=18]
+[sub_resource type="VisualShaderNodeTextureUniform" id=13]
+uniform_name = "TextureUniform"
+color_default = 1
 
-[sub_resource type="VisualShaderNodeInput" id=19]
-input_name = "light_color"
+[sub_resource type="VisualShaderNodeVectorScalarMix" id=14]
 
-[sub_resource type="VisualShaderNodeInput" id=9]
+[sub_resource type="VisualShaderNodeInput" id=8]
 input_name = "light"
 
-[sub_resource type="VisualShaderNodeColorUniform" id=10]
-uniform_name = "street_color_l"
+[sub_resource type="VisualShaderNodeInput" id=16]
+input_name = "light_color"
 
-[sub_resource type="VisualShaderNodeColorUniform" id=11]
-uniform_name = "dark_color_l"
+[sub_resource type="VisualShaderNodeVectorOp" id=17]
+operator = 2
 
-[sub_resource type="VisualShaderNodeDotProduct" id=16]
+[sub_resource type="VisualShaderNodeColorUniform" id=18]
+uniform_name = "window_color"
 
-[sub_resource type="VisualShaderNodeInput" id=17]
+[sub_resource type="VisualShaderNodeColorUniform" id=9]
+uniform_name = "dark_color"
+
+[sub_resource type="VisualShaderNodeDotProduct" id=11]
+
+[sub_resource type="VisualShaderNodeInput" id=12]
 input_name = "normal"
 
 [resource]
 code = "shader_type spatial;
 render_mode specular_schlick_ggx, world_vertex_coords;
 
-uniform vec4 street_color_l : hint_color;
+uniform vec4 dark_color : hint_color;
+uniform vec4 window_color : hint_color;
+uniform sampler2D TextureUniform : hint_black;
 
 
 
@@ -56,11 +58,11 @@ void fragment() {
 
 void light() {
 // ColorUniform:3
-	vec3 n_out3p0 = street_color_l.rgb;
-	float n_out3p1 = street_color_l.a;
+	vec3 n_out3p0 = dark_color.rgb;
+	float n_out3p1 = dark_color.a;
 
-// Input:17
-	vec3 n_out17p0 = LIGHT_COLOR;
+// Input:21
+	vec3 n_out21p0 = LIGHT_COLOR;
 
 // Input:8
 	vec3 n_out8p0 = NORMAL;
@@ -83,41 +85,60 @@ void light() {
 	vec3 n_out13p0 = n_out12p0 * n_out10p0;
 
 // VectorMix:16
-	vec3 n_out16p0 = mix(n_out3p0, n_out17p0, n_out13p0);
+	vec3 n_out16p0 = mix(n_out3p0, n_out21p0, n_out13p0);
+
+// ColorUniform:23
+	vec3 n_out23p0 = window_color.rgb;
+	float n_out23p1 = window_color.a;
+
+// TextureUniform:18
+	vec3 n_out18p0;
+	float n_out18p1;
+	{
+		vec4 n_tex_read = texture(TextureUniform, UV.xy);
+		n_out18p0 = n_tex_read.rgb;
+		n_out18p1 = n_tex_read.a;
+	}
+
+// VectorOp:22
+	vec3 n_out22p0 = n_out23p0 * n_out18p0;
+
+// VectorScalarMix:19
+	vec3 n_out19p0 = mix(n_out16p0, n_out22p0, n_out18p1);
 
 // Output:0
-	DIFFUSE_LIGHT = n_out16p0;
+	SPECULAR_LIGHT = n_out19p0;
 
 }
 "
-graph_offset = Vector2( 304.42, 0 )
+graph_offset = Vector2( 365.127, -148.5 )
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 860, 140 )
-nodes/fragment/5/node = SubResource( 7 )
-nodes/fragment/5/position = Vector2( 160, 0 )
-nodes/fragment/6/node = SubResource( 8 )
-nodes/fragment/6/position = Vector2( 220, 160 )
-nodes/light/0/position = Vector2( 1180, 220 )
-nodes/light/2/node = SubResource( 9 )
+nodes/light/0/position = Vector2( 1320, 200 )
+nodes/light/2/node = SubResource( 8 )
 nodes/light/2/position = Vector2( -140, 260 )
-nodes/light/3/node = SubResource( 10 )
-nodes/light/3/position = Vector2( 620, 40 )
-nodes/light/4/node = SubResource( 11 )
-nodes/light/4/position = Vector2( 60, 60 )
-nodes/light/7/node = SubResource( 16 )
+nodes/light/3/node = SubResource( 9 )
+nodes/light/3/position = Vector2( 580, -80 )
+nodes/light/7/node = SubResource( 11 )
 nodes/light/7/position = Vector2( 60, 220 )
-nodes/light/8/node = SubResource( 17 )
+nodes/light/8/node = SubResource( 12 )
 nodes/light/8/position = Vector2( -160, 200 )
-nodes/light/10/node = SubResource( 12 )
+nodes/light/10/node = SubResource( 3 )
 nodes/light/10/position = Vector2( 240, 340 )
-nodes/light/12/node = SubResource( 13 )
+nodes/light/12/node = SubResource( 4 )
 nodes/light/12/position = Vector2( 260, 220 )
-nodes/light/13/node = SubResource( 14 )
-nodes/light/13/position = Vector2( 480, 220 )
-nodes/light/14/node = SubResource( 15 )
-nodes/light/14/position = Vector2( 700, 220 )
-nodes/light/16/node = SubResource( 18 )
+nodes/light/13/node = SubResource( 5 )
+nodes/light/13/position = Vector2( 580, 120 )
+nodes/light/16/node = SubResource( 6 )
 nodes/light/16/position = Vector2( 840, 80 )
-nodes/light/17/node = SubResource( 19 )
-nodes/light/17/position = Vector2( 600, 140 )
-nodes/light/connections = PoolIntArray( 8, 0, 7, 0, 7, 0, 12, 0, 12, 0, 13, 0, 10, 0, 13, 1, 13, 0, 14, 0, 2, 0, 7, 1, 17, 0, 16, 1, 13, 0, 16, 2, 3, 0, 16, 0, 16, 0, 0, 0 )
+nodes/light/18/node = SubResource( 13 )
+nodes/light/18/position = Vector2( 560, 360 )
+nodes/light/19/node = SubResource( 14 )
+nodes/light/19/position = Vector2( 1060, 220 )
+nodes/light/21/node = SubResource( 16 )
+nodes/light/21/position = Vector2( 560, 40 )
+nodes/light/22/node = SubResource( 17 )
+nodes/light/22/position = Vector2( 840, 220 )
+nodes/light/23/node = SubResource( 18 )
+nodes/light/23/position = Vector2( 580, 240 )
+nodes/light/connections = PoolIntArray( 8, 0, 7, 0, 7, 0, 12, 0, 2, 0, 7, 1, 10, 0, 13, 1, 12, 0, 13, 0, 13, 0, 16, 2, 18, 1, 19, 2, 16, 0, 19, 0, 19, 0, 0, 1, 21, 0, 16, 1, 3, 0, 16, 0, 18, 0, 22, 1, 23, 0, 22, 0, 22, 0, 19, 1 )
