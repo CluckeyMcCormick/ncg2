@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bw_chit.png-2cbf8acdaa3fff5426003e49276dea56.stex"
+path="res://.import/16B_06.png-054bda6ae4f4b9d097b13d2e88b109e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/bw_chit.png"
-dest_files=[ "res://.import/bw_chit.png-2cbf8acdaa3fff5426003e49276dea56.stex" ]
+source_file="res://scripts/16B_06.png"
+dest_files=[ "res://.import/16B_06.png-054bda6ae4f4b9d097b13d2e88b109e7.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/street_dark_fade.png-c8f0a455d6e866657138019461bb3089.stex"
+path="res://.import/16B_02.png-f8c63e6ab880da652603eafca2d324bc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/street_dark_fade.png"
-dest_files=[ "res://.import/street_dark_fade.png-c8f0a455d6e866657138019461bb3089.stex" ]
+source_file="res://scripts/16B_02.png"
+dest_files=[ "res://.import/16B_02.png-f8c63e6ab880da652603eafca2d324bc.stex" ]
 
 [params]
 
@@ -19,16 +19,16 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=false
-flags/mipmaps=true
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0

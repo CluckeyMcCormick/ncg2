@@ -21,6 +21,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # What are the window files we'll be using?
 WINDOW_ON_PNG=""
+WINDOW_DIM_PNG=""
 WINDOW_OFF_PNG=16T.png
 
 # What's the maximum and minimum length for a consecutive chain of windows?
@@ -30,14 +31,19 @@ MAX_CHAIN_LENGTH=8
 # When we try to roll a new state, we roll between 1 and some higher value: what
 # is that higher value?
 STATE_ROLL_SIZE=100
-# What's the chance that a particular window will be "on"? (This will trigger if
-# we roll <= this number)
-ON_CHANCE=60
+# What's the chance that a particular window will be "off"? (This will trigger
+# if we roll <= this number)
+OFF_CHANCE=40
+# What's the chance that a particular window will be "dim"? (This will trigger
+# if we roll <= this number and we roll > OFF_CHANCE)
+DIM_CHANCE=80
+# If we're not OFF or DIM, then we will be LIT. The chance of being lit can be
+# calculated as $(STATE_ROLL_SIZE - DIM_CHANCE).
 
 # How many columns of windows?
-BLD_COLUMNS=32
+BLD_COLUMNS=64
 # How many rows?
-BLD_ROWS=32
+BLD_ROWS=64
 
 # When we build an row image, what is that image called?
 COMPONENT_IMAGE=component.png
@@ -130,7 +136,9 @@ then
     exit
 fi
 
-echo $WINDOW_ON_PNG
+# Now, determine the "DIM" image we'll be using by swapping the "A" in the
+# WINDOW_ON_PNG string with a "B"
+WINDOW_DIM_PNG=${WINDOW_ON_PNG/A/B}
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Build Functions
@@ -146,13 +154,20 @@ function roll_new_state {
     # Roll for our state
     local state_roll=$(($RANDOM % STATE_ROLL_SIZE + 1))
     
-    # If the state roll is less than the "ON" chance, then it's ON!
-    if [ "$state_roll" -le "$ON_CHANCE" ] 
+    # If the state roll is less than the "OFF" chance, then it's OFF!
+    if [ "$state_roll" -le "$OFF_CHANCE" ]
     then
-        WINDOW_IMAGE=$WINDOW_ON_PNG
-    # Othwerwise, it's off
-    else
         WINDOW_IMAGE=$WINDOW_OFF_PNG
+        
+    # Othwerwise, if it's less than the "DIM" chance, then it's DIM!
+    elif [ "$state_roll" -le "$DIM_CHANCE" ]
+    then
+    	WINDOW_IMAGE=$WINDOW_DIM_PNG
+    
+    # Otherwise, it must be ON!
+    else
+        WINDOW_IMAGE=$WINDOW_ON_PNG
+        
     fi
 }
 
