@@ -63,29 +63,30 @@ func make_building():
     
     # By default, the UV2 texture is centered on 0,0 - so it stretches half it's
     # length in either direction on x and z. While that normally wouldn't be
-    # a problem, with our pixel-perfect texture, it bisects one of the windows.
-    # So we need to shift it to the side by half of the size of a window.
-    var base_UV2_shift = Vector2(WINDOW_UV_SIZE / 2, 0)
+    # a problem, with our pixel-perfect texture, it bisects one of the windows
+    # IF the measure on that side is odd. So we need to shift it to the side by
+    # half of the size of a window.
+    var odd_UV2_shift = Vector2(WINDOW_UV_SIZE / 2, 0)
     
     $ZNeg.mesh = ready_side_mesh(
         Vector2(-eff_x, 0), 
         Vector2( eff_x, eff_y), 
-        -eff_z, false, base_UV2_shift
+        -eff_z, false, (len_x % 2) * odd_UV2_shift
     )
     $ZPos.mesh = ready_side_mesh( 
         Vector2(-eff_x, eff_y),
         Vector2( eff_x, 0), 
-        eff_z, false, base_UV2_shift
+        eff_z, false, (len_x % 2) * odd_UV2_shift
     )
     $XNeg.mesh = ready_side_mesh(
         Vector2(-eff_z, 0), 
         Vector2( eff_z, eff_y), 
-        eff_x, true, Vector2.ZERO
+        eff_x, true, (len_z % 2) * odd_UV2_shift
     )
     $XPos.mesh = ready_side_mesh( 
         Vector2(-eff_z, eff_y),
         Vector2( eff_z, 0), 
-        -eff_x, true, Vector2.ZERO
+        -eff_x, true, (len_z % 2) * odd_UV2_shift
     )
     $YTop.mesh = ready_top_mesh(
         Vector2(-eff_x, -eff_z),
