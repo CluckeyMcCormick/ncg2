@@ -6,7 +6,6 @@ extends Node
 # We'll get the values out using these key constants.
 const VECTOR3_KEY = "vertex_pool_array"
 const UV_KEY = "uv_pool_array"
-const UV2_KEY = "uv2_pool_array"
 
 # --------------------------------------------------------
 #
@@ -30,10 +29,9 @@ const UV2_KEY = "uv2_pool_array"
 # appropriately. UV coordinates must be provided as uvA and uvB.
 static func create_ylock_face(
     pointA : Vector2, pointB : Vector2, y_pos : float,
-    uvA : Vector2, uvB : Vector2, uv2_shift : Vector2
+    uvA : Vector2, uvB : Vector2
 ):
     var v2 = PoolVector2Array()
-    var v2_uv2 = PoolVector2Array()
     var v3 = PoolVector3Array()
     
     var A3 = Vector3(pointA.x, y_pos, pointA.y)
@@ -53,9 +51,6 @@ static func create_ylock_face(
     v2.append( A2 ) # A
     v2.append( B2 ) # B
     v2.append( Ad2 ) # Ad
-    v2_uv2.append( A2 + uv2_shift) # A
-    v2_uv2.append( B2 + uv2_shift ) # B
-    v2_uv2.append( Ad2 + uv2_shift ) # Ad
 
     # Triangle 2
     v3.append( A3 ) # A
@@ -64,19 +59,16 @@ static func create_ylock_face(
     v2.append( A2 ) # A
     v2.append( Bd2 ) # Bd
     v2.append( B2 ) # B
-    v2_uv2.append( A2 + uv2_shift ) # A
-    v2_uv2.append( Bd2 + uv2_shift ) # Bd
-    v2_uv2.append( B2 + uv2_shift ) # B
 
-    return {VECTOR3_KEY: v3, UV_KEY: v2, UV2_KEY: v2_uv2}
+    return {VECTOR3_KEY: v3, UV_KEY: v2}
 
 # Wrapper for the regular create_xlock_face function, but this one passes the
 # two vertex points as the UV points, creating a face that has the UV values
 # aligned with it's initial position in space. 
 static func create_ylock_face_simple(
-    pointA : Vector2, pointB : Vector2, y_pos : float, uv2_shift : Vector2
+    pointA : Vector2, pointB : Vector2, y_pos : float
 ):
-    return create_ylock_face(pointA, pointB, y_pos, pointA, pointB, uv2_shift)
+    return create_ylock_face(pointA, pointB, y_pos, pointA, pointB)
   
 # Creates a face where the position on the X-axis is locked. The user can
 # control what direction is the "front" by manipulating pointA and pointB
@@ -85,10 +77,9 @@ static func create_ylock_face_simple(
 # enabled by default. UV coordinates must be provided as uvA and uvB.
 static func create_xlock_face(
     pointA : Vector2, pointB : Vector2, x_pos : float,
-    uvA : Vector2, uvB : Vector2, uv2_shift : Vector2, invert_UV_y : bool = true
+    uvA : Vector2, uvB : Vector2, invert_UV_y : bool = true
 ):
     var v2 = PoolVector2Array()
-    var v2_uv2 = PoolVector2Array()
     var v3 = PoolVector3Array()
     
     var A3 = Vector3(x_pos, pointA.y, pointA.x)
@@ -114,9 +105,6 @@ static func create_xlock_face(
     v2.append( A2 ) # A
     v2.append( B2 ) # B
     v2.append( Ad2 ) # Ad
-    v2_uv2.append( A2 + uv2_shift ) # A
-    v2_uv2.append( B2 + uv2_shift ) # B
-    v2_uv2.append( Ad2 + uv2_shift ) # Ad
     
     # Triangle 2
     v3.append( A3 ) # A
@@ -125,20 +113,16 @@ static func create_xlock_face(
     v2.append( A2 ) # A
     v2.append( Bd2 ) # Bd
     v2.append( B2 ) # B
-    v2_uv2.append( A2 + uv2_shift ) # A
-    v2_uv2.append( Bd2 + uv2_shift ) # Bd
-    v2_uv2.append( B2 + uv2_shift ) # B
 
-    return {VECTOR3_KEY: v3, UV_KEY: v2, UV2_KEY: v2_uv2}
+    return {VECTOR3_KEY: v3, UV_KEY: v2}
 
 # Wrapper for the regular create_xlock_face function, but this one passes the
 # two vertex points as the UV points, creating a face that has the UV values
 # aligned with it's initial position in space. 
 static func create_xlock_face_simple(
-    pointA : Vector2, pointB : Vector2, x_pos : float, uv2_shift : Vector2,
-    invert_UV_y: bool = true
+    pointA : Vector2, pointB : Vector2, x_pos : float, invert_UV_y: bool = true
 ):
-    return create_xlock_face(pointA, pointB, x_pos, pointA, pointB, uv2_shift, invert_UV_y)
+    return create_xlock_face(pointA, pointB, x_pos, pointA, pointB, invert_UV_y)
 
 # Creates a face where the position on the Z-axis is locked. The user can
 # control what direction is the "front" by manipulating pointA and pointB
@@ -147,10 +131,9 @@ static func create_xlock_face_simple(
 # enabled by default.
 static func create_zlock_face(
     pointA : Vector2, pointB : Vector2, z_pos : float, 
-    uvA : Vector2, uvB : Vector2, uv2_shift : Vector2, invert_UV_y: bool = true
+    uvA : Vector2, uvB : Vector2, invert_UV_y: bool = true
 ):
     var v2 = PoolVector2Array()
-    var v2_uv2 = PoolVector2Array()
     var v3 = PoolVector3Array()
     
     var A3 = Vector3(pointA.x, pointA.y, z_pos)
@@ -176,9 +159,6 @@ static func create_zlock_face(
     v2.append( A2 ) # A
     v2.append( B2 ) # B
     v2.append( Ad2 ) # Ad
-    v2_uv2.append( A2 + uv2_shift ) # A
-    v2_uv2.append( B2 + uv2_shift ) # B
-    v2_uv2.append( Ad2 + uv2_shift ) # Ad
 
     # Triangle 2
     v3.append( A3 ) # A
@@ -187,17 +167,13 @@ static func create_zlock_face(
     v2.append( A2 ) # A
     v2.append( Bd2 ) # Bd
     v2.append( B2 ) # B
-    v2_uv2.append( A2 + uv2_shift ) # A
-    v2_uv2.append( Bd2 + uv2_shift ) # Bd
-    v2_uv2.append( B2 + uv2_shift ) # B
 
-    return {VECTOR3_KEY: v3, UV_KEY: v2, UV2_KEY: v2_uv2}
+    return {VECTOR3_KEY: v3, UV_KEY: v2}
 
 # Wrapper for the regular create_zlock_face function, but this one passes the
 # two vertex points as the UV points, creating a face that has the UV values
 # aligned with it's initial position in space. 
 static func create_zlock_face_simple(
-    pointA : Vector2, pointB : Vector2, z_pos : float, uv2_shift : Vector2,
-    invert_UV_y: bool = true
+    pointA : Vector2, pointB : Vector2, z_pos : float, invert_UV_y: bool = true
 ):
-    return create_zlock_face(pointA, pointB, z_pos, pointA, pointB, uv2_shift, invert_UV_y)
+    return create_zlock_face(pointA, pointB, z_pos, pointA, pointB, invert_UV_y)
