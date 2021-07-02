@@ -8,7 +8,7 @@ extends Spatial
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    $Tween.interpolate_property($AutoBuilding, "rotation_degrees:y",
+    $Tween.interpolate_property($Spin, "rotation_degrees:y",
         0, 360, 4,
         Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
     $Tween.start()

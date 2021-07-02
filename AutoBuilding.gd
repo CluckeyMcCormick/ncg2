@@ -67,7 +67,7 @@ func set_length_z(new_length):
 # Build Functions
 #
 # --------------------------------------------------------
-func calculate_uv_shift(side_len, random_add : bool = true):
+func calculate_cell_uv_shift(side_len, random_add : bool = true):
     # We'll stick the return value into this Vector2
     var return_val
     
@@ -81,8 +81,6 @@ func calculate_uv_shift(side_len, random_add : bool = true):
     # the parity to scale the shift allows us to skip using an if/else.
     return_val += (side_len % 2) * odd_UV2_shift
     
-    print(return_val)
-    
     return return_val
 
 func make_building():
@@ -92,8 +90,6 @@ func make_building():
     self.has_node("XNeg") or self.has_node("XPos") ):
         return
     
-    print("good")
-    
     var eff_x = (len_x * WINDOW_UV_SIZE) / 2
     var eff_y = len_y * WINDOW_UV_SIZE
     var eff_z = (len_z * WINDOW_UV_SIZE) / 2
@@ -101,22 +97,22 @@ func make_building():
     $ZNeg.mesh = ready_side_mesh(
         Vector2(-eff_x, 0), 
         Vector2( eff_x, eff_y), 
-        -eff_z, false, calculate_uv_shift(len_x)
+        -eff_z, false, calculate_cell_uv_shift(len_x)
     )
     $ZPos.mesh = ready_side_mesh( 
         Vector2(-eff_x, eff_y),
         Vector2( eff_x, 0), 
-        eff_z, false, calculate_uv_shift(len_x)
+        eff_z, false, calculate_cell_uv_shift(len_x)
     )
     $XNeg.mesh = ready_side_mesh(
         Vector2(-eff_z, 0), 
         Vector2( eff_z, eff_y), 
-        eff_x, true, calculate_uv_shift(len_z)
+        eff_x, true, calculate_cell_uv_shift(len_z)
     )
     $XPos.mesh = ready_side_mesh( 
         Vector2(-eff_z, eff_y),
         Vector2( eff_z, 0),
-        -eff_x, true, calculate_uv_shift(len_z)
+        -eff_x, true, calculate_cell_uv_shift(len_z)
     )
     $YTop.mesh = ready_top_mesh(
         Vector2(-eff_x, -eff_z),

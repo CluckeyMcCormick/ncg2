@@ -1,16 +1,17 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://materials/BuildingMaterialB_Top.tres" type="Material" id=1]
 [ext_resource path="res://AutoBuilding.gd" type="Script" id=2]
 [ext_resource path="res://materials/BuildingMaterialB.tres" type="Material" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://materials/BuildingMaterialLight.tres" type="Material" id=5]
 
 [sub_resource type="PlaneMesh" id=1]
 
 [sub_resource type="ArrayMesh" id=2]
 surfaces/0 = {
 "aabb": AABB( -0.125, 0, -0.125, 0.25, 0.5, 9.99868e-06 ),
-"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 0, 128, 56, 0, 54, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 184, 128, 58, 0, 176, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 184, 128, 56, 0, 176, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 0, 128, 56, 0, 54, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 0, 128, 58, 0, 54, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 184, 128, 58, 0, 176 ),
+"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 0, 0, 0, 128, 52, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 184, 0, 52, 0, 179, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 184, 0, 0, 0, 179, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 176, 0, 0, 0, 0, 128, 52, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 0, 0, 52, 128, 52, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 0, 0, 129, 0, 127, 0, 0, 129, 0, 48, 0, 184, 0, 52, 0, 179 ),
 "array_index_data": PoolByteArray(  ),
 "blend_shape_data": [  ],
 "format": 97335,
@@ -24,7 +25,7 @@ surfaces/0 = {
 [sub_resource type="ArrayMesh" id=3]
 surfaces/0 = {
 "aabb": AABB( -0.125, 0, 0.125, 0.25, 0.50001, 9.99868e-06 ),
-"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 184, 128, 53, 0, 181, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 0, 192, 56, 0, 50, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 0, 128, 53, 0, 50, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 184, 128, 53, 0, 181, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 184, 192, 56, 0, 181, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 0, 192, 56, 0, 50 ),
+"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 184, 128, 54, 0, 184, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 0, 64, 57, 0, 0, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 0, 128, 54, 0, 0, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 176, 0, 184, 128, 54, 0, 184, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 184, 64, 57, 0, 184, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 0, 0, 127, 0, 127, 0, 0, 127, 0, 48, 0, 0, 64, 57, 0, 0 ),
 "array_index_data": PoolByteArray(  ),
 "blend_shape_data": [  ],
 "format": 97335,
@@ -38,7 +39,7 @@ surfaces/0 = {
 [sub_resource type="ArrayMesh" id=4]
 surfaces/0 = {
 "aabb": AABB( 0.125, 0, -0.125, 9.99868e-06, 0.5, 0.25 ),
-"array_data": PoolByteArray( 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 0, 192, 56, 0, 46, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 184, 192, 58, 128, 182, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 184, 192, 56, 128, 182, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 0, 192, 56, 0, 46, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 0, 192, 58, 0, 46, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 184, 192, 58, 128, 182 ),
+"array_data": PoolByteArray( 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 0, 0, 51, 0, 50, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 184, 128, 55, 0, 181, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 184, 0, 51, 0, 181, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 190, 127, 0, 0, 0, 0, 0, 127, 129, 0, 176, 0, 0, 0, 51, 0, 50, 0, 0, 0, 62, 0, 0, 0, 0, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 0, 128, 55, 0, 50, 0, 0, 0, 62, 0, 0, 0, 63, 0, 0, 0, 62, 127, 0, 0, 0, 0, 0, 127, 129, 0, 48, 0, 184, 128, 55, 0, 181 ),
 "array_index_data": PoolByteArray(  ),
 "blend_shape_data": [  ],
 "format": 97335,
@@ -52,7 +53,7 @@ surfaces/0 = {
 [sub_resource type="ArrayMesh" id=5]
 surfaces/0 = {
 "aabb": AABB( -0.125, 0, -0.125, 9.99868e-06, 0.50001, 0.25 ),
-"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 184, 0, 54, 0, 168, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 0, 0, 57, 128, 55, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 0, 0, 54, 128, 55, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 184, 0, 54, 0, 168, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 184, 0, 57, 0, 168, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 0, 0, 57, 128, 55 ),
+"array_data": PoolByteArray( 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 184, 0, 56, 0, 183, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 0, 0, 58, 0, 44, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 0, 0, 56, 0, 44, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 190, 129, 0, 0, 0, 0, 0, 127, 127, 0, 176, 0, 184, 0, 56, 0, 183, 0, 0, 0, 190, 0, 0, 0, 63, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 184, 0, 58, 0, 183, 0, 0, 0, 190, 0, 0, 0, 0, 0, 0, 0, 62, 129, 0, 0, 0, 0, 0, 127, 127, 0, 48, 0, 0, 0, 58, 0, 44 ),
 "array_index_data": PoolByteArray(  ),
 "blend_shape_data": [  ],
 "format": 97335,
@@ -77,6 +78,8 @@ surfaces/0 = {
 "vertex_count": 6
 }
 
+[sub_resource type="CubeMesh" id=7]
+
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
 
@@ -87,35 +90,48 @@ current = true
 fov = 80.0
 size = 5.0
 
-[node name="AutoBuilding" type="Spatial" parent="."]
-transform = Transform( 8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0 )
+[node name="Spin" type="Spatial" parent="."]
+
+[node name="AutoBuilding" type="Spatial" parent="Spin"]
+transform = Transform( 8, -2.84217e-14, -5.08584e-07, 0, 8, 0, 5.08584e-07, 0, 8, -2.60649e-07, 5.96046e-08, 0 )
+visible = false
 script = ExtResource( 2 )
 building_side_material = ExtResource( 3 )
 building_top_material = ExtResource( 1 )
 
-[node name="MeshInstance" type="MeshInstance" parent="AutoBuilding"]
+[node name="MeshInstance" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="ZNeg" type="MeshInstance" parent="AutoBuilding"]
+[node name="ZNeg" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 2 )
 material/0 = null
 
-[node name="ZPos" type="MeshInstance" parent="AutoBuilding"]
+[node name="ZPos" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="XNeg" type="MeshInstance" parent="AutoBuilding"]
+[node name="XNeg" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="XPos" type="MeshInstance" parent="AutoBuilding"]
+[node name="XPos" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 5 )
 material/0 = null
 
-[node name="YTop" type="MeshInstance" parent="AutoBuilding"]
+[node name="YTop" type="MeshInstance" parent="Spin/AutoBuilding"]
 mesh = SubResource( 6 )
 material/0 = null
+
+[node name="LightCube" type="MeshInstance" parent="Spin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6065e-07, 1, 4.76837e-07 )
+mesh = SubResource( 7 )
+material/0 = ExtResource( 5 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 2.5, -2.5 )
+light_color = Color( 1, 0.309804, 0.411765, 1 )
+omni_attenuation = 2.0
 
 [node name="Tween" type="Tween" parent="."]
 repeat = true
