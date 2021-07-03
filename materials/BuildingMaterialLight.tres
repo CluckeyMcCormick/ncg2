@@ -5,6 +5,6 @@
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/dark_color = Color( 0.168627, 0.0588235, 0.329412, 1 )
+shader_param/dark_color = Color( 0.12048, 0.0408, 0.24, 1 )
 shader_param/window_color = Color( 0.694118, 1, 0.972549, 1 )
 shader_param/TextureUniform = ExtResource( 2 )
