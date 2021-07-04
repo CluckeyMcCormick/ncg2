@@ -14,14 +14,6 @@ const WINDOW_CELL_LEN = 64
 # unit. Since our texture SHOULD be 64 cells by 64 cells, one world unit divided
 # by WINDOW_CELL_LEN gets us the measure of a cell in the world.
 const WINDOW_UV_SIZE = 1.0 / WINDOW_CELL_LEN
-# Because we're using a texture for the top of the building, we have to pull
-# some special crap to "select" the texture depending on the height. What's the
-# max height a building can be before we default to the untextured top?
-const MAX_TEXTURED_TOP_HEIGHT = 6
-# We use two different textures for the tops of buildings - a "lower" one for
-# lower buildings, and a "higher" one for higher buildings. At what height do we
-# designate the "lower" building (inlusive)?
-const TOP_LOW_SPLIT = 4
 
 # By default, the UV2 texture is centered on 0,0 - so it stretches half it's
 # length in either direction on x and z. While that normally wouldn't be
@@ -30,16 +22,25 @@ const TOP_LOW_SPLIT = 4
 # half of the size of a window.
 const odd_UV2_shift = Vector2(WINDOW_UV_SIZE / 2, 0)
 
+# The material we'll use to make this building.
 export(Material) var building_material
 
+# The length (in total number of cells) of each side of the building. It's a
+# rectangular prism, so we measure the length on each axis.
 export(int) var len_x = 8 setget set_length_x
 export(int) var len_y = 16 setget set_length_y
 export(int) var len_z = 8 setget set_length_z
 
+# Do we use the window texture for this auto-tower, or do we ignore them?
+export(bool) var use_window_texture = true
+
+# Do we auto-build on entering the scene?
+export(bool) var auto_build = true setget set_auto_build
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    randomize()
-    make_building()
+    if auto_build:
+        make_building()
 
 # --------------------------------------------------------
 #
@@ -48,17 +49,22 @@ func _ready():
 # --------------------------------------------------------
 func set_length_x(new_length):
     len_x = new_length
-    if Engine.editor_hint:
+    if Engine.editor_hint and auto_build:
         make_building()
 
 func set_length_y(new_length):
     len_y = new_length
-    if Engine.editor_hint:
+    if Engine.editor_hint and auto_build:
         make_building()
     
 func set_length_z(new_length):
     len_z = new_length
-    if Engine.editor_hint:
+    if Engine.editor_hint and auto_build:
+        make_building()
+
+func set_auto_build(new_autobuild):
+    auto_build = new_autobuild
+    if Engine.editor_hint and auto_build:
         make_building()
 
 # --------------------------------------------------------
@@ -128,19 +134,35 @@ func ready_side_mesh(pointA, pointB, axis_point, is_x, shift):
     # Points and such
     var pd
     
+    # UV Vector2 points
+    var uvA
+    var uvB
+    
+    # If we're using a window texture for this building...
+    if self.use_window_texture:
+        # Then the uv2 is the points we were given PLUS our dedicated shift
+        uvA = pointA + shift
+        uvB = pointB + shift
+    # Otherwise...
+    else:
+        # We'll make both points 0-0, effectively removing the texture from this
+        # building
+        uvA = Vector2.ZERO
+        uvB = Vector2.ZERO
+    
     if is_x:
         pd = PolyGen.create_xlock_face(
             # Point A, Point B, Position on X
             pointA, pointB, axis_point,
-            # Custom UV positions to match the A and B, with added shift
-            pointA + shift, pointB + shift
+            # Custom UV positions
+            uvA, uvB
         )
     else:
         pd = PolyGen.create_zlock_face(
             # Point A, Point B, Position on Z
             pointA, pointB, axis_point,
-            # Custom UV positions to match the A and B, with added shift
-            pointA + shift, pointB + shift
+            # Custom UV positions
+            uvA, uvB
         )
     verts.append_array( pd[PolyGen.VECTOR3_KEY] )
     UVs.append_array( pd[PolyGen.UV_KEY] )

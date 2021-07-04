@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/no_edge_horizontal64.png-da0cd4cdd6c5f51d903254c72273468d.stex"
+path="res://.import/no_edge_horizontal64.png-969993af40b2aa448cd2e6e4035d92eb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/no_edge_horizontal64.png"
-dest_files=[ "res://.import/no_edge_horizontal64.png-da0cd4cdd6c5f51d903254c72273468d.stex" ]
+source_file="res://buildings/no_edge_horizontal64.png"
+dest_files=[ "res://.import/no_edge_horizontal64.png-969993af40b2aa448cd2e6e4035d92eb.stex" ]
 
 [params]
 
