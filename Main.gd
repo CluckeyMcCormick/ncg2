@@ -12,7 +12,6 @@ func _ready():
         0, 360, 4,
         Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
     $Tween.start()
-    pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

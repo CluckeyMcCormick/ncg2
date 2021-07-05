@@ -1,6 +1,9 @@
 tool
 extends Spatial
 
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
+
 # The material we'll use to make this building.
 export(Material) var building_material setget set_building_material
 
@@ -80,8 +83,22 @@ func make_building():
     $MainTower.len_y = tower_len_y
     
     # Now, move the tower up appropriately
-    $MainTower.translation.y = $MainTower.WINDOW_UV_SIZE * base_len_y
+    $MainTower.translation.y = GlobalRef.WINDOW_UV_SIZE * base_len_y
     
     # Now build both buildings
     $Base.make_building()
     $MainTower.make_building()
+    
+    # Now we need to adjust the visibility modifier. To do that, we need to
+    # calculate the effective length on each axis.
+    var eff_x = len_x * GlobalRef.WINDOW_UV_SIZE
+    var eff_y = (base_len_y + tower_len_y) * GlobalRef.WINDOW_UV_SIZE
+    var eff_z = len_z * GlobalRef.WINDOW_UV_SIZE
+    
+    $VisibilityNotifier.aabb.position.x = -eff_x / 2
+    $VisibilityNotifier.aabb.position.y = 0
+    $VisibilityNotifier.aabb.position.z = -eff_z / 2
+
+    $VisibilityNotifier.aabb.size.x = eff_x
+    $VisibilityNotifier.aabb.size.y = eff_y
+    $VisibilityNotifier.aabb.size.z = eff_z

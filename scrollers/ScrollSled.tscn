@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://buildings/FullServiceBuilding.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scrollers/ScrollSled.gd" type="Script" id=2]
+
+[node name="ScrollSled" type="Spatial" groups=[
+"sleds",
+]]
+script = ExtResource( 2 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+omni_range = 4.0
+omni_attenuation = 2.0
+
+[node name="FSB" parent="." instance=ExtResource( 1 )]
+transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 1.88388, 0, 0 )
+
+[editable path="FSB"]

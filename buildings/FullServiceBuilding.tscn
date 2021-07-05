@@ -2,7 +2,7 @@
 
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=1]
 [ext_resource path="res://buildings/FullServiceBuilding.gd" type="Script" id=2]
-[ext_resource path="res://buildings/BuildingMaterialLight.tres" type="Material" id=3]
+[ext_resource path="res://buildings/BuildingMaterialLightA.tres" type="Material" id=3]
 
 [node name="FullServiceBuilding" type="Spatial"]
 script = ExtResource( 2 )
@@ -17,3 +17,6 @@ auto_build = false
 transform = Transform( 1, -1.43584e-29, -6.3573e-08, 0, 1, -2.25857e-22, 6.3573e-08, 2.25857e-22, 1, 0, 0.03125, 0 )
 len_y = 14
 auto_build = false
+
+[node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
+aabb = AABB( -0.0625, 0, -0.0625, 0.125, 0.25, 0.125 )
