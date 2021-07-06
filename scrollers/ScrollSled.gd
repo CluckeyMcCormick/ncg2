@@ -50,6 +50,11 @@ func set_building_size(len_x, len_z, base_height, tower_height):
     $FSB.base_len_y = base_height
     $FSB.tower_len_y = tower_height
 
+# A wrapper function to set the rotation of the building, since whatever spawns
+# the sled might not be able to reach down directly.
+func set_building_y_rotation(degrees):
+    $FSB.rotation_degrees.y = degrees
+
 func _on_VisibilityNotifier_screen_exited():
     # We exited the screen! This only happens on an exit, meaning we've already
     # entered the screen before. That means our scroll is done, and it's time to

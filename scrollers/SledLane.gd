@@ -23,11 +23,20 @@ export(int) var tower_height_min = 4
 # What's the maximum length for a building in this lane on y?
 export(int) var tower_height_max = 8
 
+# What's the standard deviation for the rotation of any given building on a
+# sled? This is a "deviation" in the terms of a Gaussian Distribution, meaning
+# that 68% will be within plus-or-minus this value.
+export(float) var rotation_deviation = 45
+
 # What's the last sled we made?
 var last_sled = null
 
+# Our random number generator
+var RNGENNIE
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    RNGENNIE = RandomNumberGenerator.new()
     make_sled()
 
 func _process(delta):
@@ -58,6 +67,9 @@ func make_sled():
     
     # Pass those different lengths down to the FSB
     new_sled.set_building_size(len_x, len_z, base_height, tower_height)
+    
+    # Rotate the building to a random (but gaussian-distributed) direction
+    new_sled.set_building_y_rotation(RNGENNIE.randfn(0.0, rotation_deviation))
     
     # Stick the sled in the tree
     self.add_child(new_sled)
