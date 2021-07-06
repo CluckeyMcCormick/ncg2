@@ -1,17 +1,23 @@
+tool
 extends Spatial
+
+# Load the scroll-sled script
+const ScrollSled = preload("res://util/GlobalRef.gd")
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # Load the scroll-sled scene
 const scroll_sled_scene = preload("res://scrollers/ScrollSled.tscn")
 
 # What's the minimum length for a building in this lane on x?
-export(int) var width_min = 5
+export(int) var width_min = 5 setget set_width_min
 # What's the maximum length for a building in this lane on x?
-export(int) var width_max = 9
+export(int) var width_max = 9 setget set_width_max
 
 # What's the minimum length for a building in this lane on z?
-export(int) var depth_min = 4
+export(int) var depth_min = 4 setget set_depth_min
 # What's the maximum length for a building in this lane on z?
-export(int) var depth_max = 8
+export(int) var depth_max = 8 setget set_depth_max
 
 # What's the minimum length for a building's base, in this lane, on y?
 export(int) var base_height_min = 2
@@ -36,10 +42,20 @@ var RNGENNIE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    # Create a random number generator
     RNGENNIE = RandomNumberGenerator.new()
+    
+    # If we're in the editor, back out!!!
+    if Engine.editor_hint:
+        return
+        
     make_sled()
 
 func _process(delta):
+    # If we're in the editor, back out!!!
+    if Engine.editor_hint:
+        return
+    
     # If we don't have a last sled, back out.
     if last_sled == null:
         return
@@ -50,11 +66,39 @@ func _process(delta):
         # Then make a new sled
         make_sled()
 
-# ~~~~~~~~~~~~~
-
+# --------------------------------------------------------
+#
+# Setters and Getters
+#
+# --------------------------------------------------------
 func get_random_int(min_val, max_val):
     return (randi() % (max_val - min_val)) + min_val
 
+func set_width_min(new_width_min):
+    width_min = new_width_min
+    if Engine.editor_hint:
+        make_debug()
+    
+func set_width_max(new_width_max):
+    width_max = new_width_max
+    if Engine.editor_hint:
+        make_debug()
+
+func set_depth_min(new_depth_min):
+    depth_min = new_depth_min
+    if Engine.editor_hint:
+        make_debug()
+    
+func set_depth_max(new_depth_max):
+    depth_max = new_depth_max
+    if Engine.editor_hint:
+        make_debug()
+
+# --------------------------------------------------------
+#
+# Build Functions
+#
+# --------------------------------------------------------
 func make_sled():
     # Create a new sled
     var new_sled = scroll_sled_scene.instance()
@@ -79,3 +123,15 @@ func make_sled():
     # This is now the last sled 
     last_sled = new_sled
 
+func make_debug():
+    # If we don't have a mesh to mess with, back out.
+    if not self.has_node("DebugMesh"):
+        return
+    
+    var width = (width_max * GlobalRef.WINDOW_UV_SIZE) * 10
+    var depth = (depth_max * GlobalRef.WINDOW_UV_SIZE) * 10
+    var c_squared = sqrt(pow(width, 2) + pow(depth, 2))
+    var maxed = max( max(width, depth), c_squared )
+    
+    $DebugMesh.mesh = CubeMesh.new()
+    $DebugMesh.mesh.set_size( Vector3(maxed, 5, maxed) )
