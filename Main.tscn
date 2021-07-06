@@ -1,47 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://buildings/FullServiceBuilding.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scrollers/ScrollSled.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
 
 [node name="PrimaryCamera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.478, 12 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.478, 7 )
 cull_mask = 3
 current = true
-fov = 20.0
 size = 3.0
 
-[node name="Spin" type="Spatial" parent="."]
-
-[node name="OmniLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.71449, 0.5, 3.13853 )
-light_color = Color( 1, 0.309804, 0.411765, 1 )
-light_energy = 3.0
-shadow_enabled = true
-omni_attenuation = 6.06285
-
-[node name="Tween" type="Tween" parent="."]
-repeat = true
-playback/repeat = true
-
-[node name="SpotLight" type="OmniLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.43077, 0.503061, 3.16013 )
-light_color = Color( 1, 0.470588, 0, 1 )
-shadow_enabled = true
-omni_range = 3.6
-
-[node name="FullServiceBuilding" parent="." instance=ExtResource( 1 )]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-base_len_y = 4
-tower_len_y = 28
-
-[node name="FullServiceBuilding2" parent="." instance=ExtResource( 1 )]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 1.5, 0, 1.5 )
-base_len_y = 4
-tower_len_y = 28
-
-[node name="ScrollSled" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1, 0, 6.5 )
+[node name="SledLane" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
+base_height_min = 8
+base_height_max = 10
+tower_height_min = 12
+tower_height_max = 24
