@@ -3,16 +3,17 @@
 [ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 
-[sub_resource type="PlaneMesh" id=3]
+[sub_resource type="PlaneMesh" id=1]
 size = Vector2( 20, 20 )
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
 
 [node name="PrimaryCamera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 3 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 8 )
 cull_mask = 3
 current = true
+fov = 25.0
 size = 3.0
 
 [node name="LaneOne" parent="." instance=ExtResource( 3 )]
@@ -26,30 +27,46 @@ tower_height_max = 14
 rotation_deviation = 0.0
 
 [node name="LaneTwo" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, -3 )
-width_min = 8
-width_max = 16
-depth_min = 8
-depth_max = 13
-base_height_min = 10
-base_height_max = 12
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.4, 0, -2.5 )
+width_max = 12
+depth_max = 10
+base_height_min = 8
+base_height_max = 13
 tower_height_min = 12
-tower_height_max = 24
-rotation_deviation = 15.0
+tower_height_max = 14
+rotation_deviation = 0.0
 
 [node name="LaneThree" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -8.1 )
-width_min = 20
-width_max = 40
-depth_min = 8
-depth_max = 13
-base_height_min = 10
-base_height_max = 12
-tower_height_min = 20
-tower_height_max = 60
-rotation_deviation = 360.0
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8, 0, -5.1 )
+width_max = 12
+depth_max = 10
+base_height_min = 8
+base_height_max = 13
+tower_height_min = 12
+tower_height_max = 14
+rotation_deviation = 0.0
+
+[node name="LaneFour" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2, 0, -7.8 )
+width_max = 12
+depth_max = 10
+base_height_min = 8
+base_height_max = 13
+tower_height_min = 12
+tower_height_max = 14
+rotation_deviation = 0.0
+
+[node name="LaneFive" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.9, 0, -10.3 )
+width_max = 12
+depth_max = 10
+base_height_min = 8
+base_height_max = 13
+tower_height_min = 12
+tower_height_max = 14
+rotation_deviation = 0.0
 
 [node name="MeshInstance2" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
-mesh = SubResource( 3 )
+mesh = SubResource( 1 )
 material/0 = null
