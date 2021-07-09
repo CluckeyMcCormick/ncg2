@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gradient_slice.png-68a539b6632e3f5836d1cbcf5e37bbf1.stex"
+path="res://.import/checkerboard.png-8732564d6122af87be710ccc1907ea77.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/gradient_slice.png"
-dest_files=[ "res://.import/gradient_slice.png-68a539b6632e3f5836d1cbcf5e37bbf1.stex" ]
+source_file="res://util/checkerboard.png"
+dest_files=[ "res://.import/checkerboard.png-8732564d6122af87be710ccc1907ea77.stex" ]
 
 [params]
 
@@ -23,7 +23,7 @@ flags/repeat=true
 flags/filter=false
 flags/mipmaps=true
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

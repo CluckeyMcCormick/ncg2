@@ -20,14 +20,14 @@ export(int) var depth_min = 4 setget set_depth_min
 export(int) var depth_max = 8 setget set_depth_max
 
 # What's the minimum length for a building's base, in this lane, on y?
-export(int) var base_height_min = 2
+export(int) var base_height_min = 2 setget set_base_height_min
 # What's the maximum length for a building's base, in this lane, on y?
-export(int) var base_height_max = 4
+export(int) var base_height_max = 4 setget set_base_height_max
 
 # What's the minimum length for a building in this lane on y?
-export(int) var tower_height_min = 4
+export(int) var tower_height_min = 4 setget set_tower_height_min
 # What's the maximum length for a building in this lane on y?
-export(int) var tower_height_max = 8
+export(int) var tower_height_max = 8 setget set_tower_height_max
 
 # What's the standard deviation for the rotation of any given building on a
 # sled? This is a "deviation" in the terms of a Gaussian Distribution, meaning
@@ -93,6 +93,26 @@ func set_depth_max(new_depth_max):
     depth_max = new_depth_max
     if Engine.editor_hint:
         make_debug()
+        
+func set_base_height_min(new_base_height):
+    base_height_min = new_base_height
+    if Engine.editor_hint:
+        make_debug()
+    
+func set_base_height_max(new_base_height):
+    base_height_max = new_base_height
+    if Engine.editor_hint:
+        make_debug()
+
+func set_tower_height_min(new_tower_height):
+    tower_height_min = new_tower_height
+    if Engine.editor_hint:
+        make_debug()
+    
+func set_tower_height_max(new_tower_height):
+    tower_height_max = new_tower_height
+    if Engine.editor_hint:
+        make_debug()
 
 # --------------------------------------------------------
 #
@@ -125,13 +145,27 @@ func make_sled():
 
 func make_debug():
     # If we don't have a mesh to mess with, back out.
-    if not self.has_node("DebugMesh"):
+    if not self.has_node("Squish") or not self.has_node("Stretch") or not self.has_node("Footprint"):
         return
     
-    var width = (width_max * GlobalRef.WINDOW_UV_SIZE) * 10
-    var depth = (depth_max * GlobalRef.WINDOW_UV_SIZE) * 10
-    var c_squared = sqrt(pow(width, 2) + pow(depth, 2))
-    var maxed = max( max(width, depth), c_squared )
+    var min_width = (width_min * GlobalRef.WINDOW_UV_SIZE) * 10
+    var max_width = (width_max * GlobalRef.WINDOW_UV_SIZE) * 10
     
-    $DebugMesh.mesh = CubeMesh.new()
-    $DebugMesh.mesh.set_size( Vector3(maxed, 5, maxed) )
+    var min_depth = (depth_min * GlobalRef.WINDOW_UV_SIZE) * 10
+    var max_depth = (depth_max * GlobalRef.WINDOW_UV_SIZE) * 10
+    
+    var min_height = ((base_height_min + tower_height_min) * GlobalRef.WINDOW_UV_SIZE) * 10
+    var max_height = ((base_height_max + tower_height_max) * GlobalRef.WINDOW_UV_SIZE) * 10
+    
+    var c_squared = sqrt(pow(max_width, 2) + pow(max_depth, 2))
+    
+    $Squish.mesh = CubeMesh.new()
+    $Squish.mesh.set_size( Vector3(max_width, min_height, max_depth) )
+    $Squish.translation.y = min_height / 2
+
+    $Stretch.mesh = CubeMesh.new()
+    $Stretch.mesh.set_size( Vector3(min_width, max_height, min_depth) )
+    $Stretch.translation.y = max_height / 2
+    
+    $Footprint.mesh = PlaneMesh.new()
+    $Footprint.mesh.set_size( Vector2(c_squared, c_squared) )
