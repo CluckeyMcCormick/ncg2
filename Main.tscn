@@ -6,25 +6,69 @@
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
 
-[node name="PrimaryCamera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 8 )
+[node name="UpCamera" type="Camera" parent="."]
+transform = Transform( 0.939693, 0.029809, 0.340719, 0, 0.996195, -0.0871557, -0.34202, 0.0818996, 0.936117, 0, 2, 12 )
 cull_mask = 3
 current = true
-fov = 25.0
+fov = 15.0
 size = 3.0
 
-[node name="LaneOne" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0 )
+[node name="1_FrameBuilding" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0 )
 width_max = 12
 depth_max = 10
-base_height_min = 8
-base_height_max = 10
+base_height_max = 2
 tower_height_min = 12
-tower_height_max = 14
+tower_height_max = 13
+rotation_deviation = 0.0
+min_extra_space = 5
+max_extra_space = 25
+
+[node name="2_PrePaddingA" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.69052, 0, -2.29144 )
+width_min = 8
+width_max = 14
+depth_min = 6
+depth_max = 11
+tower_height_min = 7
+tower_height_max = 11
 rotation_deviation = 0.0
 
-[node name="LaneTwo" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.4, 0, -2.45 )
+[node name="3_PrePaddingB" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, -4.9 )
+width_max = 12
+depth_max = 10
+base_height_max = 2
+tower_height_min = 9
+tower_height_max = 13
+rotation_deviation = 0.0
+min_extra_space = 5
+max_extra_space = 20
+
+[node name="4_PrePaddingC" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0, -7.4 )
+width_max = 12
+depth_min = 6
+depth_max = 11
+tower_height_min = 7
+tower_height_max = 9
+rotation_deviation = 0.0
+
+[node name="5_SkyscraperA" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4294, 0, -9.90212 )
+width_min = 9
+width_max = 13
+depth_min = 6
+depth_max = 10
+base_height_max = 5
+tower_height_min = 10
+tower_height_max = 14
+min_extra_space = 1
+max_extra_space = 5
+
+[node name="6_SkyscraperB" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8294, 0, -12.4328 )
+width_min = 9
 width_max = 12
 depth_max = 10
 base_height_min = 8
@@ -32,33 +76,49 @@ base_height_max = 13
 tower_height_min = 12
 tower_height_max = 14
 rotation_deviation = 0.0
+max_extra_space = 9
 
-[node name="LaneThree" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8, 0, -4.9 )
+[node name="7_SkyscraperC" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02937, 0, -14.9059 )
+width_min = 8
+width_max = 18
+depth_min = 8
+depth_max = 10
+base_height_max = 13
+tower_height_min = 21
+tower_height_max = 22
+rotation_deviation = 5.0
+max_extra_space = 8
+
+[node name="8_PostPaddingA" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0, -17.0202 )
+width_min = 12
 width_max = 12
 depth_max = 10
-base_height_min = 8
-base_height_max = 13
+base_height_max = 2
 tower_height_min = 12
-tower_height_max = 14
+tower_height_max = 13
 rotation_deviation = 0.0
 
-[node name="LaneFour" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2, 0, -7.341 )
+[node name="9_PostPaddingD" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -19.4202 )
+width_min = 12
 width_max = 12
 depth_max = 10
-base_height_min = 8
-base_height_max = 13
-tower_height_min = 12
-tower_height_max = 14
+base_height_max = 2
+tower_height_min = 13
+tower_height_max = 18
 rotation_deviation = 0.0
 
-[node name="LaneFive" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.6, 0, -9.8 )
-width_max = 12
-depth_max = 10
-base_height_min = 8
-base_height_max = 13
-tower_height_min = 12
-tower_height_max = 14
-rotation_deviation = 0.0
+[node name="10_SuperStructures" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.803, 0, -24.22 )
+width_min = 20
+width_max = 32
+depth_min = 20
+depth_max = 32
+base_height_min = 15
+base_height_max = 20
+tower_height_min = 30
+tower_height_max = 60
+rotation_deviation = 60.0
+max_extra_space = 80

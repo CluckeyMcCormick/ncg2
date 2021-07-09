@@ -34,8 +34,14 @@ export(int) var tower_height_max = 8 setget set_tower_height_max
 # that 68% will be within plus-or-minus this value.
 export(float) var rotation_deviation = 45
 
+export(int) var min_extra_space = 0
+export(int) var max_extra_space = 0
+
 # What's the last sled we made?
 var last_sled = null
+
+# How much extra space do we wait for until spawning a new building?
+var last_spacer = 0
 
 # Our random number generator
 var RNGENNIE
@@ -56,13 +62,13 @@ func _process(delta):
     if Engine.editor_hint:
         return
     
-    # If we don't have a last sled, back out.
-    if last_sled == null:
-        return
+    # If we don't have a last sled, make a new sled
+    if not is_instance_valid(last_sled):
+        make_sled()
     
     # Otherwise, if the local translation of the sled, on X, exceeds or meets
     # the potential max x-length of the sled...
-    if abs(last_sled.translation.x) >= last_sled.max_poss_x_len:
+    if abs(last_sled.translation.x) >= (last_sled.max_poss_x_len + last_spacer):
         # Then make a new sled
         make_sled()
 
@@ -72,6 +78,8 @@ func _process(delta):
 #
 # --------------------------------------------------------
 func get_random_int(min_val, max_val):
+    if(min_val == max_val):
+        return min_val
     return (randi() % (max_val - min_val)) + min_val
 
 func set_width_min(new_width_min):
@@ -142,6 +150,14 @@ func make_sled():
     
     # This is now the last sled 
     last_sled = new_sled
+    
+    # Now we need to roll the "extra space" to the next building (if we can even
+    # do such a thing!)
+    if max_extra_space > 0:
+        last_spacer = get_random_int(min_extra_space, max_extra_space)
+        last_spacer *= GlobalRef.WINDOW_UV_SIZE * 10
+    else:
+        last_spacer = 0
 
 func make_debug():
     # If we don't have a mesh to mess with, back out.

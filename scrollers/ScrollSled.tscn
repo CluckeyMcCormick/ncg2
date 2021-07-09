@@ -12,7 +12,6 @@ script = ExtResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
 light_color = Color( 0.6, 0.00392157, 0.00392157, 1 )
 omni_range = 4.0
-omni_attenuation = 2.0
 
 [node name="FSB" parent="." instance=ExtResource( 1 )]
 transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 2, 0, 0 )
