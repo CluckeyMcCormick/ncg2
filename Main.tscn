@@ -150,3 +150,125 @@ mean_light_range = 8.0
 light_size_deviation = 2.0
 use_light_color_two = true
 use_light_color_three = true
+
+[node name="GUI" type="VBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 362.0
+margin_bottom = 265.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TabContainer" type="TabContainer" parent="GUI"]
+margin_right = 342.0
+margin_bottom = 210.0
+rect_min_size = Vector2( 0, 210 )
+size_flags_horizontal = 3
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lights" type="Tabs" parent="GUI/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 0, 174 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/TabContainer/Lights"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_right = -20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Color1" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_right = 294.0
+margin_bottom = 14.0
+text = "Color 1"
+align = 1
+
+[node name="ColorPickerButton1" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_top = 18.0
+margin_right = 294.0
+margin_bottom = 38.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Color2" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_top = 42.0
+margin_right = 294.0
+margin_bottom = 73.0
+text = "
+Color 2"
+align = 1
+
+[node name="ColorPickerButton2" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_top = 77.0
+margin_right = 294.0
+margin_bottom = 97.0
+text = "Color 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Color3" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_top = 101.0
+margin_right = 294.0
+margin_bottom = 132.0
+text = "
+Color 3"
+align = 1
+
+[node name="ColorPickerButton3" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
+margin_top = 136.0
+margin_right = 294.0
+margin_bottom = 156.0
+text = "Color 3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lanes" type="Tabs" parent="GUI/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="Material" type="Tabs" parent="GUI/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+tab_close_display_policy = 2
+
+[node name="Label" type="Label" parent="GUI"]
+margin_top = 214.0
+margin_right = 342.0
+margin_bottom = 245.0
+text = "
+F12 to Show/Hide GUI"
+align = 1
+
+[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton1" to="." method="_on_ColorPickerButton1_color_changed"]
+[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton2" to="." method="_on_ColorPickerButton2_color_changed"]
+[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton3" to="." method="_on_ColorPickerButton3_color_changed"]
