@@ -34,8 +34,17 @@ export(int) var tower_height_max = 8 setget set_tower_height_max
 # that 68% will be within plus-or-minus this value.
 export(float) var rotation_deviation = 45
 
+# What's the minimum "extra" space between buildings (measured in window cells)?
 export(int) var min_extra_space = 0
+# What's the maximum "extra" space between buildings (measured in window cells)?
 export(int) var max_extra_space = 0
+
+# Each sled has one light that we vary the range of using a gaussian
+# distribution. What is the mean of that distribution?
+export(float) var mean_light_range = 4.0
+# Each sled has one light that we vary the size of using a gaussian
+# distribution. What is the mean of that distribution?
+export(float) var light_size_deviation = 0.0
 
 # What's the last sled we made?
 var last_sled = null
@@ -142,6 +151,9 @@ func make_sled():
     
     # Rotate the building to a random (but gaussian-distributed) direction
     new_sled.set_building_y_rotation(RNGENNIE.randfn(0.0, rotation_deviation))
+    
+    # Adjust the range on the sled's light.
+    new_sled.set_light_range(RNGENNIE.randfn(mean_light_range, light_size_deviation))
     
     # Stick the sled in the tree
     self.add_child(new_sled)

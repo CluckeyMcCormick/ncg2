@@ -23,6 +23,8 @@ tower_height_max = 13
 rotation_deviation = 0.0
 min_extra_space = 5
 max_extra_space = 25
+mean_light_range = 3.0
+light_size_deviation = 0.5
 
 [node name="2_PrePaddingA" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.69052, 0, -2.29144 )
@@ -33,6 +35,8 @@ depth_max = 11
 tower_height_min = 7
 tower_height_max = 11
 rotation_deviation = 0.0
+mean_light_range = 3.0
+light_size_deviation = 0.5
 
 [node name="3_PrePaddingB" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, -4.9 )
@@ -44,6 +48,8 @@ tower_height_max = 13
 rotation_deviation = 0.0
 min_extra_space = 5
 max_extra_space = 20
+mean_light_range = 3.0
+light_size_deviation = 0.5
 
 [node name="4_PrePaddingC" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0, -7.4 )
@@ -53,6 +59,8 @@ depth_max = 11
 tower_height_min = 7
 tower_height_max = 9
 rotation_deviation = 0.0
+mean_light_range = 3.0
+light_size_deviation = 0.5
 
 [node name="5_SkyscraperA" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4294, 0, -9.90212 )
@@ -77,6 +85,8 @@ tower_height_min = 12
 tower_height_max = 14
 rotation_deviation = 0.0
 max_extra_space = 9
+mean_light_range = 3.75
+light_size_deviation = 1.0
 
 [node name="7_SkyscraperC" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02937, 0, -14.9059 )
@@ -89,6 +99,8 @@ tower_height_min = 21
 tower_height_max = 22
 rotation_deviation = 5.0
 max_extra_space = 8
+mean_light_range = 5.0
+light_size_deviation = 2.0
 
 [node name="8_PostPaddingA" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0, -17.0202 )
@@ -109,6 +121,8 @@ base_height_max = 2
 tower_height_min = 13
 tower_height_max = 18
 rotation_deviation = 0.0
+mean_light_range = 6.0
+light_size_deviation = 1.0
 
 [node name="10_SuperStructures" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.803, 0, -24.22 )
@@ -122,3 +136,5 @@ tower_height_min = 30
 tower_height_max = 60
 rotation_deviation = 60.0
 max_extra_space = 80
+mean_light_range = 8.0
+light_size_deviation = 2.0

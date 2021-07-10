@@ -50,6 +50,11 @@ func set_building_size(len_x, len_z, base_height, tower_height):
     $FSB.base_len_y = base_height
     $FSB.tower_len_y = tower_height
 
+# A wrapper function to set the range of the light, since whatever spawns the
+# sled might not be able to reach down directly.
+func set_light_range(new_range):
+    $OmniLight.omni_range = new_range
+
 # A wrapper function to set the rotation of the building, since whatever spawns
 # the sled might not be able to reach down directly.
 func set_building_y_rotation(degrees):
