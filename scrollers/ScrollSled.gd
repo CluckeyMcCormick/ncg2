@@ -65,6 +65,12 @@ func set_light_color(new_color):
 func set_building_y_rotation(degrees):
     $FSB.rotation_degrees.y = degrees
 
+# A wrapper function to set the building material, since whatever spawns the
+# sled might not be able to reach down directly. Note that this doesn't change
+# building material directly, the structure will need to rebuilt for that.
+func set_building_material(material):
+    $FSB.building_material = material
+
 func _on_VisibilityNotifier_screen_exited():
     # We exited the screen! This only happens on an exit, meaning we've already
     # entered the screen before. That means our scroll is done, and it's time to

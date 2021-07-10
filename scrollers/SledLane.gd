@@ -183,6 +183,9 @@ func make_sled():
     else:
         new_sled.set_light_color(Color("#000000"))
    
+    # Set the material
+    new_sled.set_building_material( mcc.primary_material )
+
     # Stick the sled in the tree
     self.add_child(new_sled)
     # Force the sled's FSB to build

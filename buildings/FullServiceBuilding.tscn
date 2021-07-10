@@ -2,7 +2,7 @@
 
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=1]
 [ext_resource path="res://buildings/FullServiceBuilding.gd" type="Script" id=2]
-[ext_resource path="res://buildings/BuildingMaterialLightA.tres" type="Material" id=3]
+[ext_resource path="res://buildings/BuildingMaterialLighten.tres" type="Material" id=3]
 
 [node name="FullServiceBuilding" type="Spatial"]
 script = ExtResource( 2 )
