@@ -73,6 +73,8 @@ tower_height_min = 10
 tower_height_max = 14
 min_extra_space = 1
 max_extra_space = 5
+use_light_color_two = true
+use_light_color_three = true
 
 [node name="6_SkyscraperB" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8294, 0, -12.4328 )
@@ -87,6 +89,8 @@ rotation_deviation = 0.0
 max_extra_space = 9
 mean_light_range = 3.75
 light_size_deviation = 1.0
+use_light_color_two = true
+use_light_color_three = true
 
 [node name="7_SkyscraperC" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02937, 0, -14.9059 )
@@ -101,6 +105,8 @@ rotation_deviation = 5.0
 max_extra_space = 8
 mean_light_range = 5.0
 light_size_deviation = 2.0
+use_light_color_two = true
+use_light_color_three = true
 
 [node name="8_PostPaddingA" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0, -17.0202 )
@@ -111,6 +117,8 @@ base_height_max = 2
 tower_height_min = 12
 tower_height_max = 13
 rotation_deviation = 0.0
+use_light_color_two = true
+use_light_color_three = true
 
 [node name="9_PostPaddingD" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -19.4202 )
@@ -123,6 +131,8 @@ tower_height_max = 18
 rotation_deviation = 0.0
 mean_light_range = 6.0
 light_size_deviation = 1.0
+use_light_color_two = true
+use_light_color_three = true
 
 [node name="10_SuperStructures" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.803, 0, -24.22 )
@@ -138,3 +148,5 @@ rotation_deviation = 60.0
 max_extra_space = 80
 mean_light_range = 8.0
 light_size_deviation = 2.0
+use_light_color_two = true
+use_light_color_three = true

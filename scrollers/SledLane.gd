@@ -9,6 +9,10 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the scroll-sled scene
 const scroll_sled_scene = preload("res://scrollers/ScrollSled.tscn")
 
+# Grab the MaterialColorControl Node - this will allow us to change colors and
+# materials on the fly.
+onready var mcc = get_node("/root/MaterialColorControl")
+
 # What's the minimum length for a building in this lane on x?
 export(int) var width_min = 5 setget set_width_min
 # What's the maximum length for a building in this lane on x?
@@ -45,6 +49,13 @@ export(float) var mean_light_range = 4.0
 # Each sled has one light that we vary the size of using a gaussian
 # distribution. What is the mean of that distribution?
 export(float) var light_size_deviation = 0.0
+
+# Everytime we make a new sled, we roll the color for the light from one of
+# three pools. These boolean exports control the available colors to choose
+# from.
+export(bool) var use_light_color_one = true
+export(bool) var use_light_color_two = false
+export(bool) var use_light_color_three = false
 
 # What's the last sled we made?
 var last_sled = null
@@ -155,6 +166,23 @@ func make_sled():
     # Adjust the range on the sled's light.
     new_sled.set_light_range(RNGENNIE.randfn(mean_light_range, light_size_deviation))
     
+    # Roll a new color
+    var colors = []
+    
+    if use_light_color_one:
+        colors.append(mcc.light_color_one)
+    
+    if use_light_color_two:
+        colors.append(mcc.light_color_two)
+ 
+    if use_light_color_three:
+        colors.append(mcc.light_color_three)
+    
+    if len(colors) > 0:
+        new_sled.set_light_color(colors[randi() % len(colors)])
+    else:
+        new_sled.set_light_color(Color("#000000"))
+   
     # Stick the sled in the tree
     self.add_child(new_sled)
     # Force the sled's FSB to build

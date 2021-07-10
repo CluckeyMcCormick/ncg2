@@ -14,6 +14,10 @@ config/name="Neon City Generator 2.0"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+MaterialColorControl="*res://util/MaterialColorControl.gd"
+
 [debug]
 
 settings/stdout/print_fps=true
