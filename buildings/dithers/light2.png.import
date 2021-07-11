@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/color_ramp_RGB.png-3d1ad7ae71c4ff5659e1bbb42fa96ef2.stex"
+path="res://.import/light2.png-c3eaca382ca4d178d86eb080132929f6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buildings/color_ramp_RGB.png"
-dest_files=[ "res://.import/color_ramp_RGB.png-3d1ad7ae71c4ff5659e1bbb42fa96ef2.stex" ]
+source_file="res://buildings/dithers/light2.png"
+dest_files=[ "res://.import/light2.png-c3eaca382ca4d178d86eb080132929f6.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
 flags/filter=false
-flags/mipmaps=true
+flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

@@ -31,10 +31,12 @@ func _on_ColorPickerButton3_color_changed(color):
 func _on_WindowColor_color_changed(color):
     mcc.lighten_material.set_shader_param("window_color", color)
     mcc.dodge_material.set_shader_param("window_color", color)
+    mcc.dither_material.set_shader_param("window_color", color)
 
 func _on_DarkColor_color_changed(color):
     mcc.lighten_material.set_shader_param("dark_color", color)
     mcc.dodge_material.set_shader_param("dark_color", color)
+    mcc.dither_material.set_shader_param("dark_color", color)
 
 
 func _on_MaterialSelection_item_selected(index):
@@ -44,6 +46,9 @@ func _on_MaterialSelection_item_selected(index):
             
         1:
             mcc.primary_material = mcc.dodge_material
+        
+        2:
+            mcc.primary_material = mcc.dither_material
             
         _:
             pass

@@ -28,7 +28,6 @@ min_extra_space = 5
 max_extra_space = 25
 mean_light_range = 3.0
 light_size_deviation = 0.5
-use_light_color_one = false
 
 [node name="2_PrePaddingA" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.69052, 0, -2.29144 )
@@ -41,7 +40,6 @@ tower_height_max = 11
 rotation_deviation = 0.0
 mean_light_range = 3.0
 light_size_deviation = 0.5
-use_light_color_one = false
 
 [node name="3_PrePaddingB" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, -4.9 )
@@ -55,7 +53,6 @@ min_extra_space = 5
 max_extra_space = 20
 mean_light_range = 3.0
 light_size_deviation = 0.5
-use_light_color_one = false
 
 [node name="4_PrePaddingC" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0, -7.4 )
@@ -67,7 +64,6 @@ tower_height_max = 9
 rotation_deviation = 0.0
 mean_light_range = 3.0
 light_size_deviation = 0.5
-use_light_color_one = false
 
 [node name="5_SkyscraperA" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4294, 0, -9.90212 )
@@ -310,7 +306,7 @@ margin_top = 121.0
 margin_right = 294.0
 margin_bottom = 141.0
 text = "Lighten Material"
-items = [ "Lighten Material", null, false, 0, null, "Dodge Material", null, false, 1, null ]
+items = [ "Lighten Material", null, false, 0, null, "Dodge Material", null, false, 1, null, "Dither Material", null, false, 2, null ]
 selected = 0
 
 [node name="Lanes" type="Tabs" parent="GUI/TabContainer"]

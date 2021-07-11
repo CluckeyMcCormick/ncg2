@@ -1,8 +1,18 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+[gd_resource type="ShaderMaterial" load_steps=7 format=2]
 
-[ext_resource path="res://buildings/color_ramp_tripurp.png" type="Texture" id=1]
+[ext_resource path="res://buildings/no_edge_horizontal64.png" type="Texture" id=1]
 [ext_resource path="res://buildings/DitherWindowShader.tres" type="Shader" id=2]
+[ext_resource path="res://buildings/dithers/light0.png" type="Texture" id=3]
+[ext_resource path="res://buildings/dithers/light_medium.png" type="Texture" id=4]
+[ext_resource path="res://buildings/ramp/color_ramp_RGB_gradient.png" type="Texture" id=5]
+[ext_resource path="res://buildings/dithers/light5.png" type="Texture" id=7]
 
 [resource]
 shader = ExtResource( 2 )
-shader_param/ramp = ExtResource( 1 )
+shader_param/dark_color = Color( 0.278431, 0.00784314, 0.211765, 1 )
+shader_param/window_color = Color( 0.694118, 1, 0.972549, 1 )
+shader_param/dark_texture = ExtResource( 3 )
+shader_param/mid_texture = ExtResource( 4 )
+shader_param/light_texture = ExtResource( 7 )
+shader_param/ramp = ExtResource( 5 )
+shader_param/TextureUniform = ExtResource( 1 )

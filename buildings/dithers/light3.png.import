@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/color_ramp_tripurp.png-f2de5b5ae8d65bcfc1daa6b38cae291c.stex"
+path="res://.import/light3.png-7f8b7a8d91003e5c3a1f230a4ca61866.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buildings/color_ramp_tripurp.png"
-dest_files=[ "res://.import/color_ramp_tripurp.png-f2de5b5ae8d65bcfc1daa6b38cae291c.stex" ]
+source_file="res://buildings/dithers/light3.png"
+dest_files=[ "res://.import/light3.png-7f8b7a8d91003e5c3a1f230a4ca61866.stex" ]
 
 [params]
 
@@ -24,7 +24,7 @@ flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
