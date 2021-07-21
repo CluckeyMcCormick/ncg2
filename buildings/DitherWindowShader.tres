@@ -37,34 +37,34 @@ expression = "composite = dark_texture_rgb;
 composite = mix(composite, mid_texture_rgb, ramp_rgb.g);
 composite = mix(composite, light_texture_rgb, ramp_rgb.r);"
 
-[sub_resource type="VisualShaderNodeVectorScalarMix" id=15]
+[sub_resource type="VisualShaderNodeVectorScalarMix" id=13]
 
-[sub_resource type="VisualShaderNodeColorUniform" id=16]
+[sub_resource type="VisualShaderNodeColorUniform" id=14]
 uniform_name = "dark_color"
 
-[sub_resource type="VisualShaderNodeInput" id=17]
+[sub_resource type="VisualShaderNodeInput" id=15]
 input_name = "light_color"
 
-[sub_resource type="VisualShaderNodeColorUniform" id=20]
+[sub_resource type="VisualShaderNodeColorUniform" id=16]
 uniform_name = "window_color"
 
-[sub_resource type="VisualShaderNodeInput" id=21]
+[sub_resource type="VisualShaderNodeInput" id=17]
 input_name = "diffuse"
 
-[sub_resource type="VisualShaderNodeTextureUniform" id=23]
+[sub_resource type="VisualShaderNodeTextureUniform" id=18]
 uniform_name = "TextureUniform"
 
-[sub_resource type="VisualShaderNodeVectorScalarMix" id=24]
+[sub_resource type="VisualShaderNodeVectorScalarMix" id=19]
 
-[sub_resource type="VisualShaderNodeVectorLen" id=25]
+[sub_resource type="VisualShaderNodeVectorLen" id=20]
 
-[sub_resource type="VisualShaderNodeIf" id=26]
+[sub_resource type="VisualShaderNodeIf" id=21]
 
-[sub_resource type="VisualShaderNodeVectorLen" id=27]
+[sub_resource type="VisualShaderNodeVectorLen" id=22]
 
-[sub_resource type="VisualShaderNodeDotProduct" id=13]
+[sub_resource type="VisualShaderNodeDotProduct" id=23]
 
-[sub_resource type="VisualShaderNodeInput" id=14]
+[sub_resource type="VisualShaderNodeInput" id=24]
 input_name = "normal"
 
 [resource]
@@ -232,9 +232,9 @@ nodes/fragment/0/position = Vector2( 860, 140 )
 nodes/light/0/position = Vector2( 2720, -540 )
 nodes/light/2/node = SubResource( 4 )
 nodes/light/2/position = Vector2( -600, -80 )
-nodes/light/7/node = SubResource( 13 )
+nodes/light/7/node = SubResource( 23 )
 nodes/light/7/position = Vector2( -400, -120 )
-nodes/light/8/node = SubResource( 14 )
+nodes/light/8/node = SubResource( 24 )
 nodes/light/8/position = Vector2( -620, -140 )
 nodes/light/10/node = SubResource( 1 )
 nodes/light/10/position = Vector2( -240, 0 )
@@ -264,24 +264,24 @@ nodes/light/55/output_ports = "0,1,composite;"
 nodes/light/55/expression = "composite = dark_texture_rgb;
 composite = mix(composite, mid_texture_rgb, ramp_rgb.g);
 composite = mix(composite, light_texture_rgb, ramp_rgb.r);"
-nodes/light/56/node = SubResource( 15 )
+nodes/light/56/node = SubResource( 13 )
 nodes/light/56/position = Vector2( 1940, -460 )
-nodes/light/57/node = SubResource( 16 )
+nodes/light/57/node = SubResource( 14 )
 nodes/light/57/position = Vector2( 1640, -600 )
-nodes/light/58/node = SubResource( 17 )
+nodes/light/58/node = SubResource( 15 )
 nodes/light/58/position = Vector2( 1620, -460 )
-nodes/light/62/node = SubResource( 20 )
+nodes/light/62/node = SubResource( 16 )
 nodes/light/62/position = Vector2( 2260, -540 )
-nodes/light/63/node = SubResource( 21 )
+nodes/light/63/node = SubResource( 17 )
 nodes/light/63/position = Vector2( 1960, -340 )
-nodes/light/65/node = SubResource( 23 )
+nodes/light/65/node = SubResource( 18 )
 nodes/light/65/position = Vector2( 2260, -720 )
-nodes/light/66/node = SubResource( 24 )
+nodes/light/66/node = SubResource( 19 )
 nodes/light/66/position = Vector2( 2500, -540 )
-nodes/light/67/node = SubResource( 25 )
+nodes/light/67/node = SubResource( 20 )
 nodes/light/67/position = Vector2( 2160, -440 )
-nodes/light/68/node = SubResource( 26 )
+nodes/light/68/node = SubResource( 21 )
 nodes/light/68/position = Vector2( 2360, -380 )
-nodes/light/69/node = SubResource( 27 )
+nodes/light/69/node = SubResource( 22 )
 nodes/light/69/position = Vector2( 2160, -340 )
 nodes/light/connections = PoolIntArray( 8, 0, 7, 0, 7, 0, 12, 0, 2, 0, 7, 1, 10, 0, 13, 1, 12, 0, 13, 0, 8, 0, 7, 0, 7, 0, 12, 0, 2, 0, 7, 1, 10, 0, 13, 1, 12, 0, 13, 0, 13, 0, 26, 0, 27, 0, 28, 0, 26, 0, 32, 0, 32, 0, 27, 0, 28, 0, 55, 3, 38, 0, 55, 1, 37, 0, 55, 0, 39, 0, 55, 2, 55, 0, 56, 2, 57, 0, 56, 0, 58, 0, 56, 1, 62, 0, 66, 1, 65, 1, 66, 2, 66, 0, 0, 0, 56, 0, 67, 0, 63, 0, 69, 0, 67, 0, 68, 0, 69, 0, 68, 1, 56, 0, 68, 4, 63, 0, 68, 3, 63, 0, 68, 5, 68, 0, 66, 0 )
