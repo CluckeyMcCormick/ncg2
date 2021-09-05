@@ -1,0 +1,36 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/dots64_horizontal64_50hs.png-1683ec2e206c62f6e1e48e0cd41841be.s3tc.stex"
+path.etc2="res://.import/dots64_horizontal64_50hs.png-1683ec2e206c62f6e1e48e0cd41841be.etc2.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://buildings/dots64_horizontal64_50hs.png"
+dest_files=[ "res://.import/dots64_horizontal64_50hs.png-1683ec2e206c62f6e1e48e0cd41841be.s3tc.stex", "res://.import/dots64_horizontal64_50hs.png-1683ec2e206c62f6e1e48e0cd41841be.etc2.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=true
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

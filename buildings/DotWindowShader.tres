@@ -10,7 +10,7 @@
 uniform_name = "BuildingOpacity"
 
 [sub_resource type="VisualShaderNodeTextureUniform" id=5]
-uniform_name = "TextureUniform"
+uniform_name = "DotTexture"
 
 [sub_resource type="VisualShaderNodeColorUniform" id=6]
 uniform_name = "BuildingColor"
@@ -34,7 +34,7 @@ render_mode specular_schlick_ggx, unshaded, world_vertex_coords;
 
 uniform vec4 BuildingColor : hint_color;
 uniform vec4 RedDotColor : hint_color;
-uniform sampler2D TextureUniform;
+uniform sampler2D DotTexture;
 uniform vec4 BlueDotColor : hint_color;
 uniform vec4 GreenDotColor : hint_color;
 uniform float BuildingOpacity;
@@ -59,7 +59,7 @@ void fragment() {
 	vec3 n_out2p0;
 	float n_out2p1;
 	{
-		vec4 n_tex_read = texture(TextureUniform, UV.xy);
+		vec4 n_tex_read = texture(DotTexture, UV.xy);
 		n_out2p0 = n_tex_read.rgb;
 		n_out2p1 = n_tex_read.a;
 	}
@@ -104,7 +104,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 170.696, 160.78 )
+graph_offset = Vector2( -686.143, 55.03 )
 flags/unshaded = true
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 900, 280 )

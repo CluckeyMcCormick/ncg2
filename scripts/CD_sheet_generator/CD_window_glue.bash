@@ -22,10 +22,10 @@
 # Variables/Constants
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # What are the window files we'll be using?
-WINDOW_R_PNG=16R.png
-WINDOW_G_PNG=16G.png
-WINDOW_B_PNG=16B.png
-WINDOW_OFF_PNG=16T.png
+WINDOW_R_PNG="64R_"
+WINDOW_G_PNG="64G_"
+WINDOW_B_PNG="64B_"
+WINDOW_OFF_PNG=64T.png
 
 # What's the maximum and minimum length for a consecutive chain of windows?
 MIN_CHAIN_LENGTH=1
@@ -123,6 +123,23 @@ else
     WHOLE_SEQUENCE=$COLUMN_SEQUENCE
     WHOLE_APPEND=$HORIZONTAL_APPEND
 fi
+
+# Pick the type of window.
+WINDOW_TYPE_FRAGMENT=$(whiptail \
+    --title "Choose a window texture!" \
+    --menu "Choose a type of window-dot." 15 35 8 \
+        1.png  "Full Size" \
+        2.png  "75% Hardness-size" \
+        3.png  "50% Hardness-size" \
+        4.png  "25% Hardness-size" \
+    3>&1 1>&2 2>&3
+)
+
+# Glue on the chosen window type. Yes, this wacky append operation does actually
+# work in BASH.
+WINDOW_R_PNG="64R_"$WINDOW_TYPE_FRAGMENT
+WINDOW_G_PNG="64G_"$WINDOW_TYPE_FRAGMENT
+WINDOW_B_PNG="64B_"$WINDOW_TYPE_FRAGMENT
 
 if [ "$?" -eq 1 ]
 then
