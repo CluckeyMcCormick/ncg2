@@ -6,7 +6,7 @@
 [sub_resource type="ProceduralSky" id=1]
 sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
 sky_horizon_color = Color( 0.623529, 0.517647, 0.717647, 1 )
-sky_curve = 0.0365513
+sky_curve = 0.0365
 ground_bottom_color = Color( 0.027451, 0.0392157, 0.105882, 1 )
 ground_horizon_color = Color( 0, 0.247059, 0.588235, 1 )
 sun_latitude = -90.0
@@ -148,7 +148,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TabContainer" type="TabContainer" parent="GUI"]
+[node name="Tabs" type="TabContainer" parent="GUI"]
 margin_right = 342.0
 margin_bottom = 210.0
 rect_min_size = Vector2( 0, 210 )
@@ -158,77 +158,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Lights" type="Tabs" parent="GUI/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-rect_min_size = Vector2( 0, 174 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/TabContainer/Lights"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Color1" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_right = 294.0
-margin_bottom = 14.0
-text = "Color 1"
-align = 1
-
-[node name="ColorPickerButton1" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_top = 18.0
-margin_right = 294.0
-margin_bottom = 38.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Color2" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_top = 42.0
-margin_right = 294.0
-margin_bottom = 73.0
-text = "
-Color 2"
-align = 1
-
-[node name="ColorPickerButton2" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_top = 77.0
-margin_right = 294.0
-margin_bottom = 97.0
-text = "Color 2"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Color3" type="Label" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_top = 101.0
-margin_right = 294.0
-margin_bottom = 132.0
-text = "
-Color 3"
-align = 1
-
-[node name="ColorPickerButton3" type="ColorPickerButton" parent="GUI/TabContainer/Lights/VBoxContainer"]
-margin_top = 136.0
-margin_right = 294.0
-margin_bottom = 156.0
-text = "Color 3"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Material" type="Tabs" parent="GUI/TabContainer"]
+[node name="Profiles" type="Tabs" parent="GUI/Tabs"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -239,62 +169,191 @@ margin_bottom = -4.0
 tab_align = 0
 tab_close_display_policy = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/TabContainer/Material"]
+[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Profiles"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
 margin_right = -20.0
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Window" type="Label" parent="GUI/TabContainer/Material/VBoxContainer"]
-margin_right = 294.0
-margin_bottom = 14.0
-text = "Window Color"
-align = 1
-
-[node name="WindowColor" type="ColorPickerButton" parent="GUI/TabContainer/Material/VBoxContainer"]
-margin_top = 18.0
-margin_right = 294.0
-margin_bottom = 38.0
-edit_alpha = false
-
-[node name="Dark" type="Label" parent="GUI/TabContainer/Material/VBoxContainer"]
-margin_top = 42.0
-margin_right = 294.0
-margin_bottom = 73.0
-text = "
-Dark Color"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="DarkColor" type="ColorPickerButton" parent="GUI/TabContainer/Material/VBoxContainer"]
+[node name="ProfileSelection" type="OptionButton" parent="GUI/Tabs/Profiles/VBox"]
 margin_top = 77.0
 margin_right = 294.0
 margin_bottom = 97.0
-edit_alpha = false
+text = "Hiroshi Nagai's Niteflyte"
+items = [ "Hiroshi Nagai's Niteflyte", null, false, 0, null, "Custom Scheme", null, false, 1, null ]
+selected = 0
 
-[node name="HSeparator" type="HSeparator" parent="GUI/TabContainer/Material/VBoxContainer"]
-margin_top = 101.0
-margin_right = 294.0
-margin_bottom = 117.0
-rect_min_size = Vector2( 0, 16 )
+[node name="Windows" type="Tabs" parent="GUI/Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 0, 174 )
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Windows"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_right = -20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MaterialSelection" type="OptionButton" parent="GUI/TabContainer/Material/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="GUI/Tabs/Windows/VBox"]
+margin_top = 25.0
+margin_right = 324.0
+margin_bottom = 117.0
+columns = 4
+
+[node name="RedColor" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_top = 3.0
+margin_right = 103.0
+margin_bottom = 17.0
+text = "Red Dot Color"
+align = 1
+
+[node name="RedRect" type="ReferenceRect" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 107.0
+margin_right = 132.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 25, 0 )
+
+[node name="RedPicker" type="ColorPickerButton" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 136.0
+margin_right = 193.0
+margin_bottom = 20.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RedHash" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 197.0
+margin_top = 3.0
+margin_right = 260.0
+margin_bottom = 17.0
+text = "#ABABAB"
+
+[node name="GreenColor" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_top = 27.0
+margin_right = 103.0
+margin_bottom = 41.0
+text = "Green Dot Color"
+align = 1
+
+[node name="GreenRect" type="ReferenceRect" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 24.0
+margin_right = 132.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="GreenPicker" type="ColorPickerButton" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 24.0
+margin_right = 193.0
+margin_bottom = 44.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GreenHash" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 197.0
+margin_top = 27.0
+margin_right = 260.0
+margin_bottom = 41.0
+text = "#ABABAB"
+
+[node name="BlueColor" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_top = 51.0
+margin_right = 103.0
+margin_bottom = 65.0
+text = "Blue Dot Color"
+align = 1
+
+[node name="BlueRect" type="ReferenceRect" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 48.0
+margin_right = 132.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="BluePicker" type="ColorPickerButton" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 48.0
+margin_right = 193.0
+margin_bottom = 68.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlueHash" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 197.0
+margin_top = 51.0
+margin_right = 260.0
+margin_bottom = 65.0
+text = "#ABABAB"
+
+[node name="BuildingColor" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_top = 75.0
+margin_right = 103.0
+margin_bottom = 89.0
+text = "Building Color"
+align = 1
+
+[node name="BuildingRect" type="ReferenceRect" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 72.0
+margin_right = 132.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="BuildingPicker" type="ColorPickerButton" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 72.0
+margin_right = 193.0
+margin_bottom = 92.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BuildingHash" type="Label" parent="GUI/Tabs/Windows/VBox/GridContainer"]
+margin_left = 197.0
+margin_top = 75.0
+margin_right = 260.0
+margin_bottom = 89.0
+text = "#ABABAB"
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Windows/VBox"]
 margin_top = 121.0
-margin_right = 294.0
-margin_bottom = 141.0
-text = "Lighten Material"
-items = [ "Lighten Material", null, false, 0, null, "Dodge Material", null, false, 1, null, "Dither Material", null, false, 2, null ]
+margin_right = 324.0
+margin_bottom = 125.0
+
+[node name="MaterialSelection" type="OptionButton" parent="GUI/Tabs/Windows/VBox"]
+margin_top = 129.0
+margin_right = 324.0
+margin_bottom = 149.0
+text = "Horizontal 25"
+items = [ "Horizontal 25", null, false, 0, null, "Horizontal 50", null, false, 1, null, "Horizontal 75", null, false, 2, null, "Horizontal 100", null, false, 3, null, "Vertical 25", null, false, 4, null, "Vertical 50", null, false, 5, null, "Vertical 75", null, false, 6, null, "Vertical 100", null, false, 7, null ]
 selected = 0
 
-[node name="Lanes" type="Tabs" parent="GUI/TabContainer"]
+[node name="Sky" type="Tabs" parent="GUI/Tabs"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -303,6 +362,203 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 tab_align = 0
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Sky"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_right = -20.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkyGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
+margin_top = 9.0
+margin_right = 294.0
+margin_bottom = 81.0
+columns = 4
+
+[node name="TopColor" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_top = 3.0
+margin_right = 87.0
+margin_bottom = 17.0
+text = "Top Color"
+align = 1
+
+[node name="TopRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 91.0
+margin_right = 111.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="TopPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 115.0
+margin_right = 189.0
+margin_bottom = 20.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopHash" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 193.0
+margin_top = 3.0
+margin_right = 256.0
+margin_bottom = 17.0
+text = "#ABABAB"
+
+[node name="HorizonColor" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_top = 27.0
+margin_right = 87.0
+margin_bottom = 41.0
+text = "Horizon Color"
+align = 1
+
+[node name="HorizonRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 91.0
+margin_top = 24.0
+margin_right = 111.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="HorizonPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 115.0
+margin_top = 24.0
+margin_right = 189.0
+margin_bottom = 44.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HorizonHash" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 193.0
+margin_top = 27.0
+margin_right = 256.0
+margin_bottom = 41.0
+text = "#ABABAB"
+
+[node name="Curve" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_top = 53.0
+margin_right = 87.0
+margin_bottom = 67.0
+text = "Curve"
+align = 1
+
+[node name="CurveRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 91.0
+margin_top = 48.0
+margin_right = 111.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="SkyCurveSpin" type="SpinBox" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
+margin_left = 115.0
+margin_top = 48.0
+margin_right = 189.0
+margin_bottom = 72.0
+min_value = 1.0
+max_value = 9999.0
+value = 365.0
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Sky/VBox"]
+margin_top = 85.0
+margin_right = 294.0
+margin_bottom = 89.0
+
+[node name="GroundGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
+margin_top = 93.0
+margin_right = 294.0
+margin_bottom = 165.0
+columns = 4
+
+[node name="HorizonColor" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_top = 3.0
+margin_right = 87.0
+margin_bottom = 17.0
+text = "Horizon Color"
+align = 1
+
+[node name="HorizonRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 91.0
+margin_right = 111.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="HorizonPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 115.0
+margin_right = 189.0
+margin_bottom = 20.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HorizonHash" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 193.0
+margin_top = 3.0
+margin_right = 256.0
+margin_bottom = 17.0
+text = "#ABABAB"
+
+[node name="BottomColor" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_top = 27.0
+margin_right = 87.0
+margin_bottom = 41.0
+text = "Bottom Color"
+align = 1
+
+[node name="BottomRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 91.0
+margin_top = 24.0
+margin_right = 111.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="BottomPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 115.0
+margin_top = 24.0
+margin_right = 189.0
+margin_bottom = 44.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomHash" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 193.0
+margin_top = 27.0
+margin_right = 256.0
+margin_bottom = 41.0
+text = "#ABABAB"
+
+[node name="Curve" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_top = 53.0
+margin_right = 87.0
+margin_bottom = 67.0
+text = "Curve"
+align = 1
+
+[node name="CurveRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 91.0
+margin_top = 48.0
+margin_right = 111.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="GroundCurveSpin" type="SpinBox" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
+margin_left = 115.0
+margin_top = 48.0
+margin_right = 189.0
+margin_bottom = 72.0
+min_value = 1.0
+max_value = 9999.0
+value = 200.0
 
 [node name="Label" type="Label" parent="GUI"]
 margin_top = 214.0
@@ -315,9 +571,15 @@ align = 1
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
 
-[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton1" to="." method="_on_ColorPickerButton1_color_changed"]
-[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton2" to="." method="_on_ColorPickerButton2_color_changed"]
-[connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton3" to="." method="_on_ColorPickerButton3_color_changed"]
-[connection signal="color_changed" from="GUI/TabContainer/Material/VBoxContainer/WindowColor" to="." method="_on_WindowColor_color_changed"]
-[connection signal="color_changed" from="GUI/TabContainer/Material/VBoxContainer/DarkColor" to="." method="_on_DarkColor_color_changed"]
-[connection signal="item_selected" from="GUI/TabContainer/Material/VBoxContainer/MaterialSelection" to="." method="_on_MaterialSelection_item_selected"]
+[connection signal="item_selected" from="GUI/Tabs/Profiles/VBox/ProfileSelection" to="." method="_on_ProfileSelection_item_selected"]
+[connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
+[connection signal="item_selected" from="GUI/Tabs/Windows/VBox/MaterialSelection" to="." method="_on_MaterialSelection_item_selected"]
+[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker" to="." method="_on_HorizonSkyPicker_color_changed"]
+[connection signal="value_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/HorizonPicker" to="." method="_on_HorizonGroundPicker_color_changed"]
+[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/BottomPicker" to="." method="_on_BottomPicker_color_changed"]
+[connection signal="value_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin" to="." method="_on_GroundCurveSpin_value_changed"]
