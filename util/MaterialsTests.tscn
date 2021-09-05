@@ -1,23 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=1]
-[ext_resource path="res://buildings/BuildingMaterialDodge.tres" type="Material" id=2]
-[ext_resource path="res://buildings/BuildingMaterialDither.tres" type="Material" id=3]
+[ext_resource path="res://buildings/DotWindowMaterial.tres" type="Material" id=2]
 
 [node name="MaterialsTests" type="Spatial"]
 
 [node name="BuildingRig" type="Spatial" parent="."]
 
 [node name="LightenTower" parent="BuildingRig" instance=ExtResource( 1 )]
-transform = Transform( 10, -1.43584e-28, -6.3573e-07, 0, 10, -2.25857e-21, 6.3573e-07, 2.25857e-21, 10, -2, 0, 0 )
-
-[node name="DodgeTower" parent="BuildingRig" instance=ExtResource( 1 )]
-transform = Transform( 10, -1.43584e-28, -6.3573e-07, 0, 10, -2.25857e-21, 6.3573e-07, 2.25857e-21, 10, -2.60649e-07, 5.96046e-08, 0 )
+transform = Transform( 10, -1.43584e-28, -6.3573e-07, 0, 10, -2.25857e-21, 6.3573e-07, 2.25857e-21, 10, 0, 0, 0 )
 building_material = ExtResource( 2 )
-
-[node name="DitherTower" parent="BuildingRig" instance=ExtResource( 1 )]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 2, 0, 0 )
-building_material = ExtResource( 3 )
 
 [node name="LightRig" type="Spatial" parent="."]
 

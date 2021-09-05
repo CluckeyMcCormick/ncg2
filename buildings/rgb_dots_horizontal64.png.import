@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/light2.png-c3eaca382ca4d178d86eb080132929f6.stex"
+path="res://.import/rgb_dots_horizontal64.png-ade1ab3212535d1191ed6866616b481b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://buildings/dithers/light2.png"
-dest_files=[ "res://.import/light2.png-c3eaca382ca4d178d86eb080132929f6.stex" ]
+source_file="res://buildings/rgb_dots_horizontal64.png"
+dest_files=[ "res://.import/rgb_dots_horizontal64.png-ade1ab3212535d1191ed6866616b481b.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -12,8 +12,8 @@ func _ready():
     $GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton2.color = mcc.light_color_two
     $GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton3.color = mcc.light_color_three
     
-    $GUI/TabContainer/Material/VBoxContainer/WindowColor.color = mcc.lighten_material.get_shader_param("window_color")
-    $GUI/TabContainer/Material/VBoxContainer/DarkColor.color = mcc.lighten_material.get_shader_param("dark_color")
+    #$GUI/TabContainer/Material/VBoxContainer/WindowColor.color =
+    #$GUI/TabContainer/Material/VBoxContainer/DarkColor.color = 
 
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
@@ -29,26 +29,28 @@ func _on_ColorPickerButton3_color_changed(color):
     mcc.light_color_three = color
 
 func _on_WindowColor_color_changed(color):
-    mcc.lighten_material.set_shader_param("window_color", color)
-    mcc.dodge_material.set_shader_param("window_color", color)
-    mcc.dither_material.set_shader_param("window_color", color)
+    #mcc.lighten_material.set_shader_param("window_color", color)
+    #mcc.dodge_material.set_shader_param("window_color", color)
+    #mcc.dither_material.set_shader_param("window_color", color)
+    pass
 
 func _on_DarkColor_color_changed(color):
-    mcc.lighten_material.set_shader_param("dark_color", color)
-    mcc.dodge_material.set_shader_param("dark_color", color)
-    mcc.dither_material.set_shader_param("dark_color", color)
+    #mcc.lighten_material.set_shader_param("dark_color", color)
+    #mcc.dodge_material.set_shader_param("dark_color", color)
+    #mcc.dither_material.set_shader_param("dark_color", color)
+    pass
 
 
 func _on_MaterialSelection_item_selected(index):
     match index:
         0:
-            mcc.primary_material = mcc.lighten_material
-            
+            #mcc.primary_material = mcc.lighten_material
+            pass
         1:
-            mcc.primary_material = mcc.dodge_material
-        
+            #mcc.primary_material = mcc.dodge_material
+            pass
         2:
-            mcc.primary_material = mcc.dither_material
-            
+            #mcc.primary_material = mcc.dither_material
+            pass
         _:
             pass
