@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/output_building.png-4393f1a3da965f5fd837c9a458b001d7.stex"
+path="res://.import/output_building.png-83d3e106fd103348ac0663bd358b8939.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scripts/output_building.png"
-dest_files=[ "res://.import/output_building.png-4393f1a3da965f5fd837c9a458b001d7.stex" ]
+source_file="res://scripts/WO_sheet_generator/output_building.png"
+dest_files=[ "res://.import/output_building.png-83d3e106fd103348ac0663bd358b8939.stex" ]
 
 [params]
 

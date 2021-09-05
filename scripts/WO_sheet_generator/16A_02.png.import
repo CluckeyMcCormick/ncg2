@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/16A_05.png-802700a0500ad2da42fc2d1a452cbfed.stex"
+path="res://.import/16A_02.png-7cdad508cb2a7123562ebbf73668fc50.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scripts/16A_05.png"
-dest_files=[ "res://.import/16A_05.png-802700a0500ad2da42fc2d1a452cbfed.stex" ]
+source_file="res://scripts/WO_sheet_generator/16A_02.png"
+dest_files=[ "res://.import/16A_02.png-7cdad508cb2a7123562ebbf73668fc50.stex" ]
 
 [params]
 

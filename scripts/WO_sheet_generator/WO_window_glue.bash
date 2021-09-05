@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# White Opacity (WO) Window Glue script
+
 # This script attempts to create a city/building night texture by alternating a
 # "transparent" image and a "window" image. It sounds weird but trust me, it
 # works.
