@@ -36,11 +36,6 @@ func _process(delta):
 func set_slide_depth(new_depth):
     # Set the depth
     slide_depth = new_depth
-    
-    # Move the omni-light, as necessary
-    if self.has_node("OmniLight"):
-        # Move the Omni-Light, as appropriate.
-        $OmniLight.translation.z = new_depth / 2
 
 # A wrapper function to set the proportions of the building, since whatever
 # spawns the sled might not be able to reach down directly.
@@ -49,16 +44,6 @@ func set_building_size(len_x, len_z, base_height, tower_height):
     $FSB.len_z = len_z
     $FSB.base_len_y = base_height
     $FSB.tower_len_y = tower_height
-
-# A wrapper function to set the range of the light, since whatever spawns the
-# sled might not be able to reach down directly.
-func set_light_range(new_range):
-    $OmniLight.omni_range = new_range
-
-# A wrapper function to set the range of the light, since whatever spawns the
-# sled might not be able to reach down directly.
-func set_light_color(new_color):
-    $OmniLight.light_color = new_color
 
 # A wrapper function to set the rotation of the building, since whatever spawns
 # the sled might not be able to reach down directly.
@@ -83,9 +68,6 @@ func _on_VisibilityNotifier_screen_exited():
 #
 # --------------------------------------------------------
 func make_slide():
-    # Move the Omni-Light, as appropriate.
-    $OmniLight.translation.z = slide_depth / 2
-    
     # Calculate the max 
     var length = ($FSB.len_x * GlobalRef.WINDOW_UV_SIZE) * $FSB.scale.x
     var depth = ($FSB.len_z * GlobalRef.WINDOW_UV_SIZE) * $FSB.scale.z

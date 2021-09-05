@@ -6,7 +6,7 @@
 [sub_resource type="ProceduralSky" id=3]
 sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
 sky_horizon_color = Color( 0.623529, 0.517647, 0.717647, 1 )
-sky_curve = 0.136414
+sky_curve = 0.0365513
 ground_bottom_color = Color( 0.027451, 0.0392157, 0.105882, 1 )
 ground_horizon_color = Color( 0, 0.247059, 0.588235, 1 )
 sun_latitude = -90.0
@@ -38,8 +38,6 @@ tower_height_max = 13
 rotation_deviation = 0.0
 min_extra_space = 5
 max_extra_space = 25
-mean_light_range = 3.0
-light_size_deviation = 0.5
 
 [node name="2_PrePaddingA" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.69052, 0, -2.29144 )
@@ -50,8 +48,6 @@ depth_max = 11
 tower_height_min = 7
 tower_height_max = 11
 rotation_deviation = 0.0
-mean_light_range = 3.0
-light_size_deviation = 0.5
 
 [node name="3_PrePaddingB" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, -4.9 )
@@ -63,8 +59,6 @@ tower_height_max = 13
 rotation_deviation = 0.0
 min_extra_space = 5
 max_extra_space = 20
-mean_light_range = 3.0
-light_size_deviation = 0.5
 
 [node name="4_PrePaddingC" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0, -7.4 )
@@ -74,8 +68,6 @@ depth_max = 11
 tower_height_min = 7
 tower_height_max = 9
 rotation_deviation = 0.0
-mean_light_range = 3.0
-light_size_deviation = 0.5
 
 [node name="5_SkyscraperA" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4294, 0, -9.90212 )
@@ -87,9 +79,7 @@ base_height_max = 5
 tower_height_min = 10
 tower_height_max = 14
 min_extra_space = 1
-max_extra_space = 5
-use_light_color_two = true
-use_light_color_three = true
+max_extra_space = 12
 
 [node name="6_SkyscraperB" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8294, 0, -12.4328 )
@@ -100,12 +90,7 @@ base_height_min = 8
 base_height_max = 13
 tower_height_min = 12
 tower_height_max = 14
-rotation_deviation = 0.0
-max_extra_space = 9
-mean_light_range = 3.75
-light_size_deviation = 1.0
-use_light_color_two = true
-use_light_color_three = true
+max_extra_space = 12
 
 [node name="7_SkyscraperC" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02937, 0, -14.9059 )
@@ -116,15 +101,12 @@ depth_max = 10
 base_height_max = 13
 tower_height_min = 21
 tower_height_max = 22
-rotation_deviation = 5.0
-max_extra_space = 8
-mean_light_range = 5.0
-light_size_deviation = 2.0
-use_light_color_two = true
-use_light_color_three = true
+rotation_deviation = 90.0
+max_extra_space = 12
 
 [node name="8_PostPaddingA" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0, -17.0202 )
+visible = false
 width_min = 12
 width_max = 12
 depth_max = 10
@@ -132,11 +114,10 @@ base_height_max = 2
 tower_height_min = 12
 tower_height_max = 13
 rotation_deviation = 0.0
-use_light_color_two = true
-use_light_color_three = true
 
 [node name="9_PostPaddingD" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -19.4202 )
+visible = false
 width_min = 12
 width_max = 12
 depth_max = 10
@@ -144,10 +125,6 @@ base_height_max = 2
 tower_height_min = 13
 tower_height_max = 18
 rotation_deviation = 0.0
-mean_light_range = 6.0
-light_size_deviation = 1.0
-use_light_color_two = true
-use_light_color_three = true
 
 [node name="10_SuperStructures" parent="BuildingRig" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.803, 0, -24.22 )
@@ -155,16 +132,12 @@ width_min = 20
 width_max = 32
 depth_min = 20
 depth_max = 32
-base_height_min = 15
-base_height_max = 20
-tower_height_min = 30
-tower_height_max = 60
+base_height_min = 5
+base_height_max = 10
+tower_height_min = 40
+tower_height_max = 70
 rotation_deviation = 60.0
 max_extra_space = 80
-mean_light_range = 8.0
-light_size_deviation = 2.0
-use_light_color_two = true
-use_light_color_three = true
 
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 20.0

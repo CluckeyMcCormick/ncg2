@@ -5,9 +5,9 @@
 
 [resource]
 shader = ExtResource( 2 )
-shader_param/BuildingColor = Color( 1, 1, 1, 1 )
-shader_param/RedDotColor = Color( 1, 0, 0, 1 )
-shader_param/BlueDotColor = Color( 0, 0, 1, 1 )
-shader_param/GreenDotColor = Color( 0, 1, 0, 1 )
+shader_param/BuildingColor = Color( 0, 0.0509804, 0.12549, 1 )
+shader_param/RedDotColor = Color( 0.466667, 0.0705882, 0.101961, 1 )
+shader_param/BlueDotColor = Color( 0.596078, 0.780392, 0.819608, 1 )
+shader_param/GreenDotColor = Color( 0.819608, 0.8, 0.392157, 1 )
 shader_param/BuildingOpacity = 1.0
 shader_param/TextureUniform = ExtResource( 1 )
