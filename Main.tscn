@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+
+[sub_resource type="ProceduralSky" id=3]
+sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
+sky_horizon_color = Color( 0.623529, 0.517647, 0.717647, 1 )
+sky_curve = 0.136414
+ground_bottom_color = Color( 0.027451, 0.0392157, 0.105882, 1 )
+ground_horizon_color = Color( 0, 0.247059, 0.588235, 1 )
+sun_latitude = -90.0
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 3 )
 
 [node name="Main" type="Spatial"]
 script = ExtResource( 4 )
@@ -326,6 +338,9 @@ margin_bottom = 245.0
 text = "
 F12 to Show/Hide GUI"
 align = 1
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
 
 [connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton1" to="." method="_on_ColorPickerButton1_color_changed"]
 [connection signal="color_changed" from="GUI/TabContainer/Lights/VBoxContainer/ColorPickerButton2" to="." method="_on_ColorPickerButton2_color_changed"]
