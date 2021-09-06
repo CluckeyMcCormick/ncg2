@@ -110,7 +110,55 @@ func _on_ProfileSelection_item_selected(index):
                 Color("#003f96"), # Ground Horizon Color
                 Color("#070a1b"), # Ground Bottom Color
                 200 # Ground Curve Factor
-            )    
+            )
+        1:
+            assert_color_profile(
+                Color("#12060b"), # Building Color
+                Color("#ffffcc"), # Red Dot Color
+                Color("#4a3b46"), # Green Dot Color
+                Color("#260d17"), # Blue Dot Color
+                0,          # Texture Code
+                
+                Color("#003f96"), # Sky Top Color
+                Color("#ff0000"), # Sky Horizon Color
+                563, # Sky Curve Factor
+                
+                Color("#ff0000"), # Ground Horizon Color
+                Color("#070a1b"), # Ground Bottom Color
+                200 # Ground Curve Factor
+            )
+        2:
+            assert_color_profile(
+                Color("#12060b"), # Building Color
+                Color("#e4f0e6"), # Red Dot Color
+                Color("#ffe54c"), # Green Dot Color
+                Color("#8fd2ef"), # Blue Dot Color
+                1,          # Texture Code
+                
+                Color("#9e1875"), # Sky Top Color
+                Color("#d15e7d"), # Sky Horizon Color
+                500, # Sky Curve Factor
+                
+                Color("#1d1f50"), # Ground Horizon Color
+                Color("#070a1b"), # Ground Bottom Color
+                200 # Ground Curve Factor
+            )
+        3:
+            assert_color_profile(
+                Color("#0c3659"), # Building Color
+                Color("#c596ae"), # Red Dot Color
+                Color("#9cb389"), # Green Dot Color
+                Color("#b1c7c3"), # Blue Dot Color
+                3,          # Texture Code
+                
+                Color("#005f82"), # Sky Top Color
+                Color("#51dbb4"), # Sky Horizon Color
+                380, # Sky Curve Factor
+                
+                Color("#51dbb4"), # Ground Horizon Color
+                Color("#003e54"), # Ground Bottom Color
+                1000 # Ground Curve Factor
+            )
         _:
             pass
 
