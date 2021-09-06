@@ -16,7 +16,7 @@ func _input(event):
         $GUI.visible = not $GUI.visible
 
 func assert_color_profile(
-    building_color, red_dot, green_dot, blue_dot, material_code,
+    building_color, red_dot, green_dot, blue_dot, texture_code,
     sky_top, sky_horizon, sky_curve,
     ground_horizon, ground_bottom, ground_curve
 ):
@@ -35,8 +35,8 @@ func assert_color_profile(
     _on_BluePicker_color_changed(blue_dot)
     
     # Now, set the material appropriately.
-    $GUI/Tabs/Windows/VBox/MaterialSelection.selected = material_code
-    _on_MaterialSelection_item_selected(material_code)
+    $GUI/Tabs/Windows/VBox/TextureSelection.selected = texture_code
+    _on_TextureSelection_item_selected(texture_code)
     
     # Next, the sky colors
     $GUI/Tabs/Sky/VBox/SkyGrid/TopPicker.color = sky_top
@@ -54,7 +54,6 @@ func assert_color_profile(
     $GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin.value = ground_curve
     _on_GroundCurveSpin_value_changed(ground_curve)
 
-
 func _on_RedPicker_color_changed(color):
     mcc.primary_material.set_shader_param("RedDotColor", color)
     $GUI/Tabs/Windows/VBox/GridContainer/RedHash.text = "#" + color.to_html()
@@ -70,27 +69,6 @@ func _on_BluePicker_color_changed(color):
 func _on_BuildingPicker_color_changed(color):
     mcc.primary_material.set_shader_param("BuildingColor", color)
     $GUI/Tabs/Windows/VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
-
-func _on_MaterialSelection_item_selected(index):
-    match index:
-        0:
-            pass
-        1:
-            pass
-        2:
-            print("Material Horizontal 75!")
-        3:
-            pass
-        4:
-            pass
-        5:
-            pass
-        6:
-            pass
-        7:
-            pass
-        _:
-            pass
 
 func _on_TopPicker_color_changed(color):
     $WorldEnvironment.environment.background_sky.sky_top_color = color
@@ -123,7 +101,7 @@ func _on_ProfileSelection_item_selected(index):
                 Color("#77121a"), # Red Dot Color
                 Color("#98c7d1"), # Green Dot Color
                 Color("#d1cc64"), # Blue Dot Color
-                2,          # Material Code
+                2,          # Texture Code
                 
                 Color("#003f96"), # Sky Top Color
                 Color("#9f84b7"), # Sky Horizon Color
@@ -133,5 +111,27 @@ func _on_ProfileSelection_item_selected(index):
                 Color("#070a1b"), # Ground Bottom Color
                 200 # Ground Curve Factor
             )    
+        _:
+            pass
+
+
+func _on_TextureSelection_item_selected(index):
+    match index:
+        0:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_25)
+        1:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_50)
+        2:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_75)
+        3:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_100)
+        4:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_25)
+        5:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_50)
+        6:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_75)
+        7:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_100)
         _:
             pass

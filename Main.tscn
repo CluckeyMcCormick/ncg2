@@ -345,7 +345,7 @@ margin_top = 121.0
 margin_right = 324.0
 margin_bottom = 125.0
 
-[node name="MaterialSelection" type="OptionButton" parent="GUI/Tabs/Windows/VBox"]
+[node name="TextureSelection" type="OptionButton" parent="GUI/Tabs/Windows/VBox"]
 margin_top = 129.0
 margin_right = 324.0
 margin_bottom = 149.0
@@ -576,7 +576,7 @@ environment = SubResource( 2 )
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Windows/VBox/MaterialSelection" to="." method="_on_MaterialSelection_item_selected"]
+[connection signal="item_selected" from="GUI/Tabs/Windows/VBox/TextureSelection" to="." method="_on_TextureSelection_item_selected"]
 [connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker" to="." method="_on_HorizonSkyPicker_color_changed"]
 [connection signal="value_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
