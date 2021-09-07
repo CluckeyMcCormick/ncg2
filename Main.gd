@@ -184,3 +184,6 @@ func _on_TextureSelection_item_selected(index):
             mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_100)
         _:
             pass
+
+func _on_BottomSlider_value_changed(value):
+    $UpCamera/CameraAlignedEffects/Starfield.height = value

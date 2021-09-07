@@ -63,7 +63,7 @@ func _ready():
         
     make_sled()
 
-func _process(delta):
+func _process(_delta):
     # If we're in the editor, back out!!!
     if Engine.editor_hint:
         return
