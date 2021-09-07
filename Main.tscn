@@ -3,7 +3,7 @@
 [ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 
-[sub_resource type="ProceduralSky" id=1]
+[sub_resource type="ProceduralSky" id=2]
 sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
 sky_horizon_color = Color( 0.623529, 0.517647, 0.717647, 1 )
 sky_curve = 0.0365
@@ -11,11 +11,12 @@ ground_bottom_color = Color( 0.027451, 0.0392157, 0.105882, 1 )
 ground_horizon_color = Color( 0, 0.247059, 0.588235, 1 )
 sun_latitude = -90.0
 
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id=3]
 background_mode = 2
-background_sky = SubResource( 1 )
+background_sky = SubResource( 2 )
 
 [node name="Main" type="Spatial"]
+pause_mode = 2
 script = ExtResource( 4 )
 
 [node name="UpCamera" type="Camera" parent="."]
@@ -26,6 +27,7 @@ fov = 15.0
 size = 3.0
 
 [node name="BuildingRig" type="Spatial" parent="."]
+pause_mode = 1
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 
 [node name="1_FrameBuilding" parent="BuildingRig" instance=ExtResource( 3 )]
@@ -569,14 +571,14 @@ F12 to Show/Hide GUI"
 align = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 2 )
+environment = SubResource( 3 )
 
 [connection signal="item_selected" from="GUI/Tabs/Profiles/VBox/ProfileSelection" to="." method="_on_ProfileSelection_item_selected"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Windows/VBox/GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Windows/VBox/TextureSelection" to="." method="_on_MaterialSelection_item_selected"]
+[connection signal="item_selected" from="GUI/Tabs/Windows/VBox/TextureSelection" to="." method="_on_TextureSelection_item_selected"]
 [connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
 [connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker" to="." method="_on_HorizonSkyPicker_color_changed"]
 [connection signal="value_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]

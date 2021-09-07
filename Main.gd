@@ -14,6 +14,8 @@ func _ready():
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
         $GUI.visible = not $GUI.visible
+    elif event.is_action_pressed("game_pause"):
+        get_tree().paused = not get_tree().paused
 
 func assert_color_profile(
     building_color, red_dot, green_dot, blue_dot, texture_code,
@@ -161,7 +163,6 @@ func _on_ProfileSelection_item_selected(index):
             )
         _:
             pass
-
 
 func _on_TextureSelection_item_selected(index):
     match index:
