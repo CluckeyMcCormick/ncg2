@@ -11,7 +11,7 @@ export(int) var field_a_count = 20 setget set_field_a_count
 export(int) var field_b_count = 20 setget set_field_b_count
 export(int) var field_c_count = 20 setget set_field_c_count
 
-export(float) var scale_mean = 1 setget set_scale_mean
+export(float) var scale_mean = .85 setget set_scale_mean
 export(float) var scale_variance = .15 setget set_scale_variance
 
 func set_width(new_width):
