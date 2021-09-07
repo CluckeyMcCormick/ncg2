@@ -2,21 +2,19 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.s3tc.stex"
-path.etc2="res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.etc2.stex"
+path="res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://effects/64Dot.png"
-dest_files=[ "res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.s3tc.stex", "res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.etc2.stex" ]
+dest_files=[ "res://.import/64Dot.png-cdfb032d9017a2dc179f62ab6eb2b573.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
