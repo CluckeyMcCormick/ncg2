@@ -2,25 +2,27 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.stex"
+path.s3tc="res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.s3tc.stex"
+path.etc2="res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.etc2.stex"
 metadata={
-"vram_texture": false
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://buildings/smorgasbord64_horizontal64_100h.png"
-dest_files=[ "res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.stex" ]
+dest_files=[ "res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.s3tc.stex", "res://.import/smorgasbord64_horizontal64_100h.png-f8ea7e5f7287b6eb21c51682d95faf89.etc2.stex" ]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
-flags/filter=true
+flags/repeat=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
@@ -30,5 +32,5 @@ process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

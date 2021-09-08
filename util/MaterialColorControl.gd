@@ -19,6 +19,18 @@ const verti64_50 = preload("res://buildings/dots64_vertical64_50hs.png")
 const verti64_75 = preload("res://buildings/dots64_vertical64_75hs.png")
 const verti64_100 = preload("res://buildings/dots64_vertical64_100h.png")
 
+const square64_25 = preload("res://buildings/squares64_horizontal64_25hs.png")
+const square64_50 = preload("res://buildings/squares64_horizontal64_50hs.png")
+const square64_75 = preload("res://buildings/squares64_horizontal64_75hs.png")
+const square64_100 = preload("res://buildings/squares64_horizontal64_100h.png")
+
+const smorgas64_25 = preload("res://buildings/smorgasbord64_horizontal64_25hs.png")
+const smorgas64_50 = preload("res://buildings/smorgasbord64_horizontal64_50hs.png")
+const smorgas64_75 = preload("res://buildings/smorgasbord64_horizontal64_75hs.png")
+const smorgas64_100 = preload("res://buildings/smorgasbord64_horizontal64_100h.png")
+
+const everything64 = preload("res://buildings/everything64_horizontal64.png")
+
 # Load our different star textures
 const s64_dot = preload("res://effects/64Dot.png")
 const s64_star = preload("res://effects/64Star.png")

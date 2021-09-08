@@ -188,8 +188,8 @@ __meta__ = {
 
 [node name="ProfileSelection" type="ItemList" parent="GUI/Tabs/Profiles/VBox"]
 margin_right = 334.0
-margin_bottom = 99.0
-items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null, false, "Hiroshi Nagai's Velvet Dream", null, false, "Sailor Moon", null, false, "Custom Scheme", null, false ]
+margin_bottom = 117.0
+items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null, false, "Hiroshi Nagai's Velvet Dream", null, false, "Sailor Moon", null, false, "New York via TWA", null, false, "Custom Scheme", null, false ]
 allow_reselect = true
 auto_height = true
 
@@ -355,8 +355,8 @@ margin_bottom = 125.0
 margin_top = 129.0
 margin_right = 294.0
 margin_bottom = 149.0
-text = "Horizontal 25"
-items = [ "Horizontal 25", null, false, 0, null, "Horizontal 50", null, false, 1, null, "Horizontal 75", null, false, 2, null, "Horizontal 100", null, false, 3, null, "Vertical 25", null, false, 4, null, "Vertical 50", null, false, 5, null, "Vertical 75", null, false, 6, null, "Vertical 100", null, false, 7, null ]
+text = "Dot Horizontal 25"
+items = [ "Dot Horizontal 25", null, false, 0, null, "Dot Horizontal 50", null, false, 1, null, "Dot Horizontal 75", null, false, 2, null, "Dot Horizontal 100", null, false, 3, null, "Dot Vertical 25", null, false, 4, null, "Dot Vertical 50", null, false, 5, null, "Dot Vertical 75", null, false, 6, null, "Dot Vertical 100", null, false, 7, null, "Square 25", null, false, 8, null, "Square 50", null, false, 9, null, "Square 75", null, false, 10, null, "Square 100", null, false, 11, null, "Smorgasbord 25", null, false, 12, null, "Smorgasbord 50", null, false, 13, null, "Smorgasbord 75", null, false, 14, null, "Smorgasbord 100", null, false, 15, null, "Everything Allsize", null, false, 16, null ]
 selected = 0
 
 [node name="Sky" type="Tabs" parent="GUI/Tabs"]

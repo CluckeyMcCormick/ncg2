@@ -118,7 +118,7 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["bld_red_dot"] = Color("#ffffcc")
             arg_dict["bld_green_dot"] = Color("#4a3b46")
             arg_dict["bld_blue_dot"] = Color("#260d17")
-            arg_dict["bld_texture_code"] = 0
+            arg_dict["bld_texture_code"] = 8
             
             arg_dict["sky_sky_top"] = Color("#003f96")
             arg_dict["sky_sky_horizon"] = Color("#ff0000")
@@ -161,10 +161,10 @@ func _on_ProfileSelection_item_selected(index):
             
         3:
             arg_dict["bld_base_color"] = Color("#0c3659")
-            arg_dict["bld_red_dot"] = Color("#c596ae")
-            arg_dict["bld_green_dot"] = Color("#9cb389")
-            arg_dict["bld_blue_dot"] = Color("#b1c7c3")
-            arg_dict["bld_texture_code"] = 3
+            arg_dict["bld_red_dot"] = Color("#ffb3db")
+            arg_dict["bld_green_dot"] = Color("#ffff80")
+            arg_dict["bld_blue_dot"] = Color("#99fff1")
+            arg_dict["bld_texture_code"] = 10
             
             arg_dict["sky_sky_top"] = Color("#005f82")
             arg_dict["sky_sky_horizon"] = Color("#51dbb4")
@@ -179,12 +179,38 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["starfield_scale_mean"] = 1
             arg_dict["starfield_scale_variance"] = .375
             
-            arg_dict["stars_type_a_color"] = Color("#bdffec")
+            arg_dict["stars_type_a_color"] = Color("#ffffff")
             arg_dict["stars_type_a_texture"] = 1
-            arg_dict["stars_type_b_color"] = Color("#bdffec")
+            arg_dict["stars_type_b_color"] = Color("#ffffff")
             arg_dict["stars_type_b_texture"] = 1
-            arg_dict["stars_type_c_color"] = Color("#bdffec")
+            arg_dict["stars_type_c_color"] = Color("#ffffff")
             arg_dict["stars_type_c_texture"] = 1
+            
+            assert_color_profile(arg_dict)
+        4:
+            arg_dict["bld_base_color"] = Color("#00000000")
+            arg_dict["bld_red_dot"] = Color("#c53920")
+            arg_dict["bld_green_dot"] = Color("#3b95d4")
+            arg_dict["bld_blue_dot"] = Color("#f2f011")
+            arg_dict["bld_texture_code"] = 11
+            
+            arg_dict["sky_sky_top"] = Color("#000000")
+            arg_dict["sky_sky_horizon"] = Color("#000000")
+            arg_dict["sky_sky_curve"] = 380
+            arg_dict["sky_ground_horizon"] = Color("#000000")
+            arg_dict["sky_ground_bottom"] = Color("#000000")
+            arg_dict["sky_ground_curve"] = 1000
+            
+            arg_dict["starfield_height"] = 14.71
+            arg_dict["starfield_type_a_count"] = 60
+            arg_dict["starfield_type_b_count"] = 60
+            arg_dict["starfield_type_c_count"] = 60
+            arg_dict["starfield_scale_mean"] = 2
+            arg_dict["starfield_scale_variance"] = .5
+            
+            arg_dict["stars_type_a_texture"] = 2
+            arg_dict["stars_type_b_texture"] = 3
+            arg_dict["stars_type_c_texture"] = 4
             
             assert_color_profile(arg_dict)
         _:
@@ -208,6 +234,24 @@ func _on_TextureSelection_item_selected(index):
             mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_75)
         7:
             mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_100)
+        8:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_25)
+        9:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_50)
+        10:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_75)
+        11:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_100)
+        12:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_25)
+        13:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_50)
+        14:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_75)
+        15:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_100)
+        16:
+            mcc.primary_material.set_shader_param("DotTexture", mcc.everything64)
         _:
             pass
 
