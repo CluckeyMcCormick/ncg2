@@ -27,9 +27,16 @@ WINDOW_G_PNG="64G_"
 WINDOW_B_PNG="64B_"
 WINDOW_OFF_PNG=64T.png
 
-# What's the maximum and minimum length for a consecutive chain of windows?
-MIN_CHAIN_LENGTH=1
-MAX_CHAIN_LENGTH=8
+WINDOW_COLOR_STATE=""
+WINDOW_SHAPE_STATE=""
+
+# What's the maximum and minimum length for a consecutive color-chain of
+# windows?
+MIN_COLOR_CHAIN_LENGTH=1
+MAX_COLOR_CHAIN_LENGTH=8
+
+MIN_SHAPE_CHAIN_LENGTH=1
+MAX_SHAPE_CHAIN_LENGTH=1
 
 # When we try to roll a new state, we roll between 1 and some higher value: what
 # is that higher value?
@@ -58,8 +65,10 @@ OUTPUT_IMAGE=output_building_dots.png
 
 # What's our current window state?
 WINDOW_IMAGE="AAA"
-# How many windows remain in the current chain?
-CHAIN_REMAIN=0
+# How many windows remain in the current color-chain?
+COLOR_CHAIN_REMAIN=0
+# How many windows remain in the current shape-chain?
+SHAPE_CHAIN_REMAIN=0
 
 # We glue together the different images by using the `seq` command to do a for
 # loop.
@@ -125,21 +134,68 @@ else
 fi
 
 # Pick the type of window.
-WINDOW_TYPE_FRAGMENT=$(whiptail \
+WINDOW_TYPES_CHOICES=$(whiptail --notags\
     --title "Choose a window texture!" \
-    --menu "Choose a type of window-dot." 15 35 8 \
-        1.png  "Full Size" \
-        2.png  "75% Hardness-size" \
-        3.png  "50% Hardness-size" \
-        4.png  "25% Hardness-size" \
+    --checklist "Choose a type of window-dot." 15 65 8 \
+        _dot_1.png  "Dot Full Size" 0 \
+        _dot_2.png  "Dot 75HS" 0 \
+        _dot_3.png  "Dot 50HS" 0 \
+        _dot_4.png  "Dot 25HS" 0 \
+        \
+        _square_1.png  "Square Full Size" 0 \
+        _square_2.png  "Square 75HS" 0 \
+        _square_3.png  "Square 50HS" 0 \
+        _square_4.png  "Square 25HS" 0 \
+        \
+        _lefteye_1.png  "Left Eye Full Size" 0 \
+        _lefteye_2.png  "Left Eye 75HS" 0 \
+        _lefteye_3.png  "Left Eye 50HS" 0 \
+        _lefteye_4.png  "Left Eye 25HS" 0 \
+        \
+        _righteye_1.png  "Right Eye Full Size" 0 \
+        _righteye_2.png  "Right Eye 75HS" 0 \
+        _righteye_3.png  "Right Eye 50HS" 0 \
+        _righteye_4.png  "Right Eye 25HS" 0 \
+        \
+        _leftbullet_1.png  "Left Bullet Full Size" 0 \
+        _leftbullet_2.png  "Left Bullet 75HS" 0 \
+        _leftbullet_3.png  "Left Bullet 50HS" 0 \
+        _leftbullet_4.png  "Left Bullet 25HS" 0 \
+        \
+        _rightbullet_1.png  "Right Bullet Full Size" 0 \
+        _rightbullet_2.png  "Right Bullet 75HS" 0 \
+        _rightbullet_3.png  "Right Bullet 50HS" 0 \
+        _rightbullet_4.png  "Right Bullet 25HS" 0 \
+        \
+        _downbullet_1.png  "Down Bullet Full Size" 0 \
+        _downbullet_2.png  "Down Bullet 75HS" 0 \
+        _downbullet_3.png  "Down Bullet 50HS" 0 \
+        _downbullet_4.png  "Down Bullet 25HS" 0 \
+        \
+        _upbullet_1.png  "Up Bullet Full Size" 0 \
+        _upbullet_2.png  "Up Bullet 75HS" 0 \
+        _upbullet_3.png  "Up Bullet 50HS" 0 \
+        _upbullet_4.png  "Up Bullet 25HS" 0 \
     3>&1 1>&2 2>&3
 )
 
+# Create an array of window/file fragments. 
+WINDOW_FRAGS_ARR=()
+
+# Now fill up the array with the type fragments the user picked
+for x in $WINDOW_TYPES_CHOICES;
+do
+    # Split out any lingering double quotation marks
+    x=`echo $x | tr -d '"'`
+    # Stick the current image into the array
+    WINDOW_FRAGS_ARR=("${WINDOW_FRAGS_ARR[@]}" "$x")
+done
+
 # Glue on the chosen window type. Yes, this wacky append operation does actually
 # work in BASH.
-WINDOW_R_PNG="64R_"$WINDOW_TYPE_FRAGMENT
-WINDOW_G_PNG="64G_"$WINDOW_TYPE_FRAGMENT
-WINDOW_B_PNG="64B_"$WINDOW_TYPE_FRAGMENT
+#WINDOW_R_PNG="64R_"$WINDOW_TYPE_FRAGMENT
+#WINDOW_G_PNG="64G_"$WINDOW_TYPE_FRAGMENT
+#WINDOW_B_PNG="64B_"$WINDOW_TYPE_FRAGMENT
 
 if [ "$?" -eq 1 ]
 then
@@ -150,13 +206,13 @@ fi
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Build Functions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Rolls a new state - call this whenever you need to shake things up!
-function roll_new_state {
+# Rolls a new color state - call this whenever you need to shake things up!
+function roll_new_color_state {
     # Whip up an effective maximum and an effective minimum chain length
-    local eff_max=$(($MAX_CHAIN_LENGTH - ($MIN_CHAIN_LENGTH - 1)))
-    local eff_min=$(($MIN_CHAIN_LENGTH))
+    local eff_max=$(($MAX_COLOR_CHAIN_LENGTH - ($MIN_COLOR_CHAIN_LENGTH - 1)))
+    local eff_min=$(($MIN_COLOR_CHAIN_LENGTH))
     # Randomize the remaining chain size
-    CHAIN_REMAIN=$(($RANDOM % $eff_max + $eff_min))
+    COLOR_CHAIN_REMAIN=$(($RANDOM % $eff_max + $eff_min))
     
     # Roll for our state
     local state_roll=$(($RANDOM % STATE_ROLL_SIZE + 1))
@@ -164,30 +220,48 @@ function roll_new_state {
     # If the state roll is less than the "OFF" chance, then it's OFF!
     if [ "$state_roll" -le "$OFF_CHANCE" ]
     then
-        WINDOW_IMAGE=$WINDOW_OFF_PNG
+        WINDOW_COLOR_STATE="T"
         
     # Othwerwise, if it's less than the RED chance, then it's RED!
     elif [ "$state_roll" -le "$RED_CHANCE" ]
     then
-    	WINDOW_IMAGE=$WINDOW_R_PNG
+    	WINDOW_COLOR_STATE="R"
 
     # Othwerwise, if it's less than the GREEN chance, then it's GREEN!
     elif [ "$state_roll" -le "$GREEN_CHANCE" ]
     then
-    	WINDOW_IMAGE=$WINDOW_G_PNG
+    	WINDOW_COLOR_STATE="G"
     
     # Otherwise, it must be BLUE!
     else
-        WINDOW_IMAGE=$WINDOW_B_PNG
+        WINDOW_COLOR_STATE="B"
         
     fi
+}
+
+# Rolls a new shape state - call this whenever you need to shake things up!
+function roll_new_shape_state {
+    # Whip up an effective maximum and an effective minimum chain length
+    local eff_max=$(($MAX_SHAPE_CHAIN_LENGTH - ($MIN_SHAPE_CHAIN_LENGTH - 1)))
+    local eff_min=$(($MIN_SHAPE_CHAIN_LENGTH))
+    # Randomize the remaining chain size
+    SHAPE_CHAIN_REMAIN=$(($RANDOM % $eff_max + $eff_min))
+    
+    # Pick a random string from our window type array. Thanks to Jacob Mattison
+    # @ Stack Overflow for this solution!
+    local new_state=${WINDOW_FRAGS_ARR[$RANDOM % ${#WINDOW_FRAGS_ARR[@]} ]}
+    
+    WINDOW_R_PNG="64R"$new_state
+    WINDOW_G_PNG="64G"$new_state
+    WINDOW_B_PNG="64B"$new_state
 }
 
 # Builds a single row of an image to the ROW_IMAGE file
 function build_component {
 
-    # We always reset the chain count for the first window
-    CHAIN_REMAIN=0
+    # We always reset the chain counts for the first window
+    COLOR_CHAIN_REMAIN=0
+    SHAPE_CHAIN_REMAIN=0
     
     # We'll stick the images we want to glue together into this array
     local img_arr=()
@@ -195,17 +269,43 @@ function build_component {
     # For each window...
     for x in `$COMPONENT_SEQUENCE`;
     do
-        # If the chain was completed, roll a new state
-        if [ "$CHAIN_REMAIN" -le 0 ]
+        # If the color chain was completed, roll a new color state
+        if [ "$COLOR_CHAIN_REMAIN" -le 0 ]
         then
-            roll_new_state
+            roll_new_color_state
         fi
+        # If the shape chain was completed, roll a new color state
+        if [ "$SHAPE_CHAIN_REMAIN" -le 0 ]
+        then
+            roll_new_shape_state
+        fi
+        
+        case $WINDOW_COLOR_STATE in
+            
+            T)
+                WINDOW_IMAGE=$WINDOW_OFF_PNG
+                ;;
+                
+            R)
+                WINDOW_IMAGE=$WINDOW_R_PNG
+                ;;
+            
+            G)
+                WINDOW_IMAGE=$WINDOW_G_PNG
+                ;;
+                
+            B)
+                WINDOW_IMAGE=$WINDOW_B_PNG
+                ;;
+        esac
         
         # Stick the current image into the array
         img_arr=("${img_arr[@]}" "$WINDOW_IMAGE")
 
-        # Now that we've placed a window, decrement our chain-remaining count
-        CHAIN_REMAIN=$(($CHAIN_REMAIN - 1))
+        # Now that we've placed a window, decrement both of our chain-remaining
+        # counts
+        COLOR_CHAIN_REMAIN=$(($COLOR_CHAIN_REMAIN - 1))
+        SHAPE_CHAIN_REMAIN=$(($SHAPE_CHAIN_REMAIN - 1))
     done
     
     # Glue it all together!
