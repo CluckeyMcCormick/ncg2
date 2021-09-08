@@ -8,7 +8,7 @@ onready var mcc = get_node("/root/MaterialColorControl")
 func _ready():
     randomize()
     
-    $GUI/Tabs/Profiles/VBox/ProfileSelection.selected = 0
+    $GUI/Tabs/Profiles/VBox/ProfileSelection.select(0)
     _on_ProfileSelection_item_selected(0)
 
 func _input(event):
@@ -17,156 +17,176 @@ func _input(event):
     elif event.is_action_pressed("game_pause"):
         get_tree().paused = not get_tree().paused
 
-func assert_color_profile(
-    building_color, red_dot, green_dot, blue_dot, texture_code,
-    sky_top, sky_horizon, sky_curve,
-    ground_horizon, ground_bottom, ground_curve,
-    field_height, stars_type_a_count, stars_type_b_count, stars_type_c_count, 
-    star_scale_mean, star_scale_variance
-):
+func assert_color_profile(arg_dict):
     # We're going to manually set all of these profile values, and call each
     # callback function manually. Kinda sucks, but this whole project is a kind
     # of hacky workaround so whatever.
     
-    # First, set the colors.
-    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingPicker.color =  building_color
-    _on_BuildingPicker_color_changed(building_color)
-    $GUI/Tabs/Buildings/VBox/GridContainer/RedPicker.color = red_dot
-    _on_RedPicker_color_changed(red_dot)
-    $GUI/Tabs/Buildings/VBox/GridContainer/GreenPicker.color = green_dot
-    _on_GreenPicker_color_changed(green_dot)
-    $GUI/Tabs/Buildings/VBox/GridContainer/BluePicker.color = blue_dot
-    _on_BluePicker_color_changed(blue_dot)
-    
+    # Building options
+    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingPicker.color =  arg_dict["bld_base_color"]
+    _on_BuildingPicker_color_changed(arg_dict["bld_base_color"])
+    $GUI/Tabs/Buildings/VBox/GridContainer/RedPicker.color = arg_dict["bld_red_dot"]
+    _on_RedPicker_color_changed(arg_dict["bld_red_dot"])
+    $GUI/Tabs/Buildings/VBox/GridContainer/GreenPicker.color = arg_dict["bld_green_dot"]
+    _on_GreenPicker_color_changed(arg_dict["bld_green_dot"])
+    $GUI/Tabs/Buildings/VBox/GridContainer/BluePicker.color = arg_dict["bld_blue_dot"]
+    _on_BluePicker_color_changed(arg_dict["bld_blue_dot"])
     # Now, set the material appropriately.
-    $GUI/Tabs/Buildings/VBox/TextureSelection.selected = texture_code
-    _on_TextureSelection_item_selected(texture_code)
+    $GUI/Tabs/Buildings/VBox/TextureSelection.selected = arg_dict["bld_texture_code"]
+    _on_TextureSelection_item_selected(arg_dict["bld_texture_code"])
     
-    # Next, the sky colors
-    $GUI/Tabs/Sky/VBox/SkyGrid/TopPicker.color = sky_top
-    _on_TopPicker_color_changed(sky_top)
-    $GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker.color = sky_horizon
-    _on_HorizonSkyPicker_color_changed(sky_horizon)
-    $GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin.value = sky_curve
-    _on_SkyCurveSpin_value_changed(sky_curve)
-
-    # The ground colors
-    $GUI/Tabs/Sky/VBox/GroundGrid/HorizonPicker.color = ground_horizon
-    _on_HorizonGroundPicker_color_changed(ground_horizon)
-    $GUI/Tabs/Sky/VBox/GroundGrid/BottomPicker.color = ground_bottom
-    _on_BottomPicker_color_changed(ground_bottom)
-    $GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin.value = ground_curve
-    _on_GroundCurveSpin_value_changed(ground_curve)
+    # Sky options
+    $GUI/Tabs/Sky/VBox/SkyGrid/TopPicker.color = arg_dict["sky_sky_top"]
+    _on_TopPicker_color_changed(arg_dict["sky_sky_top"])
+    $GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker.color = arg_dict["sky_sky_horizon"]
+    _on_HorizonSkyPicker_color_changed(arg_dict["sky_sky_horizon"])
+    $GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin.value = arg_dict["sky_sky_curve"]
+    _on_SkyCurveSpin_value_changed(arg_dict["sky_sky_curve"])
+    $GUI/Tabs/Sky/VBox/GroundGrid/HorizonPicker.color = arg_dict["sky_ground_horizon"]
+    _on_HorizonGroundPicker_color_changed(arg_dict["sky_ground_horizon"])
+    $GUI/Tabs/Sky/VBox/GroundGrid/BottomPicker.color = arg_dict["sky_ground_bottom"]
+    _on_BottomPicker_color_changed(arg_dict["sky_ground_bottom"])
+    $GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin.value = arg_dict["sky_ground_curve"]
+    _on_GroundCurveSpin_value_changed(arg_dict["sky_ground_curve"])
     
     # Starfield Options
-    $GUI/Tabs/Starfield/HBox/SpinGrid/HeightSpinBox.value = field_height
-    _on_HeightSpinBox_value_changed(field_height)
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeASpinBox.value = stars_type_a_count
-    _on_TypeASpinBox_value_changed(stars_type_a_count)
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeBSpinBox.value = stars_type_b_count
-    _on_TypeBSpinBox_value_changed(stars_type_b_count)
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeCSpinBox.value = stars_type_c_count
-    _on_TypeCSpinBox_value_changed(stars_type_c_count)
-    $GUI/Tabs/Starfield/HBox/SpinGrid/MeanSpinBox.value = star_scale_mean
-    _on_MeanSpinBox_value_changed(star_scale_mean)
-    $GUI/Tabs/Starfield/HBox/SpinGrid/VarianceSpinBox.value = star_scale_variance
-    _on_VarianceSpinBox_value_changed(star_scale_variance)
+    $GUI/Tabs/Starfield/HBox/SpinGrid/HeightSpinBox.value = arg_dict["starfield_height"]
+    _on_HeightSpinBox_value_changed(arg_dict["starfield_height"])
+    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeASpinBox.value = arg_dict["starfield_type_a_count"]
+    _on_TypeASpinBox_value_changed(arg_dict["starfield_type_a_count"])
+    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeBSpinBox.value = arg_dict["starfield_type_b_count"]
+    _on_TypeBSpinBox_value_changed(arg_dict["starfield_type_b_count"])
+    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeCSpinBox.value = arg_dict["starfield_type_c_count"]
+    _on_TypeCSpinBox_value_changed(arg_dict["starfield_type_c_count"])
+    $GUI/Tabs/Starfield/HBox/SpinGrid/MeanSpinBox.value = arg_dict["starfield_scale_mean"]
+    _on_MeanSpinBox_value_changed(arg_dict["starfield_scale_mean"])
+    $GUI/Tabs/Starfield/HBox/SpinGrid/VarianceSpinBox.value = arg_dict["starfield_scale_variance"]
+    _on_VarianceSpinBox_value_changed(arg_dict["starfield_scale_variance"])
+    
+    # Stars options
+    $GUI/Tabs/Stars/VBox/HBoxTypeA/ColorPickerButton.color = arg_dict["stars_type_a_color"]
+    _on_TypeA_ColorPickerButton_color_changed(arg_dict["stars_type_a_color"])
+    $GUI/Tabs/Stars/VBox/HBoxTypeA/OptionButton.selected = arg_dict["stars_type_a_texture"]
+    _on_TypeA_OptionButton_item_selected(arg_dict["stars_type_a_texture"])
+    $GUI/Tabs/Stars/VBox/HBoxTypeB/ColorPickerButton.color = arg_dict["stars_type_b_color"]
+    _on_TypeB_ColorPickerButton_color_changed(arg_dict["stars_type_b_color"])
+    $GUI/Tabs/Stars/VBox/HBoxTypeB/OptionButton.selected = arg_dict["stars_type_b_texture"]
+    _on_TypeB_OptionButton_item_selected(arg_dict["stars_type_b_texture"])
+    $GUI/Tabs/Stars/VBox/HBoxTypeC/ColorPickerButton.color = arg_dict["stars_type_c_color"]
+    _on_TypeC_ColorPickerButton_color_changed(arg_dict["stars_type_c_color"])
+    $GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton.selected = arg_dict["stars_type_c_texture"]
+    _on_TypeC_OptionButton_item_selected(arg_dict["stars_type_c_texture"])
 
 func _on_ProfileSelection_item_selected(index):
-    print("Profile item selected: ", index)
+    
+    var arg_dict = {
+        "bld_base_color": Color("#000d20"),
+        "bld_red_dot": Color("#77121a"),
+        "bld_green_dot": Color("#98c7d1"),
+        "bld_blue_dot": Color("#d1cc64"),
+        "bld_texture_code": 2,
+        
+        "sky_sky_top": Color("#003f96"),
+        "sky_sky_horizon": Color("#9f84b7"),
+        "sky_sky_curve": 365,
+        "sky_ground_horizon": Color("#003f96"),
+        "sky_ground_bottom": Color("#070a1b"),
+        "sky_ground_curve": 200,
+        
+        "starfield_height": 10,
+        "starfield_type_a_count": 20,
+        "starfield_type_b_count": 20,
+        "starfield_type_c_count": 20,
+        "starfield_scale_mean": .85,
+        "starfield_scale_variance": .15,
+        
+        "stars_type_a_color": Color.white,
+        "stars_type_a_texture": 0,
+        "stars_type_b_color": Color.white,
+        "stars_type_b_texture": 0,
+        "stars_type_c_color": Color.white,
+        "stars_type_c_texture": 0,
+    }
+    
     match index:
         0:
-            assert_color_profile(
-                Color("#000d20"), # Building Color
-                Color("#77121a"), # Red Dot Color
-                Color("#98c7d1"), # Green Dot Color
-                Color("#d1cc64"), # Blue Dot Color
-                2,          # Texture Code
-                
-                Color("#003f96"), # Sky Top Color
-                Color("#9f84b7"), # Sky Horizon Color
-                365, # Sky Curve Factor
-                
-                Color("#003f96"), # Ground Horizon Color
-                Color("#070a1b"), # Ground Bottom Color
-                200, # Ground Curve Factor
-                
-                10, # Star Field Height
-                3, # Stars Type A count
-                3, # Stars Type B count
-                3, # Stars Type C count
-                .85, # Star Scale, Mean
-                .15 # Star Scale, Variance
-            )
+            # Default profile IS profile 0, so just pass it straight.
+            assert_color_profile(arg_dict)
+            
         1:
-            assert_color_profile(
-                Color("#12060b"), # Building Color
-                Color("#ffffcc"), # Red Dot Color
-                Color("#4a3b46"), # Green Dot Color
-                Color("#260d17"), # Blue Dot Color
-                0,          # Texture Code
-                
-                Color("#003f96"), # Sky Top Color
-                Color("#ff0000"), # Sky Horizon Color
-                563, # Sky Curve Factor
-                
-                Color("#ff0000"), # Ground Horizon Color
-                Color("#070a1b"), # Ground Bottom Color
-                200, # Ground Curve Factor
-                
-                0, # Star Field Height
-                0, # Stars Type A count
-                0, # Stars Type B count
-                0, # Stars Type C count
-                0, # Star Scale, Mean
-                0 # Star Scale, Variance
-            )
+            arg_dict["bld_base_color"] = Color("#12060b")
+            arg_dict["bld_red_dot"] = Color("#ffffcc")
+            arg_dict["bld_green_dot"] = Color("#4a3b46")
+            arg_dict["bld_blue_dot"] = Color("#260d17")
+            arg_dict["bld_texture_code"] = 0
+            
+            arg_dict["sky_sky_top"] = Color("#003f96")
+            arg_dict["sky_sky_horizon"] = Color("#ff0000")
+            arg_dict["sky_sky_curve"] = 563
+            arg_dict["sky_ground_horizon"] = Color("#ff0000")
+            arg_dict["sky_ground_bottom"] = Color("#070a1b")
+            arg_dict["sky_ground_curve"] = 200
+            
+            arg_dict["starfield_height"] = 4.5
+            arg_dict["starfield_type_a_count"] = 6
+            arg_dict["starfield_type_b_count"] = 6
+            arg_dict["starfield_type_c_count"] = 6
+            arg_dict["starfield_scale_mean"] = 0.25
+            arg_dict["starfield_scale_variance"] = 0.1
+            
+            assert_color_profile(arg_dict)
+            
         2:
-            assert_color_profile(
-                Color("#12060b"), # Building Color
-                Color("#e4f0e6"), # Red Dot Color
-                Color("#ffe54c"), # Green Dot Color
-                Color("#8fd2ef"), # Blue Dot Color
-                1,          # Texture Code
-                
-                Color("#9e1875"), # Sky Top Color
-                Color("#d15e7d"), # Sky Horizon Color
-                500, # Sky Curve Factor
-                
-                Color("#1d1f50"), # Ground Horizon Color
-                Color("#070a1b"), # Ground Bottom Color
-                200, # Ground Curve Factor
-                
-                12, # Star Field Height
-                20, # Stars Type A count
-                20, # Stars Type B count
-                20, # Stars Type C count
-                .85, # Star Scale, Mean
-                .15 # Star Scale, Variance
-            )
+            arg_dict["bld_base_color"] = Color("#12060b")
+            arg_dict["bld_red_dot"] = Color("#e4f0e6")
+            arg_dict["bld_green_dot"] = Color("#ffe54c")
+            arg_dict["bld_blue_dot"] = Color("#8fd2ef")
+            arg_dict["bld_texture_code"] = 1
+            
+            arg_dict["sky_sky_top"] = Color("#9e1875")
+            arg_dict["sky_sky_horizon"] = Color("#d15e7d")
+            arg_dict["sky_sky_curve"] = 500
+            arg_dict["sky_ground_horizon"] = Color("#1d1f50")
+            arg_dict["sky_ground_bottom"] = Color("#070a1b")
+            arg_dict["sky_ground_curve"] = 200
+            
+            arg_dict["starfield_height"] = 5
+            arg_dict["starfield_type_a_count"] = 4
+            arg_dict["starfield_type_b_count"] = 4
+            arg_dict["starfield_type_c_count"] = 4
+            arg_dict["starfield_scale_mean"] = 0.5
+            arg_dict["starfield_scale_variance"] = 0.5
+            
+            assert_color_profile(arg_dict)
+            
         3:
-            assert_color_profile(
-                Color("#0c3659"), # Building Color
-                Color("#c596ae"), # Red Dot Color
-                Color("#9cb389"), # Green Dot Color
-                Color("#b1c7c3"), # Blue Dot Color
-                3,          # Texture Code
-                
-                Color("#005f82"), # Sky Top Color
-                Color("#51dbb4"), # Sky Horizon Color
-                380, # Sky Curve Factor
-                
-                Color("#51dbb4"), # Ground Horizon Color
-                Color("#003e54"), # Ground Bottom Color
-                1000, # Ground Curve Factor
-
-                12, # Star Field Height
-                20, # Stars Type A count
-                20, # Stars Type B count
-                20, # Stars Type C count
-                .85, # Star Scale, Mean
-                .15 # Star Scale, Variance
-            )
+            arg_dict["bld_base_color"] = Color("#0c3659")
+            arg_dict["bld_red_dot"] = Color("#c596ae")
+            arg_dict["bld_green_dot"] = Color("#9cb389")
+            arg_dict["bld_blue_dot"] = Color("#b1c7c3")
+            arg_dict["bld_texture_code"] = 3
+            
+            arg_dict["sky_sky_top"] = Color("#005f82")
+            arg_dict["sky_sky_horizon"] = Color("#51dbb4")
+            arg_dict["sky_sky_curve"] = 380
+            arg_dict["sky_ground_horizon"] = Color("#51dbb4")
+            arg_dict["sky_ground_bottom"] = Color("#003e54")
+            arg_dict["sky_ground_curve"] = 1000
+            
+            arg_dict["starfield_type_a_count"] = 30
+            arg_dict["starfield_type_b_count"] = 30
+            arg_dict["starfield_type_c_count"] = 30
+            arg_dict["starfield_scale_mean"] = 1
+            arg_dict["starfield_scale_variance"] = .375
+            
+            arg_dict["stars_type_a_color"] = Color("#bdffec")
+            arg_dict["stars_type_a_texture"] = 1
+            arg_dict["stars_type_b_color"] = Color("#bdffec")
+            arg_dict["stars_type_b_texture"] = 1
+            arg_dict["stars_type_c_color"] = Color("#bdffec")
+            arg_dict["stars_type_c_texture"] = 1
+            
+            assert_color_profile(arg_dict)
         _:
             pass
 
@@ -254,3 +274,79 @@ func _on_MeanSpinBox_value_changed(value):
 
 func _on_VarianceSpinBox_value_changed(value):
     $UpCamera/CameraAlignedEffects/Starfield.scale_variance = value
+
+func _on_TypeA_ColorPickerButton_color_changed(color):
+    mcc.type_a_material.albedo_color = color
+
+func _on_TypeA_OptionButton_item_selected(index):
+    var mat = mcc.type_a_material
+    
+    match index:
+        0:
+            # Dot
+            mat.albedo_texture = mcc.s64_dot
+        1:
+            # Star
+            mat.albedo_texture = mcc.s64_star
+        2:
+            # 50's Sparkle A
+            mat.albedo_texture = mcc.s64_sparkle_a
+        3:
+            # 50's Sparkle B
+            mat.albedo_texture = mcc.s64_sparkle_b
+        4:
+            # 50's Sparkle C
+            mat.albedo_texture = mcc.s64_sparkle_c
+        _:
+            pass
+
+func _on_TypeB_ColorPickerButton_color_changed(color):
+    mcc.type_b_material.albedo_color = color
+
+func _on_TypeB_OptionButton_item_selected(index):
+    var mat = mcc.type_b_material
+    
+    match index:
+        0:
+            # Dot
+            mat.albedo_texture = mcc.s64_dot
+        1:
+            # Star
+            mat.albedo_texture = mcc.s64_star
+        2:
+            # 50's Sparkle A
+            mat.albedo_texture = mcc.s64_sparkle_a
+        3:
+            # 50's Sparkle B
+            mat.albedo_texture = mcc.s64_sparkle_b
+        4:
+            # 50's Sparkle C
+            mat.albedo_texture = mcc.s64_sparkle_c
+        _:
+            pass
+
+func _on_TypeC_ColorPickerButton_color_changed(color):
+    mcc.type_c_material.albedo_color = color
+
+func _on_TypeC_OptionButton_item_selected(index):
+    
+    var mat = mcc.type_c_material
+    
+    match index:
+        0:
+            # Dot
+            mat.albedo_texture = mcc.s64_dot
+        1:
+            # Star
+            mat.albedo_texture = mcc.s64_star
+        2:
+            # 50's Sparkle A
+            mat.albedo_texture = mcc.s64_sparkle_a
+        3:
+            # 50's Sparkle B
+            mat.albedo_texture = mcc.s64_sparkle_b
+        4:
+            # 50's Sparkle C
+            mat.albedo_texture = mcc.s64_sparkle_c
+        _:
+            pass

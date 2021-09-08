@@ -32,6 +32,7 @@ transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -55 )
 
 [node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, -1.90735e-06, 8, -3.8147e-06 )
+width = 22.0
 height = 10.0
 
 [node name="BuildingRig" type="Spatial" parent="."]
@@ -181,20 +182,16 @@ tab_close_display_policy = 2
 [node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Profiles"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
-alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ProfileSelection" type="OptionButton" parent="GUI/Tabs/Profiles/VBox"]
-margin_top = 77.0
-margin_right = 294.0
-margin_bottom = 97.0
-text = "Hiroshi Nagai's Niteflyte"
-items = [ "Hiroshi Nagai's Niteflyte", null, false, 0, null, "Sunrise in Big City", null, false, 1, null, "Hiroshi Nagai's Velvet Dream", null, false, 2, null, "Sailor Moon", null, false, 3, null, "Custom Scheme", null, false, 4, null ]
-selected = 0
+[node name="ProfileSelection" type="ItemList" parent="GUI/Tabs/Profiles/VBox"]
+margin_right = 334.0
+margin_bottom = 99.0
+items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null, false, "Hiroshi Nagai's Velvet Dream", null, false, "Sailor Moon", null, false, "Custom Scheme", null, false ]
+allow_reselect = true
+auto_height = true
 
 [node name="Buildings" type="Tabs" parent="GUI/Tabs"]
 visible = false
@@ -623,6 +620,7 @@ margin_left = 123.0
 margin_top = 28.0
 margin_right = 197.0
 margin_bottom = 52.0
+max_value = 1000.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -639,6 +637,7 @@ margin_left = 123.0
 margin_top = 56.0
 margin_right = 197.0
 margin_bottom = 80.0
+max_value = 1000.0
 
 [node name="TypeCLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
 margin_top = 89.0
@@ -652,6 +651,7 @@ margin_left = 123.0
 margin_top = 84.0
 margin_right = 197.0
 margin_bottom = 108.0
+max_value = 1000.0
 
 [node name="MeanLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
 margin_top = 117.0
@@ -708,7 +708,7 @@ margin_bottom = 97.0
 size_flags_vertical = 4
 text = "Regenerate"
 
-[node name="Star Material" type="Tabs" parent="GUI/Tabs"]
+[node name="Stars" type="Tabs" parent="GUI/Tabs"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -716,6 +716,108 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Stars"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TypeALabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 18.0
+margin_right = 334.0
+margin_bottom = 32.0
+text = "Type A Controls"
+align = 1
+
+[node name="HBoxTypeA" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 36.0
+margin_right = 334.0
+margin_bottom = 56.0
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
+margin_right = 165.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
+margin_left = 169.0
+margin_right = 334.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Dot"
+items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
+selected = 0
+
+[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 60.0
+margin_right = 334.0
+margin_bottom = 64.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TypeBLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 68.0
+margin_right = 334.0
+margin_bottom = 82.0
+text = "Type B Controls"
+align = 1
+
+[node name="HBoxTypeB" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 86.0
+margin_right = 334.0
+margin_bottom = 106.0
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
+margin_right = 165.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
+margin_left = 169.0
+margin_right = 334.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Dot"
+items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
+selected = 0
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 110.0
+margin_right = 334.0
+margin_bottom = 114.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TypeCLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 118.0
+margin_right = 334.0
+margin_bottom = 132.0
+text = "Type C Controls"
+align = 1
+
+[node name="HBoxTypeC" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
+margin_top = 136.0
+margin_right = 334.0
+margin_bottom = 156.0
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
+margin_right = 165.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
+margin_left = 169.0
+margin_right = 334.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Dot"
+items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
+selected = 0
 
 [node name="Label" type="Label" parent="GUI"]
 margin_top = 214.0
@@ -747,3 +849,9 @@ environment = SubResource( 5 )
 [connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/MeanSpinBox" to="." method="_on_MeanSpinBox_value_changed"]
 [connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/VarianceSpinBox" to="." method="_on_VarianceSpinBox_value_changed"]
 [connection signal="pressed" from="GUI/Tabs/Starfield/HBox/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
+[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeA/ColorPickerButton" to="." method="_on_TypeA_ColorPickerButton_color_changed"]
+[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeA/OptionButton" to="." method="_on_TypeA_OptionButton_item_selected"]
+[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeB/ColorPickerButton" to="." method="_on_TypeB_ColorPickerButton_color_changed"]
+[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeB/OptionButton" to="." method="_on_TypeB_OptionButton_item_selected"]
+[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeC/ColorPickerButton" to="." method="_on_TypeC_ColorPickerButton_color_changed"]
+[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton" to="." method="_on_TypeC_OptionButton_item_selected"]
