@@ -83,22 +83,41 @@ func generate_field_c():
 
 func _generate_field(field_multi):
     
-    var genny = RandomNumberGenerator.new() 
-    genny.randomize()
+    var genny = RandomNumberGenerator.new()
+    
     var new_transform
     var new_scale
+    
+    var ideal_pos
+    
+    # If this is in the editor, apply a seed so we get consistent results and
+    # the scene file doesn't change CONSTANTLY. This will save our
+    # source-control software some hassle.
+    if Engine.editor_hint:
+        genny.seed = hash("IN_ENGINE")
+    else:
+        genny.randomize()
     
     # Set the transform of the instances.
     for i in field_multi.instance_count:
         new_transform = Transform(Basis(), Vector3(0, 0, 0))
-        new_transform = new_transform.translated(Vector3(
-            rand_range(-width / 2, width / 2),
-            rand_range(-height, 0),
-            0
-        ))
+        
         new_scale = genny.randfn(scale_mean, scale_variance)
+        
+        # Catch to ensure our scale isn't zero
+        if new_scale <= 0:
+            new_scale = abs(new_scale) + .001
+        
         new_transform = new_transform.scaled(Vector3(
             new_scale, new_scale, new_scale
         ))
+        
+        ideal_pos = Vector3(
+            genny.randf_range(-width / 2, width / 2),
+            genny.randf_range(-height, 0),
+            0
+        ) * (1.0 / new_scale) # Multiply by inverse scale, ensuring correct pos.
+        
+        new_transform = new_transform.translated(ideal_pos)
         
         field_multi.set_instance_transform(i, new_transform)
