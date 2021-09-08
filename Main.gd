@@ -29,17 +29,17 @@ func assert_color_profile(
     # of hacky workaround so whatever.
     
     # First, set the colors.
-    $GUI/Tabs/Windows/VBox/GridContainer/BuildingPicker.color =  building_color
+    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingPicker.color =  building_color
     _on_BuildingPicker_color_changed(building_color)
-    $GUI/Tabs/Windows/VBox/GridContainer/RedPicker.color = red_dot
+    $GUI/Tabs/Buildings/VBox/GridContainer/RedPicker.color = red_dot
     _on_RedPicker_color_changed(red_dot)
-    $GUI/Tabs/Windows/VBox/GridContainer/GreenPicker.color = green_dot
+    $GUI/Tabs/Buildings/VBox/GridContainer/GreenPicker.color = green_dot
     _on_GreenPicker_color_changed(green_dot)
-    $GUI/Tabs/Windows/VBox/GridContainer/BluePicker.color = blue_dot
+    $GUI/Tabs/Buildings/VBox/GridContainer/BluePicker.color = blue_dot
     _on_BluePicker_color_changed(blue_dot)
     
     # Now, set the material appropriately.
-    $GUI/Tabs/Windows/VBox/TextureSelection.selected = texture_code
+    $GUI/Tabs/Buildings/VBox/TextureSelection.selected = texture_code
     _on_TextureSelection_item_selected(texture_code)
     
     # Next, the sky colors
@@ -198,19 +198,19 @@ func _on_RegenerateButton_pressed():
 
 func _on_RedPicker_color_changed(color):
     mcc.primary_material.set_shader_param("RedDotColor", color)
-    $GUI/Tabs/Windows/VBox/GridContainer/RedHash.text = "#" + color.to_html()
+    $GUI/Tabs/Buildings/VBox/GridContainer/RedHash.text = "#" + color.to_html()
 
 func _on_GreenPicker_color_changed(color):
     mcc.primary_material.set_shader_param("GreenDotColor", color)
-    $GUI/Tabs/Windows/VBox/GridContainer/GreenHash.text = "#" + color.to_html()
+    $GUI/Tabs/Buildings/VBox/GridContainer/GreenHash.text = "#" + color.to_html()
 
 func _on_BluePicker_color_changed(color):
     mcc.primary_material.set_shader_param("BlueDotColor", color)
-    $GUI/Tabs/Windows/VBox/GridContainer/BlueHash.text = "#" + color.to_html()
+    $GUI/Tabs/Buildings/VBox/GridContainer/BlueHash.text = "#" + color.to_html()
 
 func _on_BuildingPicker_color_changed(color):
     mcc.primary_material.set_shader_param("BuildingColor", color)
-    $GUI/Tabs/Windows/VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
+    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
 
 func _on_TopPicker_color_changed(color):
     $WorldEnvironment.environment.background_sky.sky_top_color = color
