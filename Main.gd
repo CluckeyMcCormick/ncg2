@@ -143,11 +143,11 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["bld_blue_dot"] = Color("#8fd2ef")
             arg_dict["bld_texture_code"] = 1
             
-            arg_dict["sky_sky_top"] = Color("#9e1875")
-            arg_dict["sky_sky_horizon"] = Color("#d15e7d")
-            arg_dict["sky_sky_curve"] = 500
-            arg_dict["sky_ground_horizon"] = Color("#1d1f50")
-            arg_dict["sky_ground_bottom"] = Color("#070a1b")
+            arg_dict["sky_sky_top"] = Color("#45003c")
+            arg_dict["sky_sky_horizon"] = Color("#ff5e6e")
+            arg_dict["sky_sky_curve"] = 375
+            arg_dict["sky_ground_horizon"] = Color("#af0342")
+            arg_dict["sky_ground_bottom"] = Color("#45003c")
             arg_dict["sky_ground_curve"] = 200
             
             arg_dict["starfield_height"] = 5
