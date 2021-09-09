@@ -155,7 +155,7 @@ base_height_max = 10
 tower_height_min = 40
 tower_height_max = 70
 rotation_deviation = 60.0
-max_extra_space = 80
+max_extra_space = 100
 
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 20.0

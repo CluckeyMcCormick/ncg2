@@ -124,7 +124,7 @@ func _on_ProfileSelection_item_selected(index):
         "moon_color": Color.white,
         "moon_x_pos": -4.42,
         "moon_y_pos": 3.46,
-        "moon_size": 1,
+        "moon_size": 0.6,
     }
 
     match index:
@@ -212,6 +212,7 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["moon_visible"] = true
             arg_dict["moon_x_pos"] = 6.74
             arg_dict["moon_y_pos"] = 5.48
+            arg_dict["moon_size"] = 1
             
             assert_color_profile(arg_dict)
         4:
