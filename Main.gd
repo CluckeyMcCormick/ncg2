@@ -76,6 +76,19 @@ func assert_color_profile(arg_dict):
     _on_TypeC_ColorPickerButton_color_changed(arg_dict["stars_type_c_color"])
     $GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton.selected = arg_dict["stars_type_c_texture"]
     _on_TypeC_OptionButton_item_selected(arg_dict["stars_type_c_texture"])
+    
+    # Moon options
+    $GUI/Tabs/Moon/VBox/HBoxContainer/MoonVisCheckBox.pressed = arg_dict["moon_visible"]
+    _on_MoonVisCheckBox_toggled(arg_dict["moon_visible"])
+    $GUI/Tabs/Moon/VBox/HBoxContainer/MoonColorPickerButton.color = arg_dict["moon_color"]
+    _on_MoonColorPickerButton_color_changed(arg_dict["moon_color"])
+    $GUI/Tabs/Moon/VBox/HBoxPos/MoonXPosSpinBox.value = arg_dict["moon_x_pos"]
+    _on_MoonXPosSpinBox_value_changed(arg_dict["moon_x_pos"])
+    $GUI/Tabs/Moon/VBox/HBoxPos/MoonYPosSpinBox.value = arg_dict["moon_y_pos"]
+    _on_MoonYPosSpinBox_value_changed(arg_dict["moon_y_pos"])
+    $GUI/Tabs/Moon/VBox/HBoxSize/MoonSizeSpinBox.value = arg_dict["moon_size"]
+    _on_MoonSizeSpinBox_value_changed(arg_dict["moon_size"])
+
 
 func _on_ProfileSelection_item_selected(index):
     
@@ -106,8 +119,14 @@ func _on_ProfileSelection_item_selected(index):
         "stars_type_b_texture": 0,
         "stars_type_c_color": Color.white,
         "stars_type_c_texture": 0,
+        
+        "moon_visible": true,
+        "moon_color": Color.white,
+        "moon_x_pos": -4.42,
+        "moon_y_pos": 3.46,
+        "moon_size": 1,
     }
-    
+
     match index:
         0:
             # Default profile IS profile 0, so just pass it straight.
@@ -134,6 +153,8 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["starfield_scale_mean"] = 0.25
             arg_dict["starfield_scale_variance"] = 0.1
             
+            arg_dict["moon_visible"] = false
+            
             assert_color_profile(arg_dict)
             
         2:
@@ -156,6 +177,8 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["starfield_type_c_count"] = 4
             arg_dict["starfield_scale_mean"] = 0.5
             arg_dict["starfield_scale_variance"] = 0.5
+            
+            arg_dict["moon_visible"] = false
             
             assert_color_profile(arg_dict)
             
@@ -186,6 +209,10 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["stars_type_c_color"] = Color("#ffffff")
             arg_dict["stars_type_c_texture"] = 1
             
+            arg_dict["moon_visible"] = true
+            arg_dict["moon_x_pos"] = 6.74
+            arg_dict["moon_y_pos"] = 5.48
+            
             assert_color_profile(arg_dict)
         4:
             arg_dict["bld_base_color"] = Color("#00000000")
@@ -211,6 +238,8 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["stars_type_a_texture"] = 2
             arg_dict["stars_type_b_texture"] = 3
             arg_dict["stars_type_c_texture"] = 4
+            
+            arg_dict["moon_visible"] = false
             
             assert_color_profile(arg_dict)
         _:
@@ -394,3 +423,19 @@ func _on_TypeC_OptionButton_item_selected(index):
             mat.albedo_texture = mcc.s64_sparkle_c
         _:
             pass
+
+func _on_MoonVisCheckBox_toggled(button_pressed):
+    $UpCamera/CameraAlignedEffects/Moon.visible = button_pressed
+
+func _on_MoonColorPickerButton_color_changed(color):
+    mcc.moon_material.albedo_color = color
+
+func _on_MoonXPosSpinBox_value_changed(value):
+    $UpCamera/CameraAlignedEffects/Moon.translation.x = value
+
+func _on_MoonYPosSpinBox_value_changed(value):
+    $UpCamera/CameraAlignedEffects/Moon.translation.y = value
+
+func _on_MoonSizeSpinBox_value_changed(value):
+    $UpCamera/CameraAlignedEffects/Moon.mesh.radius = value
+    $UpCamera/CameraAlignedEffects/Moon.mesh.height = value * 2

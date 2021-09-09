@@ -38,5 +38,8 @@ const s64_sparkle_a = preload("res://effects/64Sparkles50a.png")
 const s64_sparkle_b = preload("res://effects/64Sparkles50b.png")
 const s64_sparkle_c = preload("res://effects/64Sparkles50c.png")
 
+# Load the moon material. NEEDS to be a var, not a const.
+var moon_material = preload("res://effects/MoonMaterial.tres")
+
 # This controls what materials new buildings come out as.
 var primary_material = dot_material

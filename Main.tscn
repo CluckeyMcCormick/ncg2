@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
+[ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
 [ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+
+[sub_resource type="SphereMesh" id=3]
 
 [sub_resource type="ProceduralSky" id=1]
 sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
@@ -34,6 +37,10 @@ transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -55 )
 transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, -1.90735e-06, 8, -3.8147e-06 )
 width = 22.0
 height = 10.0
+
+[node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 2 )
 
 [node name="BuildingRig" type="Spatial" parent="."]
 pause_mode = 1
@@ -170,6 +177,7 @@ __meta__ = {
 }
 
 [node name="Profiles" type="Tabs" parent="GUI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -182,12 +190,14 @@ tab_close_display_policy = 2
 [node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Profiles"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ProfileSelection" type="ItemList" parent="GUI/Tabs/Profiles/VBox"]
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 117.0
 items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null, false, "Hiroshi Nagai's Velvet Dream", null, false, "Sailor Moon", null, false, "New York via TWA", null, false, "Custom Scheme", null, false ]
 allow_reselect = true
@@ -206,8 +216,8 @@ rect_min_size = Vector2( 0, 174 )
 [node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Buildings"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
+margin_left = 10.0
+margin_right = -10.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -217,7 +227,7 @@ __meta__ = {
 
 [node name="GridContainer" type="GridContainer" parent="GUI/Tabs/Buildings/VBox"]
 margin_top = 25.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 117.0
 columns = 4
 
@@ -348,12 +358,12 @@ text = "#ABABAB"
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Buildings/VBox"]
 margin_top = 121.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 125.0
 
 [node name="TextureSelection" type="OptionButton" parent="GUI/Tabs/Buildings/VBox"]
 margin_top = 129.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 149.0
 text = "Dot Horizontal 25"
 items = [ "Dot Horizontal 25", null, false, 0, null, "Dot Horizontal 50", null, false, 1, null, "Dot Horizontal 75", null, false, 2, null, "Dot Horizontal 100", null, false, 3, null, "Dot Vertical 25", null, false, 4, null, "Dot Vertical 50", null, false, 5, null, "Dot Vertical 75", null, false, 6, null, "Dot Vertical 100", null, false, 7, null, "Square 25", null, false, 8, null, "Square 50", null, false, 9, null, "Square 75", null, false, 10, null, "Square 100", null, false, 11, null, "Smorgasbord 25", null, false, 12, null, "Smorgasbord 50", null, false, 13, null, "Smorgasbord 75", null, false, 14, null, "Smorgasbord 100", null, false, 15, null, "Everything Allsize", null, false, 16, null ]
@@ -372,8 +382,8 @@ tab_align = 0
 [node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Sky"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_right = -20.0
+margin_left = 10.0
+margin_right = -10.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -381,7 +391,7 @@ __meta__ = {
 
 [node name="SkyGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
 margin_top = 9.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 81.0
 columns = 4
 
@@ -472,12 +482,12 @@ value = 365.0
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Sky/VBox"]
 margin_top = 85.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 89.0
 
 [node name="GroundGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
 margin_top = 93.0
-margin_right = 294.0
+margin_right = 314.0
 margin_bottom = 165.0
 columns = 4
 
@@ -580,14 +590,15 @@ tab_close_display_policy = 2
 [node name="HBox" type="HBoxContainer" parent="GUI/Tabs/Starfield"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SpinGrid" type="GridContainer" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 6.0
-margin_right = 203.0
+margin_right = 197.0
 margin_bottom = 174.0
 columns = 2
 
@@ -684,26 +695,26 @@ max_value = 1.0
 step = 0.005
 
 [node name="ReferenceRect" type="ReferenceRect" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 207.0
-margin_right = 217.0
+margin_left = 201.0
+margin_right = 211.0
 margin_bottom = 174.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="VSeparator" type="VSeparator" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 221.0
-margin_right = 225.0
+margin_left = 215.0
+margin_right = 219.0
 margin_bottom = 174.0
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 229.0
-margin_right = 239.0
+margin_left = 223.0
+margin_right = 233.0
 margin_bottom = 174.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="RegenerateButton" type="Button" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 243.0
+margin_left = 237.0
 margin_top = 77.0
-margin_right = 327.0
+margin_right = 321.0
 margin_bottom = 97.0
 size_flags_vertical = 4
 text = "Regenerate"
@@ -720,6 +731,8 @@ margin_bottom = -4.0
 [node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Stars"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -727,24 +740,24 @@ __meta__ = {
 
 [node name="TypeALabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 18.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 32.0
 text = "Type A Controls"
 align = 1
 
 [node name="HBoxTypeA" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 36.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 56.0
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
-margin_right = 165.0
+margin_right = 155.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
-margin_left = 169.0
-margin_right = 334.0
+margin_left = 159.0
+margin_right = 314.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Dot"
@@ -753,7 +766,7 @@ selected = 0
 
 [node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 60.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 64.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -761,24 +774,24 @@ __meta__ = {
 
 [node name="TypeBLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 68.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 82.0
 text = "Type B Controls"
 align = 1
 
 [node name="HBoxTypeB" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 86.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 106.0
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
-margin_right = 165.0
+margin_right = 155.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
-margin_left = 169.0
-margin_right = 334.0
+margin_left = 159.0
+margin_right = 314.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Dot"
@@ -787,7 +800,7 @@ selected = 0
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 110.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 114.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -795,29 +808,134 @@ __meta__ = {
 
 [node name="TypeCLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 118.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 132.0
 text = "Type C Controls"
 align = 1
 
 [node name="HBoxTypeC" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
 margin_top = 136.0
-margin_right = 334.0
+margin_right = 314.0
 margin_bottom = 156.0
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
-margin_right = 165.0
+margin_right = 155.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
-margin_left = 169.0
-margin_right = 334.0
+margin_left = 159.0
+margin_right = 314.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "Dot"
 items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
 selected = 0
+
+[node name="Moon" type="Tabs" parent="GUI/Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Moon"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
+margin_top = 23.0
+margin_right = 314.0
+margin_bottom = 47.0
+
+[node name="MoonVisCheckBox" type="CheckBox" parent="GUI/Tabs/Moon/VBox/HBoxContainer"]
+margin_right = 71.0
+margin_bottom = 24.0
+text = "Visible"
+
+[node name="MoonColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Moon/VBox/HBoxContainer"]
+margin_left = 75.0
+margin_right = 314.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Tabs/Moon/VBox"]
+margin_top = 51.0
+margin_right = 314.0
+margin_bottom = 71.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="HBoxPos" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
+margin_top = 75.0
+margin_right = 314.0
+margin_bottom = 99.0
+
+[node name="XLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
+margin_top = 5.0
+margin_right = 64.0
+margin_bottom = 19.0
+text = "X Position"
+
+[node name="MoonXPosSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
+margin_left = 68.0
+margin_right = 142.0
+margin_bottom = 24.0
+min_value = -20.0
+max_value = 20.0
+step = 0.01
+
+[node name="VSeparator" type="VSeparator" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
+margin_left = 146.0
+margin_right = 150.0
+margin_bottom = 24.0
+
+[node name="YLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
+margin_left = 154.0
+margin_top = 5.0
+margin_right = 217.0
+margin_bottom = 19.0
+text = "Y Position"
+
+[node name="MoonYPosSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
+margin_left = 221.0
+margin_right = 295.0
+margin_bottom = 24.0
+min_value = -20.0
+max_value = 20.0
+step = 0.01
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Tabs/Moon/VBox"]
+margin_top = 103.0
+margin_right = 314.0
+margin_bottom = 123.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="HBoxSize" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
+margin_top = 127.0
+margin_right = 314.0
+margin_bottom = 151.0
+
+[node name="MoonSizeLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxSize"]
+margin_top = 5.0
+margin_right = 66.0
+margin_bottom = 19.0
+text = "Moon Size"
+
+[node name="MoonSizeSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxSize"]
+margin_left = 70.0
+margin_right = 144.0
+margin_bottom = 24.0
+min_value = 0.1
+max_value = 10.0
+step = 0.01
+value = 0.1
 
 [node name="Label" type="Label" parent="GUI"]
 margin_top = 214.0
@@ -855,3 +973,8 @@ environment = SubResource( 2 )
 [connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeB/OptionButton" to="." method="_on_TypeB_OptionButton_item_selected"]
 [connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeC/ColorPickerButton" to="." method="_on_TypeC_ColorPickerButton_color_changed"]
 [connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton" to="." method="_on_TypeC_OptionButton_item_selected"]
+[connection signal="toggled" from="GUI/Tabs/Moon/VBox/HBoxContainer/MoonVisCheckBox" to="." method="_on_MoonVisCheckBox_toggled"]
+[connection signal="color_changed" from="GUI/Tabs/Moon/VBox/HBoxContainer/MoonColorPickerButton" to="." method="_on_MoonColorPickerButton_color_changed"]
+[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonXPosSpinBox" to="." method="_on_MoonXPosSpinBox_value_changed"]
+[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonYPosSpinBox" to="." method="_on_MoonYPosSpinBox_value_changed"]
+[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxSize/MoonSizeSpinBox" to="." method="_on_MoonSizeSpinBox_value_changed"]
