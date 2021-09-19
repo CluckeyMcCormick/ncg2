@@ -3,6 +3,9 @@
 scripts/output_building.png
 scripts/component.png
 
+# TrenchBroom's autosave directory. Good for local stuff, bad for repo stuff.
+blocks/trenchbroom_maps/autosave
+
 # Godot-specific ignores
 .import/
 export.cfg

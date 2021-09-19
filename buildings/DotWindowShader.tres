@@ -33,7 +33,7 @@ uniform_name = "BlueDotColor"
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, unshaded, world_vertex_coords;
+render_mode depth_draw_alpha_prepass, specular_schlick_ggx, unshaded, world_vertex_coords;
 
 uniform vec4 BuildingColor : hint_color;
 uniform vec4 RedDotColor : hint_color;
@@ -109,7 +109,8 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -117.198, 300 )
+graph_offset = Vector2( 510.281, 191.25 )
+modes/depth_draw = 3
 flags/unshaded = true
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 900, 280 )
