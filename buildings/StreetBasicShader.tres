@@ -1,0 +1,43 @@
+[gd_resource type="VisualShader" load_steps=2 format=2]
+
+[sub_resource type="VisualShaderNodeColorUniform" id=1]
+output_port_for_preview = 0
+uniform_name = "StreetColor"
+
+[resource]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx, unshaded, world_vertex_coords;
+
+uniform vec4 StreetColor : hint_color;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// ColorUniform:3
+	vec3 n_out3p0 = StreetColor.rgb;
+	float n_out3p1 = StreetColor.a;
+
+// Output:0
+	ALBEDO = n_out3p0;
+	ALPHA = n_out3p1;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 510.281, 191.25 )
+flags/unshaded = true
+flags/world_vertex_coords = true
+nodes/fragment/0/position = Vector2( 1000, 280 )
+nodes/fragment/3/node = SubResource( 1 )
+nodes/fragment/3/position = Vector2( 620, 400 )
+nodes/fragment/connections = PoolIntArray( 3, 1, 0, 1, 3, 0, 0, 0 )
+nodes/light/0/position = Vector2( 1500, 260 )
