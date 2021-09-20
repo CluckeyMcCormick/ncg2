@@ -6,7 +6,7 @@ uniform_name = "StreetColor"
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, unshaded, world_vertex_coords;
+render_mode depth_draw_alpha_prepass, specular_schlick_ggx, unshaded, world_vertex_coords;
 
 uniform vec4 StreetColor : hint_color;
 
@@ -34,6 +34,7 @@ void light() {
 }
 "
 graph_offset = Vector2( 510.281, 191.25 )
+modes/depth_draw = 3
 flags/unshaded = true
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 1000, 280 )
