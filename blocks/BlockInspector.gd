@@ -2,7 +2,11 @@ extends Spatial
 
 const MAP_PATH = "res://blocks/trenchbroom_maps/"
 
+# The node-button for our block choice button button thing. It has a long path
+# and we use it a lot so we'll just stick it in this variable.
 onready var BLOCK_CHOICE_NODE = $GUI/Panel/HBox/VBox/BlockChoiceButton
+# Same situation with the Orthogonal Check Box Button.
+onready var ORTHO_BOX_NODE = $GUI/Panel/HBox/VBox2/OrthoCheckBox
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,6 +18,11 @@ func _ready():
     )
     # Start it up!
     $CameraPivot/Tween.start()
+    
+    # Make sure our GUI matches up with our default values
+    $GUI/Panel/HBox/VBox2/HeightSlider.value = $CameraPivot/Camera.translation.y
+    $GUI/Panel/HBox/VBox2/FOVSlider.value = $CameraPivot/Camera.fov
+    $GUI/Panel/HBox/VBox2/SizeSlider.value = $CameraPivot/Camera.size
     
     # Now we need to dynamically build up our list of blocks we can use. To do
     # so, we're gonna take a look at the blocks directory and see what we can
@@ -100,3 +109,23 @@ func _on_GoButton_pressed():
     # Finally, pass that derivative map into Qodot and rebuild.
     $QodotMap.map_file = ProjectSettings.globalize_path(new_map)
     $QodotMap.verify_and_build()
+
+func _on_HeightSlider_value_changed(value):
+    $CameraPivot/Camera.translation.y = value
+
+func _on_FOVSlider_value_changed(value):
+    $CameraPivot/Camera.fov = value
+
+func _on_SizeSlider_value_changed(value):
+    $CameraPivot/Camera.size = value
+
+func _on_OrthoCheckBox_toggled(button_pressed):
+    
+    $GUI/Panel/HBox/VBox2/FOVSlider.editable = not button_pressed
+    $GUI/Panel/HBox/VBox2/SizeSlider.editable = button_pressed
+    
+    if button_pressed:
+        $CameraPivot/Camera.projection = Camera.PROJECTION_ORTHOGONAL
+    else:
+        $CameraPivot/Camera.projection = Camera.PROJECTION_PERSPECTIVE
+    

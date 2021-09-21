@@ -58,8 +58,8 @@ __meta__ = {
 [node name="Panel" type="PanelContainer" parent="GUI"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 124.0
-margin_bottom = 114.0
+margin_right = 339.0
+margin_bottom = 212.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -67,19 +67,19 @@ __meta__ = {
 [node name="HBox" type="HBoxContainer" parent="GUI/Panel"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 135.0
-margin_bottom = 107.0
+margin_right = 332.0
+margin_bottom = 205.0
 alignment = 1
 
 [node name="ReferenceRect" type="ReferenceRect" parent="GUI/Panel/HBox"]
 margin_right = 10.0
-margin_bottom = 100.0
+margin_bottom = 198.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="VBox" type="VBoxContainer" parent="GUI/Panel/HBox"]
 margin_left = 14.0
 margin_right = 114.0
-margin_bottom = 100.0
+margin_bottom = 198.0
 rect_min_size = Vector2( 100, 100 )
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox/VBox"]
@@ -117,10 +117,128 @@ margin_right = 100.0
 margin_bottom = 94.0
 rect_min_size = Vector2( 0, 5 )
 
-[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox"]
+[node name="ReferenceRect4" type="ReferenceRect" parent="GUI/Panel/HBox"]
 margin_left = 118.0
 margin_right = 128.0
-margin_bottom = 100.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 10, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSeparator" type="VSeparator" parent="GUI/Panel/HBox"]
+margin_left = 132.0
+margin_right = 136.0
+margin_bottom = 198.0
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox"]
+margin_left = 140.0
+margin_right = 150.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 10, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox2" type="VBoxContainer" parent="GUI/Panel/HBox"]
+margin_left = 154.0
+margin_right = 311.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 100, 100 )
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox/VBox2"]
+margin_right = 157.0
+margin_bottom = 5.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="HeightLabel" type="Label" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 9.0
+margin_right = 157.0
+margin_bottom = 23.0
+text = "Camera Height"
+align = 1
+
+[node name="HeightSlider" type="HSlider" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 27.0
+margin_right = 157.0
+margin_bottom = 43.0
+max_value = 25.0
+step = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 47.0
+margin_right = 157.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="FOVLabel" type="Label" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 61.0
+margin_right = 157.0
+margin_bottom = 75.0
+text = "Perspective FOV"
+align = 1
+
+[node name="FOVSlider" type="HSlider" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 79.0
+margin_right = 157.0
+margin_bottom = 95.0
+max_value = 180.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect4" type="ReferenceRect" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 99.0
+margin_right = 157.0
+margin_bottom = 109.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="SizeLabel" type="Label" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 113.0
+margin_right = 157.0
+margin_bottom = 127.0
+text = "Orthogonal Size"
+align = 1
+
+[node name="SizeSlider" type="HSlider" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 131.0
+margin_right = 157.0
+margin_bottom = 147.0
+min_value = 10.0
+value = 10.0
+editable = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect5" type="ReferenceRect" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 151.0
+margin_right = 157.0
+margin_bottom = 161.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="OrthoCheckBox" type="CheckBox" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 165.0
+margin_right = 157.0
+margin_bottom = 189.0
+text = "Orthogonal Camera?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect3" type="ReferenceRect" parent="GUI/Panel/HBox/VBox2"]
+margin_top = 193.0
+margin_right = 157.0
+margin_bottom = 198.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="ReferenceRect3" type="ReferenceRect" parent="GUI/Panel/HBox"]
+margin_left = 315.0
+margin_right = 325.0
+margin_bottom = 198.0
 rect_min_size = Vector2( 10, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -128,3 +246,7 @@ __meta__ = {
 
 [connection signal="item_selected" from="GUI/Panel/HBox/VBox/BlockChoiceButton" to="." method="_on_BlockChoiceButton_item_selected"]
 [connection signal="pressed" from="GUI/Panel/HBox/VBox/GoButton" to="." method="_on_GoButton_pressed"]
+[connection signal="value_changed" from="GUI/Panel/HBox/VBox2/HeightSlider" to="." method="_on_HeightSlider_value_changed"]
+[connection signal="value_changed" from="GUI/Panel/HBox/VBox2/FOVSlider" to="." method="_on_FOVSlider_value_changed"]
+[connection signal="value_changed" from="GUI/Panel/HBox/VBox2/SizeSlider" to="." method="_on_SizeSlider_value_changed"]
+[connection signal="toggled" from="GUI/Panel/HBox/VBox2/OrthoCheckBox" to="." method="_on_OrthoCheckBox_toggled"]
