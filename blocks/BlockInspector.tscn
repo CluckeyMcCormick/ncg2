@@ -1,10 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=1]
 [ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=3]
 [ext_resource path="res://blocks/BlockInspector.gd" type="Script" id=5]
 
 [sub_resource type="SpatialMaterial" id=1]
+
+[sub_resource type="QuadMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
 
 [node name="BlockInspector" type="Spatial"]
 script = ExtResource( 5 )
@@ -28,6 +33,11 @@ use_trenchbroom_group_hierarchy = false
 tree_attach_batch_size = 16
 set_owner_batch_size = 16
 
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.2, 0 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 3 )
+
 [node name="CameraPivot" type="Spatial" parent="."]
 
 [node name="Tween" type="Tween" parent="CameraPivot"]
@@ -37,3 +47,84 @@ playback/repeat = true
 [node name="Camera" type="Camera" parent="CameraPivot"]
 transform = Transform( 1, 0, 0, 0, 0.816682, 0.577088, 0, -0.577088, 0.816682, 0, 10, 12 )
 size = 25.0
+
+[node name="GUI" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="PanelContainer" parent="GUI"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 124.0
+margin_bottom = 114.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="GUI/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 135.0
+margin_bottom = 107.0
+alignment = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Panel/HBox"]
+margin_right = 10.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="VBox" type="VBoxContainer" parent="GUI/Panel/HBox"]
+margin_left = 14.0
+margin_right = 114.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox/VBox"]
+margin_right = 100.0
+margin_bottom = 5.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="BlockLabel" type="Label" parent="GUI/Panel/HBox/VBox"]
+margin_top = 9.0
+margin_right = 100.0
+margin_bottom = 23.0
+text = "Current Block"
+align = 1
+
+[node name="BlockChoiceButton" type="OptionButton" parent="GUI/Panel/HBox/VBox"]
+margin_top = 27.0
+margin_right = 100.0
+margin_bottom = 47.0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Panel/HBox/VBox"]
+margin_top = 51.0
+margin_right = 100.0
+margin_bottom = 61.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="GoButton" type="Button" parent="GUI/Panel/HBox/VBox"]
+margin_top = 65.0
+margin_right = 100.0
+margin_bottom = 85.0
+text = "Go!"
+
+[node name="ReferenceRect3" type="ReferenceRect" parent="GUI/Panel/HBox/VBox"]
+margin_top = 89.0
+margin_right = 100.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 0, 5 )
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Panel/HBox"]
+margin_left = 118.0
+margin_right = 128.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 10, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="item_selected" from="GUI/Panel/HBox/VBox/BlockChoiceButton" to="." method="_on_BlockChoiceButton_item_selected"]
+[connection signal="pressed" from="GUI/Panel/HBox/VBox/GoButton" to="." method="_on_GoButton_pressed"]
