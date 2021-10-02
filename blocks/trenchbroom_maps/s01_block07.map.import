@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/s01_block07.map-f54eadc4ca4fb85c3aaa4e2f5a4ab20b.tres"
+
+[deps]
+
+source_file="res://blocks/trenchbroom_maps/s01_block07.map"
+dest_files=[ "res://.import/s01_block07.map-f54eadc4ca4fb85c3aaa4e2f5a4ab20b.tres" ]
+
+[params]
+
