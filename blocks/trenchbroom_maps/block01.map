@@ -4,6 +4,8 @@
 {
 "classname" "worldspawn"
 "_tb_textures" "textures;textures/special"
+"max_height" "13"
+"min_height" "7"
 // brush 0
 {
 ( 320 64 576 ) ( 320 -512 576 ) ( 320 -512 128 ) building_horizontal_window 192 192 0 1 1
