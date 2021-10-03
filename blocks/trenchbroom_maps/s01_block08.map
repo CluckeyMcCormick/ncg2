@@ -3,14 +3,14 @@
 // entity 0
 {
 "classname" "worldspawn"
-"_tb_textures" "textures;textures/special"
+"_tb_textures" "textures;textures/special;textures/voronoi"
 "max_height" "12"
 "min_height" "6"
 // brush 0
 {
 ( -512 512 0 ) ( -512 -512 0 ) ( -512 -512 -64 ) street 0 0 0 1 1
 ( -512 -512 0 ) ( 512 -512 0 ) ( 512 -512 -64 ) street 0 0 0 1 1
-( 512 -512 -64 ) ( 512 512 -64 ) ( -512 512 -64 ) street 0 0 0 1 1
+( 512 -512 -64 ) ( 512 512 -64 ) ( -512 512 -64 ) street -512 512 0 1 1
 ( -512 512 0 ) ( 512 512 0 ) ( 512 -512 0 ) street 0 0 0 1 1
 ( 512 512 -64 ) ( 512 512 0 ) ( -512 512 0 ) street 0 0 0 1 1
 ( 512 -512 0 ) ( 512 512 0 ) ( 512 512 -64 ) street 0 0 0 1 1
