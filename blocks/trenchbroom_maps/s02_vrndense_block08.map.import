@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/s02_vrndense_block08.map-8a9c5674f604f5441fc625bd5cdea19e.tres"
+
+[deps]
+
+source_file="res://blocks/trenchbroom_maps/s02_vrndense_block08.map"
+dest_files=[ "res://.import/s02_vrndense_block08.map-8a9c5674f604f5441fc625bd5cdea19e.tres" ]
+
+[params]
+

@@ -1,0 +1,127 @@
+// Game: Neon City Generator 2.0
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_textures" "textures;textures/special;textures/voronoi"
+"max_height" "10"
+"min_height" "5"
+"voronoi_pattern" "bt_sc030_se009"
+// brush 0
+{
+( -512 512 0 ) ( -512 -512 0 ) ( -512 -512 -64 ) street 0 0 0 1 1
+( -512 -512 0 ) ( 512 -512 0 ) ( 512 -512 -64 ) street 0 0 0 1 1
+( 512 -512 -64 ) ( 512 512 -64 ) ( -512 512 -64 ) street -512 512 0 1 1
+( -512 512 0 ) ( 512 512 0 ) ( 512 -512 0 ) street 512 512 0 1 1
+( 512 512 -64 ) ( 512 512 0 ) ( -512 512 0 ) street 0 0 0 1 1
+( 512 -512 0 ) ( 512 512 0 ) ( 512 512 -64 ) street 0 0 0 1 1
+}
+// brush 1
+{
+( -512 -128 0 ) ( -512 -127 0 ) ( -512 -128 1 ) building_no_window 0 0 0 1 1
+( -512 -128 0 ) ( -512 -128 1 ) ( -511 -128 0 ) building_no_window 0 0 0 1 1
+( -512 -128 0 ) ( -511 -128 0 ) ( -512 -127 0 ) special/skip 0 0 0 1 1
+( 64 512 128 ) ( 64 513 128 ) ( 65 512 128 ) special/skip 0 0 0 1 1
+( 64 512 64 ) ( 65 512 64 ) ( 64 512 65 ) building_no_window 0 0 0 1 1
+( 64 512 64 ) ( 64 512 65 ) ( 64 513 64 ) building_no_window 0 0 0 1 1
+}
+// brush 2
+{
+( -512 -512 0 ) ( -512 -511 0 ) ( -512 -512 1 ) building_no_window 0 0 0 1 1
+( -512 -512 0 ) ( -512 -512 1 ) ( -511 -512 0 ) building_no_window 0 0 0 1 1
+( -512 -512 0 ) ( -511 -512 0 ) ( -512 -511 0 ) special/skip 0 0 0 1 1
+( -128 -128 128 ) ( -128 -127 128 ) ( -127 -128 128 ) special/skip 0 0 0 1 1
+( -128 -128 64 ) ( -127 -128 64 ) ( -128 -128 65 ) special/skip 0 0 0 1 1
+( -128 -128 64 ) ( -128 -128 65 ) ( -128 -127 64 ) building_no_window 0 0 0 1 1
+}
+// brush 3
+{
+( -64 -448 0 ) ( -64 -447 0 ) ( -64 -448 1 ) building_no_window 0 0 0 1 1
+( -64 -448 0 ) ( -64 -448 1 ) ( -63 -448 0 ) building_no_window 0 0 0 1 1
+( -64 -448 0 ) ( -63 -448 0 ) ( -64 -447 0 ) special/skip 0 0 0 1 1
+( 448 -192 128 ) ( 448 -191 128 ) ( 449 -192 128 ) special/skip 0 0 0 1 1
+( 448 -192 64 ) ( 449 -192 64 ) ( 448 -192 65 ) building_no_window 0 0 0 1 1
+( 448 -192 64 ) ( 448 -192 65 ) ( 448 -191 64 ) building_no_window 0 0 0 1 1
+}
+// brush 4
+{
+( 128 -192 0 ) ( 128 -191 0 ) ( 128 -192 1 ) building_no_window 0 0 0 1 1
+( 128 -192 0 ) ( 128 -192 1 ) ( 129 -192 0 ) special/skip 0 0 0 1 1
+( 128 -192 0 ) ( 129 -192 0 ) ( 128 -191 0 ) special/skip 0 0 0 1 1
+( 448 256 128 ) ( 448 257 128 ) ( 449 256 128 ) special/skip 0 0 0 1 1
+( 448 256 64 ) ( 449 256 64 ) ( 448 256 65 ) building_no_window 0 0 0 1 1
+( 448 256 64 ) ( 448 256 65 ) ( 448 257 64 ) building_no_window 0 0 0 1 1
+}
+// brush 5
+{
+( 128 320 0 ) ( 128 321 0 ) ( 128 320 1 ) building_no_window 0 0 0 1 1
+( 128 320 0 ) ( 128 320 1 ) ( 129 320 0 ) building_no_window 0 0 0 1 1
+( 128 320 0 ) ( 129 320 0 ) ( 128 321 0 ) special/skip 0 0 0 1 1
+( 512 512 128 ) ( 512 513 128 ) ( 513 512 128 ) special/skip 0 0 0 1 1
+( 512 512 64 ) ( 513 512 64 ) ( 512 512 65 ) building_no_window 0 0 0 1 1
+( 512 512 64 ) ( 512 512 65 ) ( 512 513 64 ) building_no_window 0 0 0 1 1
+}
+// brush 6
+{
+( 448 -320 0 ) ( 448 -319 0 ) ( 448 -320 1 ) special/skip 0 0 0 1 1
+( 448 -320 0 ) ( 448 -320 1 ) ( 449 -320 0 ) building_no_window 0 0 0 1 1
+( 448 -320 0 ) ( 449 -320 0 ) ( 448 -319 0 ) special/skip 0 0 0 1 1
+( 512 192 128 ) ( 512 193 128 ) ( 513 192 128 ) special/skip 0 0 0 1 1
+( 512 192 64 ) ( 513 192 64 ) ( 512 192 65 ) building_no_window 0 0 0 1 1
+( 512 192 64 ) ( 512 192 65 ) ( 512 193 64 ) building_no_window 0 0 0 1 1
+}
+// brush 7
+{
+( -512 -128 128 ) ( -512 -127 128 ) ( -512 -128 129 ) building_horizontal_window 0 0 0 1 1
+( -512 -128 128 ) ( -512 -128 129 ) ( -511 -128 128 ) building_horizontal_window 0 0 0 1 1
+( -512 -128 128 ) ( -511 -128 128 ) ( -512 -127 128 ) special/skip 0 0 0 1 1
+( 64 512 512 ) ( 64 513 512 ) ( 65 512 512 ) building_no_window 0 0 0 1 1
+( 64 512 192 ) ( 65 512 192 ) ( 64 512 193 ) building_horizontal_window 0 0 0 1 1
+( 64 512 192 ) ( 64 512 193 ) ( 64 513 192 ) building_horizontal_window 0 0 0 1 1
+}
+// brush 8
+{
+( -512 -512 128 ) ( -512 -511 128 ) ( -512 -512 129 ) building_horizontal_window 0 0 0 1 1
+( -512 -512 128 ) ( -512 -512 129 ) ( -511 -512 128 ) building_horizontal_window 0 0 0 1 1
+( -512 -512 128 ) ( -511 -512 128 ) ( -512 -511 128 ) special/skip 0 0 0 1 1
+( -128 -128 320 ) ( -128 -127 320 ) ( -127 -128 320 ) building_no_window 0 0 0 1 1
+( -128 -128 192 ) ( -127 -128 192 ) ( -128 -128 193 ) special/skip 0 0 0 1 1
+( -128 -128 192 ) ( -128 -128 193 ) ( -128 -127 192 ) building_horizontal_window 0 0 0 1 1
+}
+// brush 9
+{
+( 448 -320 128 ) ( 448 -319 128 ) ( 448 -320 129 ) special/skip 0 0 0 1 1
+( 448 -320 128 ) ( 448 -320 129 ) ( 449 -320 128 ) building_horizontal_window 0 0 0 1 1
+( 448 -320 128 ) ( 449 -320 128 ) ( 448 -319 128 ) special/skip 0 0 0 1 1
+( 512 192 320 ) ( 512 193 320 ) ( 513 192 320 ) building_no_window 0 0 0 1 1
+( 512 192 192 ) ( 513 192 192 ) ( 512 192 193 ) building_horizontal_window 0 0 0 1 1
+( 512 192 192 ) ( 512 192 193 ) ( 512 193 192 ) building_horizontal_window 0 0 0 1 1
+}
+// brush 10
+{
+( 128 -192 128 ) ( 128 -191 128 ) ( 128 -192 129 ) building_horizontal_window 0 0 0 1 1
+( 128 -192 128 ) ( 128 -192 129 ) ( 129 -192 128 ) building_horizontal_window 0 0 0 1 1
+( 128 -192 128 ) ( 129 -192 128 ) ( 128 -191 128 ) special/skip 0 0 0 1 1
+( 448 256 640 ) ( 448 257 640 ) ( 449 256 640 ) building_no_window 0 0 0 1 1
+( 448 256 192 ) ( 449 256 192 ) ( 448 256 193 ) building_horizontal_window 0 0 0 1 1
+( 448 256 192 ) ( 448 256 193 ) ( 448 257 192 ) building_horizontal_window 0 0 0 1 1
+}
+// brush 11
+{
+( -64 -448 128 ) ( -64 -447 128 ) ( -64 -448 129 ) building_horizontal_window 0 0 0 1 1
+( -64 -448 128 ) ( -64 -448 129 ) ( -63 -448 128 ) building_horizontal_window 0 0 0 1 1
+( -64 -448 128 ) ( -63 -448 128 ) ( -64 -447 128 ) special/skip 0 0 0 1 1
+( 448 -192 384 ) ( 448 -191 384 ) ( 449 -192 384 ) building_no_window 0 0 0 1 1
+( 448 -192 192 ) ( 449 -192 192 ) ( 448 -192 193 ) building_horizontal_window 0 0 0 1 1
+( 448 -192 192 ) ( 448 -192 193 ) ( 448 -191 192 ) building_horizontal_window 0 0 0 1 1
+}
+// brush 12
+{
+( 128 320 128 ) ( 128 321 128 ) ( 128 320 129 ) building_horizontal_window 0 0 0 1 1
+( 128 320 128 ) ( 128 320 129 ) ( 129 320 128 ) building_horizontal_window 0 0 0 1 1
+( 128 320 128 ) ( 129 320 128 ) ( 128 321 128 ) special/skip 0 0 0 1 1
+( 512 512 320 ) ( 512 513 320 ) ( 513 512 320 ) building_no_window 0 0 0 1 1
+( 512 512 192 ) ( 513 512 192 ) ( 512 512 193 ) building_horizontal_window 0 0 0 1 1
+( 512 512 192 ) ( 512 512 193 ) ( 512 513 192 ) building_horizontal_window 0 0 0 1 1
+}
+}
