@@ -24,6 +24,10 @@ func _ready():
     $GUI/Panel/HBox/VBox2/FOVSlider.value = $CameraPivot/Camera.fov
     $GUI/Panel/HBox/VBox2/SizeSlider.value = $CameraPivot/Camera.size
     
+    # We'll stick all of the block file names/paths in this list so we can sort
+    # them.
+    var block_list = []
+    
     # Now we need to dynamically build up our list of blocks we can use. To do
     # so, we're gonna take a look at the blocks directory and see what we can
     # do.
@@ -46,13 +50,20 @@ func _ready():
             # AND it is a .map file but is NOT a .import file...
             if ".map" in file_name and not (".import" in file_name):
                 # Then add it to the choice list!
-                BLOCK_CHOICE_NODE.add_item(file_name)
+                block_list.append(file_name)
         # Now that we've checked the filename and done any necessary actions,
         # get the next file name.
         file_name = dir.get_next()
     
     # Finish off the directory listing processing... thing.
     dir.list_dir_end()
+    
+    # Sort the list so it's in some sensical order
+    block_list.sort()
+    
+    # Now add each block to the list/choices
+    for block_map_name in block_list:
+        BLOCK_CHOICE_NODE.add_item(block_map_name)
     
     # Now, get the ID of the selected map. This should be the first one, by
     # default.
