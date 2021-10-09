@@ -200,7 +200,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Neon City Generator 2.0"
+config/name="NCG2.0"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
