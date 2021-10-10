@@ -221,7 +221,7 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/qodot/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/imjp94.yafsm/plugin.cfg", "res://addons/qodot/plugin.cfg" )
 
 [input]
 
