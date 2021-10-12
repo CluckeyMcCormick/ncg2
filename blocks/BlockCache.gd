@@ -172,3 +172,7 @@ func make_single_derivative(in_path, out_path):
 
     in_map.close()
     out_map.close()
+
+func get_random_map():
+    var index = randi() % len(map_to_node.keys())
+    return map_to_node.keys()[index]

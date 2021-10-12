@@ -1,5 +1,7 @@
 extends Spatial
 
+const LINEAR_CITY = preload("res://cities/LinearCity.tscn")
+
 # The co-routine return value. We use this to build up all the blocks
 # progressively
 var co_ro
@@ -17,6 +19,8 @@ func _on_StateMachinePlayer_transited(from, to):
     # First, handle any cleanup.
     match from:
         "Entry":
+            # Yield for one second before continuing. Saves us a crash, for some
+            # reason or another.
             yield(get_tree().create_timer(1.0), "timeout")
         
         "CacheBuild":
@@ -54,7 +58,14 @@ func _on_StateMachinePlayer_transited(from, to):
             $BlockBuildTimer.start()
             
         "PerspectiveCity":
-            pass
+            # Set the Perspective Camera to be the "current" camera.
+            $OrthoCamera.current = false
+            $PerspCamera.current = true
+            
+            var lc = LINEAR_CITY.instance()
+            lc.block_cache = $BlockCache
+            self.add_child(lc)
+            
         "OrthogonalCity":
             pass
         _:
