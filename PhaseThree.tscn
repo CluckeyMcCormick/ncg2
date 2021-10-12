@@ -131,3 +131,4 @@ script = ExtResource( 4 )
 state_machine = SubResource( 12 )
 
 [connection signal="transited" from="StateMachinePlayer" to="." method="_on_StateMachinePlayer_transited"]
+[connection signal="updated" from="StateMachinePlayer" to="." method="_on_StateMachinePlayer_updated"]

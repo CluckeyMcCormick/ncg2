@@ -1,6 +1,10 @@
 extends Spatial
 
+# Preload the Linear City scene, so we can spawn it in once we're ready
 const LINEAR_CITY = preload("res://cities/LinearCity.tscn")
+# The camera moves in all sorts of different directions, but at what speed does
+# it move?
+const CAMERA_MOVE_SPEED = 2
 
 # The co-routine return value. We use this to build up all the blocks
 # progressively
@@ -95,3 +99,16 @@ func _CacheBuild_on_BlockBuildTimer_timeout():
 # Whenever the BlockCache builds a block, update the Camera position.
 func _CacheBuild_on_BlockCache_block_built(godot_path, real_path, local_pos, global_pos):
     $OrthoCamera.global_transform.origin = global_pos + ortho_shift
+
+
+func _on_StateMachinePlayer_updated(state, delta):
+    # Next, handle entry into the state
+    match state:
+        "PerspectiveCity":
+            var translator = (Vector3.RIGHT * CAMERA_MOVE_SPEED ) * delta
+            $PerspCamera.global_transform.origin += translator
+            
+        "OrthogonalCity":
+            pass
+        _:
+            pass

@@ -43,7 +43,7 @@ func _on_any_block_on_screen(facsimilie_block):
         left_block.right_neighbor = facsimilie_block
         
         # Adjust the translation of the left block
-        left_block.translation = Vector3.LEFT * (block_cache.BLOCK_SIDE_LENGTH / 2)
+        left_block.translation = Vector3.LEFT * block_cache.BLOCK_SIDE_LENGTH
         left_block.translation += facsimilie_block.translation
         
         # Give it the group
@@ -62,7 +62,7 @@ func _on_any_block_on_screen(facsimilie_block):
         right_block.left_neighbor = facsimilie_block
         
         # Adjust the translation of the right block
-        right_block.translation = Vector3.RIGHT * (block_cache.BLOCK_SIDE_LENGTH / 2)
+        right_block.translation = Vector3.RIGHT * block_cache.BLOCK_SIDE_LENGTH
         right_block.translation += facsimilie_block.translation
         
         # Hook in the signal
