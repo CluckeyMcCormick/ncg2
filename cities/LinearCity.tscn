@@ -2,5 +2,7 @@
 
 [ext_resource path="res://cities/LinearCity.gd" type="Script" id=1]
 
-[node name="LinearCity" type="Spatial"]
+[node name="LinearCity" type="Spatial" groups=[
+"LinearCity",
+]]
 script = ExtResource( 1 )

@@ -4,7 +4,16 @@ extends Spatial
 # use to quickly and easily extract the mesh from a Qodot block. 
 const WORLDSPAWN_PATH = "/entity_0_worldspawn/entity_0_mesh_instance"
 
-signal block_on_screen(facsimilie_block)
+# Unfortunately, you can't have multiple instances of the same scene/node attach
+# to the same function for the same signal. So, instead, we're going to use
+# Godot's groups, which basically works out as a many-to-many signal.
+var parent_city_group
+
+# These will point to our left and right neighbor blocks, and will thusly be
+# used for determining if we even HAVE neighbors. This is meant to be set via
+# code by some sort of controlling entity.
+var left_neighbor = null
+var right_neighbor = null
 
 # Although all the blocks are the same size, there's a lot of translation
 # between different formats and the exact size/scale may mutate. Ergo, we need
@@ -21,9 +30,14 @@ func update_block_visibility(godot_block_length, godot_max_height):
     $VisibilityNotifier.aabb.position.y = -1
     $VisibilityNotifier.aabb.position.z = -godot_block_length
 
-# When the PopupBlock enters the screen, send a signal to anyone who's listening
+# When the FacsimilieBlock enters the screen, call the parent group to handle
+# it.
 func _on_VisibilityNotifier_screen_entered():
-    emit_signal("block_on_screen", self)
+    get_tree().call_group(
+        parent_city_group,          # Group Name
+        "_on_any_block_on_screen",  # Function-to-call
+        self                        # 1st function argument: FacsimilieBlock
+    )
 
 func copy_qodot_block(qodot_node):
     var mesh_path = str( qodot_node.get_path() ) + WORLDSPAWN_PATH

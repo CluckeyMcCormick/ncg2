@@ -64,7 +64,11 @@ func _on_StateMachinePlayer_transited(from, to):
             
             var lc = LINEAR_CITY.instance()
             lc.block_cache = $BlockCache
+            lc.translation = Vector3(6, 0, -10) # Chosen to be on-camera
             self.add_child(lc)
+            
+            # Hide the cache
+            $BlockCache.visible = false
             
         "OrthogonalCity":
             pass
