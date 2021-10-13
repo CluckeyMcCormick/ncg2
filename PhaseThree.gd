@@ -100,7 +100,6 @@ func _CacheBuild_on_BlockBuildTimer_timeout():
 func _CacheBuild_on_BlockCache_block_built(godot_path, real_path, local_pos, global_pos):
     $OrthoCamera.global_transform.origin = global_pos + ortho_shift
 
-
 func _on_StateMachinePlayer_updated(state, delta):
     # Next, handle entry into the state
     match state:
