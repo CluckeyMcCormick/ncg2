@@ -5,6 +5,10 @@ const LINEAR_CITY = preload("res://cities/LinearCity.tscn")
 # The camera moves in all sorts of different directions, but at what speed does
 # it move?
 const CAMERA_MOVE_SPEED = 2
+# In order to stop the camera from scrolling into infinity, we snap-adjust the
+# camera and the blocks whenever the camera moves past this point on it's
+# axis-of-movement.
+const MAX_AXIS_POSITION = 50
 
 # The co-routine return value. We use this to build up all the blocks
 # progressively
@@ -104,8 +108,25 @@ func _on_StateMachinePlayer_updated(state, delta):
     # Next, handle entry into the state
     match state:
         "PerspectiveCity":
+            # Move the camera right at the camera's speed
             var translator = (Vector3.RIGHT * CAMERA_MOVE_SPEED ) * delta
             $PerspCamera.global_transform.origin += translator
+            
+            # If we've gone over the MAX_AXIS_POSITION...
+            if $PerspCamera.global_transform.origin.x > MAX_AXIS_POSITION:
+                # Then we need to shift everything to the left! By shifting
+                # everything by the same amount at the same time, the user
+                # SHOULD experience no interruption
+                translator = Vector3.LEFT
+                translator *= floor($PerspCamera.global_transform.origin.x)
+                # Shift the camera
+                $PerspCamera.global_transform.origin += translator
+                # Shift all of the blocks down
+                get_tree().call_group(
+                    "blocks",    # Group Name
+                    "translate", # Function-to-call
+                    translator   # 1st function argument: FacsimilieBlock
+                )
             
         "OrthogonalCity":
             pass
