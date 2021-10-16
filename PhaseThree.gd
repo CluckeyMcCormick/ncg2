@@ -19,6 +19,11 @@ var co_ro
 onready var ortho_shift = $OrthoCamera.translation
 
 func _ready():
+    var vecto = Vector3.FORWARD
+    vecto = Vector3.FORWARD.rotated(Vector3.UP, deg2rad(-20))
+    print(vecto, " -> ", vecto.angle_to(Vector3.FORWARD))
+    print(vecto, " -> ", rad2deg(vecto.angle_to(Vector3.FORWARD)))
+    
     yield(get_tree().create_timer(1.0), "timeout")
 
 func _on_StateMachinePlayer_transited(from, to):
@@ -72,7 +77,11 @@ func _on_StateMachinePlayer_transited(from, to):
             
             var lc = LINEAR_CITY.instance()
             lc.block_cache = $BlockCache
-            lc.translation = Vector3(6, 0, -10) # Chosen to be on-camera
+            lc.camera_vector = Vector3.FORWARD.rotated(
+                Vector3.UP, 
+                deg2rad($PerspCamera.rotation_degrees.y)
+            )
+            #lc.translation = Vector3(6, 0, -10) # Chosen to be on-camera
             self.add_child(lc)
             
             # Hide the cache
