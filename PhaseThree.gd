@@ -123,7 +123,7 @@ func _on_StateMachinePlayer_updated(state, delta):
                 $PerspCamera.global_transform.origin += translator
                 # Shift all of the blocks down
                 get_tree().call_group(
-                    "blocks",    # Group Name
+                    $LinearCity.CITY_BLOCKS_NAME, # Group Name
                     "translate", # Function-to-call
                     translator   # 1st function argument: FacsimilieBlock
                 )

@@ -49,7 +49,7 @@ func _on_VisibilityNotifier_screen_entered():
 func _on_VisibilityNotifier_screen_exited():
     # Hide the mesh
     $BlockMesh.visible = false
-    
+    # Call the appropriate exit function on our parent city group
     get_tree().call_group(
         parent_city_group,          # Group Name
         "_on_any_block_exit_screen",  # Function-to-call

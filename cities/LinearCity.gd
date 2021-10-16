@@ -4,8 +4,11 @@ extends Spatial
 const FACSIMILIE_BLOCK = preload("res://blocks/FacsimilieBlock.tscn")
 
 # What's the group name we'll provide to the facsimilie blocks - so we know when
-# any block enters the screen?
-const GROUP_NAME = "LinearCity"
+# any block enters or exits the screen?
+const CITY_GROUP_NAME = "LinearCity"
+
+# What's the name we use for blocks in this specific city?
+const CITY_BLOCKS_NAME = "LinearCityBlocks"
 
 # The block cache we'll use to set the buildings/meshes of our various
 # Facsimilie Blocks. This needs to be set via code.
@@ -23,7 +26,10 @@ func _ready():
     
     # Give it our first group! We'll just assume that's what we'll need. Yeah,
     # that probably won't backfire.
-    seed_block.parent_city_group = GROUP_NAME
+    seed_block.parent_city_group = CITY_GROUP_NAME
+    
+    # Set the group for the block
+    seed_block.add_to_group(CITY_BLOCKS_NAME)
     
     # STICK IT!
     self.add_child(seed_block)
@@ -46,8 +52,11 @@ func _on_any_block_enter_screen(facsimilie_block):
         left_block.translation = Vector3.LEFT * block_cache.BLOCK_SIDE_LENGTH
         left_block.translation += facsimilie_block.translation
         
-        # Give it the group
-        left_block.parent_city_group = GROUP_NAME
+        # Give it the parent group
+        left_block.parent_city_group = CITY_GROUP_NAME
+        
+        # Set the group for the block
+        left_block.add_to_group(CITY_BLOCKS_NAME)
         
         # STICK IT!
         self.add_child(left_block)
@@ -65,8 +74,11 @@ func _on_any_block_enter_screen(facsimilie_block):
         right_block.translation = Vector3.RIGHT * block_cache.BLOCK_SIDE_LENGTH
         right_block.translation += facsimilie_block.translation
         
-        # Give it the group
-        right_block.parent_city_group = GROUP_NAME
+        # Give it the parent group
+        right_block.parent_city_group = CITY_GROUP_NAME
+
+        # Set the group for the block
+        right_block.add_to_group(CITY_BLOCKS_NAME)
         
         # STICK IT!
         self.add_child(right_block)
