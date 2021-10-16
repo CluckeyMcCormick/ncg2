@@ -28,7 +28,7 @@ func _ready():
     # STICK IT!
     self.add_child(seed_block)
 
-func _on_any_block_on_screen(facsimilie_block):
+func _on_any_block_enter_screen(facsimilie_block):
     # First, give the requesting block a Qodot mesh
     var chosen_map = block_cache.get_random_map()
     facsimilie_block.copy_qodot_block(block_cache.map_to_node[chosen_map])
@@ -65,9 +65,34 @@ func _on_any_block_on_screen(facsimilie_block):
         right_block.translation = Vector3.RIGHT * block_cache.BLOCK_SIDE_LENGTH
         right_block.translation += facsimilie_block.translation
         
-        # Hook in the signal
+        # Give it the group
         right_block.parent_city_group = GROUP_NAME
         
         # STICK IT!
         self.add_child(right_block)
+
+func _on_any_block_exit_screen(facsimilie_block):
+    # First, get the left & right neighbor blocks in some shorthand variables
+    var left = facsimilie_block.left_neighbor
+    var right = facsimilie_block.right_neighbor
     
+    # Secondly, wrap the neighbors in weak references 
+    var weak_left = weakref(left)
+    var weak_right = weakref(right)
+    
+    # If we have a left neighbor, and the left neighbor is not visible, then
+    # free the neighbor.
+    if weak_left.get_ref() and not left.is_effectively_visibile():
+        left.queue_free()
+        facsimilie_block.left_neighbor = null
+
+    # If we have a right neighbor, and the right neighbor is not visible, then
+    # free the neighbor.
+    if weak_right.get_ref() and not right.is_effectively_visibile():
+        right.queue_free()
+        facsimilie_block.right_neighbor = null
+    
+    # If we don't have a left neighbor or a right neighbor, then we're an
+    # orphan. Let's free ourselves!
+    if (not weak_left.get_ref()) and (not weak_right.get_ref()):
+        facsimilie_block.queue_free()

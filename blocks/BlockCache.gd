@@ -20,15 +20,15 @@ const BLOCKS_PER_ROW = 10
 # WHAT VALUE DO WE RETURN WHEN the Build All Blocks function succeeds?
 const BUILD_ALL_SUCCESS = 0
 
-# Here's where we'll stick the QodotMaps once we've built them - it what we'll
-# use to quickly get info from the node.
-var map_to_node = {}
-
 # Fires every time a block is built. Gives the godot file path (i.e. user:// or
 # res://), the real file path (i.e. /home/developer/...), as well as the local
 # and global positions. Not really that necessary, but useful for debuggery and
 # similar situations.
 signal block_built(godot_path, real_path, local_pos, global_pos)
+
+# Here's where we'll stick the QodotMaps once we've built them - it what we'll
+# use to quickly get info from the node.
+var map_to_node = {}
 
 func build_all_blocks(yield_after_build=true):
     # Create a blank file pointer - we need this to test whether files exist or

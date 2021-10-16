@@ -36,39 +36,25 @@ func is_effectively_visibile():
 # When the FacsimilieBlock enters the screen, call the parent group to handle
 # it.
 func _on_VisibilityNotifier_screen_entered():
-    get_tree().call_group(
-        parent_city_group,          # Group Name
-        "_on_any_block_on_screen",  # Function-to-call
-        self                        # 1st function argument: FacsimilieBlock
-    )
     # Show the mesh
     $BlockMesh.visible = true
     
+    # Call the appropriate entry function on our parent city group
+    get_tree().call_group(
+        parent_city_group,          # Group Name
+        "_on_any_block_enter_screen",  # Function-to-call
+        self                        # 1st function argument: FacsimilieBlock
+    )
 
 func _on_VisibilityNotifier_screen_exited():
     # Hide the mesh
     $BlockMesh.visible = false
     
-    # Wrap the neighbors in weak references 
-    var weak_left = weakref(left_neighbor)
-    var weak_right = weakref(right_neighbor)
-    
-    # If we have a left neighbor, and the left neighbor is not visible, then
-    # free the neighbor.
-    if weak_left.get_ref() and not left_neighbor.is_effectively_visibile():
-        left_neighbor.queue_free()
-        left_neighbor = null
-
-    # If we have a right neighbor, and the right neighbor is not visible, then
-    # free the neighbor.
-    if weak_right.get_ref() and not right_neighbor.is_effectively_visibile():
-        right_neighbor.queue_free()
-        right_neighbor = null
-    
-    # If we don't have a left neighbor or a right neighbor, then we're an
-    # orphan. Let's free ourselves!
-    if (not weak_left.get_ref()) and (not weak_right.get_ref()):
-        self.queue_free()
+    get_tree().call_group(
+        parent_city_group,          # Group Name
+        "_on_any_block_exit_screen",  # Function-to-call
+        self                        # 1st function argument: FacsimilieBlock
+    )
 
 func copy_qodot_block(qodot_node):
     var mesh_path = str( qodot_node.get_path() ) + WORLDSPAWN_PATH
