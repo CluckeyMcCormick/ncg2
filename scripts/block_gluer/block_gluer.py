@@ -12,6 +12,28 @@ class GDVector2:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+    
+    # In order to change the values of this Vector, yet maintain the percision 
+    # of the float (not exactly a Pythonic specialty), we need to use this
+    # special and overly complicated function to change the strings around.
+    def shift(self, x_shift, y_shift):
+        x_precision = self.x.split('.')
+        if len(x_precision) > 1:
+            x_precision = len(x_precision[1])
+        else:
+            x_precision = 0
+        
+        y_precision = self.y.split('.')
+        if len( y_precision ) > 1:
+            y_precision = len( y_precision[1] )
+        else:
+            y_precision = 0
+        
+        x_format_str = "{:-." + str(x_precision) + "f}"
+        y_format_str = "{:-." + str(y_precision) + "f}"
+        
+        self.x = x_format_str.format( float(self.x) + x_shift )
+        self.y = y_format_str.format( float(self.y) + y_shift )
         
 # Approximation of the Godot Vector3 class
 class GDVector3:
@@ -20,6 +42,36 @@ class GDVector3:
         self.x = x
         self.y = y
         self.z = z
+
+    # In order to change the values of this Vector, yet maintain the percision 
+    # of the float (not exactly a Pythonic specialty), we need to use this
+    # special and overly complicated function to change the strings around.
+    def shift(self, x_shift, y_shift, z_shift):
+        x_precision = self.x.split('.')
+        if len(x_precision) > 1:
+            x_precision = len(x_precision[1])
+        else:
+            x_precision = 0
+        
+        y_precision = self.y.split('.')
+        if len( y_precision ) > 1:
+            y_precision = len( y_precision[1] )
+        else:
+            y_precision = 0
+
+        z_precision = self.z.split('.')
+        if len( z_precision ) > 1:
+            z_precision = len( z_precision[1] )
+        else:
+            z_precision = 0
+        
+        x_format_str = "{:-." + str(x_precision) + "f}"
+        y_format_str = "{:-." + str(y_precision) + "f}"
+        z_format_str = "{:-." + str(z_precision) + "f}"
+        
+        self.x = x_format_str.format( float(self.x) + x_shift )
+        self.y = y_format_str.format( float(self.y) + y_shift )
+        self.z = z_format_str.format( float(self.z) + z_shift )
 
 def dict_from_face_line(line):
     # Create a dictionary to store the values in
@@ -58,7 +110,7 @@ def face_dict_to_line(face_dict):
 state = ProcessState.OUTSIDE_ENTITY
 current_brush = None
 
-f = open("inspection_sample.map")
+f = open("../../blocks/trenchbroom_maps/s01_block07.map")
 for line in f:
     # If this line is a start or end bracket...
     if "{\n" == line or "}\n" == line:
@@ -74,7 +126,10 @@ for line in f:
         
         current_brush = None
     elif line[0] == "(" and state == ProcessState.INSIDE_BRUSH:
-    	print(face_dict_to_line( dict_from_face_line(line) ))
+        face_dict = dict_from_face_line(line)
+        face_dict["vertex3"].shift(1000, 1000, 1000)
+        face_dict["offset"].shift(1000, 1000)
+        print(face_dict_to_line( face_dict ))
     else:
         state_name = list(ProcessState)[state - 1].name
         
