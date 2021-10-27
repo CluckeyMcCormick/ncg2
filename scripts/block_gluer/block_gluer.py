@@ -108,28 +108,94 @@ def face_dict_to_line(face_dict):
     return ret.format(**face_dict)
 
 state = ProcessState.OUTSIDE_ENTITY
+entity_list = []
+
+current_entity = None
 current_brush = None
 
 f = open("../../blocks/trenchbroom_maps/s01_block07.map")
 for line in f:
-    # If this line is a start or end bracket...
-    if "{\n" == line or "}\n" == line:
-        # Then we're in a state change. 
-        state += line.count('{')
-        state -= line.count('}')
-        # Clamp the state.
-        state = min(ProcessState.INSIDE_BRUSH, state)
-        state = max(ProcessState.OUTSIDE_ENTITY, state)
+    # Okay - how we process this line depends on our current state. We'll use a
+    # series of if statements since Python has no switch statment.
+    
+    #
+    # Outside an entity
+    #
+    if state == ProcessState.OUTSIDE_ENTITY:
+        # If we've encountered a section-opener...
+    	if "{\n" == line:
+            # We've entered a new entity! Create an entity dictionary.
+            entity_list.append({})
+            # Create the entity's Brushes
+            entity_list[-1]["brushes"] = []
+            
+            # Point our 'current' entity at the entity we just made
+            current_entity = entity_list[-1]
+            
+            # Finally, mark that we're in an entity
+            state = ProcessState.INSIDE_ENTITY
+    
+    #
+    # Inside an entity
+    #
+    elif state == ProcessState.INSIDE_ENTITY:
+        # If we've encountered a section-opener...
+        if "{\n" == line:
+            # Then it has to be a brush! Add a brush to the current stack.
+            current_entity["brushes"].append([])
+            
+            # Point our 'current' brush at the brush we just made
+            current_brush = current_entity["brushes"][-1]
+            
+            # We're now inside a brush!
+            state = ProcessState.INSIDE_BRUSH
+            
+        # Otherwise, if we've encountered a section-closer...
+        elif "}\n" == line:
+            # Okay, then this entity is closing out. We're now outside the
+            # entity.
+            state = ProcessState.OUTSIDE_ENTITY
+            
+            # We don't have a current entity anymore
+            current_entity = None
+            
+        # Otherwise, if this line starts with a ", then this is an entity
+        # key/value
+        elif "\"" == line[0]:
+            # Split into two fragments, based on the gap between key and value
+            kv_list = line.split("\" \"")
+            # Remove any ancillary/remaining " characters from the key and/or
+            # value
+            ent_key = kv_list[0].replace("\"", "")
+            ent_val = kv_list[1].replace("\"", "")
+            
+            # So long as the ent key isn't our brushes, we can then comfortably
+            # stick it in 
+            if ent_key != "brushes":
+                current_entity[ent_key] = ent_val
+
+    #
+    # Inside a brush
+    #
+    elif state == ProcessState.INSIDE_BRUSH:
+        # If we've encountered a section-closer...
+        if "}\n" == line:
+            # Okay, then this brush is closing out. We're now inside the
+            # entity.
+            state = ProcessState.INSIDE_ENTITY
+            # We don't have a current brush anymore
+            current_brush = None
+        # Otherwise, so long as this line isn't a comment line...
+        elif line[:2] != "//":
+            # Then process the current line into a dictionary and then add it to
+            # the brush array
+            current_brush.append( dict_from_face_line(line) )
         
-        state_name = list(ProcessState)[state - 1].name
-        #print("\tNew State: ", state_name)
-        
-        current_brush = None
-    elif line[0] == "(" and state == ProcessState.INSIDE_BRUSH:
-        face_dict = dict_from_face_line(line)
-        face_dict["vertex3"].shift(1000, 1000, 1000)
-        face_dict["offset"].shift(1000, 1000)
-        print(face_dict_to_line( face_dict ))
-    else:
-        state_name = list(ProcessState)[state - 1].name
-        
+for entity in entity_list:
+    print("ENTITY")
+    for brush in entity["brushes"]:
+        print("\tBRUSH!")
+        for face in brush:
+            print("\t\t", face_dict_to_line(face))
+    
+    
