@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import enum
 import sys
+import os
 
 class ProcessState(enum.IntEnum):
     OUTSIDE_ENTITY = 1
@@ -168,9 +169,10 @@ def file_to_entity_list(file_path):
                 # value
                 kv_list = line.split("\" \"")
                 # Remove any ancillary/remaining " characters from the key
-                # and/or value
-                ent_key = kv_list[0].replace("\"", "")
-                ent_val = kv_list[1].replace("\"", "")
+                # and/or value. Also, get rid of any possible \n characters
+                # because somehow those are also finding their way in?????
+                ent_key = kv_list[0].replace("\"", "").replace('\n', '')
+                ent_val = kv_list[1].replace("\"", "").replace('\n', '')
                 
                 # So long as the ent key isn't our brushes, we can then
                 # comfortably stick it in 
@@ -207,14 +209,139 @@ if len(sys.argv) <= 1:
     print("No actual maps received! Aborting!")
     sys.exit()
 
-entity_count = 0
+group_count = 0
+entity_count = 1
 brush_count = 0
+
+# How much do we shift on a particular axis whenever we shift a block?
+SHIFT_FACTOR = 1024
+
+map_entities = [
+    {
+        "classname": "worldspawn",
+        "_tb_textures": "textures"
+    }
+]
 
 for map_path in sys.argv[1:]:
     print(map_path)
     entity_list = file_to_entity_list(map_path)
+    
+    _, filename = os.path.split(map_path)
+    
+    curr_group = {}
+    curr_group["classname"] = "func_group"
+    curr_group["_tb_name"] = str(group_count) + "::" + filename
+    curr_group["_tb_type"] = "_tb_group"
+    curr_group["_tb_id"] = str(entity_count)
+    curr_group["brushes"] = []
+    
+    # Stick the group in our map entities list.
+    map_entities.append(curr_group)
+    
+    # That's an entity in the stack, even if it's only a group. Increment the
+    # count!
+    entity_count += 1
+    
+    # Calculate the shift on X.
+    group_shift = SHIFT_FACTOR * group_count
+    
+    # Capture the current entity count before we start processing
+    entity_start_count = entity_count
+    
+    # Right - now that we've gotten the new list of entities, we need to put
+    # them together into a single map.
     for entity in entity_list:
+        # For each of these entities brushes...
+        for brush in entity["brushes"]:
+            # For each face in this brush...
+            for face in brush:
+                # Shift over the vertices
+                face["vertex1"].shift(group_shift, 0, 0)
+                face["vertex2"].shift(group_shift, 0, 0)
+                face["vertex3"].shift(group_shift, 0, 0)
+                
+        # If this is the map's worldspawn...
+        if entity["classname"] == "worldspawn":
+            # First, iterate through each texture collection name in the
+            # worldspawn. For each such texture collection string...
+            for tex_collection in entity["_tb_textures"].split(";"):
+                # If it's already in the existing texture list, skip it.
+                if tex_collection in map_entities[0]["_tb_textures"]:
+                    continue
+                # Otherwise, add it in!
+                map_entities[0]["_tb_textures"] += ";" + tex_collection
+    
+            # Now we're going to try and step through all of the entity's keys
+            # and move just the user-added ones to the group entity
+            for key in entity:
+                # If this is one of the default keys, or something we added,
+                # skip it!
+                if key in ["classname", "_tb_textures", "brushes"]:
+                    continue
+                # Otherwise, it's good. Stick it in!
+                curr_group[key] = entity[key]
+        
+        # If this entity is a func_group OR just worldspawn...
+        if entity["classname"] in ["func_group", "worldspawn"]:
+            # Then we're just here for the brushes. Stick them in our current
+            # group.
+            curr_group["brushes"] += entity["brushes"]
+            # Then we're all good here. Skip!
+            continue
+        
+        # Set this entity's _tb_group
+        entity["_tb_group"] = curr_group["_tb_id"]
+    
+        # Stick that entity in our map entities list.
+        map_entities.append(entity)
+    
+        # Increment our entity count
         entity_count += 1
-        brush_count += len( entity["brushes"] )
+    
+    # That's a valid group. Increment the group count!
+    group_count += 1
 
-print("Found {:d} brushes across {:d} entities.".format(brush_count, entity_count))
+#
+# File write-out
+#
+
+# Alright, now to print this out.
+f = open("out_map.map", "w")
+
+# Write out the game name and the format
+f.write("// Game: Neon City Generator 2.0\n// Format: Standard\n")
+
+# Now, for each entity we have...
+for entity in map_entities:
+    # Initial "{"
+    f.write("{\n")
+    
+    # First, write out all of the keys (except the brushes, which we made up)
+    for key in entity:
+        if key == "brushes":
+            continue
+        f.write( "\"{:s}\" \"{:s}\"\n".format(key, entity[key]) )
+    
+    # If this entity doesn't have brushes, then close it out.
+    if not "brushes" in entity:
+        # Closing "}"
+        f.write("}\n")
+        continue
+    
+    # Now, for each brush...
+    for brush in entity["brushes"]:
+        # Initial "{"
+        f.write("{\n")
+        
+        # For each face, convert it to Quake format and write it out
+        for face in brush:
+            f.write( face_dict_to_line(face) + "\n" )
+        
+        # Closing "}"
+        f.write("}\n")
+    
+    # Closing "}"
+    f.write("}\n")
+
+f.close()

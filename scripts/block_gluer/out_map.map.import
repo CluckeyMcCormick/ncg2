@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/out_map.map-ec79824997fb0473a7723972169f7e50.tres"
+
+[deps]
+
+source_file="res://scripts/block_gluer/out_map.map"
+dest_files=[ "res://.import/out_map.map-ec79824997fb0473a7723972169f7e50.tres" ]
+
+[params]
+
