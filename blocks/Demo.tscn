@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
+[ext_resource path="res://blocks/Demo.gd" type="Script" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+
+[node name="Demo" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0141089, -0.00866222, 0.0344186 )
+script = ExtResource( 3 )
+
+[node name="QodotMap" type="Spatial" parent="."]
+script = ExtResource( 1 )
+map_file = "/home/frick/godot/neon-city-generator-2.0/scripts/block_gluer/out_map.map"
+inverse_scale_factor = 16.0
+entity_fgd = ExtResource( 2 )
+base_texture_dir = "res://textures"
+texture_file_extension = "png"
+worldspawn_layers = [  ]
+brush_clip_texture = "special/clip"
+face_skip_texture = "special/skip"
+texture_wads = [  ]
+material_file_extension = "tres"
+default_material = SubResource( 1 )
+uv_unwrap_texel_size = 1.0
+print_profiling_data = false
+use_trenchbroom_group_hierarchy = false
+tree_attach_batch_size = 16
+set_owner_batch_size = 16
