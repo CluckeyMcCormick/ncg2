@@ -19,16 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid.gd"
 }, {
-"base": "PhysicsEntity",
-"class": "PhysicsBall",
-"language": "GDScript",
-"path": "res://addons/qodot/game_definitions/fgd/point_classes/physics_ball.gd"
-}, {
-"base": "RigidBody",
-"class": "PhysicsEntity",
-"language": "GDScript",
-"path": "res://addons/qodot/game_definitions/fgd/solid_classes/physics.gd"
-}, {
 "base": "Reference",
 "class": "QodotDependencies",
 "language": "GDScript",
@@ -78,11 +68,6 @@ _global_script_classes=[ {
 "class": "QodotPlugin",
 "language": "GDScript",
 "path": "res://addons/qodot/src/qodot_plugin.gd"
-}, {
-"base": "KinematicBody",
-"class": "QodotRotateEntity",
-"language": "GDScript",
-"path": "res://addons/qodot/game_definitions/fgd/solid_classes/rotate.gd"
 }, {
 "base": "Spatial",
 "class": "QodotSpatial",
@@ -167,8 +152,6 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "LavaLayer": "",
 "LiquidLayer": "",
-"PhysicsBall": "",
-"PhysicsEntity": "",
 "QodotDependencies": "",
 "QodotEntity": "",
 "QodotFGDBaseClass": "",
@@ -179,7 +162,6 @@ _global_script_class_icons={
 "QodotLight": "",
 "QodotMap": "",
 "QodotPlugin": "",
-"QodotRotateEntity": "",
 "QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
 "QodotTextureLoader": "",
 "QodotUtil": "",
