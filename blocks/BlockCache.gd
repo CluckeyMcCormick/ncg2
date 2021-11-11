@@ -20,6 +20,15 @@ const BLOCKS_PER_ROW = 10
 # WHAT VALUE DO WE RETURN WHEN the Build All Blocks function succeeds?
 const BUILD_ALL_SUCCESS = 0
 
+# How much do we shift on a particular axis whenever we shift a block?
+const SHIFT_FACTOR = 1024
+
+enum {
+    OUTSIDE_ENTITY = 1, 
+    INSIDE_ENTITY = 2,
+    INSIDE_BRUSH = 3
+}
+
 # Fires every time a block is built. Gives the godot file path (i.e. user:// or
 # res://), the real file path (i.e. /home/developer/...), as well as the local
 # and global positions. Not really that necessary, but useful for debuggery and
@@ -30,7 +39,8 @@ signal block_built(godot_path, real_path, local_pos, global_pos)
 # use to quickly get info from the node.
 var map_to_node = {}
 
-func build_all_blocks(yield_after_build=true):
+# Gets a list of all the .map files in our dedicated TrenchBroom map directory.
+func get_all_resource_maps():
     # Create a blank file pointer - we need this to test whether files exist or
     # not.
     var existence_checker = File.new()
@@ -40,17 +50,17 @@ func build_all_blocks(yield_after_build=true):
     # do.
     var dir = Directory.new()
     
+    # Here's where we'll stick the list of maps-to-build.
+    var map_list = []
+    
     # If the directory didn't open, then we can't really do anything at all.
     # Ergo, we'll have to back out.
     if dir.open(IN_MAP_PATH) != OK:
         printerr("Couldn't load TrenchBroom Maps directory! Can't do anything!!!")
-        return ERR_FILE_NOT_FOUND
+        return map_list
     
     # Start the directory-listing-processing thing.
     dir.list_dir_begin(true)
-    
-    # Randomize so we get some PROPER RANDOM SHIFTING
-    randomize()
     
     # Get the first file in the directory listing
     var file_name = dir.get_next()
@@ -69,27 +79,8 @@ func build_all_blocks(yield_after_build=true):
             file_name = dir.get_next()
             continue
         
-        # Okay, we have a valid map. Now we need to make derivatives. First,
-        # let's break the map up into it's constituent parts:
-        var only_name = file_name.get_file().get_basename()
-        var extension = file_name.get_extension()
-        
-        # Okay, now we need to make derivatives for each.
-        for i in range(MAP_DERIVATIVE_COUNT):
-            # Cook up this derivative's name
-            var cur_deriv = OUT_MAP_PATH + only_name
-            cur_deriv += "_d" + str(i + 1)
-            cur_deriv += "." + extension
-            
-            # If the file doesn't exist, then we'll MAKE IT EXIST!!!
-            if not existence_checker.file_exists(cur_deriv):
-                make_single_derivative(IN_MAP_PATH + file_name, cur_deriv)
-            # Okay, the file exists now. Goody! Let's build it.
-            build_single_block(cur_deriv)
-            
-            # If we're yielding everytime we build something, then yield!!!
-            if yield_after_build:
-                yield();
+        # Stick the full path in our map list!
+        map_list.append(IN_MAP_PATH + file_name)
             
         # Now that we've made the derivatives and built the block, get the next
         # block-map-file.
@@ -99,51 +90,152 @@ func build_all_blocks(yield_after_build=true):
     dir.list_dir_end()
     
     # Return 0
-    return 0
-            
-func build_single_block(in_path):
-    # Create a blank file pointer - we need this to test whether files exist or
-    # not.
-    var existence_checker = File.new()
-    
-    # If the file doesn't exist, then throw out an error message and back out!
-    if not existence_checker.file_exists(in_path):
-        printerr("File ", in_path, " does not exist, cannot build!!!")
-        return
-    
-    # Okay so the file does exist. Yipee!!! Now, if we don't have a node
-    # associated with this map-path...
-    if not in_path in map_to_node:
-        # Okay, now we need to make a QodotMap Node.
-        var new_qodot = QodotMap.new()
-        # Stick it in the scene
-        self.add_child(new_qodot)
-            
-        # Shift the qodot map
-        new_qodot.translation.x = (len(map_to_node) % BLOCKS_PER_ROW) * BLOCK_SIDE_LENGTH
-        new_qodot.translation.z = (len(map_to_node) / BLOCKS_PER_ROW) * BLOCK_SIDE_LENGTH
-            
-        # Update the Inverse Scale Factor
-        new_qodot.inverse_scale_factor = BLOCK_INVERSE_SCALE
-        
-        # Give it the path to the map
-        new_qodot.map_file = ProjectSettings.globalize_path(in_path)
-        
-        # Finally, stick it in the dictionary
-        map_to_node[in_path] = new_qodot
+    return map_list
 
-    # Okay, so the QodotMap node definitely exists. Time to build that sucker!
-    map_to_node[in_path].verify_and_build()
+func make_blockenstein(map_arr):
+    # How many entities do we have? This is VITAL for ensuring the world blocks
+    # are grouped together appropriately.
+    var entity_count = 1
+    # How many groups/blocks do we have? This doesn't matter as much, more of a
+    # nice-to-have.
+    var group_count = 0
     
-    # Tell anyone who's listening that we finished building a block. 
-    emit_signal(
-        "block_built", # signal type/name
-        in_path, # Godot Path
-        map_to_node[in_path].map_file, # Real Path
-        map_to_node[in_path].translation, # Local Position
-        map_to_node[in_path].global_transform.origin # Global Position.
-    )
+    var group_shift
     
+    var map_entities = [
+        { "classname": "worldspawn", "_tb_textures": "textures"}
+    ]
+
+    # ~~~~~~~~~~~~~
+    #
+    # Step 1: Read in from all of our maps and translate their entities into a
+    #         dictionary-based pseudoblock structure.
+    # 
+    # ~~~~~~~~~~~~~
+    for map_path in map_arr:
+        var entity_list = quake_map_to_entity_list(map_path)
+        
+        var filename = map_path.get_file()
+        
+        var curr_group = {}
+        curr_group["classname"] = "func_group"
+        curr_group["_tb_name"] = str(group_count) + "::" + filename
+        curr_group["_tb_type"] = "_tb_group"
+        curr_group["_tb_id"] = str(entity_count)
+        curr_group["brushes"] = []
+        
+        # Stick the group in our map entities list.
+        map_entities.append(curr_group)
+        
+        # That's an entity in the stack, even if it's only a group. Increment the
+        # count!
+        entity_count += 1
+        
+        # Calculate the shift on X.
+        group_shift = SHIFT_FACTOR * group_count
+        
+        # Capture the current entity count before we start processing
+        var entity_start_count = entity_count
+        
+        # Right - now that we've gotten the new list of entities, we need to put
+        # them together into a single map.
+        for entity in entity_list:
+            # For each of these entities brushes...
+            for brush in entity["brushes"]:
+                # For each face in this brush...
+                for face in brush:
+                    # Shift over the vertices
+                    face["vertex1"] += Vector3(group_shift, 0, 0)
+                    face["vertex2"] += Vector3(group_shift, 0, 0)
+                    face["vertex3"] += Vector3(group_shift, 0, 0)
+                    
+            # If this is the map's worldspawn...
+            if entity["classname"] == "worldspawn":
+                # First, iterate through each texture collection name in the
+                # worldspawn. For each such texture collection string...
+                for tex_collection in entity["_tb_textures"].split(";"):
+                    # If it's already in the existing texture list, skip it.
+                    if tex_collection in map_entities[0]["_tb_textures"]:
+                        continue
+                    # Otherwise, add it in!
+                    map_entities[0]["_tb_textures"] += ";" + tex_collection
+        
+                # Now we're going to try and step through all of the entity's
+                # keys and move just the user-added ones to the group entity
+                for key in entity:
+                    # If this is one of the default keys, or something we added,
+                    # skip it!
+                    if key in ["classname", "_tb_textures", "brushes"]:
+                        continue
+                    # Otherwise, it's good. Stick it in!
+                    curr_group[key] = entity[key]
+            
+            # If this entity is a func_group OR just worldspawn...
+            if entity["classname"] in ["func_group", "worldspawn"]:
+                # Then we're just here for the brushes. Stick them in our current
+                # group.
+                curr_group["brushes"] += entity["brushes"]
+                # Then we're all good here. Skip!
+                continue
+            
+            # Set this entity's _tb_group
+            entity["_tb_group"] = curr_group["_tb_id"]
+        
+            # Stick that entity in our map entities list.
+            map_entities.append(entity)
+        
+            # Increment our entity count
+            entity_count += 1
+        
+        # That's a valid group. Increment the group count!
+        group_count += 1
+
+    # ~~~~~~~~~~~~~
+    #
+    # Step 2: Write out all of those entities to a new map.
+    # 
+    # ~~~~~~~~~~~~~
+    # Alright, now to print this out.
+    var out_map = File.new()
+    out_map.open(OUT_MAP_PATH + "blockenstein.map", File.WRITE)
+
+    # Write out the game name and the format
+    out_map.store_line("// Game: Neon City Generator 2.0\n// Format: Standard\n")
+
+    # Now, for each entity we have...
+    for entity in map_entities:
+        # Initial "{"
+        out_map.store_line("{")
+        
+        # First, write out all of the keys (except the brushes, which we made up)
+        for key in entity:
+            if key == "brushes":
+                continue
+            out_map.store_line( "\"%s\" \"%s\"" % [ key, entity[key] ] )
+        
+        # If this entity doesn't have brushes, then close it out.
+        if not "brushes" in entity:
+            # Closing "}"
+            out_map.store_line("}")
+            continue
+        
+        # Now, for each brush...
+        for brush in entity["brushes"]:
+            # Initial "{"
+            out_map.store_line("{")
+            
+            # For each face, convert it to Quake format and write it out
+            for face in brush:
+                out_map.store_line( face_dict_to_line(face))
+            
+            # Closing "}"
+            out_map.store_line("}")
+        
+        # Closing "}"
+        out_map.store_line("}")
+
+    out_map.close()
+
 func make_single_derivative(in_path, out_path):
     
     var in_map = File.new()
@@ -172,6 +264,127 @@ func make_single_derivative(in_path, out_path):
 
     in_map.close()
     out_map.close()
+
+func dict_from_face_line(in_line):
+    # We'll stick the face lines into this return-dictionary.
+    var retd = {}
+    
+    # Okay, remove any parentheses from our line and then split it using any
+    # spaces as a delimiter.
+    var toks = in_line.replace('(','').replace(')','').split(" ", false)
+    
+    # Next, take those values and slot them in to our return dictionary
+    retd["vertex1"] = Vector3( float(toks[0]), float(toks[1]), float(toks[2]) )
+    retd["vertex2"] = Vector3( float(toks[3]), float(toks[4]), float(toks[5]) )
+    retd["vertex3"] = Vector3( float(toks[6]), float(toks[7]), float(toks[8]) )
+    
+    retd["texture"]  = toks[9]
+    retd["offset"] = Vector2( float(toks[10]), float(toks[11]) )
+    retd["rotation"] = toks[12]
+    retd["scale"] = Vector2( float(toks[13]), float(toks[14]) )
+    
+    return retd
+
+func face_dict_to_line(face_dict):
+    # The string that we'll use to format out the face-line
+    var format
+    
+    format = "( %s %s %s ) ( %s %s %s ) ( %s %s %s ) "
+    format += "%s %s %s %s %s %s"
+    
+    return format % [ face_dict["vertex1"].x,
+        face_dict["vertex1"].y, face_dict["vertex1"].z,
+        face_dict["vertex2"].x, face_dict["vertex2"].y, face_dict["vertex2"].z,
+        face_dict["vertex3"].x, face_dict["vertex3"].y, face_dict["vertex3"].z,
+        face_dict["texture"], face_dict["offset"].x, face_dict["offset"].y,
+        face_dict["rotation"], face_dict["scale"].x, face_dict["scale"].y,
+    ]
+
+func quake_map_to_entity_list(map_path):
+    var state = OUTSIDE_ENTITY
+    var entity_list = []
+
+    var current_entity = null
+    var current_brush = null
+
+    var in_map = File.new()
+    in_map.open(map_path, File.READ)
+    
+    while not in_map.eof_reached():
+        # First, get the line and then filter it down.
+        var line = in_map.get_line().strip_escapes()
+        
+        # Okay - how we process this line depends on our current state.
+        match state:
+            OUTSIDE_ENTITY:
+                # If we've encountered a section-opener...
+                if "{" == line:
+                    # We've entered a new entity! Create an entity dictionary.
+                    entity_list.append({})
+                    # Create the entity's Brushes
+                    entity_list[-1]["brushes"] = []
+                    
+                    # Point our 'current' entity at the entity we just made
+                    current_entity = entity_list[-1]
+                    
+                    # Finally, mark that we're in an entity
+                    state = INSIDE_ENTITY
+            INSIDE_ENTITY:
+                # If we've encountered a section-opener...
+                if "{" == line:
+                    # Then it has to be a brush! Add a brush to the current stack.
+                    current_entity["brushes"].append([])
+                    
+                    # Point our 'current' brush at the brush we just made
+                    current_brush = current_entity["brushes"][-1]
+                    
+                    # We're now inside a brush!
+                    state = INSIDE_BRUSH
+                    
+                # Otherwise, if we've encountered a section-closer...
+                elif "}" == line:
+                    # Okay, then this entity is closing out. We're now outside the
+                    # entity.
+                    state = OUTSIDE_ENTITY
+                    
+                    # We don't have a current entity anymore
+                    current_entity = null
+                    
+                # Otherwise, if this line starts with a ", then this is an entity
+                # key/value
+                elif "\"" == line[0]:
+                    # Split into two fragments, based on the gap between key and
+                    # value
+                    var kv_list = line.split("\" \"")
+                    # Remove any ancillary/remaining " characters from the key
+                    # and/or value.
+                    var ent_key = kv_list[0].replace("\"", "")
+                    var ent_val = kv_list[1].replace("\"", "")
+                    
+                    # So long as the ent key isn't our brushes, we can then
+                    # comfortably stick it in 
+                    if ent_key != "brushes":
+                        current_entity[ent_key] = ent_val
+            INSIDE_BRUSH:
+                # If we've encountered a section-closer...
+                if "}" == line:
+                    # Okay, then this brush is closing out. We're now inside the
+                    # entity.
+                    state = INSIDE_ENTITY
+                    # We don't have a current brush anymore
+                    current_brush = null
+                # Otherwise, so long as this line isn't a comment line...
+                elif line.substr(0, 2) != "//":
+                    # Then process the current line into a dictionary and then add
+                    # it to the brush array
+                    current_brush.append( dict_from_face_line(line) )
+            _:
+                print("Stuck in invalid state - ", state)
+                
+    in_map.close()
+                
+    # Okay, throw back the entity list!
+    return entity_list
 
 func get_random_map():
     var index = randi() % len(map_to_node.keys())

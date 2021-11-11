@@ -10,19 +10,16 @@ description = "Brush Group"
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-
 }
 class_property_descriptions = {
-
 }
 meta_properties = {
-
 }
 node_options = "----------------------------------------------------------------"
 node_class = "StaticBody"
 transient_node = false
 spawn = "----------------------------------------------------------------"
-spawn_type = 1
+spawn_type = 3
 visual_build = "----------------------------------------------------------------"
 build_visuals = true
 collision_build = "----------------------------------------------------------------"
