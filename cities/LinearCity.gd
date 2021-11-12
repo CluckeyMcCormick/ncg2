@@ -95,8 +95,8 @@ func _calculate_row_start_position(row_index):
 
 func _on_any_block_enter_screen(facsimilie_block):
     # First, give the requesting block a Qodot mesh
-    var chosen_map = block_cache.get_random_map()
-    facsimilie_block.copy_qodot_block(block_cache.map_to_node[chosen_map])
+    var func_group = block_cache.get_random_func_group()
+    facsimilie_block.copy_func_group(func_group)
     
     # Next, if we don't have a left block, make one of those.
     if facsimilie_block.left_neighbor == null:

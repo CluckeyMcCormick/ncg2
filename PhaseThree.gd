@@ -24,7 +24,7 @@ func _ready():
     print(vecto, " -> ", vecto.angle_to(Vector3.FORWARD))
     print(vecto, " -> ", rad2deg(vecto.angle_to(Vector3.FORWARD)))
     
-    yield(get_tree().create_timer(1.0), "timeout")
+    yield( get_tree().create_timer(1.0), "timeout" )
 
 func _on_StateMachinePlayer_transited(from, to):
     print("Transition: ", from, " |to| ", to)
@@ -48,6 +48,10 @@ func _on_StateMachinePlayer_transited(from, to):
             $BlockCache.translation.y = -1
             # Reset the OrthoCamera
             $OrthoCamera.global_transform.origin = ortho_shift
+            
+            # Ensure the BlockCache is usable
+            $BlockCache.register_func_groups()
+            
         _:
             pass
     
@@ -64,7 +68,9 @@ func _on_StateMachinePlayer_transited(from, to):
             $PerspCamera.current = false
             
             # Start building all of the blocks, capture the co-routine yield
-            co_ro = $BlockCache.build_all_blocks()
+            var maps = $BlockCache.get_all_resource_maps()
+            $BlockCache.make_blockenstein(maps)
+            co_ro = $BlockCache.build_blockensteins()
             
             # Start the Build Timer. We need the timer because building Qodot
             # maps too quickly breaks everything.
@@ -108,9 +114,13 @@ func _CacheBuild_on_BlockBuildTimer_timeout():
         else:
             # Guess we're done! TRIGGER the state machine switch
             $StateMachinePlayer.set_trigger("build_complete")
+    elif co_ro != null:
+        # Guess we're done! TRIGGER the state machine switch
+        $StateMachinePlayer.set_trigger("build_complete")
 
 # Whenever the BlockCache builds a block, update the Camera position.
 func _CacheBuild_on_BlockCache_block_built(godot_path, real_path, local_pos, global_pos):
+    print("Builto!!!")
     $OrthoCamera.global_transform.origin = global_pos + ortho_shift
 
 func _on_StateMachinePlayer_updated(state, delta):

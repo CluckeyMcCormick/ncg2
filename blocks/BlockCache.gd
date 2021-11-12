@@ -35,9 +35,10 @@ enum {
 # similar situations.
 signal block_built(godot_path, real_path, local_pos, global_pos)
 
-# Here's where we'll stick the QodotMaps once we've built them - it what we'll
-# use to quickly get info from the node.
+# Here's where we'll stick the QodotMaps once we've built them.
 var map_to_node = {}
+# This will store the various func_groups that compose the actual 
+var block_to_func_group = {}
 
 # Gets a list of all the .map files in our dedicated TrenchBroom map directory.
 func get_all_resource_maps():
@@ -236,35 +237,6 @@ func make_blockenstein(map_arr):
 
     out_map.close()
 
-func make_single_derivative(in_path, out_path):
-    
-    var in_map = File.new()
-    in_map.open(in_path, File.READ)
-    var out_map = File.new()
-    out_map.open(out_path, File.WRITE)
-    
-    while not in_map.eof_reached():
-        var line = in_map.get_line()
-        var keyword_index = line.find("building_horizontal_window")
-        
-        if keyword_index == -1:
-            out_map.store_line(line)
-            continue
-        
-        var new_line = line.substr(0, keyword_index)
-        var old_line_comp = line.substr(keyword_index).split(" ", false)
-        
-        new_line += old_line_comp[0]
-        new_line += " " + str((randi() % 64) * 64 + float(old_line_comp[1]))
-        new_line += " " + str((randi() % 64) * 64 + float(old_line_comp[2]))
-        new_line += " " + old_line_comp[3]
-        new_line += " " + old_line_comp[4]
-        new_line += " " + old_line_comp[5]
-        out_map.store_line(new_line)
-
-    in_map.close()
-    out_map.close()
-
 func dict_from_face_line(in_line):
     # We'll stick the face lines into this return-dictionary.
     var retd = {}
@@ -386,6 +358,132 @@ func quake_map_to_entity_list(map_path):
     # Okay, throw back the entity list!
     return entity_list
 
-func get_random_map():
-    var index = randi() % len(map_to_node.keys())
-    return map_to_node.keys()[index]
+func build_blockensteins(yield_after_build=true):
+    # Create a blank file pointer - we need this to test whether files exist or
+    # not.
+    var existence_checker = File.new()
+    
+    # We're only interested in one file: our core Blockenstein
+    var file_name = OUT_MAP_PATH + "blockenstein.map"
+    
+    # Randomize so we get some PROPER RANDOM SHIFTING
+    randomize()
+        
+    # Okay, we have a valid map. Now we need to make derivatives. First,
+    # let's break the map up into it's constituent parts:
+    var only_name = file_name.get_file().get_basename()
+    var extension = file_name.get_extension()
+        
+    # Okay, now we need to make derivatives for each.
+    for i in range(MAP_DERIVATIVE_COUNT):
+        # Cook up this derivative's name
+        var cur_deriv = OUT_MAP_PATH + only_name
+        cur_deriv += "_d" + str(i + 1)
+        cur_deriv += "." + extension
+        
+        # If the file doesn't exist, then we'll MAKE IT EXIST!!!
+        if not existence_checker.file_exists(cur_deriv):
+            make_single_derivative(file_name, cur_deriv)
+        # Okay, the file exists now. Goody! Let's build it.
+        build_single_block(cur_deriv)
+        
+        # If we're yielding everytime we build something, then yield!!!
+        if yield_after_build:
+            yield();
+    
+    # Return 0
+    return 0
+
+func build_single_block(in_path):
+    # Create a blank file pointer - we need this to test whether files exist or
+    # not.
+    var existence_checker = File.new()
+    
+    # If the file doesn't exist, then throw out an error message and back out!
+    if not existence_checker.file_exists(in_path):
+        printerr("File ", in_path, " does not exist, cannot build!!!")
+        return
+    
+    # Okay so the file does exist. Yipee!!! Now, if we don't have a node
+    # associated with this map-path...
+    if not in_path in map_to_node:
+        # Okay, now we need to make a QodotMap Node.
+        var new_qodot = QodotMap.new()
+        # Stick it in the scene
+        self.add_child(new_qodot)
+            
+        # Shift the qodot map
+        new_qodot.translation.x = (len(map_to_node) % BLOCKS_PER_ROW) * BLOCK_SIDE_LENGTH
+        new_qodot.translation.z = (len(map_to_node) / BLOCKS_PER_ROW) * BLOCK_SIDE_LENGTH
+            
+        # Update the Inverse Scale Factor
+        new_qodot.inverse_scale_factor = BLOCK_INVERSE_SCALE
+        
+        # Give it the path to the map
+        new_qodot.map_file = ProjectSettings.globalize_path(in_path)
+        
+        # Finally, stick it in the dictionary
+        map_to_node[in_path] = new_qodot
+
+    # Okay, so the QodotMap node definitely exists. Time to build that sucker!
+    map_to_node[in_path].verify_and_build()
+    
+    # Tell anyone who's listening that we finished building a block. 
+    emit_signal(
+        "block_built", # signal type/name
+        in_path, # Godot Path
+        map_to_node[in_path].map_file, # Real Path
+        map_to_node[in_path].translation, # Local Position
+        map_to_node[in_path].global_transform.origin # Global Position.
+    )
+
+# This function combs over the different cached and registers the usable
+# func_groups. This is necessary because we can't register the children mesh
+# until the blocks have properly entered the scene.
+func register_func_groups():
+    for in_path in map_to_node.keys():
+        for child in map_to_node[in_path].get_children():
+            print(child)
+            # If this is not a "func group" 
+            if not "func_group" in child.name:
+                continue
+            
+            if not child.block_name in block_to_func_group:
+                block_to_func_group[child.block_name] = []
+                
+            block_to_func_group[child.block_name].append(child)
+
+func make_single_derivative(in_path, out_path):
+    
+    var in_map = File.new()
+    in_map.open(in_path, File.READ)
+    var out_map = File.new()
+    out_map.open(out_path, File.WRITE)
+    
+    while not in_map.eof_reached():
+        var line = in_map.get_line()
+        var keyword_index = line.find("building_horizontal_window")
+        
+        if keyword_index == -1:
+            out_map.store_line(line)
+            continue
+        
+        var new_line = line.substr(0, keyword_index)
+        var old_line_comp = line.substr(keyword_index).split(" ", false)
+        
+        new_line += old_line_comp[0]
+        new_line += " " + str((randi() % 64) * 64 + float(old_line_comp[1]))
+        new_line += " " + str((randi() % 64) * 64 + float(old_line_comp[2]))
+        new_line += " " + old_line_comp[3]
+        new_line += " " + old_line_comp[4]
+        new_line += " " + old_line_comp[5]
+        out_map.store_line(new_line)
+
+    in_map.close()
+    out_map.close()
+
+func get_random_func_group():
+    var index = randi() % len(block_to_func_group.keys())
+    var key = block_to_func_group.keys()[index]
+    index = randi() % len(block_to_func_group[key])
+    return block_to_func_group[key][index]

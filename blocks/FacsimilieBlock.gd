@@ -56,8 +56,6 @@ func _on_VisibilityNotifier_screen_exited():
         self                        # 1st function argument: FacsimilieBlock
     )
 
-func copy_qodot_block(qodot_node):
-    var mesh_path = str( qodot_node.get_path() ) + WORLDSPAWN_PATH
-    var target_mesh = get_node(mesh_path)
-    $BlockMesh.mesh = target_mesh.mesh
+func copy_func_group(func_group):
+    $BlockMesh.mesh = func_group.get_child(0).mesh
 
