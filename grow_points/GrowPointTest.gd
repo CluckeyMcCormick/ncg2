@@ -1,5 +1,10 @@
 extends Spatial
 
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
+
+onready var dd = get_node("/root/DebugDraw")
+
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 
 const MATERIALS = [
@@ -18,13 +23,6 @@ const MATERIALS = [
 const X_WIDTH = 30
 const LOWER_Z_LIM = -15#-8
 const UPPER_Z_LIM = 15#8
-
-const MIN_X = 3
-const MAX_X = X_WIDTH / 2
-const MIN_Z = 3
-const MAX_Z = (UPPER_Z_LIM - LOWER_Z_LIM) / 2
-
-onready var dd = get_node("/root/DebugDraw")
 
 enum SideState {OPEN=0, GROW_BLOCKED=11, LENGTH_MAXED=222,}
 
@@ -202,10 +200,7 @@ class GrowAABB:
         return east_state == SideState.OPEN or south_state == SideState.OPEN \
             or west_state == SideState.OPEN or north_state == SideState.OPEN
 
-export(Curve) var spawn_weights
-export(Curve) var spawn_chance
-export(float) var none_weight
-var weight_bag = null
+export(Curve) var max_square_size
 
 var aabbs_east = []
 var aabbs_west = []
@@ -217,29 +212,48 @@ var viable_aabbs = []
 func _ready():
     # Step 1 Variables
     var origin
-    var max_x
-    var max_z
     var temp
+    var max_len
     var index
+    var percent_pos
     
-    randomize()
+    var points = {}
+    var redo = true
+
+    var point_distro = RandomNumberGenerator.new()
+    point_distro.randomize()
     
     #
     # Step 1: Seed
     #
-    for i in range(15):
-        origin = Vector3.ZERO
-        origin.x = (randi() % X_WIDTH) - (X_WIDTH / 2) 
-        origin.z = (randi() % (UPPER_Z_LIM - LOWER_Z_LIM)) + LOWER_Z_LIM
+    for i in range(30):
+        
+        redo = true
+        
+        while redo:
+            origin = Vector3.ZERO
+            origin.x = (randi() % X_WIDTH) - (X_WIDTH / 2)
+            origin.x = stepify(origin.x, 2.0)
+            
+            origin.z = abs(point_distro.randfn(0, (UPPER_Z_LIM - LOWER_Z_LIM) * .4))
+            origin.z = origin.z + LOWER_Z_LIM
+            origin.z = clamp(origin.z, LOWER_Z_LIM, UPPER_Z_LIM)
+            origin.z = stepify(origin.z, 2.0)
+            
+            redo = origin in points
         
         temp = SECONDARY_NODE.instance()
         self.add_child(temp)
         temp.translation = origin
-    
-        max_x = (randi() % (MAX_X - MIN_X)) + MIN_X
-        max_z = (randi() % (MAX_Z - MIN_Z)) + MIN_Z
         
-        temp = GrowAABB.new(origin, max_x, max_z)
+        max_len = max_square_size.interpolate(
+            float(origin.z - LOWER_Z_LIM) / (UPPER_Z_LIM - LOWER_Z_LIM)
+        )
+        max_len = stepify(max_len, 1.0)
+        
+        temp = GrowAABB.new(origin, max_len, max_len)
+        
+        points[origin] = temp
         
         self.add_child(temp.mesh)
         
@@ -261,26 +275,26 @@ func _process(delta):
     for grow in aabbs_east:
         # North
         dd.draw_line_3d(
-            grow.a, 
-            Vector3(grow.b.x, grow.a.y, grow.a.z),
+            grow.a + Vector3(0, 1, 0), 
+            Vector3(grow.b.x, grow.a.y, grow.a.z) + Vector3(0, 1, 0),
             Color.white
         )
         # South
         dd.draw_line_3d(
-            Vector3(grow.a.x, grow.a.y, grow.b.z), 
-            grow.b,
+            Vector3(grow.a.x, grow.a.y, grow.b.z) + Vector3(0, 1, 0), 
+            grow.b + Vector3(0, 1, 0),
             Color.red
         )
         # East
         dd.draw_line_3d(
-            Vector3(grow.b.x, grow.a.y, grow.a.z),
-            grow.b,
+            Vector3(grow.b.x, grow.a.y, grow.a.z) + Vector3(0, 1, 0),
+            grow.b + Vector3(0, 1, 0),
             Color.blue
         )
         # West
         dd.draw_line_3d(
-            grow.a, 
-            Vector3(grow.a.x, grow.a.y, grow.b.z),
+            grow.a + Vector3(0, 1, 0), 
+            Vector3(grow.a.x, grow.a.y, grow.b.z) + Vector3(0, 1, 0),
             Color.yellow
         )
 

@@ -1,9 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://grow_points/GrowPointTest.gd" type="Script" id=1]
 
+[sub_resource type="Curve" id=1]
+min_value = 3.0
+max_value = 20.0
+_data = [ Vector2( 0, 3 ), 0.0, 3.23703, 0, 0, Vector2( 1, 20 ), 38.066, 0.0, 0, 0 ]
+
 [node name="GrowPointTest" type="Spatial"]
 script = ExtResource( 1 )
+max_square_size = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 12, 0 )
