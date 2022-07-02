@@ -1,10 +1,5 @@
-extends Spatial
-
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
-
-onready var dd = get_node("/root/DebugDraw")
-
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 
 const MATERIALS = [
