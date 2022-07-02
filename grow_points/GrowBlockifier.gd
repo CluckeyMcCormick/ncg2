@@ -3,6 +3,8 @@ const POINT_POSITION_STEP = 2.0
 
 const GROW_POINT = preload("res://grow_points/BuildingGrowPoint.gd")
 
+const MULTIPASS_STEPPER = 3
+
 class GrowBlock:
     
     # A dictionary of all the AABBS (where the GrowAABB is both the key and the
@@ -21,14 +23,55 @@ var max_square_size
 var x_width
 var z_length
 
-var aabbs_east = []
-var aabbs_west = []
-var aabbs_north = []
-var aabbs_south = []
+var _aabbs_east = []
+var _aabbs_west = []
+var _aabbs_north = []
+var _aabbs_south = []
 
-var blocks = []
+var _blocks = []
 
-func spawn_block():
+var _block_offset = Vector3.ZERO
+
+# Does a grow-pass on all of the blocks
+func grow_all_blocks():
+    # For the first three blocks, or however many blocks there are...
+    for i in range( min(MULTIPASS_STEPPER, len(_blocks)) ):
+        # If this block isn't viable, skip it!!!
+        if not _blocks[i].is_viable():
+            continue
+        
+        # This is kinda hard to read, but it goes something like this: the
+        # closer a block is to the "front", the more growth we do on it (via
+        # calling _grow_block() multiple times). We always grow the block at
+        # least once!
+        for step in range( max(1, MULTIPASS_STEPPER - i) ):
+            _grow_block( _blocks[i] )
+
+func clean_and_spawn_pass():
+    var new_blocks = []
+    
+    for b in _blocks:
+        # If this is a viable block, stick it in our new blocks
+        if b.is_viable():
+            new_blocks.append()
+            continue
+        # Otherwise... ???
+    
+    # Assert our new block array over the old one
+    _blocks = new_blocks
+    
+    # While we don't have three blocks...
+    while len(_blocks) < 3:
+        # SPAWN BLOCKS!
+        _spawn_block()
+
+func has_viable_blocks():
+    for b in _blocks:
+        if b.is_viable():
+            return true
+    return false
+
+func _spawn_block():
     # Step 1 Variables
     var origin
     var max_len
@@ -47,16 +90,17 @@ func spawn_block():
     #
     # Step 1: Seed
     #
-    for i in range(30):
+    for i in range(40):
         
         redo = true
         
         while redo:
-            origin = Vector3.ZERO
-            origin.x = randi() % x_width
+            origin = _block_offset
+            
+            origin.x += randi() % x_width
             origin.x = stepify(origin.x, POINT_POSITION_STEP)
             
-            origin.z = abs(point_distro.randfn(0, z_length * .5))
+            origin.z += abs(point_distro.randfn(0, z_length * .5))
             origin.z = clamp(origin.z, 0, z_length)
             origin.z = stepify(origin.z, POINT_POSITION_STEP)
             
@@ -70,29 +114,30 @@ func spawn_block():
         points[origin] = new_aabb
         
         # Stick our new aabb in each of our sorted arrays, as appropriate.
-        index = aabbs_east.bsearch_custom(
+        index = _aabbs_east.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_east"
         )
-        aabbs_east.insert(index, new_aabb)
-        index = aabbs_west.bsearch_custom(
+        _aabbs_east.insert(index, new_aabb)
+        index = _aabbs_west.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_west"
         )
-        aabbs_west.insert(index, new_aabb)
-        index = aabbs_north.bsearch_custom(
+        _aabbs_west.insert(index, new_aabb)
+        index = _aabbs_north.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_north"
         )
-        aabbs_north.insert(index, new_aabb)
-        index = aabbs_south.bsearch_custom(
+        _aabbs_north.insert(index, new_aabb)
+        index = _aabbs_south.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_south"
         )
-        aabbs_south.insert(index, new_aabb)
+        _aabbs_south.insert(index, new_aabb)
         # Stick it in our viables list
         new_block.all_aabbs[new_aabb] = new_aabb
         new_block.viable_aabbs[new_aabb] = new_aabb
     
-    blocks.append(new_block)
+    _blocks.append(new_block)
+    _block_offset.x += x_width
 
-func grow_block( block ):
+func _grow_block( block ):
     var new_viables={}
     var sliced_aabb
     var result
@@ -114,11 +159,11 @@ func grow_block( block ):
             # If there's no problem...
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the west array
-                index = aabbs_west.bsearch_custom(
+                index = _aabbs_west.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_west"
                 )
                 # Get all the points east of our western-most point
-                sliced_aabb = aabbs_west.slice(index, len(aabbs_west) - 1)
+                sliced_aabb = _aabbs_west.slice(index, len(_aabbs_west) - 1)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -136,11 +181,11 @@ func grow_block( block ):
             # If there's no problem...
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the north array
-                index = aabbs_north.bsearch_custom(
+                index = _aabbs_north.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_north"
                 )
                 # Get all the points south of our northern-most point
-                sliced_aabb = aabbs_north.slice(index, len(aabbs_north) - 1)
+                sliced_aabb = _aabbs_north.slice(index, len(_aabbs_north) - 1)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -159,12 +204,12 @@ func grow_block( block ):
             # If there's no problem...
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the east array
-                index = aabbs_east.bsearch_custom(
+                index = _aabbs_east.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_east"
                 )
                 # Get all the points west of our eastern-most point (including
                 # ourselves)
-                sliced_aabb = aabbs_east.slice(0, index)
+                sliced_aabb = _aabbs_east.slice(0, index)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -181,12 +226,12 @@ func grow_block( block ):
              # If there's no problem...
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the south array
-                index = aabbs_south.bsearch_custom(
+                index = _aabbs_south.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_south"
                 )
                 # Get all the points north of our southern-most point
                 # (including ourselves)
-                sliced_aabb = aabbs_south.slice(0, index)
+                sliced_aabb = _aabbs_south.slice(0, index)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):

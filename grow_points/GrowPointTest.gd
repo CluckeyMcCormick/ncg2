@@ -19,9 +19,9 @@ func _ready():
     blockifier.x_width = X_WIDTH
     blockifier.z_length = Z_LENGTH
 
-    blockifier.spawn_block()
+    blockifier.clean_and_spawn_pass()
 
-    for block in blockifier.blocks:
+    for block in blockifier._blocks:
         for grow_aabb in block.all_aabbs:
             new_node = grow_aabb.mesh
             self.add_child(new_node)
@@ -34,8 +34,8 @@ func _ready():
     $Timer.start()
 
 func _on_Timer_timeout():
-    var block = blockifier.blocks[0]
-    blockifier.grow_block( block )
     
-    if block.is_viable():
+    blockifier.grow_all_blocks()
+    
+    if blockifier.has_viable_blocks():
         $Timer.start()
