@@ -1,9 +1,30 @@
 
-const POINT_POSITION_STEP = 2.0
-
+# Including this scene so we can spawn GrowPoint objects.
 const GROW_POINT = preload("res://grow_points/BuildingGrowPoint.gd")
 
-const MULTIPASS_STEPPER = 3
+# To help ensure the buildings are all aligned on the same grid, we'll snap the
+# origin points to specific steps of a certain value - i.e. multiples of 1,
+# multiples of 2, multiples of 3, etc. This has the added advantage of
+# guaranteeing a minimum size by spacing the points out, allowing them to grow.
+# So, what is the step (i.e. multiple) that we snap points to?
+const POINT_POSITION_STEP = 2.0
+
+# How much of a gap is there between two blocks? There needs to be at least some
+# space, because otherwise the points-on-the-edge may spawn on top of each
+# other.
+const INTRA_BLOCK_SPACER = POINT_POSITION_STEP * 2
+
+# How many blocks do we aim to consistently have?
+const TARGET_BLOCK_COUNT = 4
+
+# The city looks organic because we're dynamically growing out the buildings
+# and stopping them when they collide with each other. However, since the city
+# is infinite, this creates a problem at the edge where there's no buildings to
+# collide with. To get around that, we purposefully grow the more-forward blocks
+# more quickly by performing more grow-passes on them. We then step this number
+# down as we get farther into the array. So - how many passes do we do on the
+# block that's furthest west/left?
+const MULTIPASS_START_VALUE = 3
 
 class GrowBlock:
     
@@ -15,6 +36,9 @@ class GrowBlock:
     # A dicitonary-set of all the AABBs that are still viable, as reported by
     # their is_viable() function.
     var viable_aabbs = {}
+    
+    # The block's right/east/+x neighbor.
+    var right_neighbor = null
     
     func is_viable():
         return not viable_aabbs.empty()
@@ -29,41 +53,57 @@ var _aabbs_north = []
 var _aabbs_south = []
 
 var _blocks = []
+var _complete_aabbs = []
 
 var _block_offset = Vector3.ZERO
 
-# Does a grow-pass on all of the blocks
-func grow_all_blocks():
+# Spawns in new blocks - if we have space for them
+func spawn_pass():
+    # While we don't have TARGET_BLOCK_COUNT blocks...
+    while len(_blocks) < TARGET_BLOCK_COUNT:
+        # SPAWN BLOCKS!
+        _spawn_block()
+
+# Does a grow-pass on all of the blocks (if any of the blocks are viable)
+func grow_pass():
+    # How many "grow passes" are we going to do on an individual block?
+    var pass_count = MULTIPASS_START_VALUE
+    
     # For the first three blocks, or however many blocks there are...
-    for i in range( min(MULTIPASS_STEPPER, len(_blocks)) ):
+    for i in range( min(TARGET_BLOCK_COUNT, len(_blocks)) ):
         # If this block isn't viable, skip it!!!
         if not _blocks[i].is_viable():
             continue
         
-        # This is kinda hard to read, but it goes something like this: the
-        # closer a block is to the "front", the more growth we do on it (via
-        # calling _grow_block() multiple times). We always grow the block at
-        # least once!
-        for step in range( max(1, MULTIPASS_STEPPER - i) ):
+        # Grow the block according to our current pass count.
+        for step in range( pass_count ):
             _grow_block( _blocks[i] )
+        
+        # Decrement the number of passes we'll do for the next block, down to a
+        # minimum of one pass
+        pass_count = max(1, pass_count - 1)
 
-func clean_and_spawn_pass():
+# Cleans up the blocks that we don't need anymore.
+func clean_pass():
     var new_blocks = []
     
     for b in _blocks:
         # If this is a viable block, stick it in our new blocks
         if b.is_viable():
-            new_blocks.append()
+            new_blocks.append(b)
             continue
-        # Otherwise... ???
+        # Otherwise, this block isn't viable. However, we'll want to keep it
+        # around if our neighbor is currently viable
+        elif b.right_neighbor != null and b.right_neighbor.is_viable():
+            new_blocks.append(b)
+            continue
+        
+        # If we're here, then this block AND it's neighbor isn't viable,
+        # so we don't need to track it anymore!
+        _clean_block(b)
     
     # Assert our new block array over the old one
     _blocks = new_blocks
-    
-    # While we don't have three blocks...
-    while len(_blocks) < 3:
-        # SPAWN BLOCKS!
-        _spawn_block()
 
 func has_viable_blocks():
     for b in _blocks:
@@ -134,8 +174,13 @@ func _spawn_block():
         new_block.all_aabbs[new_aabb] = new_aabb
         new_block.viable_aabbs[new_aabb] = new_aabb
     
+    # If we have extra blocks, make sure the LAST block knows that this new
+    # block is it's neighbor.
+    if not _blocks.empty():
+        _blocks[-1].right_neighbor = new_block
+    
     _blocks.append(new_block)
-    _block_offset.x += x_width
+    _block_offset.x += x_width + INTRA_BLOCK_SPACER
 
 func _grow_block( block ):
     var new_viables={}
@@ -247,3 +292,46 @@ func _grow_block( block ):
             new_viables[grow] = grow
     
     block.viable_aabbs = new_viables
+
+func _clean_block( block ):
+    var index
+    
+    for aabb in block.all_aabbs:
+        # For each of the directionally sorted AABB arrays, find this AABB's
+        # place in the array. If that index is correct, delete it!
+        # EAST
+        index = _aabbs_east.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_east"
+        )
+        if _aabbs_east[index] == aabb:
+            _aabbs_east.remove(index)
+        
+        # West!
+        index = _aabbs_west.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_west"
+        )
+        if _aabbs_west[index] == aabb:
+            _aabbs_west.remove(index)
+        
+        # North!
+        index = _aabbs_north.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_north"
+        )
+        if _aabbs_north[index] == aabb:
+            _aabbs_north.remove(index)
+        
+        # South!
+        index = _aabbs_south.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_south"
+        )
+        if _aabbs_south[index] == aabb:
+            _aabbs_south.remove(index)
+        
+        # Stick this aabb in our completed array!
+        _complete_aabbs.append(aabb)
+    
+    # Clear out our environment variables so we don't have any dangling
+    # references.
+    block.all_aabbs.clear()
+    block.viable_aabbs.clear()
+    block.right_neighbor = null

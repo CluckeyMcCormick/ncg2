@@ -16,10 +16,10 @@ script = ExtResource( 1 )
 max_square_size = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 30, 12, 15 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 40, 12, 15 )
 projection = 1
 current = true
-size = 50.0
+size = 60.0
 
 [node name="Timer" type="Timer" parent="."]
 process_mode = 0
