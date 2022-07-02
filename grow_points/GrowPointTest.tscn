@@ -16,10 +16,10 @@ script = ExtResource( 1 )
 max_square_size = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 40, 12, 15 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 40, 12, 20 )
 projection = 1
 current = true
-size = 60.0
+size = 120.0
 
 [node name="Timer" type="Timer" parent="."]
 process_mode = 0
@@ -29,5 +29,36 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15 )
 visible = false
 mesh = SubResource( 2 )
 material/0 = ExtResource( 2 )
+
+[node name="GUI" type="GridContainer" parent="."]
+anchor_left = 0.025
+anchor_top = 0.025
+anchor_right = 0.025
+anchor_bottom = 0.025
+columns = 2
+
+[node name="PassLabel" type="Label" parent="GUI"]
+margin_right = 84.0
+margin_bottom = 14.0
+text = "Pass Count: "
+
+[node name="PassCount" type="Label" parent="GUI"]
+margin_left = 88.0
+margin_right = 96.0
+margin_bottom = 14.0
+text = "0"
+
+[node name="BlockLabel" type="Label" parent="GUI"]
+margin_top = 18.0
+margin_right = 84.0
+margin_bottom = 32.0
+text = "Block Count: "
+
+[node name="BlockCount" type="Label" parent="GUI"]
+margin_left = 88.0
+margin_top = 18.0
+margin_right = 96.0
+margin_bottom = 32.0
+text = "0"
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

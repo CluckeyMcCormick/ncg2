@@ -92,9 +92,11 @@ func clean_pass():
         if b.is_viable():
             new_blocks.append(b)
             continue
-        # Otherwise, this block isn't viable. However, we'll want to keep it
-        # around if our neighbor is currently viable
-        elif b.right_neighbor != null and b.right_neighbor.is_viable():
+        # Otherwise, this block isn't viable. However, if we don't have a
+        # neighbor, or our neighbor is still viable, we'll want to keep it.
+        # We'll want to keep this if we don't have a neighbor because that
+        # indicates the next spawn will be NEXT TO US.
+        elif b.right_neighbor == null or b.right_neighbor.is_viable():
             new_blocks.append(b)
             continue
         
@@ -140,7 +142,7 @@ func _spawn_block():
             origin.x += randi() % x_width
             origin.x = stepify(origin.x, POINT_POSITION_STEP)
             
-            origin.z += abs(point_distro.randfn(0, z_length * .5))
+            origin.z += abs(point_distro.randfn(0, z_length * .4))
             origin.z = clamp(origin.z, 0, z_length)
             origin.z = stepify(origin.z, POINT_POSITION_STEP)
             
@@ -158,18 +160,22 @@ func _spawn_block():
             new_aabb, GROW_POINT.GrowAABB, "sort_by_east"
         )
         _aabbs_east.insert(index, new_aabb)
+        
         index = _aabbs_west.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_west"
         )
         _aabbs_west.insert(index, new_aabb)
+        
         index = _aabbs_north.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_north"
         )
         _aabbs_north.insert(index, new_aabb)
+        
         index = _aabbs_south.bsearch_custom(
             new_aabb, GROW_POINT.GrowAABB, "sort_by_south"
         )
         _aabbs_south.insert(index, new_aabb)
+        
         # Stick it in our viables list
         new_block.all_aabbs[new_aabb] = new_aabb
         new_block.viable_aabbs[new_aabb] = new_aabb
@@ -237,8 +243,7 @@ func _grow_block( block ):
                         grow.shrink_south()
                         grow.south_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
-                if grow.b.z >= z_length:
-                    grow.south_state = GROW_POINT.SideState.GROW_BLOCKED
+                    # Growth is unchecked on +z!!!
             else:
                 grow.south_state = result
         
@@ -303,28 +308,28 @@ func _clean_block( block ):
         index = _aabbs_east.bsearch_custom(
             aabb, GROW_POINT.GrowAABB, "sort_by_east"
         )
-        if _aabbs_east[index] == aabb:
+        if index < len(_aabbs_east) and _aabbs_east[index] == aabb:
             _aabbs_east.remove(index)
         
         # West!
         index = _aabbs_west.bsearch_custom(
             aabb, GROW_POINT.GrowAABB, "sort_by_west"
         )
-        if _aabbs_west[index] == aabb:
+        if index < len(_aabbs_west) and _aabbs_west[index] == aabb:
             _aabbs_west.remove(index)
         
         # North!
         index = _aabbs_north.bsearch_custom(
             aabb, GROW_POINT.GrowAABB, "sort_by_north"
         )
-        if _aabbs_north[index] == aabb:
+        if index < len(_aabbs_north) and _aabbs_north[index] == aabb:
             _aabbs_north.remove(index)
         
         # South!
         index = _aabbs_south.bsearch_custom(
             aabb, GROW_POINT.GrowAABB, "sort_by_south"
         )
-        if _aabbs_south[index] == aabb:
+        if index < len(_aabbs_south) and _aabbs_south[index] == aabb:
             _aabbs_south.remove(index)
         
         # Stick this aabb in our completed array!
