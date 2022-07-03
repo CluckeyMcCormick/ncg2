@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://voronoi/VoroniColorF.material" type="Material" id=1]
+[ext_resource path="res://grow_points/BlockTest.gd" type="Script" id=2]
+[ext_resource path="res://grow_points/BuildingSizeCurve.tres" type="Curve" id=3]
+[ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=4]
+[ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=5]
+
+[sub_resource type="PlaneMesh" id=2]
+size = Vector2( 20, 30 )
+
+[sub_resource type="SphereMesh" id=3]
+
+[node name="BlockTest" type="Spatial"]
+script = ExtResource( 2 )
+max_square_size = ExtResource( 3 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -0.707107, 0.408244, -0.577353, 0, 0.8165, 0.577345, 0.707107, 0.408244, -0.577353, -5, 12, -5 )
+visible = false
+projection = 1
+size = 5.0
+
+[node name="PassTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.1
+
+[node name="QuadCheckTimer" type="Timer" parent="."]
+process_mode = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="BuildingMaster" type="Spatial" parent="."]
+
+[node name="UpCamera" type="Camera" parent="."]
+transform = Transform( -0.728407, 0.118974, -0.674736, 0, 0.984808, 0.173648, 0.685145, 0.126487, -0.717341, -0.6, 0.507, -0.6 )
+cull_mask = 3
+current = true
+fov = 50.0
+size = 3.0
+
+[node name="CameraAlignedEffects" type="Spatial" parent="UpCamera"]
+transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -55 )
+
+[node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, -1.90735e-06, 8, -3.8147e-06 )
+width = 22.0
+height = 10.0
+
+[node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 4 )
+
+[node name="Camera2" type="Camera" parent="."]
+transform = Transform( -1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 2, 3.7, 1 )
+projection = 1
+current = true
+size = 4.0
+
+[connection signal="timeout" from="PassTimer" to="." method="_on_PassTimer_timeout"]
+[connection signal="timeout" from="QuadCheckTimer" to="." method="_on_QuadCheckTimer_timeout"]

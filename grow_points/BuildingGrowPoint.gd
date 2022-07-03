@@ -2,19 +2,6 @@
 const GlobalRef = preload("res://util/GlobalRef.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 
-const MATERIALS = [
-    preload("res://voronoi/VoroniColorA.material"),
-    preload("res://voronoi/VoroniColorB.material"),
-    preload("res://voronoi/VoroniColorC.material"),
-    preload("res://voronoi/VoroniColorD.material"),
-    preload("res://voronoi/VoroniColorE.material"),
-    preload("res://voronoi/VoroniColorF.material"),
-    preload("res://voronoi/VoroniColorG.material"),
-    preload("res://voronoi/VoroniColorH.material"),
-    preload("res://voronoi/VoroniColorI.material"),
-    preload("res://voronoi/VoroniColorJ.material"),
-]
-
 enum SideState {OPEN=0, GROW_BLOCKED=11, LENGTH_MAXED=222,}
 
 class GrowAABB:
@@ -37,8 +24,6 @@ class GrowAABB:
     var north_state = SideState.OPEN
     var west_state = SideState.OPEN
     
-    var mesh = null
-    
     static func sort_by_east(one, two):
         return one.b.x < two.b.x
     
@@ -59,14 +44,6 @@ class GrowAABB:
         
         max_x_len = in_max_x_len
         max_z_len = in_max_z_len
-        
-        mesh = MeshInstance.new()
-        mesh.translation = (a + b) / 2
-        mesh.mesh = PlaneMesh.new()
-        mesh.mesh.size = Vector2( b.x - a.x, b.z - a.z )
-        mesh.set_surface_material(
-            0, MATERIALS[ randi() % len(MATERIALS)]
-        )
     
     # According to documentation, Godot's global east is given by Vector3.RIGHT,
     # which is equivalent to (1, 0, 0)
@@ -86,9 +63,6 @@ class GrowAABB:
             b.x -= (b.x - a.x) - max_x_len
             # Return that we maxed on this side
             ret = SideState.LENGTH_MAXED
-        # Update the mesh
-        mesh.translation = (a + b) / 2
-        mesh.mesh.size = Vector2( b.x - a.x, b.z - a.z )
         
         return ret
 
@@ -110,9 +84,6 @@ class GrowAABB:
             b.z -= (b.z - a.z) - max_z_len
             # Return that we maxed on this side
             ret = SideState.LENGTH_MAXED
-        # Update the mesh
-        mesh.translation = (a + b) / 2
-        mesh.mesh.size = Vector2( b.x - a.x, b.z - a.z )
         
         return ret
 
@@ -134,9 +105,6 @@ class GrowAABB:
             a.x += (b.x - a.x) - max_x_len
             # Return that we maxed on this side
             ret = SideState.LENGTH_MAXED
-        # Update the mesh
-        mesh.translation = (a + b) / 2
-        mesh.mesh.size = Vector2( b.x - a.x, b.z - a.z )
         
         return ret
     
@@ -158,9 +126,6 @@ class GrowAABB:
             a.z += (b.z - a.z) - max_z_len
             # Return that we maxed on this side
             ret = SideState.LENGTH_MAXED
-        # Update the mesh
-        mesh.translation = (a + b) / 2
-        mesh.mesh.size = Vector2( b.x - a.x, b.z - a.z )
         
         return ret
     
