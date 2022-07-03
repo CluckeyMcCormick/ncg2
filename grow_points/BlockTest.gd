@@ -25,15 +25,12 @@ const Z_LENGTH = 120
 
 export(Curve) var max_square_size
 
-var blockifier = GROW_BLOCKIFIER.new()
-var pass_count = 0
+var blockifier = null
 
 func _ready():
     var new_node
     
-    blockifier.max_square_size = max_square_size
-    blockifier.x_width = X_WIDTH
-    blockifier.z_length = Z_LENGTH
+    blockifier = GROW_BLOCKIFIER.new( max_square_size, X_WIDTH, Z_LENGTH, 20 )
 
     # Spawn in the blocks
     blockifier.spawn_pass()
@@ -48,8 +45,6 @@ func _on_PassTimer_timeout():
     
     # Clean the blocks
     blockifier.clean_pass()
-    
-    pass_count += 1
     
     if blockifier.has_viable_blocks():
         $PassTimer.start()

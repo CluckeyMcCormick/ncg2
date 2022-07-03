@@ -22,7 +22,7 @@ const Z_LENGTH = 30
 
 export(Curve) var max_square_size
 
-var blockifier = GROW_BLOCKIFIER.new()
+var blockifier = null
 var pass_count = 0
 
 var points_to_mesh = {}
@@ -30,10 +30,9 @@ var points_to_mesh = {}
 func _ready():
     var new_node
     
-    blockifier.max_square_size = max_square_size
-    blockifier.x_width = X_WIDTH
-    blockifier.z_length = Z_LENGTH
-
+    
+    blockifier = GROW_BLOCKIFIER.new( max_square_size, X_WIDTH, Z_LENGTH, 40 )
+    
     # Spawn in the blocks
     blockifier.spawn_pass()
 

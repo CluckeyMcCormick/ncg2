@@ -46,6 +46,7 @@ class GrowBlock:
 var max_square_size
 var x_width
 var z_length
+var points_per_block
 
 var _aabbs_east = []
 var _aabbs_west = []
@@ -57,22 +58,18 @@ var _complete_aabbs = []
 
 var _block_offset = Vector3.ZERO
 
+func _init(size_curve, x_width, z_length, points_per_block):
+    self.max_square_size = size_curve
+    self.points_per_block = points_per_block
+    self.x_width = x_width
+    self.z_length = z_length
+
 # Spawns in new blocks - if we have space for them
 func spawn_pass():
-    print("Seed Values:")
-    print("    | east  ", len(_aabbs_east))
-    print("    | west  ", len(_aabbs_west))
-    print("    | north ", len(_aabbs_north))
-    print("    | south ", len(_aabbs_south))
     # While we don't have TARGET_BLOCK_COUNT blocks...
     while len(_blocks) < TARGET_BLOCK_COUNT:
         # SPAWN BLOCKS!
         _spawn_block()
-        print("Spawn ", len(_blocks) )
-        print("    | east  ", len(_aabbs_east))
-        print("    | west  ", len(_aabbs_west))
-        print("    | north ", len(_aabbs_north))
-        print("    | south ", len(_aabbs_south))
 
 # Does a grow-pass on all of the blocks (if any of the blocks are viable)
 func grow_pass():
@@ -142,7 +139,7 @@ func _spawn_block():
     #
     # Step 1: Seed
     #
-    for i in range(40):
+    for i in range(points_per_block):
         
         redo = true
         
