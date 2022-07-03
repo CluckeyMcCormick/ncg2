@@ -59,10 +59,20 @@ var _block_offset = Vector3.ZERO
 
 # Spawns in new blocks - if we have space for them
 func spawn_pass():
+    print("Seed Values:")
+    print("    | east  ", len(_aabbs_east))
+    print("    | west  ", len(_aabbs_west))
+    print("    | north ", len(_aabbs_north))
+    print("    | south ", len(_aabbs_south))
     # While we don't have TARGET_BLOCK_COUNT blocks...
     while len(_blocks) < TARGET_BLOCK_COUNT:
         # SPAWN BLOCKS!
         _spawn_block()
+        print("Spawn ", len(_blocks) )
+        print("    | east  ", len(_aabbs_east))
+        print("    | west  ", len(_aabbs_west))
+        print("    | north ", len(_aabbs_north))
+        print("    | south ", len(_aabbs_south))
 
 # Does a grow-pass on all of the blocks (if any of the blocks are viable)
 func grow_pass():
@@ -220,8 +230,10 @@ func _grow_block( block ):
                     if aabb != grow and grow.collides_with(aabb):
                         grow.shrink_east()
                         grow.east_state = GROW_POINT.SideState.GROW_BLOCKED
-                        print("Blocked East!")
                         break
+                
+                # Re-sort to reflect the new eastern size of this AABB.
+                _aabbs_east.sort_custom(GROW_POINT.GrowAABB, "sort_by_east") 
             else:
                 grow.east_state = result
         
@@ -243,7 +255,9 @@ func _grow_block( block ):
                         grow.shrink_south()
                         grow.south_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
-                    # Growth is unchecked on +z!!!
+                
+                # Re-sort to reflect the new southern size of this AABB.
+                _aabbs_south.sort_custom(GROW_POINT.GrowAABB, "sort_by_south") 
             else:
                 grow.south_state = result
         
@@ -255,7 +269,7 @@ func _grow_block( block ):
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the east array
                 index = _aabbs_east.bsearch_custom(
-                    grow, GROW_POINT.GrowAABB, "sort_by_east"
+                    grow, GROW_POINT.GrowAABB, "sort_by_east", true
                 )
                 # Get all the points west of our eastern-most point (including
                 # ourselves)
@@ -266,6 +280,10 @@ func _grow_block( block ):
                         grow.shrink_west()
                         grow.west_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
+                
+                # Re-sort to reflect the new western size of this AABB.
+                _aabbs_west.sort_custom(GROW_POINT.GrowAABB, "sort_by_west")        
+                
             else:
                 grow.west_state = result
         
@@ -277,7 +295,7 @@ func _grow_block( block ):
             if result == GROW_POINT.SideState.OPEN:
                 # Find our spot in the south array
                 index = _aabbs_south.bsearch_custom(
-                    grow, GROW_POINT.GrowAABB, "sort_by_south"
+                    grow, GROW_POINT.GrowAABB, "sort_by_south", true
                 )
                 # Get all the points north of our southern-most point
                 # (including ourselves)
@@ -288,8 +306,9 @@ func _grow_block( block ):
                         grow.shrink_north()
                         grow.north_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
-                if grow.a.z <= z_length:
-                    grow.north_state = GROW_POINT.SideState.GROW_BLOCKED
+                
+                # Re-sort to reflect the new northern size of this AABB.
+                _aabbs_north.sort_custom(GROW_POINT.GrowAABB, "sort_by_north")
             else:
                 grow.north_state = result
         
@@ -299,38 +318,15 @@ func _grow_block( block ):
     block.viable_aabbs = new_viables
 
 func _clean_block( block ):
-    var index
-    
+    # For each aabb in this block...
     for aabb in block.all_aabbs:
-        # For each of the directionally sorted AABB arrays, find this AABB's
-        # place in the array. If that index is correct, delete it!
-        # EAST
-        index = _aabbs_east.bsearch_custom(
-            aabb, GROW_POINT.GrowAABB, "sort_by_east"
-        )
-        if index < len(_aabbs_east) and _aabbs_east[index] == aabb:
-            _aabbs_east.remove(index)
-        
-        # West!
-        index = _aabbs_west.bsearch_custom(
-            aabb, GROW_POINT.GrowAABB, "sort_by_west"
-        )
-        if index < len(_aabbs_west) and _aabbs_west[index] == aabb:
-            _aabbs_west.remove(index)
-        
-        # North!
-        index = _aabbs_north.bsearch_custom(
-            aabb, GROW_POINT.GrowAABB, "sort_by_north"
-        )
-        if index < len(_aabbs_north) and _aabbs_north[index] == aabb:
-            _aabbs_north.remove(index)
-        
-        # South!
-        index = _aabbs_south.bsearch_custom(
-            aabb, GROW_POINT.GrowAABB, "sort_by_south"
-        )
-        if index < len(_aabbs_south) and _aabbs_south[index] == aabb:
-            _aabbs_south.remove(index)
+        # Delete it from our sorting arrays. The bsearch_custom function was
+        # returning odd values, so we're going to use the slow-style erase
+        # function.
+        _aabbs_east.erase(aabb)
+        _aabbs_west.erase(aabb)
+        _aabbs_north.erase(aabb)
+        _aabbs_south.erase(aabb)
         
         # Stick this aabb in our completed array!
         _complete_aabbs.append(aabb)
