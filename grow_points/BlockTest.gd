@@ -30,28 +30,26 @@ var blockifier = null
 func _ready():
     var new_node
     
+    $GUI/OptionsBox/XBox.value = X_WIDTH
+    $GUI/OptionsBox/ZBox.value = Z_LENGTH
+    $GUI/OptionsBox/BuildingBox.value = 20
+    
     blockifier = GROW_BLOCKIFIER.new( max_square_size, X_WIDTH, Z_LENGTH, 20 )
 
     # Spawn in the blocks
+    generate_blocks()
+    spawn_buildings()
+
+func generate_blocks():
     blockifier.spawn_pass()
+    while blockifier.has_viable_blocks():
+        # Grow the blocks
+        blockifier.grow_pass()
+        
+        # Clean the blocks
+        blockifier.clean_pass()
 
-    $PassTimer.start()
-    $QuadCheckTimer.start()
-
-func _on_PassTimer_timeout():
-    
-    # Grow the blocks
-    blockifier.grow_pass()
-    
-    # Clean the blocks
-    blockifier.clean_pass()
-    
-    if blockifier.has_viable_blocks():
-        $PassTimer.start()
-    else:
-        $PassTimer.stop()
-
-func _on_QuadCheckTimer_timeout():
+func spawn_buildings():
     var grow_aabb
     var autotower
     while not blockifier._complete_aabbs.empty():
@@ -66,3 +64,27 @@ func _on_QuadCheckTimer_timeout():
         autotower.translation.x *= GlobalRef.WINDOW_UV_SIZE
         autotower.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
         autotower.translation.z *= GlobalRef.WINDOW_UV_SIZE
+
+
+func _on_CameraOptions_item_selected(index):
+    if index == 0:
+        $OrthoDownCamera.current = true
+    elif index == 1:
+        $FOV30Camera.current = true
+    else:
+        $FOV15Camera.current = true
+
+func _on_RegenerateButton_pressed():
+    for building in $BuildingMaster.get_children():
+        $BuildingMaster.remove_child(building)
+        building.queue_free()
+        print("Remove")
+
+    blockifier = GROW_BLOCKIFIER.new(
+        max_square_size,
+        int($GUI/OptionsBox/XBox.value),
+        int($GUI/OptionsBox/ZBox.value),
+        int($GUI/OptionsBox/BuildingBox.value)
+    )
+    generate_blocks()
+    spawn_buildings()

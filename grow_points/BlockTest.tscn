@@ -22,13 +22,6 @@ projection = 1
 current = true
 size = 5.0
 
-[node name="PassTimer" type="Timer" parent="."]
-process_mode = 0
-wait_time = 0.1
-
-[node name="QuadCheckTimer" type="Timer" parent="."]
-process_mode = 0
-
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 15 )
 visible = false
@@ -47,7 +40,6 @@ size = 50.0
 [node name="FOV30Camera" type="Camera" parent="."]
 transform = Transform( 0.939693, 0.0740267, 0.333913, 0, 0.976296, -0.21644, -0.34202, 0.203387, 0.917418, 13, 2, 12 )
 cull_mask = 3
-current = true
 fov = 30.0
 size = 3.0
 
@@ -69,5 +61,98 @@ height = 10.0
 mesh = SubResource( 3 )
 material/0 = ExtResource( 4 )
 
-[connection signal="timeout" from="PassTimer" to="." method="_on_PassTimer_timeout"]
-[connection signal="timeout" from="QuadCheckTimer" to="." method="_on_QuadCheckTimer_timeout"]
+[node name="GUI" type="VBoxContainer" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="CameraBox" type="HBoxContainer" parent="GUI"]
+margin_right = 203.0
+margin_bottom = 20.0
+
+[node name="Label" type="Label" parent="GUI/CameraBox"]
+margin_top = 3.0
+margin_right = 56.0
+margin_bottom = 17.0
+text = "Camera: "
+
+[node name="CameraOptions" type="OptionButton" parent="GUI/CameraBox"]
+margin_left = 60.0
+margin_right = 172.0
+margin_bottom = 20.0
+text = "Orthographic"
+items = [ "Orthographic", null, false, 0, null, "FOV 30", null, false, 1, null, "FOV 15", null, false, 2, null ]
+selected = 0
+
+[node name="HSeparator" type="HSeparator" parent="GUI"]
+margin_top = 24.0
+margin_right = 203.0
+margin_bottom = 28.0
+
+[node name="OptionsBox" type="GridContainer" parent="GUI"]
+margin_top = 32.0
+margin_right = 203.0
+margin_bottom = 112.0
+columns = 2
+
+[node name="XLabel" type="Label" parent="GUI/OptionsBox"]
+margin_top = 5.0
+margin_right = 125.0
+margin_bottom = 19.0
+text = "X Width"
+align = 1
+
+[node name="XBox" type="SpinBox" parent="GUI/OptionsBox"]
+margin_left = 129.0
+margin_right = 203.0
+margin_bottom = 24.0
+min_value = 10.0
+max_value = 500.0
+value = 10.0
+
+[node name="ZLabel" type="Label" parent="GUI/OptionsBox"]
+margin_top = 33.0
+margin_right = 125.0
+margin_bottom = 47.0
+text = "Z Length"
+align = 1
+
+[node name="ZBox" type="SpinBox" parent="GUI/OptionsBox"]
+margin_left = 129.0
+margin_top = 28.0
+margin_right = 203.0
+margin_bottom = 52.0
+min_value = 10.0
+max_value = 500.0
+value = 10.0
+
+[node name="BuildingLabel" type="Label" parent="GUI/OptionsBox"]
+margin_top = 61.0
+margin_right = 125.0
+margin_bottom = 75.0
+text = "Buildings-per-Block"
+align = 1
+
+[node name="BuildingBox" type="SpinBox" parent="GUI/OptionsBox"]
+margin_left = 129.0
+margin_top = 56.0
+margin_right = 203.0
+margin_bottom = 80.0
+min_value = 1.0
+max_value = 60.0
+value = 1.0
+
+[node name="HSeparator2" type="HSeparator" parent="GUI"]
+margin_top = 116.0
+margin_right = 203.0
+margin_bottom = 120.0
+
+[node name="RegenerateButton" type="Button" parent="GUI"]
+margin_top = 124.0
+margin_right = 203.0
+margin_bottom = 144.0
+text = "Regenerate"
+
+[connection signal="item_selected" from="GUI/CameraBox/CameraOptions" to="." method="_on_CameraOptions_item_selected"]
+[connection signal="pressed" from="GUI/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
