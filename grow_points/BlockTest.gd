@@ -16,7 +16,7 @@ const MATERIALS = [
 const GlobalRef = preload("res://util/GlobalRef.gd")
 const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
-const AUTO_TOWER = preload("res://buildings/AutoTower.tscn")
+const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 
 onready var dd = get_node("/root/DebugDraw")
 
@@ -55,20 +55,20 @@ func generate_blocks():
 
 func spawn_buildings():
     var grow_aabb
-    var autotower
+    var building
     while not blockifier._complete_aabbs.empty():
         grow_aabb = blockifier._complete_aabbs.pop_front()
         
-        autotower = AUTO_TOWER.instance()
-        autotower.len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
-        autotower.len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
-        autotower.len_y = int(grow_aabb.height)
+        building = BUILDING_SCENE.instance()
+        building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
+        building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
+        building.tower_len_y = int(grow_aabb.height)
         
-        $BuildingMaster.add_child(autotower)
-        autotower.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
-        autotower.translation.x *= GlobalRef.WINDOW_UV_SIZE
-        autotower.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
-        autotower.translation.z *= GlobalRef.WINDOW_UV_SIZE
+        $BuildingMaster.add_child(building)
+        building.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
+        building.translation.x *= GlobalRef.WINDOW_UV_SIZE
+        building.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
+        building.translation.z *= GlobalRef.WINDOW_UV_SIZE
 
 
 func _on_CameraOptions_item_selected(index):

@@ -33,7 +33,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 510.281, 191.25 )
+graph_offset = Vector2( 383.733, 450 )
 modes/depth_draw = 3
 flags/unshaded = true
 flags/world_vertex_coords = true
