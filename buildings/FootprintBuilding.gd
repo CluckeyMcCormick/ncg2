@@ -22,8 +22,13 @@ export(float) var rotation_deviation = 45
 # Ditto as above, but for the length on y of each of our two components
 export(int) var tower_len_y = 14 setget set_tower_length_y
 
+# Ditto as above, but for the length on y of each of our two components
+export(int) var lights = 2 setget set_lights
+
 # Do we auto-build on entering the scene?
-export(bool) var auto_build = true setget set_auto_build
+export(bool) var auto_build = false setget set_auto_build
+
+var _light_arr = []
 
 # Our random number generator
 var RNGENNIE = RandomNumberGenerator.new()
@@ -65,6 +70,11 @@ func set_tower_length_y(new_length):
     if Engine.editor_hint and auto_build:
         make_building()
 
+func set_lights(new_lights):
+    lights = new_lights
+    if Engine.editor_hint and auto_build:
+        make_building()
+
 func set_auto_build(new_autobuild):
     auto_build = new_autobuild
     if Engine.editor_hint and auto_build:
@@ -79,50 +89,92 @@ func make_building():
     # If we don't have the building nodes for whatever reason, back out
     if not self.has_node("Base") or not self.has_node("MainTower"):
         return
+    # Clean up our lights
+    for light in _light_arr:
+        self.remove_child(light)
+        light.queue_free()
+    _light_arr.clear()
 
     # Okay, pick a random rotation.
     var building_rotation = RNGENNIE.randfn(0.0, rotation_deviation)
     
-    var new_len_x = footprint_len_x
-    var new_len_z = footprint_len_z
+    var light
     
+    # What's the ACTUAL footprint of the rotated building going to be? Notice
+    # that we're prematurely shrinking the building lengths, down to a minimum
+    # of 1
+    var new_len_x = max(footprint_len_x - 1, 1)
+    var new_len_z = max(footprint_len_z - 1, 1)
+    
+    # We'll use these to determine if we need to shrink a side and which side to
+    # shrink.
     var in_print
     var parity = 0
     
-    var a = Vector3(-new_len_x / 2, 0, -new_len_z / 2)
-    var b = Vector3( new_len_x / 2, 0,  new_len_z / 2)
-    var c = Vector3(-new_len_x / 2, 0,  new_len_z / 2)
-    var d = Vector3( new_len_x / 2, 0, -new_len_z / 2)
+    # Generate vector2 points according to the new lengths
+    var a = Vector2(-new_len_x / 2, -new_len_z / 2)
+    var b = Vector2( new_len_x / 2,  new_len_z / 2)
+    var c = Vector2(-new_len_x / 2,  new_len_z / 2)
+    var d = Vector2( new_len_x / 2, -new_len_z / 2)
+    # We'll stick the points in here
+    var points = []
     
-    a = a.rotated(Vector3.UP, deg2rad(building_rotation))
-    b = b.rotated(Vector3.UP, deg2rad(building_rotation))
-    c = c.rotated(Vector3.UP, deg2rad(building_rotation))
-    d = d.rotated(Vector3.UP, deg2rad(building_rotation))
+    # Alright, figure out how these points look when rotated
+    a = a.rotated(deg2rad(building_rotation))
+    b = b.rotated(deg2rad(building_rotation))
+    c = c.rotated(deg2rad(building_rotation))
+    d = d.rotated(deg2rad(building_rotation))
     
+    # Ensure these points are in the base footprint.
     in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
            and in_footprint(b)
     
+    # While the building is not in the footprint...
     while not in_print:
-        
+        # Alternate shrinking the x and z lengths
         if parity % 2 == 0:
             new_len_x -= 1
         else:
             new_len_z -= 1
-        
         parity += 1
         
-        a = Vector3(-new_len_x / 2, 0, -new_len_z / 2)
-        b = Vector3( new_len_x / 2, 0,  new_len_z / 2)
-        c = Vector3(-new_len_x / 2, 0,  new_len_z / 2)
-        d = Vector3( new_len_x / 2, 0, -new_len_z / 2)
+        # Create our new points
+        a = Vector2(-new_len_x / 2, -new_len_z / 2)
+        b = Vector2( new_len_x / 2,  new_len_z / 2)
+        c = Vector2(-new_len_x / 2,  new_len_z / 2)
+        d = Vector2( new_len_x / 2, -new_len_z / 2)
         
-        a = a.rotated(Vector3.UP, deg2rad(building_rotation))
-        b = b.rotated(Vector3.UP, deg2rad(building_rotation))
-        c = c.rotated(Vector3.UP, deg2rad(building_rotation))
-        d = d.rotated(Vector3.UP, deg2rad(building_rotation))
-
+        # Rotate them
+        a = a.rotated(deg2rad(building_rotation))
+        b = b.rotated(deg2rad(building_rotation))
+        c = c.rotated(deg2rad(building_rotation))
+        d = d.rotated(deg2rad(building_rotation))
+        
+        # Check we're in the footprint
         in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
            and in_footprint(b)
+    
+    # Find the TRUE A, B, C, and D values
+    points = [a, b, c, d]
+    a = true_a(points)
+    b = true_b(points)
+    c = true_c(points)
+    d = true_d(points)
+    
+    if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
+        light = OmniLight.new()
+        light.omni_range = 10
+        light.light_color = Color("002459")
+        light.shadow_enabled = true
+        self.add_child(light)
+        light.translation = Vector3(
+            footprint_len_x * GlobalRef.WINDOW_UV_SIZE,
+            0,
+            footprint_len_z * GlobalRef.WINDOW_UV_SIZE
+        )
+        self._light_arr.append(light)
+        
+        pass
     
     # Otherwise, pass the materials down to the buildings
     $Base.building_material = building_material
@@ -137,7 +189,6 @@ func make_building():
     # tower height.
     if tower_len_y < BASE_HEIGHT:
         $Base.len_y = tower_len_y
-    # Otherwise
     
     # Now, pass the values to the main tower
     $MainTower.len_x = new_len_x
@@ -171,8 +222,60 @@ func make_building():
 func in_footprint(var point):
     if point.x < -footprint_len_x / 2 or footprint_len_x / 2 < point.x:
         return false
-
-    if point.z < -footprint_len_z / 2 or footprint_len_z / 2 < point.z:
+    
+    if point.y < -footprint_len_z / 2 or footprint_len_z / 2 < point.y:
         return false
     
     return true
+
+func closest_to(var points_to_check, var target_point : Vector2):
+    var closest_dist = INF
+    var closest
+    
+    for point in points_to_check:
+        if target_point.distance_to(point) < closest_dist:
+            closest = point
+            closest_dist = target_point.distance_to(point)
+    
+    return closest
+
+# Finds point closest to -INF, -INF
+func true_a(var points):
+    return closest_to(points, Vector2(-100, -100))
+
+# Finds point closest to INF, INF
+func true_b(var points):
+    return closest_to(points, Vector2(100, 100))
+
+# Finds point closest to -INF, INF
+func true_c(var points):
+    return closest_to(points, Vector2(-100, 100))
+
+# Finds point closest to INF, -INF
+func true_d(var points):
+    return closest_to(points, Vector2(100, -100))
+
+func in_box(var a, var b, var c, var d, var point):
+    # Now, we'll assume that the points passed in comply to these rules:
+    #   * a is closest point to -INF, -INF    * b is closest point to INF, INF
+    #   * c is closest point to -INF,  INF    * b is closest point to INF, -INF
+    return in_triangle(a, b, c, point) or in_triangle(a, b, d, point)
+
+func in_triangle(var a, var b, var c, var point):     
+    var v0 = c - a;
+    var v1 = b - a;
+    var v2 = point - a;
+
+    var dot00 = v0.dot(v0)
+    var dot01 = v0.dot(v1)
+    var dot02 = v0.dot(v2)
+    var dot11 = v1.dot(v1)
+    var dot12 = v1.dot(v2)
+
+    var invDenom = pow(dot00 * dot11 - dot01 * dot01, -1);
+    var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+    var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+    
+    # If the point was in the triangle, this statement will return true.
+    # Otherwise, it'll return false!
+    return u >= 0 && v >= 0 && (u + v) < 1
