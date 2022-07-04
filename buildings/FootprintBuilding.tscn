@@ -2,26 +2,32 @@
 
 [ext_resource path="res://buildings/FootprintBuilding.gd" type="Script" id=1]
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=2]
-[ext_resource path="res://buildings/DotWindowMaterial.tres" type="Material" id=3]
+[ext_resource path="res://buildings/DotWindowLightMaterial.tres" type="Material" id=3]
 
 [node name="FootprintBuilding" type="Spatial"]
-transform = Transform( 0.888774, 0, 0.458346, 0, 1, 0, -0.458346, 0, 0.888774, 0, 0, 0 )
+transform = Transform( 0.994781, 0, -0.102039, 0, 1, 0, 0.102039, 0, 0.994781, 0, 0, 0 )
 script = ExtResource( 1 )
 building_material = ExtResource( 3 )
 
 [node name="Base" parent="." instance=ExtResource( 2 )]
-len_x = 5
+building_material = ExtResource( 3 )
+len_x = 7
 len_y = 3
-len_z = 6
+len_z = 7
 use_window_texture = false
 auto_build = false
 
 [node name="MainTower" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, -1.43584e-29, -6.3573e-08, 0, 1, -2.25857e-22, 6.3573e-08, 2.25857e-22, 1, -2.60649e-07, 0.046875, 0 )
-len_x = 5
+building_material = ExtResource( 3 )
+len_x = 7
 len_y = 11
-len_z = 6
+len_z = 7
 auto_build = false
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
-aabb = AABB( -0.0390625, 0, -0.046875, 0.078125, 0.21875, 0.09375 )
+aabb = AABB( -0.0546875, 0, -0.0546875, 0.109375, 0.21875, 0.109375 )
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 5.21541e-08, 0, 1, 0, -5.21541e-08, 0, 1, 0.131356, 0, 0.131112 )
+shadow_enabled = true

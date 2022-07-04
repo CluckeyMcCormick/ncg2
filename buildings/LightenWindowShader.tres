@@ -123,7 +123,6 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -248.848, -202.5 )
 flags/world_vertex_coords = true
 nodes/fragment/0/position = Vector2( 860, 140 )
 nodes/light/0/position = Vector2( 1500, 260 )
