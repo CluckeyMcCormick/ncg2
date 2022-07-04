@@ -24,6 +24,8 @@ const X_WIDTH = 30
 const Z_LENGTH = 120
 
 export(Curve) var max_square_size
+export(Curve) var min_height
+export(Curve) var max_height
 
 var blockifier = null
 
@@ -34,7 +36,9 @@ func _ready():
     $GUI/OptionsBox/ZBox.value = Z_LENGTH
     $GUI/OptionsBox/BuildingBox.value = 20
     
-    blockifier = GROW_BLOCKIFIER.new( max_square_size, X_WIDTH, Z_LENGTH, 20 )
+    blockifier = GROW_BLOCKIFIER.new(
+        max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 20
+    )
 
     # Spawn in the blocks
     generate_blocks()
@@ -58,6 +62,7 @@ func spawn_buildings():
         autotower = AUTO_TOWER.instance()
         autotower.len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
         autotower.len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
+        autotower.len_y = int(grow_aabb.height)
         
         $BuildingMaster.add_child(autotower)
         autotower.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
@@ -81,7 +86,7 @@ func _on_RegenerateButton_pressed():
         print("Remove")
 
     blockifier = GROW_BLOCKIFIER.new(
-        max_square_size,
+        max_square_size, min_height, max_height,
         int($GUI/OptionsBox/XBox.value),
         int($GUI/OptionsBox/ZBox.value),
         int($GUI/OptionsBox/BuildingBox.value)

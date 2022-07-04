@@ -44,6 +44,8 @@ class GrowBlock:
         return not viable_aabbs.empty()
 
 var max_square_size
+var min_height = null
+var max_height = null
 var x_width
 var z_length
 var points_per_block
@@ -58,8 +60,10 @@ var _complete_aabbs = []
 
 var _block_offset = Vector3.ZERO
 
-func _init(size_curve, x_width, z_length, points_per_block):
+func _init(size_curve, min_height, max_height, x_width, z_length, points_per_block):
     self.max_square_size = size_curve
+    self.min_height = min_height
+    self.max_height = max_height
     self.points_per_block = points_per_block
     self.x_width = x_width
     self.z_length = z_length
@@ -133,6 +137,10 @@ func _spawn_block():
     var new_aabb
     var new_block = GrowBlock.new()
 
+    var min_height_val
+    var max_height_val
+    var height
+
     var point_distro = RandomNumberGenerator.new()
     point_distro.randomize()
     
@@ -158,7 +166,13 @@ func _spawn_block():
         max_len = max_square_size.interpolate( float(origin.z) / z_length)
         max_len = stepify(max_len, 1.0)
         
-        new_aabb = GROW_POINT.GrowAABB.new(origin, max_len, max_len)
+        min_height_val = min_height.interpolate( float(origin.z) / z_length)
+        max_height_val = max_height.interpolate( float(origin.z) / z_length)
+        
+        height = randf() * (max_height_val - min_height_val) + min_height_val
+        height = int( stepify(height, 1.0) )
+        
+        new_aabb = GROW_POINT.GrowAABB.new(origin, max_len, max_len, height)
         
         points[origin] = new_aabb
         

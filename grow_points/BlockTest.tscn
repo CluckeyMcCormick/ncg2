@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://voronoi/VoroniColorF.material" type="Material" id=1]
 [ext_resource path="res://grow_points/BlockTest.gd" type="Script" id=2]
 [ext_resource path="res://grow_points/BuildingSizeCurve.tres" type="Curve" id=3]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=4]
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=5]
+[ext_resource path="res://grow_points/BuildingMinHeightCurve.tres" type="Curve" id=6]
+[ext_resource path="res://grow_points/BuildingMaxHeightCurve.tres" type="Curve" id=7]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 20, 30 )
@@ -14,6 +16,8 @@ size = Vector2( 20, 30 )
 [node name="BlockTest" type="Spatial"]
 script = ExtResource( 2 )
 max_square_size = ExtResource( 3 )
+min_height = ExtResource( 6 )
+max_height = ExtResource( 7 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( -0.707107, 0.408244, -0.577353, 0, 0.8165, 0.577345, 0.707107, 0.408244, -0.577353, -5, 12, -5 )

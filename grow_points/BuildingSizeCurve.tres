@@ -2,5 +2,5 @@
 
 [resource]
 min_value = 3.0
-max_value = 20.0
-_data = [ Vector2( 0, 3 ), 0.0, 3.23703, 0, 0, Vector2( 1, 20 ), 38.066, 0.0, 0, 0 ]
+max_value = 15.0
+_data = [ Vector2( 0, 3 ), 0.0, 3.23703, 0, 0, Vector2( 1, 15 ), 18.9467, 0.0, 0, 0 ]

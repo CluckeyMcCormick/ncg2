@@ -22,6 +22,9 @@ const Z_LENGTH = 30
 
 export(Curve) var max_square_size
 
+var min_height = load("res://grow_points/BuildingMinHeightCurve.tres")
+var max_height = load("res://grow_points/BuildingMaxHeightCurve.tres")
+
 var blockifier = null
 var pass_count = 0
 
@@ -31,7 +34,9 @@ func _ready():
     var new_node
     
     
-    blockifier = GROW_BLOCKIFIER.new( max_square_size, X_WIDTH, Z_LENGTH, 40 )
+    blockifier = GROW_BLOCKIFIER.new(
+        max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 40
+    )
     
     # Spawn in the blocks
     blockifier.spawn_pass()

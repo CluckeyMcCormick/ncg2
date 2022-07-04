@@ -19,6 +19,8 @@ class GrowAABB:
     var max_x_len
     var max_z_len
     
+    var height = 10
+    
     var east_state = SideState.OPEN
     var south_state = SideState.OPEN
     var north_state = SideState.OPEN
@@ -36,7 +38,7 @@ class GrowAABB:
     static func sort_by_north(one, two):
         return one.a.z < two.a.z
 
-    func _init(in_origin, in_max_x_len, in_max_z_len):
+    func _init(in_origin, in_max_x_len, in_max_z_len, in_height):
         origin = in_origin
         
         a = origin
@@ -44,6 +46,8 @@ class GrowAABB:
         
         max_x_len = in_max_x_len
         max_z_len = in_max_z_len
+        
+        height = in_height
     
     # According to documentation, Godot's global east is given by Vector3.RIGHT,
     # which is equivalent to (1, 0, 0)
