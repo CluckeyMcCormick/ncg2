@@ -40,6 +40,14 @@ class GrowBlock:
     # The block's right/east/+x neighbor.
     var right_neighbor = null
     
+    # The block's origin - not necessarily the middle, but where we started
+    # seeding points for this block from. Technically, this should be the point
+    # in the block closest to (-INF, 0, -INF).
+    var block_origin = Vector3.ZERO
+    # The x_width and z_length used to generate this block.
+    var x_width
+    var z_length
+    
     func is_viable():
         return not viable_aabbs.empty()
 
@@ -143,6 +151,11 @@ func _spawn_block():
 
     var point_distro = RandomNumberGenerator.new()
     point_distro.randomize()
+    
+    # Set the block's generation data
+    new_block.block_origin = _block_offset
+    new_block.x_width = x_width
+    new_block.z_length = z_length
     
     #
     # Step 1: Seed

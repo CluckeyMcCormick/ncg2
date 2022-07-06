@@ -17,6 +17,9 @@ func _input(event):
     elif event.is_action_pressed("game_pause"):
         get_tree().paused = not get_tree().paused
 
+func _physics_process(delta):
+    $UpCamera.translate( Vector3(1, 0, 0) * delta )
+
 func assert_color_profile(arg_dict):
     # We're going to manually set all of these profile values, and call each
     # callback function manually. Kinda sucks, but this whole project is a kind

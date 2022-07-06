@@ -2,7 +2,7 @@
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
-[ext_resource path="res://scrollers/SledLane.tscn" type="PackedScene" id=3]
+[ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 
 [sub_resource type="SphereMesh" id=1]
@@ -24,7 +24,7 @@ pause_mode = 2
 script = ExtResource( 4 )
 
 [node name="UpCamera" type="Camera" parent="."]
-transform = Transform( 0.939693, 0.029809, 0.340719, 0, 0.996195, -0.0871557, -0.34202, 0.0818996, 0.936117, 0, 2, 12 )
+transform = Transform( 0.939693, 0.029809, 0.340718, 0, 0.996195, -0.0871557, -0.34202, 0.0818996, 0.936117, 0, 2, 12 )
 cull_mask = 3
 current = true
 fov = 15.0
@@ -41,121 +41,6 @@ height = 10.0
 [node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
-
-[node name="BuildingRig" type="Spatial" parent="."]
-pause_mode = 1
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
-
-[node name="1_FrameBuilding" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 0 )
-width_max = 12
-depth_max = 10
-base_height_max = 2
-tower_height_min = 12
-tower_height_max = 13
-rotation_deviation = 0.0
-min_extra_space = 5
-max_extra_space = 25
-
-[node name="2_PrePaddingA" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.69052, 0, -2.29144 )
-width_min = 8
-width_max = 14
-depth_min = 6
-depth_max = 11
-tower_height_min = 7
-tower_height_max = 11
-rotation_deviation = 0.0
-
-[node name="3_PrePaddingB" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, -4.9 )
-width_max = 12
-depth_max = 10
-base_height_max = 2
-tower_height_min = 9
-tower_height_max = 13
-rotation_deviation = 0.0
-min_extra_space = 5
-max_extra_space = 20
-
-[node name="4_PrePaddingC" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0, -7.4 )
-width_max = 12
-depth_min = 6
-depth_max = 11
-tower_height_min = 7
-tower_height_max = 9
-rotation_deviation = 0.0
-
-[node name="5_SkyscraperA" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4294, 0, -9.90212 )
-width_min = 9
-width_max = 13
-depth_min = 6
-depth_max = 10
-base_height_max = 5
-tower_height_min = 10
-tower_height_max = 14
-min_extra_space = 1
-max_extra_space = 12
-
-[node name="6_SkyscraperB" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8294, 0, -12.4328 )
-width_min = 9
-width_max = 12
-depth_max = 10
-base_height_min = 8
-base_height_max = 13
-tower_height_min = 12
-tower_height_max = 14
-max_extra_space = 12
-
-[node name="7_SkyscraperC" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.02937, 0, -14.9059 )
-width_min = 8
-width_max = 18
-depth_min = 8
-depth_max = 10
-base_height_max = 13
-tower_height_min = 21
-tower_height_max = 22
-rotation_deviation = 90.0
-max_extra_space = 12
-
-[node name="8_PostPaddingA" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15.2, 0, -17.0202 )
-visible = false
-width_min = 12
-width_max = 12
-depth_max = 10
-base_height_max = 2
-tower_height_min = 12
-tower_height_max = 13
-rotation_deviation = 0.0
-
-[node name="9_PostPaddingD" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -19.4202 )
-visible = false
-width_min = 12
-width_max = 12
-depth_max = 10
-base_height_max = 2
-tower_height_min = 13
-tower_height_max = 18
-rotation_deviation = 0.0
-
-[node name="10_SuperStructures" parent="BuildingRig" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.803, 0, -24.22 )
-width_min = 20
-width_max = 32
-depth_min = 20
-depth_max = 32
-base_height_min = 5
-base_height_max = 10
-tower_height_min = 40
-tower_height_max = 70
-rotation_deviation = 60.0
-max_extra_space = 100
 
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 20.0
@@ -947,6 +832,14 @@ align = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )
+
+[node name="GrowBlockCity" parent="." instance=ExtResource( 3 )]
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 0 )
+visible = false
+projection = 1
+size = 30.0
 
 [connection signal="item_selected" from="GUI/Tabs/Profiles/VBox/ProfileSelection" to="." method="_on_ProfileSelection_item_selected"]
 [connection signal="color_changed" from="GUI/Tabs/Buildings/VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]

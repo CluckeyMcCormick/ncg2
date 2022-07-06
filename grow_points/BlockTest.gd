@@ -93,3 +93,6 @@ func _on_RegenerateButton_pressed():
     )
     generate_blocks()
     spawn_buildings()
+    
+func _on_BakeButton_pressed():
+    $GIProbe.bake()
