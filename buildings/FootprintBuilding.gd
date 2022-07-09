@@ -6,6 +6,8 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 
 const BASE_HEIGHT = 3
 
+const MAX_ROLLS = 10
+
 # The material we'll use to make this building.
 export(Material) var building_material setget set_building_material
 
@@ -100,6 +102,8 @@ func make_building():
     
     var light
     
+    var roll_count = 0
+    
     # What's the ACTUAL footprint of the rotated building going to be? Notice
     # that we're prematurely shrinking the building lengths, down to a minimum
     # of 1
@@ -130,7 +134,7 @@ func make_building():
            and in_footprint(b)
     
     # While the building is not in the footprint...
-    while not in_print:
+    while not in_print and roll_count < MAX_ROLLS:
         # Alternate shrinking the x and z lengths
         if parity % 2 == 0:
             new_len_x -= 1
@@ -153,13 +157,27 @@ func make_building():
         # Check we're in the footprint
         in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
            and in_footprint(b)
+        
+        roll_count += 1
     
-    # Find the TRUE A, B, C, and D values
-    points = [a, b, c, d]
-    a = true_a(points)
-    b = true_b(points)
-    c = true_c(points)
-    d = true_d(points)
+    # If we capped out on the number of rolls we allowed, we'll just do default
+    # to a non-rotated building.
+    if roll_count >= MAX_ROLLS:
+        new_len_x = max(footprint_len_x - 1, 1)
+        new_len_z = max(footprint_len_z - 1, 1)
+        
+        # Generate vector2 points according to the new lengths
+        a = Vector2(-new_len_x / 2, -new_len_z / 2)
+        b = Vector2( new_len_x / 2,  new_len_z / 2)
+        c = Vector2(-new_len_x / 2,  new_len_z / 2)
+        d = Vector2( new_len_x / 2, -new_len_z / 2)
+    else:
+        # Find the TRUE A, B, C, and D values
+        points = [a, b, c, d]
+        a = true_a(points)
+        b = true_b(points)
+        c = true_c(points)
+        d = true_d(points)
     
     if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
         light = OmniLight.new()

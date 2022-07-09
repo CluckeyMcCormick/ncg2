@@ -18,7 +18,7 @@ func _input(event):
         get_tree().paused = not get_tree().paused
 
 func _physics_process(delta):
-    $UpCamera.translate( Vector3(1, 0, 0) * delta )
+    $UpCamera.global_transform.origin += Vector3(5, 0, 0) * delta
 
 func assert_color_profile(arg_dict):
     # We're going to manually set all of these profile values, and call each
