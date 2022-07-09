@@ -76,8 +76,7 @@ func spawn_blocks():
         
         # Stick it in the scene, register the methods
         $VisibilityMaster.add_child(node)
-        node.connect("screen_entered", self, "_on_block_screen_entered")
-        node.connect("screen_entered", self, "_on_block_screen_exited", [node])
+        node.connect("screen_entered", self, "_on_block_screen_entered", [node])
         
         
         # Stick it in our tracking dictionaries
@@ -106,23 +105,22 @@ func spawn_buildings():
         building.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
         building.translation.z *= GlobalRef.WINDOW_UV_SIZE
 
-func _on_block_screen_entered():
-    print("Entered!")
+func _on_block_screen_entered(block_vis):
+    # First, we need to remove the notifier that emitted this signal from our
+    # origin-check-dictionary
+    for key in origin_to_notifier.keys():
+        if origin_to_notifier[key] != block_vis:
+            continue
+        origin_to_notifier.erase(key)
+        break
+    
+    # Remove and delete the visibility modifier
+    $VisibilityMaster.remove_child(block_vis)
+    block_vis.queue_free()
+    
     # Spawn in some new blocks
     spawn_blocks()
     # Grow those blocks!
     grow_blocks()
     # Spawn in the buildings
     spawn_buildings()
-
-func _on_block_screen_exited(block_vis):
-    print("Exited!")
-    # First, we need to remove this notifier from our origin-check-dictionary
-    for key in origin_to_notifier.keys():
-        if origin_to_notifier[key] != block_vis:
-            continue
-        origin_to_notifier.erase(key)
-        break
-
-    $VisibilityMaster.remove_child(block_vis)
-    block_vis.queue_free()

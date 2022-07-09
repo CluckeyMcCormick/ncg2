@@ -30,6 +30,10 @@ export(int) var lights = 2 setget set_lights
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = false setget set_auto_build
 
+# Do we automatically remove ourselves from the scene once we've exited the
+# screen?
+export(bool) var auto_clean = true
+
 var _light_arr = []
 
 # Our random number generator
@@ -227,6 +231,8 @@ func make_building():
     var eff_y = tower_len_y * GlobalRef.WINDOW_UV_SIZE
     var eff_z = new_len_z * GlobalRef.WINDOW_UV_SIZE
     
+    # TODO: Incorporate omnilight radius into aabb calculation.
+    
     $VisibilityNotifier.aabb.position.x = -eff_x / 2
     $VisibilityNotifier.aabb.position.y = 0
     $VisibilityNotifier.aabb.position.z = -eff_z / 2
@@ -297,3 +303,10 @@ func in_triangle(var a, var b, var c, var point):
     # If the point was in the triangle, this statement will return true.
     # Otherwise, it'll return false!
     return u >= 0 && v >= 0 && (u + v) < 1
+    
+func _on_VisibilityNotifier_screen_exited():
+    if Engine.editor_hint or not self.auto_clean:
+        return
+    
+    self.get_parent().remove_child(self)
+    self.queue_free()
