@@ -184,6 +184,7 @@ _global_script_class_icons={
 
 config/name="NCG2.0"
 run/main_scene="res://Main.tscn"
+run/delta_sync_after_draw=true
 config/icon="res://icon.png"
 
 [autoload]

@@ -7,6 +7,8 @@ const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 
 const BUILDING_SCALAR = 10
 
+const MSEC_TARGET = 5
+
 onready var dd = get_node("/root/DebugDraw")
 
 export(int) var block_x_width = 30
@@ -17,21 +19,26 @@ export(Curve) var max_square_size
 export(Curve) var min_height
 export(Curve) var max_height
 
+# The blockifier - for creating blocks and growing out building footprints
 var blockifier = null
 
 # Block Origins to corresponding VisibilityNotifier nodes. Used to ensure we
 # only set up one VisibilityNotifier for each block
 var origin_to_notifier = {}
 
+# Thread for growing the blockifier's blocks
 var thread = null
+
+var to_build = []
 
 func _ready():
     var new_node
     
-    # Assert the building scalar
+    # Assert the building scalar and rotation
     $BuildingMaster.scale = Vector3(
         BUILDING_SCALAR, BUILDING_SCALAR, -BUILDING_SCALAR
     )
+    $BuildingMaster.rotation_degrees = Vector3.ZERO
     
     # Create a new blockifier
     blockifier = GROW_BLOCKIFIER.new(
@@ -45,15 +52,39 @@ func _ready():
     grow_blocks()
     # Spawn some buildings
     spawn_buildings()
-    
-    $BuildingMaster.rotation_degrees = Vector3.ZERO
 
 func _physics_process(delta):
+    # How many ticks did we start with?
+    var start_ticks
+    # How many ticks do we have now?
+    var current_ticks
+    # What's our current building?
+    var building
+    
+    # Catch the current tick count
+    start_ticks = OS.get_ticks_msec()
+    
+    # If we have a grow thread, and the thread is done...
     if thread != null and not thread.is_alive():
+        # Wait for the thread to finish
         thread.wait_to_finish()
+        # Spawn in the footprints
         spawn_buildings()
         thread = null
-
+    
+    # Get the current tick count
+    current_ticks = OS.get_ticks_msec()
+    
+    # While we still have buildings to build, and we're under our millisecond
+    # target...
+    while not to_build.empty() and current_ticks - start_ticks < MSEC_TARGET:
+        # Get the next building
+        building = to_build.pop_front()
+        # Make that building
+        building.make_building()
+        # What time are we at now?
+        current_ticks = OS.get_ticks_msec()
+    
 func spawn_blocks():
     var node
     
@@ -83,7 +114,6 @@ func spawn_blocks():
         $VisibilityMaster.add_child(node)
         node.connect("screen_entered", self, "_on_block_screen_entered", [node])
         
-        
         # Stick it in our tracking dictionaries
         origin_to_notifier[block.block_origin] = node
 
@@ -104,6 +134,10 @@ func spawn_buildings():
         building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
         building.tower_len_y = int(grow_aabb.height)
         
+        building.connect(
+            "blueprint_completed", self, "_on_building_blueprint_completed"
+        )
+        
         $BuildingMaster.add_child(building)
         building.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
         building.translation.x *= GlobalRef.WINDOW_UV_SIZE
@@ -119,13 +153,24 @@ func _on_block_screen_entered(block_vis):
         origin_to_notifier.erase(key)
         break
     
+    # Break the signal
+    block_vis.disconnect("screen_entered", self, "_on_block_screen_entered")
+    
     # Remove and delete the visibility modifier
     $VisibilityMaster.remove_child(block_vis)
     block_vis.queue_free()
     
+    # If we don't have a thread active...
     if thread == null:
         # Spawn in some new blocks
         spawn_blocks()
         
+        # Create and start a new thread
         thread = Thread.new()
         thread.start(self, "grow_blocks")
+
+func _on_building_blueprint_completed(building):
+    building.disconnect(
+        "blueprint_completed", self, "_on_building_blueprint_completed"
+    )
+    to_build.append(building)

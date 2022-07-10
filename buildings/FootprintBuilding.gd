@@ -1,4 +1,3 @@
-tool
 extends Spatial
 
 # Load the GlobalRef script
@@ -10,12 +9,12 @@ const MAX_ROLLS = 25#10
 const MIN_THIN = 2
 
 # The material we'll use to make this building.
-export(Material) var building_material setget set_building_material
+export(Material) var building_material
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
-export(int) var footprint_len_x = 8 setget set_length_x
-export(int) var footprint_len_z = 8 setget set_length_z
+export(int) var footprint_len_x = 8
+export(int) var footprint_len_z = 8
 
 # What's the standard deviation for the rotation of any given building on a
 # sled? This is a "deviation" in the terms of a Gaussian Distribution, meaning
@@ -23,23 +22,32 @@ export(int) var footprint_len_z = 8 setget set_length_z
 export(float) var rotation_deviation = 45
 
 # Ditto as above, but for the length on y of each of our two components
-export(int) var tower_len_y = 14 setget set_tower_length_y
+export(int) var tower_len_y = 14
 
 # Ditto as above, but for the length on y of each of our two components
-export(int) var lights = 2 setget set_lights
+export(int) var lights = 2
 
 # Do we auto-build on entering the scene?
-export(bool) var auto_build = false setget set_auto_build
+export(bool) var auto_build = false
 
 # Do we automatically remove ourselves from the scene once we've exited the
 # screen?
 export(bool) var auto_clean = true
 
+# Signal emitted when our blueprint-construction thread is completed. Emits the
+# building that got completed.
+signal blueprint_completed(building)
+
+# The blueprint variables. Our construction is divided into two phases: first,
+# we do the algorithmically complex heavy work of designing the building. We
+# store the results in the "blueprint" variables - the length-per-side on x and
+# z, the rotation, and the information on the lights.
 var blp_len_x
 var blp_len_z
 var blp_rotation
 var blp_lights = []
 
+# The thread that we'e using to construct the blueprints.
 var build_thread = null
 
 # Our random number generator
@@ -56,56 +64,22 @@ func _ready():
     
     # If we're auto-building...
     if auto_build:
-        # And we're in-engine...
-        if Engine.editor_hint:
-            # Make the building
-            make_complete()
-        # Otherwise...
-        else:
-            # Launch the blueprint-crafting thread
-            build_thread = Thread.new()
-            build_thread.start(self, "make_blueprint")
+        # Launch the blueprint-crafting thread
+        build_thread = Thread.new()
+        build_thread.start(self, "make_blueprint")
 
 func _physics_process(delta):
     if build_thread != null and not build_thread.is_alive():
         build_thread.wait_to_finish()
-        make_building()
         build_thread = null
+        emit_signal("blueprint_completed", self)
 
-# --------------------------------------------------------
-#
-# Setters and Getters
-#
-# --------------------------------------------------------
-func set_building_material(new_building_material):
-    building_material = new_building_material
-    if Engine.editor_hint and auto_build:
-        make_complete()
-
-func set_length_x(new_length):
-    footprint_len_x = new_length
-    if Engine.editor_hint and auto_build:
-        make_complete()
+func _on_VisibilityNotifier_screen_exited():
+    if not self.auto_clean:
+        return
     
-func set_length_z(new_length):
-    footprint_len_z = new_length
-    if Engine.editor_hint and auto_build:
-        make_complete()
-
-func set_tower_length_y(new_length):
-    tower_len_y = new_length
-    if Engine.editor_hint and auto_build:
-        make_complete()
-
-func set_lights(new_lights):
-    lights = new_lights
-    if Engine.editor_hint and auto_build:
-        make_complete()
-
-func set_auto_build(new_autobuild):
-    auto_build = new_autobuild
-    if Engine.editor_hint and auto_build:
-        make_complete()
+    self.get_parent().remove_child(self)
+    self.queue_free()
 
 # --------------------------------------------------------
 #
@@ -222,7 +196,7 @@ func make_blueprint():
     # Add a light, just so long as it doesn't overlap with our building.
     if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
         blp_lights.append(
-            [10, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
+            [6, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
         )
 
 func make_building():
@@ -278,6 +252,7 @@ func make_building():
             0,
             light_arr[2].y * GlobalRef.WINDOW_UV_SIZE
         )
+    
     # TODO: Incorporate omnilight radius into aabb calculation.
     
     $VisibilityNotifier.aabb.position.x = -eff_x / 2
@@ -290,7 +265,11 @@ func make_building():
     
     self.rotation_degrees.y = blp_rotation
 
-
+# --------------------------------------------------------
+#
+# Utility/Calculation Functions
+#
+# --------------------------------------------------------
 func in_footprint(var point):
     if point.x < -footprint_len_x / 2 or footprint_len_x / 2 < point.x:
         return false
@@ -351,10 +330,3 @@ func in_triangle(var a, var b, var c, var point):
     # If the point was in the triangle, this statement will return true.
     # Otherwise, it'll return false!
     return u >= 0 && v >= 0 && (u + v) < 1
-    
-func _on_VisibilityNotifier_screen_exited():
-    if Engine.editor_hint or not self.auto_clean:
-        return
-    
-    self.get_parent().remove_child(self)
-    self.queue_free()

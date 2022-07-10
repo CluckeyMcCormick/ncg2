@@ -15,7 +15,7 @@ const POINT_POSITION_STEP = 2.0
 const INTRA_BLOCK_SPACER = POINT_POSITION_STEP * 2
 
 # How many blocks do we aim to consistently have?
-const TARGET_BLOCK_COUNT = 4
+const TARGET_BLOCK_COUNT = 6
 
 # The city looks organic because we're dynamically growing out the buildings
 # and stopping them when they collide with each other. However, since the city

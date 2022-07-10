@@ -59,7 +59,6 @@ __meta__ = {
 }
 
 [node name="Profiles" type="Tabs" parent="GUI/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -459,6 +458,7 @@ max_value = 9999.0
 value = 200.0
 
 [node name="Starfield" type="Tabs" parent="GUI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
