@@ -27,4 +27,6 @@ auto_build = false
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -0.0546875, 0, -0.0546875, 0.109375, 0.21875, 0.109375 )
 
+[node name="LightManager" type="Spatial" parent="."]
+
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="_on_VisibilityNotifier_screen_exited"]

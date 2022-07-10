@@ -23,7 +23,7 @@ var blockifier = null
 # only set up one VisibilityNotifier for each block
 var origin_to_notifier = {}
 
-var thread
+var thread = null
 
 func _ready():
     var new_node
@@ -45,9 +45,14 @@ func _ready():
     grow_blocks()
     # Spawn some buildings
     spawn_buildings()
+    
+    $BuildingMaster.rotation_degrees = Vector3.ZERO
 
 func _physics_process(delta):
-    $BuildingMaster.rotation_degrees = Vector3.ZERO
+    if thread != null and not thread.is_alive():
+        thread.wait_to_finish()
+        spawn_buildings()
+        thread = null
 
 func spawn_blocks():
     var node
@@ -118,9 +123,9 @@ func _on_block_screen_entered(block_vis):
     $VisibilityMaster.remove_child(block_vis)
     block_vis.queue_free()
     
-    # Spawn in some new blocks
-    spawn_blocks()
-    # Grow those blocks!
-    grow_blocks()
-    # Spawn in the buildings
-    spawn_buildings()
+    if thread == null:
+        # Spawn in some new blocks
+        spawn_blocks()
+        
+        thread = Thread.new()
+        thread.start(self, "grow_blocks")

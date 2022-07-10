@@ -34,7 +34,12 @@ export(bool) var auto_build = false setget set_auto_build
 # screen?
 export(bool) var auto_clean = true
 
-var _light_arr = []
+var blp_len_x
+var blp_len_z
+var blp_rotation
+var blp_lights = []
+
+var build_thread = null
 
 # Our random number generator
 var RNGENNIE = RandomNumberGenerator.new()
@@ -48,8 +53,23 @@ var RNGENNIE = RandomNumberGenerator.new()
 func _ready():
     RNGENNIE.randomize()
     
+    # If we're auto-building...
     if auto_build:
+        # And we're in-engine...
+        if Engine.editor_hint:
+            # Make the building
+            make_complete()
+        # Otherwise...
+        else:
+            # Launch the blueprint-crafting thread
+            build_thread = Thread.new()
+            build_thread.start(self, "make_blueprint")
+
+func _physics_process(delta):
+    if build_thread != null and not build_thread.is_alive():
+        build_thread.wait_to_finish()
         make_building()
+        build_thread = null
 
 # --------------------------------------------------------
 #
@@ -59,79 +79,83 @@ func _ready():
 func set_building_material(new_building_material):
     building_material = new_building_material
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
 
 func set_length_x(new_length):
     footprint_len_x = new_length
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
     
 func set_length_z(new_length):
     footprint_len_z = new_length
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
 
 func set_tower_length_y(new_length):
     tower_len_y = new_length
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
 
 func set_lights(new_lights):
     lights = new_lights
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
 
 func set_auto_build(new_autobuild):
     auto_build = new_autobuild
     if Engine.editor_hint and auto_build:
-        make_building()
+        make_complete()
 
 # --------------------------------------------------------
 #
 # Build Functions
 #
 # --------------------------------------------------------
-func make_building():
-    # If we don't have the building nodes for whatever reason, back out
-    if not self.has_node("Base") or not self.has_node("MainTower"):
-        return
-    # Clean up our lights
-    for light in _light_arr:
-        self.remove_child(light)
-        light.queue_free()
-    _light_arr.clear()
+func make_complete():
+    make_blueprint()
+    make_building()
 
-    # Okay, pick a random rotation.
-    var building_rotation = RNGENNIE.randfn(0.0, rotation_deviation)
-    
-    var light
-    
+func make_blueprint():
+    # We'll use these to determine if we need to shrink a side and which side to
+    # shrink.
+    var in_print 
+
+    # How many times have we shrank the size of this building-blueprint due to
+    # the rotation?
     var roll_count = 0
+    
+    # These are the four points of the building-blueprint's "square"
+    var a
+    var b
+    var c
+    var d
+
+    # We'll stick the points in here
+    var points = []
+    
+    # Clear our lights
+    blp_lights.clear()
+    
+    # Okay, pick a random rotation.
+    blp_rotation = RNGENNIE.randfn(0.0, rotation_deviation)
     
     # What's the ACTUAL footprint of the rotated building going to be? Notice
     # that we're prematurely shrinking the building lengths, down to a minimum
     # of 1
-    var new_len_x = max(footprint_len_x - 1, 1)
-    var new_len_z = max(footprint_len_z - 1, 1)
-    
-    # We'll use these to determine if we need to shrink a side and which side to
-    # shrink.
-    var in_print
-    var parity = 0
+    blp_len_x = max(footprint_len_x - 1, 1)
+    blp_len_z = max(footprint_len_z - 1, 1)
     
     # Generate vector2 points according to the new lengths
-    var a = Vector2(-new_len_x / 2, -new_len_z / 2)
-    var b = Vector2( new_len_x / 2,  new_len_z / 2)
-    var c = Vector2(-new_len_x / 2,  new_len_z / 2)
-    var d = Vector2( new_len_x / 2, -new_len_z / 2)
-    # We'll stick the points in here
-    var points = []
+    a = Vector2(-blp_len_x / 2, -blp_len_z / 2)
+    b = Vector2( blp_len_x / 2,  blp_len_z / 2)
+    c = Vector2(-blp_len_x / 2,  blp_len_z / 2)
+    d = Vector2( blp_len_x / 2, -blp_len_z / 2)
     
     # Alright, figure out how these points look when rotated
-    a = a.rotated(deg2rad(building_rotation))
-    b = b.rotated(deg2rad(building_rotation))
-    c = c.rotated(deg2rad(building_rotation))
-    d = d.rotated(deg2rad(building_rotation))
+    a = a.rotated(deg2rad(blp_rotation))
+    b = b.rotated(deg2rad(blp_rotation))
+    c = c.rotated(deg2rad(blp_rotation))
+    d = d.rotated(deg2rad(blp_rotation))
     
     # Ensure these points are in the base footprint.
     in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
@@ -140,41 +164,45 @@ func make_building():
     # While the building is not in the footprint...
     while not in_print and roll_count < MAX_ROLLS:
         # Alternate shrinking the x and z lengths
-        if parity % 2 == 0:
-            new_len_x -= 1
+        if roll_count % 2 == 0:
+            blp_len_x -= 1
         else:
-            new_len_z -= 1
-        parity += 1
+            blp_len_z -= 1
         
         # Create our new points
-        a = Vector2(-new_len_x / 2, -new_len_z / 2)
-        b = Vector2( new_len_x / 2,  new_len_z / 2)
-        c = Vector2(-new_len_x / 2,  new_len_z / 2)
-        d = Vector2( new_len_x / 2, -new_len_z / 2)
+        a = Vector2(-blp_len_x / 2, -blp_len_z / 2)
+        b = Vector2( blp_len_x / 2,  blp_len_z / 2)
+        c = Vector2(-blp_len_x / 2,  blp_len_z / 2)
+        d = Vector2( blp_len_x / 2, -blp_len_z / 2)
         
         # Rotate them
-        a = a.rotated(deg2rad(building_rotation))
-        b = b.rotated(deg2rad(building_rotation))
-        c = c.rotated(deg2rad(building_rotation))
-        d = d.rotated(deg2rad(building_rotation))
+        a = a.rotated(deg2rad(blp_rotation))
+        b = b.rotated(deg2rad(blp_rotation))
+        c = c.rotated(deg2rad(blp_rotation))
+        d = d.rotated(deg2rad(blp_rotation))
         
         # Check we're in the footprint
         in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
            and in_footprint(b)
         
+        # Increment the rolls we've done
         roll_count += 1
     
     # If we capped out on the number of rolls we allowed, we'll just do default
     # to a non-rotated building.
     if roll_count >= MAX_ROLLS:
-        new_len_x = max(footprint_len_x - 1, 1)
-        new_len_z = max(footprint_len_z - 1, 1)
+        # Default the size
+        blp_len_x = max(footprint_len_x - 1, 1)
+        blp_len_z = max(footprint_len_z - 1, 1)
+        
+        # Default the rotation
+        blp_rotation = 0
         
         # Generate vector2 points according to the new lengths
-        a = Vector2(-new_len_x / 2, -new_len_z / 2)
-        b = Vector2( new_len_x / 2,  new_len_z / 2)
-        c = Vector2(-new_len_x / 2,  new_len_z / 2)
-        d = Vector2( new_len_x / 2, -new_len_z / 2)
+        a = Vector2(-blp_len_x / 2, -blp_len_z / 2)
+        b = Vector2( blp_len_x / 2,  blp_len_z / 2)
+        c = Vector2(-blp_len_x / 2,  blp_len_z / 2)
+        d = Vector2( blp_len_x / 2, -blp_len_z / 2)
     else:
         # Find the TRUE A, B, C, and D values
         points = [a, b, c, d]
@@ -183,28 +211,29 @@ func make_building():
         c = true_c(points)
         d = true_d(points)
     
+    # Add a light, just so long as it doesn't overlap with our building.
     if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
-        light = OmniLight.new()
-        light.omni_range = 10
-        light.light_color = Color("002459")
-        light.shadow_enabled = true
-        self.add_child(light)
-        light.translation = Vector3(
-            footprint_len_x * GlobalRef.WINDOW_UV_SIZE,
-            0,
-            footprint_len_z * GlobalRef.WINDOW_UV_SIZE
+        blp_lights.append(
+            [10, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
         )
-        self._light_arr.append(light)
-        
-        pass
+
+func make_building():
+    # If we don't have the building nodes for whatever reason, back out
+    if not self.has_node("Base") or not self.has_node("MainTower"):
+        return
+    
+    # Clear up the lights
+    for light in $LightManager.get_children():
+        $LightManager.remove_child(light)
+        light.queue_free()
     
     # Otherwise, pass the materials down to the buildings
     $Base.building_material = building_material
     $MainTower.building_material = building_material
     
     # Pass down the values to the base
-    $Base.len_x = new_len_x
-    $Base.len_z = new_len_z
+    $Base.len_x = blp_len_x
+    $Base.len_z = blp_len_z
     $Base.len_y = BASE_HEIGHT
     
     # If this tower is so short that it's all base, just set the base to the
@@ -213,8 +242,8 @@ func make_building():
         $Base.len_y = tower_len_y
     
     # Now, pass the values to the main tower
-    $MainTower.len_x = new_len_x
-    $MainTower.len_z = new_len_z
+    $MainTower.len_x = blp_len_x
+    $MainTower.len_z = blp_len_z
     # using max will catch instances where tower_len_y < BASE_HEIGHT
     $MainTower.len_y = max(tower_len_y - BASE_HEIGHT, 0)
     
@@ -227,10 +256,20 @@ func make_building():
     
     # Now we need to adjust the visibility modifier. To do that, we need to
     # calculate the effective length on each axis.
-    var eff_x = new_len_x * GlobalRef.WINDOW_UV_SIZE
+    var eff_x = blp_len_x * GlobalRef.WINDOW_UV_SIZE
     var eff_y = tower_len_y * GlobalRef.WINDOW_UV_SIZE
-    var eff_z = new_len_z * GlobalRef.WINDOW_UV_SIZE
-    
+    var eff_z = blp_len_z * GlobalRef.WINDOW_UV_SIZE
+
+    for light_arr in blp_lights:
+        var light = OmniLight.new()
+        light.omni_range = light_arr[0]
+        light.light_color = light_arr[1]
+        self.add_child(light)
+        light.translation = Vector3(
+            light_arr[2].x * GlobalRef.WINDOW_UV_SIZE,
+            0,
+            light_arr[2].y * GlobalRef.WINDOW_UV_SIZE
+        )
     # TODO: Incorporate omnilight radius into aabb calculation.
     
     $VisibilityNotifier.aabb.position.x = -eff_x / 2
@@ -241,7 +280,8 @@ func make_building():
     $VisibilityNotifier.aabb.size.y = eff_y
     $VisibilityNotifier.aabb.size.z = eff_z
     
-    self.rotation_degrees.y = building_rotation
+    self.rotation_degrees.y = blp_rotation
+
 
 func in_footprint(var point):
     if point.x < -footprint_len_x / 2 or footprint_len_x / 2 < point.x:
