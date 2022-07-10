@@ -24,19 +24,19 @@ pause_mode = 2
 script = ExtResource( 4 )
 
 [node name="UpCamera" type="Camera" parent="."]
-transform = Transform( 0.939693, 0.029809, 0.340718, 0, 0.996195, -0.0871557, -0.34202, 0.0818996, 0.936117, 0, 2, 12 )
+transform = Transform( 0.939693, 0.0416818, 0.339471, 0, 0.992546, -0.121869, -0.34202, 0.11452, 0.932688, 0, 1, 12 )
 cull_mask = 3
 current = true
 fov = 15.0
 size = 3.0
 
 [node name="CameraAlignedEffects" type="Spatial" parent="UpCamera"]
-transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -55 )
+transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -100 )
 
 [node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, -1.90735e-06, 8, -3.8147e-06 )
-width = 22.0
-height = 10.0
+transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0 )
+width = 45.0
+height = 15.0
 
 [node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
 mesh = SubResource( 1 )
@@ -47,9 +47,6 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = 362.0
 margin_bottom = 265.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Tabs" type="TabContainer" parent="GUI"]
 margin_right = 342.0
@@ -62,6 +59,7 @@ __meta__ = {
 }
 
 [node name="Profiles" type="Tabs" parent="GUI/Tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -461,7 +459,6 @@ max_value = 9999.0
 value = 200.0
 
 [node name="Starfield" type="Tabs" parent="GUI/Tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -497,7 +494,7 @@ align = 1
 margin_left = 123.0
 margin_right = 197.0
 margin_bottom = 24.0
-max_value = 20.0
+max_value = 40.0
 step = 0.01
 __meta__ = {
 "_edit_use_anchors_": false
@@ -835,6 +832,8 @@ environment = SubResource( 3 )
 
 [node name="GrowBlockCity" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
+block_z_length = 200
+buildings_per_block = 40
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 0 )

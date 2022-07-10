@@ -109,12 +109,12 @@ func _on_ProfileSelection_item_selected(index):
         "sky_ground_bottom": Color("#070a1b"),
         "sky_ground_curve": 200,
         
-        "starfield_height": 10,
+        "starfield_height": 15,
         "starfield_type_a_count": 20,
         "starfield_type_b_count": 20,
         "starfield_type_c_count": 20,
-        "starfield_scale_mean": .85,
-        "starfield_scale_variance": .15,
+        "starfield_scale_mean": 1.7,
+        "starfield_scale_variance": .3,
         
         "stars_type_a_color": Color.white,
         "stars_type_a_texture": 0,
@@ -125,9 +125,9 @@ func _on_ProfileSelection_item_selected(index):
         
         "moon_visible": true,
         "moon_color": Color.white,
-        "moon_x_pos": -4.42,
-        "moon_y_pos": 3.46,
-        "moon_size": 0.6,
+        "moon_x_pos": -10,
+        "moon_y_pos": 5.55,
+        "moon_size": 1.25,
     }
 
     match index:
@@ -149,12 +149,12 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["sky_ground_bottom"] = Color("#070a1b")
             arg_dict["sky_ground_curve"] = 200
             
-            arg_dict["starfield_height"] = 4.5
+            arg_dict["starfield_height"] = 8
             arg_dict["starfield_type_a_count"] = 6
             arg_dict["starfield_type_b_count"] = 6
             arg_dict["starfield_type_c_count"] = 6
-            arg_dict["starfield_scale_mean"] = 0.25
-            arg_dict["starfield_scale_variance"] = 0.1
+            arg_dict["starfield_scale_mean"] = 0.5
+            arg_dict["starfield_scale_variance"] = 0.2
             
             arg_dict["moon_visible"] = false
             
@@ -174,12 +174,12 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["sky_ground_bottom"] = Color("#45003c")
             arg_dict["sky_ground_curve"] = 200
             
-            arg_dict["starfield_height"] = 5
+            arg_dict["starfield_height"] = 6.75
             arg_dict["starfield_type_a_count"] = 4
             arg_dict["starfield_type_b_count"] = 4
             arg_dict["starfield_type_c_count"] = 4
-            arg_dict["starfield_scale_mean"] = 0.5
-            arg_dict["starfield_scale_variance"] = 0.5
+            arg_dict["starfield_scale_mean"] = 1
+            arg_dict["starfield_scale_variance"] = 1
             
             arg_dict["moon_visible"] = false
             
@@ -199,11 +199,12 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["sky_ground_bottom"] = Color("#003e54")
             arg_dict["sky_ground_curve"] = 1000
             
+            arg_dict["starfield_height"] = 20
             arg_dict["starfield_type_a_count"] = 30
             arg_dict["starfield_type_b_count"] = 30
             arg_dict["starfield_type_c_count"] = 30
-            arg_dict["starfield_scale_mean"] = 1
-            arg_dict["starfield_scale_variance"] = .375
+            arg_dict["starfield_scale_mean"] = 2
+            arg_dict["starfield_scale_variance"] = .75
             
             arg_dict["stars_type_a_color"] = Color("#ffffff")
             arg_dict["stars_type_a_texture"] = 1
@@ -215,7 +216,7 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["moon_visible"] = true
             arg_dict["moon_x_pos"] = 6.74
             arg_dict["moon_y_pos"] = 5.48
-            arg_dict["moon_size"] = 1
+            arg_dict["moon_size"] = 2
             
             assert_color_profile(arg_dict)
         4:
@@ -232,12 +233,12 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["sky_ground_bottom"] = Color("#000000")
             arg_dict["sky_ground_curve"] = 1000
             
-            arg_dict["starfield_height"] = 14.71
+            arg_dict["starfield_height"] = 25
             arg_dict["starfield_type_a_count"] = 60
             arg_dict["starfield_type_b_count"] = 60
             arg_dict["starfield_type_c_count"] = 60
-            arg_dict["starfield_scale_mean"] = 2
-            arg_dict["starfield_scale_variance"] = .5
+            arg_dict["starfield_scale_mean"] = 4
+            arg_dict["starfield_scale_variance"] = 1
             
             arg_dict["stars_type_a_texture"] = 2
             arg_dict["stars_type_b_texture"] = 3

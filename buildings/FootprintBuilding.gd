@@ -6,7 +6,8 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 
 const BASE_HEIGHT = 3
 
-const MAX_ROLLS = 10
+const MAX_ROLLS = 25#10
+const MIN_THIN = 2
 
 # The material we'll use to make this building.
 export(Material) var building_material setget set_building_material
@@ -168,6 +169,13 @@ func make_blueprint():
             blp_len_x -= 1
         else:
             blp_len_z -= 1
+        
+        # If one of our sides is less than our minimum thinness, then increment
+        # by MAX_ROLLS and break. This will reset the size and rotation of the
+        # building.
+        if min(blp_len_x, blp_len_z) < MIN_THIN:
+            roll_count += MAX_ROLLS
+            break
         
         # Create our new points
         a = Vector2(-blp_len_x / 2, -blp_len_z / 2)
