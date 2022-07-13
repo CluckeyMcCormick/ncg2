@@ -204,7 +204,7 @@ window/size/resizable=false
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/imjp94.yafsm/plugin.cfg", "res://addons/qodot/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/imjp94.yafsm/plugin.cfg", "res://addons/qodot/plugin.cfg" )
 
 [input]
 
@@ -226,6 +226,7 @@ game_pause={
 
 [physics]
 
+common/physics_fps=240
 common/enable_pause_aware_picking=true
 
 [rendering]

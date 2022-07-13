@@ -4,7 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-#TODO: Add TODOT
 #TODO: Add customization options for Engine.iterations_per_second (Physics FPS)
 
 # Called when the node enters the scene tree for the first time.
@@ -21,7 +20,7 @@ func _input(event):
         get_tree().paused = not get_tree().paused
 
 func _physics_process(delta):
-    $UpCamera.global_transform.origin += Vector3(5, 0, 0) * delta
+    $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
 
 func assert_color_profile(arg_dict):
     # We're going to manually set all of these profile values, and call each
