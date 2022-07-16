@@ -8,6 +8,16 @@ const BASE_HEIGHT = 3
 const MAX_ROLLS = 25#10
 const MIN_THIN = 2
 
+# TODO: Replace auto-clean with enumerated screen-exit options: Clean or Hide.
+#       Emit signal on hide, if hiding.
+
+# TODO: Use a string-seed for buildings, allowing us to generate the same
+#       building from the same seed.
+
+# TODO: Scale the omni-light with the building.
+
+# TODO: Figure out decorations (distribution, selection, etc.)
+
 # The material we'll use to make this building.
 export(Material) var building_material
 
@@ -193,6 +203,7 @@ func make_blueprint():
         c = true_c(points)
         d = true_d(points)
     
+    # TODO: Place up to 4 lights (randomly rolled) around the footprint
     # Add a light, just so long as it doesn't overlap with our building.
     if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
         blp_lights.append(

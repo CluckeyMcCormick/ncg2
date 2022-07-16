@@ -4,7 +4,11 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-#TODO: Add customization options for Engine.iterations_per_second (Physics FPS)
+# TODO: Remove YAFSM (I could never get it to work)
+# TODO: Isolate each individual GUI tab into it's own scene with it's own script
+# TODO: Create a top-level script GUI script to manage each of those tabs
+# TODO: Load profiles from a JSON file (w/ permanent and user pools)
+# TODO: Add ability for user to save profiles
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

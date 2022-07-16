@@ -17,6 +17,10 @@ const INTRA_BLOCK_SPACER = POINT_POSITION_STEP * 2
 # How many blocks do we aim to consistently have?
 const TARGET_BLOCK_COUNT = 6
 
+# TODO: Adjust for non-infinite city generation. This includes figuring out how
+#       to make the blocks loop appropriately by locating the first block at the
+#       end of all the blocks.
+
 # The city looks organic because we're dynamically growing out the buildings
 # and stopping them when they collide with each other. However, since the city
 # is infinite, this creates a problem at the edge where there's no buildings to

@@ -31,6 +31,9 @@ var thread = null
 
 var to_build = []
 
+# TODO: Scale the buildings individually, not using the BuildingMaster node.
+# TODO: Shift buildings that get hidden by the city length
+
 func _ready():
     var new_node
     
