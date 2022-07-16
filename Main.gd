@@ -4,7 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Remove YAFSM (I could never get it to work)
 # TODO: Isolate each individual GUI tab into it's own scene with it's own script
 # TODO: Create a top-level script GUI script to manage each of those tabs
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
