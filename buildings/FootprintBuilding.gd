@@ -3,16 +3,29 @@ extends Spatial
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
+# A building is composed of two parts: an windowless/untextured base, and a
+# windowed component. The two parts of the building together make up the whole
+# of the building's height. The base will be UP TO this height; everything above
+# this will be the textured/windowed component. If the building is
+# less-than-or-equal-to this height, then the whole of the building will be the
+# base.
 const BASE_HEIGHT = 3
 
-const MAX_ROLLS = 25#10
-const MIN_THIN = 2
+# In order to add more variation to the buildings, we randomly rotate the
+# tower and then shrink it to fit in our footprint. However, we don't want to do
+# that infinitely - how many times do we do that before we just give up and
+# default to a non-rotation?
+const MAX_ROLLS = 25 #10
 
-# TODO: Replace auto-clean with enumerated screen-exit options: Clean or Hide.
-#       Emit signal on hide, if hiding.
+# What's the minimum thinness (in windows) we'll allow for one side of a
+# building? This will (probably) stop us from getting weird ultra-thin
+# buildings.
+const MIN_THIN = 2
 
 # TODO: Use a string-seed for buildings, allowing us to generate the same
 #       building from the same seed.
+
+# TODO: Add a thread-build function, to launch a threaded build process manually
 
 # TODO: Scale the omni-light with the building.
 
@@ -40,13 +53,17 @@ export(int) var lights = 2
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = false
 
-# Do we automatically remove ourselves from the scene once we've exited the
-# screen?
-export(bool) var auto_clean = true
-
 # Signal emitted when our blueprint-construction thread is completed. Emits the
 # building that got completed.
 signal blueprint_completed(building)
+
+# Signal emitted when this building enters the screen - basically an echo of the
+# VisibilityNotifier's screen_entered signal. This is emitted AFTER we make
+# adjustments for being visible.
+signal screen_entered(building)
+# Ditton, but for when the building exits the screen. As before, this is emitted
+# AFTER we make adjustments for not being visible.
+signal screen_exited(building)
 
 # The blueprint variables. Our construction is divided into two phases: first,
 # we do the algorithmically complex heavy work of designing the building. We
@@ -84,12 +101,21 @@ func _physics_process(delta):
         build_thread = null
         emit_signal("blueprint_completed", self)
 
-func _on_VisibilityNotifier_screen_exited():
-    if not self.auto_clean:
-        return
+func _on_VisibilityNotifier_screen_entered():
+    $Base.visible = true
+    $MainTower.visible = true
+    $FxManager.visible = true
     
-    self.get_parent().remove_child(self)
-    self.queue_free()
+    # Emit!
+    emit_signal("screen_entered", self)
+
+func _on_VisibilityNotifier_screen_exited():
+    $Base.visible = false
+    $MainTower.visible = false
+    $FxManager.visible = false
+    
+    # Emit!
+    emit_signal("screen_exited", self)
 
 # --------------------------------------------------------
 #
@@ -216,8 +242,8 @@ func make_building():
         return
     
     # Clear up the lights
-    for light in $LightManager.get_children():
-        $LightManager.remove_child(light)
+    for light in $FxManager.get_children():
+        $FxManager.remove_child(light)
         light.queue_free()
     
     # Otherwise, pass the materials down to the buildings

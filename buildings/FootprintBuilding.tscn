@@ -11,6 +11,7 @@ building_material = ExtResource( 3 )
 auto_build = true
 
 [node name="Base" parent="." instance=ExtResource( 2 )]
+visible = false
 len_x = 7
 len_y = 3
 len_z = 7
@@ -19,6 +20,7 @@ auto_build = false
 
 [node name="MainTower" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, -1.43584e-29, -6.3573e-08, 0, 1, -2.25857e-22, 6.3573e-08, 2.25857e-22, 1, -2.60649e-07, 0.046875, 0 )
+visible = false
 len_x = 7
 len_y = 11
 len_z = 7
@@ -27,6 +29,8 @@ auto_build = false
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -0.0546875, 0, -0.0546875, 0.109375, 0.21875, 0.109375 )
 
-[node name="LightManager" type="Spatial" parent="."]
+[node name="FxManager" type="Spatial" parent="."]
+visible = false
 
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="_on_VisibilityNotifier_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="_on_VisibilityNotifier_screen_exited"]
