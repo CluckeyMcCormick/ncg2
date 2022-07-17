@@ -22,9 +22,6 @@ const MAX_ROLLS = 25 #10
 # buildings.
 const MIN_THIN = 2
 
-# TODO: Use a string-seed for buildings, allowing us to generate the same
-#       building from the same seed.
-
 # TODO: Scale the omni-light with the building.
 
 # TODO: Figure out decorations (distribution, selection, etc.)
@@ -78,15 +75,30 @@ var build_thread = null
 # Our random number generator
 var RNGENNIE = RandomNumberGenerator.new()
 
+# The random seed for this building. We reassert this seed before any
+# random-reliant functions.
+var _seed = 0
+
 # --------------------------------------------------------
 #
 # Running Functions
 #
 # --------------------------------------------------------
+func _init(in_seed = ""):
+    # If we didn't get a seed...
+    if in_seed == "":
+        # Just use a time-based seed
+        RNGENNIE.randomize()
+    # Otherwise...
+    else:
+        # Translate the seed into an actual seed using a hash
+        RNGENNIE.seed = hash(in_seed)
+    
+    # Capture the seed so we can reuse it whenever we need to.
+    _seed = RNGENNIE.seed
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    RNGENNIE.randomize()
-    
     # If we're auto-building...
     if auto_build:
         # Start the make-thread!
@@ -149,6 +161,9 @@ func make_blueprint():
 
     # We'll stick the points in here
     var points = []
+    
+    # Reassert the seed of our random number generator
+    RNGENNIE.seed = _seed
     
     # Clear our lights
     blp_lights.clear()
