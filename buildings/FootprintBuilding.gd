@@ -25,8 +25,6 @@ const MIN_THIN = 2
 # TODO: Use a string-seed for buildings, allowing us to generate the same
 #       building from the same seed.
 
-# TODO: Add a thread-build function, to launch a threaded build process manually
-
 # TODO: Scale the omni-light with the building.
 
 # TODO: Figure out decorations (distribution, selection, etc.)
@@ -91,9 +89,8 @@ func _ready():
     
     # If we're auto-building...
     if auto_build:
-        # Launch the blueprint-crafting thread
-        build_thread = Thread.new()
-        build_thread.start(self, "make_blueprint")
+        # Start the make-thread!
+        start_make_thread()
 
 func _physics_process(delta):
     if build_thread != null and not build_thread.is_alive():
@@ -122,6 +119,15 @@ func _on_VisibilityNotifier_screen_exited():
 # Build Functions
 #
 # --------------------------------------------------------
+func start_make_thread():
+    # If we have a thread in progress, skip this!
+    if build_thread != null:
+        return
+    
+    # Launch the blueprint-crafting thread
+    build_thread = Thread.new()
+    build_thread.start(self, "make_blueprint")
+
 func make_complete():
     make_blueprint()
     make_building()
