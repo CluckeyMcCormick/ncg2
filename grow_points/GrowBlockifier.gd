@@ -100,7 +100,7 @@ class GrowBlock:
         return clone
 
 # How many blocks do we generate?
-var target_blocks = 50
+var target_blocks = 5
 
 var _cleaned_blocks = 0
 

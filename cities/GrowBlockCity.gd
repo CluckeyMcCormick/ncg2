@@ -7,6 +7,11 @@ const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 
 const BUILDING_SCALAR = 10
 
+# Now, the footprints that we generate from the blockifier are measured in
+# window units. We could flat translate them, OR we could scale up the number of
+# windows - which we do to achieve a more full city.
+const WINDOW_SCALING = 2
+
 onready var dd = get_node("/root/DebugDraw")
 
 export(int) var block_x_width = 30
@@ -30,7 +35,6 @@ var _current_buildings = 0
 signal city_complete()
 
 # TODO: Scale the buildings individually, not using the BuildingMaster node.
-# TODO: Shift buildings that get hidden by the city length
 
 func _ready():
     var new_node
@@ -82,18 +86,19 @@ func spawn_buildings():
         grow_aabb = blockifier._complete_aabbs.pop_front()
         
         building = BUILDING_SCENE.instance()
-        building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
-        building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
-        building.tower_len_y = int(grow_aabb.height)
+        building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * WINDOW_SCALING - 1
+        building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * WINDOW_SCALING - 1
+        building.tower_len_y = int(grow_aabb.height) * WINDOW_SCALING
         
         building.connect(
             "blueprint_completed", self, "_on_building_blueprint_completed"
         )
+        building.connect("screen_exited", self, "_on_building_screen_exited")
         
         $BuildingMaster.add_child(building)
-        building.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
+        building.translation.x = (grow_aabb.b.x * WINDOW_SCALING + grow_aabb.a.x * WINDOW_SCALING) / 2
         building.translation.x *= GlobalRef.WINDOW_UV_SIZE
-        building.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
+        building.translation.z = (grow_aabb.b.z * WINDOW_SCALING + grow_aabb.a.z * WINDOW_SCALING) / 2
         building.translation.z *= GlobalRef.WINDOW_UV_SIZE
         
         _total_buildings += 1
@@ -110,3 +115,11 @@ func _on_building_blueprint_completed(building):
     
     if _current_buildings == _total_buildings:
         emit_signal("city_complete")
+
+func _on_building_screen_exited(building):
+    var trans = Vector3.ZERO
+    
+    trans.x += blockifier.target_blocks * blockifier.x_width * WINDOW_SCALING
+    trans.x *= GlobalRef.WINDOW_UV_SIZE
+    
+    building.translation += trans
