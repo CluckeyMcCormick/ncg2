@@ -871,3 +871,4 @@ size = 30.0
 [connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonXPosSpinBox" to="." method="_on_MoonXPosSpinBox_value_changed"]
 [connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonYPosSpinBox" to="." method="_on_MoonYPosSpinBox_value_changed"]
 [connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxSize/MoonSizeSpinBox" to="." method="_on_MoonSizeSpinBox_value_changed"]
+[connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]

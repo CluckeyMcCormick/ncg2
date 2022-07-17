@@ -14,20 +14,13 @@ const POINT_POSITION_STEP = 2.0
 # other.
 const INTRA_BLOCK_SPACER = POINT_POSITION_STEP * 2
 
-# How many blocks do we aim to consistently have?
-const TARGET_BLOCK_COUNT = 6
-
-# TODO: Adjust for non-infinite city generation. This includes figuring out how
-#       to make the blocks loop appropriately by locating the first block at the
-#       end of all the blocks.
-
 # The city looks organic because we're dynamically growing out the buildings
 # and stopping them when they collide with each other. However, since the city
-# is infinite, this creates a problem at the edge where there's no buildings to
-# collide with. To get around that, we purposefully grow the more-forward blocks
-# more quickly by performing more grow-passes on them. We then step this number
-# down as we get farther into the array. So - how many passes do we do on the
-# block that's furthest west/left?
+# needs to loop, this creates a problem at the edge where there's no buildings
+# to collide with. To get around that, we purposefully grow the more-forward
+# blocks more quickly by performing more grow-passes on them. We then step this
+# number down as we get farther into the array. So - how many passes do we do on
+# the block that's furthest west/left?
 const MULTIPASS_START_VALUE = 3
 
 class GrowBlock:
@@ -52,8 +45,64 @@ class GrowBlock:
     var x_width
     var z_length
     
+    # This block's assigned number - only really used to help loop the blocks
+    var block_number
+    
+    # Has this block already been cleaned?
+    var cleaned = false
+    
+    # Is this block viable - i.e. can we keep growing the points in the block?
     func is_viable():
         return not viable_aabbs.empty()
+    
+    # Creates a clone of this block, shifted by the given vector
+    func shifted_clone(shift):
+        var clone = GrowBlock.new()
+        var new_aabb
+        
+        # Copy the parent block's width & length
+        clone.x_width = self.x_width
+        clone.z_length = self.z_length
+        
+        # Copy the parent block's origin, but shifted
+        clone.block_origin = self.block_origin + shift
+        
+        # For each of the old/source block's AABBs... 
+        for old_aabb in all_aabbs:
+            # Create a new AABB, shifted appropriately
+            new_aabb = GROW_POINT.GrowAABB.new(
+                old_aabb.origin + shift,
+                old_aabb.max_x_len, old_aabb.max_z_len,
+                old_aabb.height
+            )
+            # Copy the A and B, shifted appropriately
+            new_aabb.a = old_aabb.a + shift
+            new_aabb.b = old_aabb.b + shift
+            
+            # Copy the side states
+            new_aabb.east_state = old_aabb.east_state
+            new_aabb.south_state = old_aabb.south_state
+            new_aabb.north_state = old_aabb.north_state
+            new_aabb.west_state = old_aabb.west_state
+            
+            # Copy clean status
+            clone.cleaned = self.cleaned
+            
+            # Stick the new AABB in the clone's aabb set
+            clone.all_aabbs[new_aabb] = new_aabb
+            
+            # If this source aabb is still viable, stick it in the clone's
+            # viable AABB set.
+            if old_aabb in self.viable_aabbs:
+                clone.viable_aabbs[new_aabb] = new_aabb
+        
+        # Done cloning!
+        return clone
+
+# How many blocks do we generate?
+var target_blocks = 50
+
+var _cleaned_blocks = 0
 
 var max_square_size
 var min_height = null
@@ -81,9 +130,9 @@ func _init(size_curve, min_height, max_height, x_width, z_length, points_per_blo
     self.z_length = z_length
 
 # Spawns in new blocks - if we have space for them
-func spawn_pass():
+func spawn_step():
     # While we don't have TARGET_BLOCK_COUNT blocks...
-    while len(_blocks) < TARGET_BLOCK_COUNT:
+    while len(_blocks) < target_blocks:
         # SPAWN BLOCKS!
         _spawn_block()
 
@@ -92,8 +141,8 @@ func grow_pass():
     # How many "grow passes" are we going to do on an individual block?
     var pass_count = MULTIPASS_START_VALUE
     
-    # For the first three blocks, or however many blocks there are...
-    for i in range( min(TARGET_BLOCK_COUNT, len(_blocks)) ):
+    # For all of our blocks...
+    for i in range( len(_blocks) ):
         # If this block isn't viable, skip it!!!
         if not _blocks[i].is_viable():
             continue
@@ -102,45 +151,102 @@ func grow_pass():
         for step in range( pass_count ):
             _grow_block( _blocks[i] )
         
-        # Decrement the number of passes we'll do for the next block, down to a
-        # minimum of one pass
-        pass_count = max(1, pass_count - 1)
+        # Decrement the number of passes we'll do for the next block
+        pass_count -= 1
+        
+        # If we're under our target passes, do nothing.
+        if pass_count <= 0:
+            break
 
 # Cleans up the blocks that we don't need anymore.
 func clean_pass():
-    var new_blocks = []
+    var shift
+    var clone_block
+    var index
     
     for b in _blocks:
-        # If this is a viable block, stick it in our new blocks
-        if b.is_viable():
-            new_blocks.append(b)
+        # If this block has already been cleaned, skip it!
+        if b.cleaned:
+            continue
+        # Otherwise, if this is a viable block, we can't clean it yet
+        elif b.is_viable():
             continue
         # Otherwise, this block isn't viable. However, if we don't have a
         # neighbor, or our neighbor is still viable, we'll want to keep it.
         # We'll want to keep this if we don't have a neighbor because that
         # indicates the next spawn will be NEXT TO US.
         elif b.right_neighbor == null or b.right_neighbor.is_viable():
-            new_blocks.append(b)
             continue
         
-        # If we're here, then this block AND it's neighbor isn't viable,
-        # so we don't need to track it anymore!
+        # If we're here, then this block AND it's neighbor isn't viable, so we
+        # don't need to track it anymore!
         _clean_block(b)
-    
-    # Assert our new block array over the old one
-    _blocks = new_blocks
-
+        
+        # Increment the number of blocks we've cleaned
+        _cleaned_blocks += 1
+        
+        # If we're cleaning Block #0, then we need to clone and append it to the
+        # end of the blocks to create the effect of a loop.
+        if b.block_number == 0:
+            shift = len(_blocks) * (x_width + INTRA_BLOCK_SPACER)
+            clone_block = b.shifted_clone( Vector3(shift, 0, 0) )
+            _insert_block(clone_block)
+        
 func has_viable_blocks():
     for b in _blocks:
         if b.is_viable():
             return true
     return false
 
+func requires_more_passes():
+    # We require more passes (grow, clean, etc) if we have don't have any more
+    # blocks to clean.
+    return target_blocks - _cleaned_blocks <= 0
+
+func _insert_block(block):
+    var index
+    
+    # Stick each AABB in the sorted arrays, as appropriate.
+    for aabb in block.all_aabbs:
+        index = _aabbs_east.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_east"
+        )
+        _aabbs_east.insert(index, aabb)
+        
+        index = _aabbs_west.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_west"
+        )
+        _aabbs_west.insert(index, aabb)
+        
+        index = _aabbs_north.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_north"
+        )
+        _aabbs_north.insert(index, aabb)
+        
+        index = _aabbs_south.bsearch_custom(
+            aabb, GROW_POINT.GrowAABB, "sort_by_south"
+        )
+        _aabbs_south.insert(index, aabb)
+    
+    # If we have extra blocks, make sure the LAST block knows that this new
+    # block is it's neighbor.
+    if not _blocks.empty():
+        _blocks[-1].right_neighbor = block
+    
+    # Set the block number
+    block.block_number = len(_blocks)
+    
+    # Append the block
+    _blocks.append(block)
+    
+    # Since this block has just been inserted into the sorted aabbs, we'll say
+    # it hasn't been cleaned yet.
+    block.cleaned = false
+
 func _spawn_block():
     # Step 1 Variables
     var origin
     var max_len
-    var index
     var percent_pos
     
     var points = {}
@@ -193,37 +299,14 @@ func _spawn_block():
         
         points[origin] = new_aabb
         
-        # Stick our new aabb in each of our sorted arrays, as appropriate.
-        index = _aabbs_east.bsearch_custom(
-            new_aabb, GROW_POINT.GrowAABB, "sort_by_east"
-        )
-        _aabbs_east.insert(index, new_aabb)
-        
-        index = _aabbs_west.bsearch_custom(
-            new_aabb, GROW_POINT.GrowAABB, "sort_by_west"
-        )
-        _aabbs_west.insert(index, new_aabb)
-        
-        index = _aabbs_north.bsearch_custom(
-            new_aabb, GROW_POINT.GrowAABB, "sort_by_north"
-        )
-        _aabbs_north.insert(index, new_aabb)
-        
-        index = _aabbs_south.bsearch_custom(
-            new_aabb, GROW_POINT.GrowAABB, "sort_by_south"
-        )
-        _aabbs_south.insert(index, new_aabb)
-        
         # Stick it in our viables list
         new_block.all_aabbs[new_aabb] = new_aabb
         new_block.viable_aabbs[new_aabb] = new_aabb
-    
-    # If we have extra blocks, make sure the LAST block knows that this new
-    # block is it's neighbor.
-    if not _blocks.empty():
-        _blocks[-1].right_neighbor = new_block
-    
-    _blocks.append(new_block)
+
+    # Insert the new block
+    _insert_block(new_block)
+
+    # Update the offset
     _block_offset.x += x_width + INTRA_BLOCK_SPACER
 
 func _grow_block( block ):
@@ -232,11 +315,12 @@ func _grow_block( block ):
     var result
     var index
     
+    var target
+    
     #
     # Step 2: Grow
     #
     for grow in block.viable_aabbs:
-        
         # Grow on each viable direction. Everytime we grow, check all the
         # appropriate AABBs to ensure no collision, or crossing world
         # boundaries.
@@ -251,8 +335,12 @@ func _grow_block( block ):
                 index = _aabbs_west.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_west"
                 )
+                # Get our upper target - we don't want to go through the whole
+                # sorted array, but we do want to go through at least one
+                # block's worth.
+                target = min(index + points_per_block, len(_aabbs_west) - 1)
                 # Get all the points east of our western-most point
-                sliced_aabb = _aabbs_west.slice(index, len(_aabbs_west) - 1)
+                sliced_aabb = _aabbs_west.slice(index, target)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -260,8 +348,17 @@ func _grow_block( block ):
                         grow.east_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
                 
-                # Re-sort to reflect the new eastern size of this AABB.
-                _aabbs_east.sort_custom(GROW_POINT.GrowAABB, "sort_by_east") 
+                # Find our spot in the east array
+                index = _aabbs_east.find(grow)
+                # Pull it out
+                _aabbs_east.remove(index)
+                # Find where we should go in the east array
+                index = _aabbs_east.bsearch_custom(
+                    grow, GROW_POINT.GrowAABB, "sort_by_east", true
+                )
+                # Stick it back in
+                _aabbs_east.insert(index, grow)
+                
             else:
                 grow.east_state = result
         
@@ -275,6 +372,10 @@ func _grow_block( block ):
                 index = _aabbs_north.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_north"
                 )
+                # Get our upper target - we don't want to go through the whole
+                # sorted array, but we do want to go through at least one
+                # block's worth.
+                target = min(index + points_per_block, len(_aabbs_north) - 1)
                 # Get all the points south of our northern-most point
                 sliced_aabb = _aabbs_north.slice(index, len(_aabbs_north) - 1)
                 
@@ -284,8 +385,17 @@ func _grow_block( block ):
                         grow.south_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
                 
-                # Re-sort to reflect the new southern size of this AABB.
-                _aabbs_south.sort_custom(GROW_POINT.GrowAABB, "sort_by_south") 
+                # Find our spot in the south array
+                index = _aabbs_south.find(grow)
+                # Pull it out
+                _aabbs_south.remove(index)
+                # Find where we should go in the south array
+                index = _aabbs_south.bsearch_custom(
+                    grow, GROW_POINT.GrowAABB, "sort_by_south", true
+                )
+                # Stick it back in
+                _aabbs_south.insert(index, grow) 
+                
             else:
                 grow.south_state = result
         
@@ -299,9 +409,13 @@ func _grow_block( block ):
                 index = _aabbs_east.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_east", true
                 )
+                # Get our lower target - we don't want to go through the whole
+                # sorted array, but we do want to go through at least one
+                # block's worth.
+                target = max(index - points_per_block, 0)
                 # Get all the points west of our eastern-most point (including
                 # ourselves)
-                sliced_aabb = _aabbs_east.slice(0, index)
+                sliced_aabb = _aabbs_east.slice(target, index)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -309,8 +423,16 @@ func _grow_block( block ):
                         grow.west_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
                 
-                # Re-sort to reflect the new western size of this AABB.
-                _aabbs_west.sort_custom(GROW_POINT.GrowAABB, "sort_by_west")        
+                # Find our spot in the west array
+                index = _aabbs_west.find(grow)
+                # Pull it out
+                _aabbs_west.remove(index)
+                # Find where we should go in the west array
+                index = _aabbs_west.bsearch_custom(
+                    grow, GROW_POINT.GrowAABB, "sort_by_west", true
+                )
+                # Stick it back in
+                _aabbs_west.insert(index, grow)      
                 
             else:
                 grow.west_state = result
@@ -325,9 +447,13 @@ func _grow_block( block ):
                 index = _aabbs_south.bsearch_custom(
                     grow, GROW_POINT.GrowAABB, "sort_by_south", true
                 )
+                # Get our lower target - we don't want to go through the whole
+                # sorted array, but we do want to go through at least one
+                # block's worth.
+                target = max(index - points_per_block, 0)
                 # Get all the points north of our southern-most point
                 # (including ourselves)
-                sliced_aabb = _aabbs_south.slice(0, index)
+                sliced_aabb = _aabbs_south.slice(target, index)
                 
                 for aabb in sliced_aabb:
                     if aabb != grow and grow.collides_with(aabb):
@@ -335,8 +461,17 @@ func _grow_block( block ):
                         grow.north_state = GROW_POINT.SideState.GROW_BLOCKED
                         break
                 
-                # Re-sort to reflect the new northern size of this AABB.
-                _aabbs_north.sort_custom(GROW_POINT.GrowAABB, "sort_by_north")
+                # Find our spot in the north array
+                index = _aabbs_north.find(grow)
+                # Pull it out
+                _aabbs_north.remove(index)
+                # Find where we should go in the north array
+                index = _aabbs_north.bsearch_custom(
+                    grow, GROW_POINT.GrowAABB, "sort_by_north", true
+                )
+                # Stick it back in
+                _aabbs_north.insert(index, grow)
+                
             else:
                 grow.north_state = result
         
@@ -345,7 +480,7 @@ func _grow_block( block ):
     
     block.viable_aabbs = new_viables
 
-func _clean_block( block ):
+func _clean_block( block, add_to_complete=true):
     # For each aabb in this block...
     for aabb in block.all_aabbs:
         # Delete it from our sorting arrays. The bsearch_custom function was
@@ -356,11 +491,10 @@ func _clean_block( block ):
         _aabbs_north.erase(aabb)
         _aabbs_south.erase(aabb)
         
-        # Stick this aabb in our completed array!
-        _complete_aabbs.append(aabb)
+        # If we're trying to add the AABBs to complete set, stick this aabb in
+        # our completed array!
+        if add_to_complete:
+            _complete_aabbs.append(aabb)
     
-    # Clear out our environment variables so we don't have any dangling
-    # references.
-    block.all_aabbs.clear()
-    block.viable_aabbs.clear()
-    block.right_neighbor = null
+    # Ensure the block knows that it's cleaned
+    block.cleaned = true

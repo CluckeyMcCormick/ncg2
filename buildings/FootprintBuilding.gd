@@ -304,7 +304,7 @@ func make_building():
         var light = OmniLight.new()
         light.omni_range = light_arr[0]
         light.light_color = light_arr[1]
-        self.add_child(light)
+        $FxManager.add_child(light)
         light.translation = Vector3(
             light_arr[2].x * GlobalRef.WINDOW_UV_SIZE,
             0,

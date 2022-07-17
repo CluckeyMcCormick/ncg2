@@ -9,6 +9,8 @@ onready var mcc = get_node("/root/MaterialColorControl")
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles
 
+var city_built = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
     randomize()
@@ -23,7 +25,11 @@ func _input(event):
         get_tree().paused = not get_tree().paused
 
 func _physics_process(delta):
-    $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
+    if city_built:
+        $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
+
+func _on_GrowBlockCity_city_complete():
+    city_built = true
 
 func assert_color_profile(arg_dict):
     # We're going to manually set all of these profile values, and call each
