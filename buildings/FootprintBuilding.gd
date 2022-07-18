@@ -250,11 +250,34 @@ func make_blueprint():
         c = true_c(points)
         d = true_d(points)
     
-    # TODO: Place up to 4 lights (randomly rolled) around the footprint
-    if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
-        blp_lights.append(
-            [30, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
-        )
+    # We have a light at each one of the corners
+    var light_positions = [
+        Vector2( footprint_len_x,  footprint_len_z),
+        Vector2(-footprint_len_x,  footprint_len_z),
+        Vector2( footprint_len_x, -footprint_len_z),
+        Vector2(-footprint_len_x, -footprint_len_z)
+    ]
+    
+    # For each light...
+    for pos in light_positions:
+        # If it's clipping with our rotated building, skip it!
+        if in_box(a, b, c, d, pos):
+            continue
+
+        # Otherwise, we're gonna stick a blueprint light. The blueprint light is
+        # actually an array, composed of...
+        blp_lights.append([
+            # A size, measured in windows. We want the light to climb part of
+            # the building, so we'll go between 1/4 and 3/4 of the building's
+            # total height.
+            RNGENNIE.randi_range(
+                round(tower_len_y * .25), round(tower_len_y * .75)
+            ),
+            # A color
+            Color("002459"),
+            # The actual position
+            pos
+        ])
 
 func make_building():
     # If we don't have the building nodes for whatever reason, back out
