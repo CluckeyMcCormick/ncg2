@@ -15,8 +15,7 @@ var city_built = false
 func _ready():
     randomize()
     
-    $GUI/Tabs/Profiles/VBox/ProfileSelection.select(0)
-    _on_ProfileSelection_item_selected(0)
+    $GUI/Tabs/Buildings.update_from_global()
 
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
@@ -30,79 +29,6 @@ func _physics_process(delta):
 
 func _on_GrowBlockCity_city_complete():
     city_built = true
-
-func assert_color_profile(arg_dict):
-    # We're going to manually set all of these profile values, and call each
-    # callback function manually. Kinda sucks, but this whole project is a kind
-    # of hacky workaround so whatever.
-    
-    # Building options
-    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingPicker.color =  arg_dict["bld_base_color"]
-    _on_BuildingPicker_color_changed(arg_dict["bld_base_color"])
-    $GUI/Tabs/Buildings/VBox/GridContainer/RedPicker.color = arg_dict["bld_red_dot"]
-    _on_RedPicker_color_changed(arg_dict["bld_red_dot"])
-    $GUI/Tabs/Buildings/VBox/GridContainer/GreenPicker.color = arg_dict["bld_green_dot"]
-    _on_GreenPicker_color_changed(arg_dict["bld_green_dot"])
-    $GUI/Tabs/Buildings/VBox/GridContainer/BluePicker.color = arg_dict["bld_blue_dot"]
-    _on_BluePicker_color_changed(arg_dict["bld_blue_dot"])
-    # Now, set the material appropriately.
-    $GUI/Tabs/Buildings/VBox/TextureSelection.selected = arg_dict["bld_texture_code"]
-    _on_TextureSelection_item_selected(arg_dict["bld_texture_code"])
-    
-    # Sky options
-    $GUI/Tabs/Sky/VBox/SkyGrid/TopPicker.color = arg_dict["sky_sky_top"]
-    _on_TopPicker_color_changed(arg_dict["sky_sky_top"])
-    $GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker.color = arg_dict["sky_sky_horizon"]
-    _on_HorizonSkyPicker_color_changed(arg_dict["sky_sky_horizon"])
-    $GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin.value = arg_dict["sky_sky_curve"]
-    _on_SkyCurveSpin_value_changed(arg_dict["sky_sky_curve"])
-    $GUI/Tabs/Sky/VBox/GroundGrid/HorizonPicker.color = arg_dict["sky_ground_horizon"]
-    _on_HorizonGroundPicker_color_changed(arg_dict["sky_ground_horizon"])
-    $GUI/Tabs/Sky/VBox/GroundGrid/BottomPicker.color = arg_dict["sky_ground_bottom"]
-    _on_BottomPicker_color_changed(arg_dict["sky_ground_bottom"])
-    $GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin.value = arg_dict["sky_ground_curve"]
-    _on_GroundCurveSpin_value_changed(arg_dict["sky_ground_curve"])
-    
-    # Starfield Options
-    $GUI/Tabs/Starfield/HBox/SpinGrid/HeightSpinBox.value = arg_dict["starfield_height"]
-    _on_HeightSpinBox_value_changed(arg_dict["starfield_height"])
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeASpinBox.value = arg_dict["starfield_type_a_count"]
-    _on_TypeASpinBox_value_changed(arg_dict["starfield_type_a_count"])
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeBSpinBox.value = arg_dict["starfield_type_b_count"]
-    _on_TypeBSpinBox_value_changed(arg_dict["starfield_type_b_count"])
-    $GUI/Tabs/Starfield/HBox/SpinGrid/TypeCSpinBox.value = arg_dict["starfield_type_c_count"]
-    _on_TypeCSpinBox_value_changed(arg_dict["starfield_type_c_count"])
-    $GUI/Tabs/Starfield/HBox/SpinGrid/MeanSpinBox.value = arg_dict["starfield_scale_mean"]
-    _on_MeanSpinBox_value_changed(arg_dict["starfield_scale_mean"])
-    $GUI/Tabs/Starfield/HBox/SpinGrid/VarianceSpinBox.value = arg_dict["starfield_scale_variance"]
-    _on_VarianceSpinBox_value_changed(arg_dict["starfield_scale_variance"])
-    
-    # Stars options
-    $GUI/Tabs/Stars/VBox/HBoxTypeA/ColorPickerButton.color = arg_dict["stars_type_a_color"]
-    _on_TypeA_ColorPickerButton_color_changed(arg_dict["stars_type_a_color"])
-    $GUI/Tabs/Stars/VBox/HBoxTypeA/OptionButton.selected = arg_dict["stars_type_a_texture"]
-    _on_TypeA_OptionButton_item_selected(arg_dict["stars_type_a_texture"])
-    $GUI/Tabs/Stars/VBox/HBoxTypeB/ColorPickerButton.color = arg_dict["stars_type_b_color"]
-    _on_TypeB_ColorPickerButton_color_changed(arg_dict["stars_type_b_color"])
-    $GUI/Tabs/Stars/VBox/HBoxTypeB/OptionButton.selected = arg_dict["stars_type_b_texture"]
-    _on_TypeB_OptionButton_item_selected(arg_dict["stars_type_b_texture"])
-    $GUI/Tabs/Stars/VBox/HBoxTypeC/ColorPickerButton.color = arg_dict["stars_type_c_color"]
-    _on_TypeC_ColorPickerButton_color_changed(arg_dict["stars_type_c_color"])
-    $GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton.selected = arg_dict["stars_type_c_texture"]
-    _on_TypeC_OptionButton_item_selected(arg_dict["stars_type_c_texture"])
-    
-    # Moon options
-    $GUI/Tabs/Moon/VBox/HBoxContainer/MoonVisCheckBox.pressed = arg_dict["moon_visible"]
-    _on_MoonVisCheckBox_toggled(arg_dict["moon_visible"])
-    $GUI/Tabs/Moon/VBox/HBoxContainer/MoonColorPickerButton.color = arg_dict["moon_color"]
-    _on_MoonColorPickerButton_color_changed(arg_dict["moon_color"])
-    $GUI/Tabs/Moon/VBox/HBoxPos/MoonXPosSpinBox.value = arg_dict["moon_x_pos"]
-    _on_MoonXPosSpinBox_value_changed(arg_dict["moon_x_pos"])
-    $GUI/Tabs/Moon/VBox/HBoxPos/MoonYPosSpinBox.value = arg_dict["moon_y_pos"]
-    _on_MoonYPosSpinBox_value_changed(arg_dict["moon_y_pos"])
-    $GUI/Tabs/Moon/VBox/HBoxSize/MoonSizeSpinBox.value = arg_dict["moon_size"]
-    _on_MoonSizeSpinBox_value_changed(arg_dict["moon_size"])
-
 
 func _on_ProfileSelection_item_selected(index):
     
@@ -144,8 +70,7 @@ func _on_ProfileSelection_item_selected(index):
     match index:
         0:
             # Default profile IS profile 0, so just pass it straight.
-            assert_color_profile(arg_dict)
-            
+            pass
         1:
             arg_dict["bld_base_color"] = Color("#12060b")
             arg_dict["bld_red_dot"] = Color("#ffffcc")
@@ -169,8 +94,6 @@ func _on_ProfileSelection_item_selected(index):
             
             arg_dict["moon_visible"] = false
             
-            assert_color_profile(arg_dict)
-            
         2:
             arg_dict["bld_base_color"] = Color("#12060b")
             arg_dict["bld_red_dot"] = Color("#e4f0e6")
@@ -193,8 +116,6 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["starfield_scale_variance"] = 1
             
             arg_dict["moon_visible"] = false
-            
-            assert_color_profile(arg_dict)
             
         3:
             arg_dict["bld_base_color"] = Color("#0c3659")
@@ -228,8 +149,6 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["moon_x_pos"] = 6.74
             arg_dict["moon_y_pos"] = 5.48
             arg_dict["moon_size"] = 2
-            
-            assert_color_profile(arg_dict)
         4:
             arg_dict["bld_base_color"] = Color("#00000000")
             arg_dict["bld_red_dot"] = Color("#c53920")
@@ -256,47 +175,6 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["stars_type_c_texture"] = 4
             
             arg_dict["moon_visible"] = false
-            
-            assert_color_profile(arg_dict)
-        _:
-            pass
-
-func _on_TextureSelection_item_selected(index):
-    match index:
-        0:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_25)
-        1:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_50)
-        2:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_75)
-        3:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.horiz64_100)
-        4:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_25)
-        5:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_50)
-        6:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_75)
-        7:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.verti64_100)
-        8:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_25)
-        9:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_50)
-        10:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_75)
-        11:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.square64_100)
-        12:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_25)
-        13:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_50)
-        14:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_75)
-        15:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.smorgas64_100)
-        16:
-            mcc.primary_material.set_shader_param("DotTexture", mcc.everything64)
         _:
             pass
 

@@ -22,8 +22,6 @@ const MAX_ROLLS = 25 #10
 # buildings.
 const MIN_THIN = 2
 
-# TODO: Scale the omni-light with the building.
-
 # TODO: Figure out decorations (distribution, selection, etc.)
 
 # The material we'll use to make this building.

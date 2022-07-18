@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
 [ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://gui/BuildingTab.tscn" type="PackedScene" id=5]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -73,9 +74,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_right = -10.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ProfileSelection" type="ItemList" parent="GUI/Tabs/Profiles/VBox"]
 margin_right = 314.0
@@ -84,171 +82,8 @@ items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null,
 allow_reselect = true
 auto_height = true
 
-[node name="Buildings" type="Tabs" parent="GUI/Tabs"]
+[node name="Buildings" parent="GUI/Tabs" instance=ExtResource( 5 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-rect_min_size = Vector2( 0, 174 )
-
-[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Buildings"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GridContainer" type="GridContainer" parent="GUI/Tabs/Buildings/VBox"]
-margin_top = 25.0
-margin_right = 314.0
-margin_bottom = 117.0
-columns = 4
-
-[node name="RedColor" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_top = 3.0
-margin_right = 103.0
-margin_bottom = 17.0
-text = "Red Dot Color"
-align = 1
-
-[node name="RedRect" type="ReferenceRect" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 107.0
-margin_right = 132.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 25, 0 )
-
-[node name="RedPicker" type="ColorPickerButton" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 136.0
-margin_right = 193.0
-margin_bottom = 20.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RedHash" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 3.0
-margin_right = 260.0
-margin_bottom = 17.0
-text = "#ABABAB"
-
-[node name="GreenColor" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_top = 27.0
-margin_right = 103.0
-margin_bottom = 41.0
-text = "Green Dot Color"
-align = 1
-
-[node name="GreenRect" type="ReferenceRect" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 107.0
-margin_top = 24.0
-margin_right = 132.0
-margin_bottom = 44.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="GreenPicker" type="ColorPickerButton" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 136.0
-margin_top = 24.0
-margin_right = 193.0
-margin_bottom = 44.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="GreenHash" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 27.0
-margin_right = 260.0
-margin_bottom = 41.0
-text = "#ABABAB"
-
-[node name="BlueColor" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_top = 51.0
-margin_right = 103.0
-margin_bottom = 65.0
-text = "Blue Dot Color"
-align = 1
-
-[node name="BlueRect" type="ReferenceRect" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 107.0
-margin_top = 48.0
-margin_right = 132.0
-margin_bottom = 68.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="BluePicker" type="ColorPickerButton" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 136.0
-margin_top = 48.0
-margin_right = 193.0
-margin_bottom = 68.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BlueHash" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 51.0
-margin_right = 260.0
-margin_bottom = 65.0
-text = "#ABABAB"
-
-[node name="BuildingColor" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_top = 75.0
-margin_right = 103.0
-margin_bottom = 89.0
-text = "Building Color"
-align = 1
-
-[node name="BuildingRect" type="ReferenceRect" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 107.0
-margin_top = 72.0
-margin_right = 132.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="BuildingPicker" type="ColorPickerButton" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 136.0
-margin_top = 72.0
-margin_right = 193.0
-margin_bottom = 92.0
-text = "Color 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BuildingHash" type="Label" parent="GUI/Tabs/Buildings/VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 75.0
-margin_right = 260.0
-margin_bottom = 89.0
-text = "#ABABAB"
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Buildings/VBox"]
-margin_top = 121.0
-margin_right = 314.0
-margin_bottom = 125.0
-
-[node name="TextureSelection" type="OptionButton" parent="GUI/Tabs/Buildings/VBox"]
-margin_top = 129.0
-margin_right = 314.0
-margin_bottom = 149.0
-text = "Dot Horizontal 25"
-items = [ "Dot Horizontal 25", null, false, 0, null, "Dot Horizontal 50", null, false, 1, null, "Dot Horizontal 75", null, false, 2, null, "Dot Horizontal 100", null, false, 3, null, "Dot Vertical 25", null, false, 4, null, "Dot Vertical 50", null, false, 5, null, "Dot Vertical 75", null, false, 6, null, "Dot Vertical 100", null, false, 7, null, "Square 25", null, false, 8, null, "Square 50", null, false, 9, null, "Square 75", null, false, 10, null, "Square 100", null, false, 11, null, "Smorgasbord 25", null, false, 12, null, "Smorgasbord 50", null, false, 13, null, "Smorgasbord 75", null, false, 14, null, "Smorgasbord 100", null, false, 15, null, "Everything Allsize", null, false, 16, null ]
-selected = 0
 
 [node name="Sky" type="Tabs" parent="GUI/Tabs"]
 visible = false
@@ -841,34 +676,4 @@ visible = false
 projection = 1
 size = 30.0
 
-[connection signal="item_selected" from="GUI/Tabs/Profiles/VBox/ProfileSelection" to="." method="_on_ProfileSelection_item_selected"]
-[connection signal="color_changed" from="GUI/Tabs/Buildings/VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Buildings/VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Buildings/VBox/GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Buildings/VBox/GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Buildings/VBox/TextureSelection" to="." method="_on_TextureSelection_item_selected"]
-[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/HorizonPicker" to="." method="_on_HorizonSkyPicker_color_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Sky/VBox/SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/HorizonPicker" to="." method="_on_HorizonGroundPicker_color_changed"]
-[connection signal="color_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/BottomPicker" to="." method="_on_BottomPicker_color_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Sky/VBox/GroundGrid/GroundCurveSpin" to="." method="_on_GroundCurveSpin_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/HeightSpinBox" to="." method="_on_HeightSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/TypeASpinBox" to="." method="_on_TypeASpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/TypeBSpinBox" to="." method="_on_TypeBSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/TypeCSpinBox" to="." method="_on_TypeCSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/MeanSpinBox" to="." method="_on_MeanSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Starfield/HBox/SpinGrid/VarianceSpinBox" to="." method="_on_VarianceSpinBox_value_changed"]
-[connection signal="pressed" from="GUI/Tabs/Starfield/HBox/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
-[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeA/ColorPickerButton" to="." method="_on_TypeA_ColorPickerButton_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeA/OptionButton" to="." method="_on_TypeA_OptionButton_item_selected"]
-[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeB/ColorPickerButton" to="." method="_on_TypeB_ColorPickerButton_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeB/OptionButton" to="." method="_on_TypeB_OptionButton_item_selected"]
-[connection signal="color_changed" from="GUI/Tabs/Stars/VBox/HBoxTypeC/ColorPickerButton" to="." method="_on_TypeC_ColorPickerButton_color_changed"]
-[connection signal="item_selected" from="GUI/Tabs/Stars/VBox/HBoxTypeC/OptionButton" to="." method="_on_TypeC_OptionButton_item_selected"]
-[connection signal="toggled" from="GUI/Tabs/Moon/VBox/HBoxContainer/MoonVisCheckBox" to="." method="_on_MoonVisCheckBox_toggled"]
-[connection signal="color_changed" from="GUI/Tabs/Moon/VBox/HBoxContainer/MoonColorPickerButton" to="." method="_on_MoonColorPickerButton_color_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonXPosSpinBox" to="." method="_on_MoonXPosSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxPos/MoonYPosSpinBox" to="." method="_on_MoonYPosSpinBox_value_changed"]
-[connection signal="value_changed" from="GUI/Tabs/Moon/VBox/HBoxSize/MoonSizeSpinBox" to="." method="_on_MoonSizeSpinBox_value_changed"]
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
