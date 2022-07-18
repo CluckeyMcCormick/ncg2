@@ -5,6 +5,10 @@ const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 
+# If we kepp the buildings at their actual sizes, you'll find they're very
+# small. That's because they're purposefully scaled around the sizes of the
+# building windows, as given by GlobalRef.WINDOW_UV_SIZE. Anyway, by what scalar
+# do we want to scale the buildings up by, making them more visible?
 const BUILDING_SCALAR = 10
 
 # Now, the footprints that we generate from the blockifier are measured in
@@ -34,16 +38,8 @@ var _current_buildings = 0
 # Emitted when the city is completed and ready for display!
 signal city_complete()
 
-# TODO: Scale the buildings individually, not using the BuildingMaster node.
-
 func _ready():
     var new_node
-    
-    # Assert the building scalar and rotation
-    $BuildingMaster.scale = Vector3(
-        BUILDING_SCALAR, BUILDING_SCALAR, -BUILDING_SCALAR
-    )
-    $BuildingMaster.rotation_degrees = Vector3.ZERO
     
     # Create a new blockifier
     blockifier = GROW_BLOCKIFIER.new(
@@ -97,9 +93,12 @@ func spawn_buildings():
         
         $BuildingMaster.add_child(building)
         building.translation.x = (grow_aabb.b.x * WINDOW_SCALING + grow_aabb.a.x * WINDOW_SCALING) / 2
-        building.translation.x *= GlobalRef.WINDOW_UV_SIZE
+        building.translation.x *= GlobalRef.WINDOW_UV_SIZE * BUILDING_SCALAR
         building.translation.z = (grow_aabb.b.z * WINDOW_SCALING + grow_aabb.a.z * WINDOW_SCALING) / 2
-        building.translation.z *= GlobalRef.WINDOW_UV_SIZE
+        building.translation.z *= GlobalRef.WINDOW_UV_SIZE * BUILDING_SCALAR
+        building.scale = Vector3(
+            BUILDING_SCALAR, BUILDING_SCALAR, BUILDING_SCALAR
+        )
         
         _total_buildings += 1
 

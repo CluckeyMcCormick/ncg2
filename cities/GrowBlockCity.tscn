@@ -12,7 +12,7 @@ min_height = ExtResource( 6 )
 max_height = ExtResource( 7 )
 
 [node name="BuildingMaster" type="Spatial" parent="."]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, -10, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
 
 [node name="VisibilityMaster" type="Spatial" parent="."]
 
