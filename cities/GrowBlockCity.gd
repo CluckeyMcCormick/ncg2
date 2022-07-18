@@ -119,6 +119,6 @@ func _on_building_screen_exited(building):
     var trans = Vector3.ZERO
     
     trans.x += blockifier.target_blocks * blockifier.x_width * WINDOW_SCALING
-    trans.x *= GlobalRef.WINDOW_UV_SIZE
+    trans.x *= GlobalRef.WINDOW_UV_SIZE * BUILDING_SCALAR
     
     building.translation += trans

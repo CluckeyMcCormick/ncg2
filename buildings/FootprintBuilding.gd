@@ -251,10 +251,9 @@ func make_blueprint():
         d = true_d(points)
     
     # TODO: Place up to 4 lights (randomly rolled) around the footprint
-    # Add a light, just so long as it doesn't overlap with our building.
     if not in_box(a, b, c, d, Vector2(footprint_len_x, footprint_len_z)):
         blp_lights.append(
-            [6, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
+            [30, Color("002459"), Vector2(footprint_len_x, footprint_len_z)]
         )
 
 func make_building():
@@ -299,10 +298,17 @@ func make_building():
     var eff_x = blp_len_x * GlobalRef.WINDOW_UV_SIZE
     var eff_y = tower_len_y * GlobalRef.WINDOW_UV_SIZE
     var eff_z = blp_len_z * GlobalRef.WINDOW_UV_SIZE
-
+    
+    var old_x = eff_x
+    var old_z = eff_z
+    
+    # Calculate the effective scalar for the omni-light. This is a horrendously
+    # lazy way of doing it, but it works for what I need.
+    var eff_scalar = abs( (scale.x + scale.y + scale.z) / 2 )
+    
     for light_arr in blp_lights:
         var light = OmniLight.new()
-        light.omni_range = light_arr[0]
+        light.omni_range = light_arr[0] * GlobalRef.WINDOW_UV_SIZE
         light.light_color = light_arr[1]
         $FxManager.add_child(light)
         light.translation = Vector3(
@@ -310,8 +316,27 @@ func make_building():
             0,
             light_arr[2].y * GlobalRef.WINDOW_UV_SIZE
         )
-    
-    # TODO: Incorporate omnilight radius into aabb calculation.
+        
+        # We're going to do this as lazily as possible: Let's say, in this
+        # diagram, B & Y are the edges of the building. A is the farthest point
+        # reached by a light at B. Z is the farthest point reached by a light at
+        # Z. We can observe:
+        #                       A-------B#####Y-------Z
+        # Basically, we need to update the effective x and z such that they
+        # encompass A through Z. That means doubling the omni_radius and adding
+        # it onto the length of the appropriate side of the footprint.
+        eff_x = max(
+            (blp_len_x * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2), 
+            eff_x
+        )
+        eff_z = max(
+            (blp_len_z * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2), 
+            eff_z
+        )
+        
+        # Now, after all that, apply the effective scalar. Our AABB will scale,
+        # but not the light's range.
+        light.omni_range *= eff_scalar
     
     $VisibilityNotifier.aabb.position.x = -eff_x / 2
     $VisibilityNotifier.aabb.position.y = 0
