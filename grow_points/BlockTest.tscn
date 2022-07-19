@@ -151,17 +151,6 @@ margin_right = 203.0
 margin_bottom = 144.0
 text = "Regenerate"
 
-[node name="HSeparator3" type="HSeparator" parent="GUI"]
-margin_top = 148.0
-margin_right = 203.0
-margin_bottom = 152.0
-
-[node name="BakeButton" type="Button" parent="GUI"]
-margin_top = 156.0
-margin_right = 203.0
-margin_bottom = 176.0
-text = "Bake"
-
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 light_color = Color( 0, 0, 0, 1 )
@@ -170,4 +159,3 @@ light_specular = 2.054
 
 [connection signal="item_selected" from="GUI/CameraBox/CameraOptions" to="." method="_on_CameraOptions_item_selected"]
 [connection signal="pressed" from="GUI/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
-[connection signal="pressed" from="GUI/BakeButton" to="." method="_on_BakeButton_pressed"]
