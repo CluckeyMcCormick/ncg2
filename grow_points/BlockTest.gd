@@ -39,13 +39,14 @@ func _ready():
     blockifier = GROW_BLOCKIFIER.new(
         max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 20
     )
+    blockifier.target_blocks = 4
 
     # Spawn in the blocks
     generate_blocks()
     spawn_buildings()
 
 func generate_blocks():
-    blockifier.spawn_pass()
+    blockifier.spawn_step()
     while blockifier.has_viable_blocks():
         # Grow the blocks
         blockifier.grow_pass()
@@ -63,6 +64,11 @@ func spawn_buildings():
         building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
         building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
         building.tower_len_y = int(grow_aabb.height)
+        building.building_material = MATERIALS[ randi() % len(MATERIALS) ]
+        
+        building.connect(
+            "blueprint_completed", self, "_on_building_blueprint_completed"
+        )
         
         $BuildingMaster.add_child(building)
         building.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
@@ -70,6 +76,13 @@ func spawn_buildings():
         building.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
         building.translation.z *= GlobalRef.WINDOW_UV_SIZE
 
+func _on_building_blueprint_completed(building):
+    # Disconnect the signal
+    building.disconnect(
+        "blueprint_completed", self, "_on_building_blueprint_completed"
+    )
+    # Construct this building
+    building.make_building()
 
 func _on_CameraOptions_item_selected(index):
     if index == 0:
@@ -93,6 +106,3 @@ func _on_RegenerateButton_pressed():
     )
     generate_blocks()
     spawn_buildings()
-    
-func _on_BakeButton_pressed():
-    $GIProbe.bake()
