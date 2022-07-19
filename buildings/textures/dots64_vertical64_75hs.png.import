@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/everything64_horizontal64.png-c5a1ddce321e26a918a9c3dca6c1a779.s3tc.stex"
-path.etc2="res://.import/everything64_horizontal64.png-c5a1ddce321e26a918a9c3dca6c1a779.etc2.stex"
+path.s3tc="res://.import/dots64_vertical64_75hs.png-be5de8cfef956f9cee5f67c70a0a42c0.s3tc.stex"
+path.etc2="res://.import/dots64_vertical64_75hs.png-be5de8cfef956f9cee5f67c70a0a42c0.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://buildings/everything64_horizontal64.png"
-dest_files=[ "res://.import/everything64_horizontal64.png-c5a1ddce321e26a918a9c3dca6c1a779.s3tc.stex", "res://.import/everything64_horizontal64.png-c5a1ddce321e26a918a9c3dca6c1a779.etc2.stex" ]
+source_file="res://buildings/textures/dots64_vertical64_75hs.png"
+dest_files=[ "res://.import/dots64_vertical64_75hs.png-be5de8cfef956f9cee5f67c70a0a42c0.s3tc.stex", "res://.import/dots64_vertical64_75hs.png-be5de8cfef956f9cee5f67c70a0a42c0.etc2.stex" ]
 
 [params]
 
@@ -30,6 +30,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false

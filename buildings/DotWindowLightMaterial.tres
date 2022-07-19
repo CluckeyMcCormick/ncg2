@@ -1,7 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://buildings/DotWindowLightShader.tres" type="Shader" id=2]
-[ext_resource path="res://buildings/dots64_horizontal64_75hs.png" type="Texture" id=3]
+[ext_resource path="res://buildings/textures/dots64_horizontal64_75hs.png" type="Texture" id=3]
 
 [resource]
 shader = ExtResource( 2 )

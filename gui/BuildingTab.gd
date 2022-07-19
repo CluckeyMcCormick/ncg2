@@ -2,7 +2,7 @@ extends Tabs
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures
-const IN_WINDOW_TEXTURES = "res://buildings/"
+const IN_WINDOW_TEXTURES = "res://buildings/textures/"
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.

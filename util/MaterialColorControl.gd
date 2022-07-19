@@ -29,7 +29,7 @@ var profile_dict = {
     "bld_red_dot": Color("#77121a"),
     "bld_green_dot": Color("#98c7d1"),
     "bld_blue_dot": Color("#d1cc64"),
-    "bld_texture_path": "res://buildings/dots64_horizontal64_75hs.png",
+    "bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
     
     "sky_sky_top": Color("#003f96"),
     "sky_sky_horizon": Color("#9f84b7"),
