@@ -16,6 +16,7 @@ func _ready():
     randomize()
     
     $GUI/Tabs/Buildings.update_from_global()
+    $GUI/Tabs/Sky.update_from_global()
 
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
@@ -182,44 +183,6 @@ func _on_RegenerateButton_pressed():
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_a()
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_b()
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_c()
-
-func _on_RedPicker_color_changed(color):
-    mcc.primary_material.set_shader_param("RedDotColor", color)
-    $GUI/Tabs/Buildings/VBox/GridContainer/RedHash.text = "#" + color.to_html()
-
-func _on_GreenPicker_color_changed(color):
-    mcc.primary_material.set_shader_param("GreenDotColor", color)
-    $GUI/Tabs/Buildings/VBox/GridContainer/GreenHash.text = "#" + color.to_html()
-
-func _on_BluePicker_color_changed(color):
-    mcc.primary_material.set_shader_param("BlueDotColor", color)
-    $GUI/Tabs/Buildings/VBox/GridContainer/BlueHash.text = "#" + color.to_html()
-
-func _on_BuildingPicker_color_changed(color):
-    mcc.primary_material.set_shader_param("BuildingColor", color)
-    $GUI/Tabs/Buildings/VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
-
-func _on_TopPicker_color_changed(color):
-    $WorldEnvironment.environment.background_sky.sky_top_color = color
-    $GUI/Tabs/Sky/VBox/SkyGrid/TopHash.text = "#" + color.to_html()
-
-func _on_HorizonSkyPicker_color_changed(color):
-    $WorldEnvironment.environment.background_sky.sky_horizon_color = color
-    $GUI/Tabs/Sky/VBox/SkyGrid/HorizonHash.text = "#" + color.to_html()
-
-func _on_SkyCurveSpin_value_changed(value):
-    $WorldEnvironment.environment.background_sky.sky_curve = value / 10000.0
-
-func _on_HorizonGroundPicker_color_changed(color):
-    $WorldEnvironment.environment.background_sky.ground_horizon_color = color
-    $GUI/Tabs/Sky/VBox/GroundGrid/HorizonHash.text = "#" + color.to_html()
-
-func _on_BottomPicker_color_changed(color):
-    $WorldEnvironment.environment.background_sky.ground_bottom_color = color
-    $GUI/Tabs/Sky/VBox/GroundGrid/BottomHash.text = "#" + color.to_html()
-
-func _on_GroundCurveSpin_value_changed(value):
-    $WorldEnvironment.environment.background_sky.ground_curve = value / 10000.0
 
 func _on_BottomSlider_value_changed(value):
     $UpCamera/CameraAlignedEffects/Starfield.height = value

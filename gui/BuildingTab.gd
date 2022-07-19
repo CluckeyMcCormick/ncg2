@@ -98,10 +98,10 @@ func update_from_global():
     building_picker.color = mcc.profile_dict["bld_base_color"]
     
     # Update our labels
-    $VBox/GridContainer/RedHash.text = red_picker.color.to_html()
-    $VBox/GridContainer/GreenHash.text = green_picker.color.to_html()
-    $VBox/GridContainer/BlueHash.text = blue_picker.color.to_html()
-    $VBox/GridContainer/BuildingHash.text = building_picker.color.to_html()
+    $VBox/GridContainer/RedHash.text = "#" + red_picker.color.to_html()
+    $VBox/GridContainer/GreenHash.text = "#" + green_picker.color.to_html()
+    $VBox/GridContainer/BlueHash.text = "#" + blue_picker.color.to_html()
+    $VBox/GridContainer/BuildingHash.text = "#" + building_picker.color.to_html()
 
 # Updates the global dictionary to match what's in the gui, then
 func update_to_global():
@@ -119,19 +119,19 @@ func update_to_global():
     mcc.dictionary_assert()
 
 func _on_RedPicker_color_changed(color):
-    $VBox/GridContainer/RedHash.text = red_picker.color.to_html()
+    $VBox/GridContainer/RedHash.text = "#" + color.to_html()
     update_to_global()
 
 func _on_GreenPicker_color_changed(color):
-    $VBox/GridContainer/GreenHash.text = green_picker.color.to_html()
+    $VBox/GridContainer/GreenHash.text = "#" + color.to_html()
     update_to_global()
 
 func _on_BluePicker_color_changed(color):
-    $VBox/GridContainer/BlueHash.text = blue_picker.color.to_html()
+    $VBox/GridContainer/BlueHash.text = "#" + color.to_html()
     update_to_global()
 
 func _on_BuildingPicker_color_changed(color):
-    $VBox/GridContainer/BuildingHash.text = building_picker.color.to_html()
+    $VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
     update_to_global()
 
 func _on_TextureSelection_item_selected(index):

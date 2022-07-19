@@ -9,6 +9,8 @@ var type_a_material = preload("res://effects/StarTypeA.tres")
 var type_b_material = preload("res://effects/StarTypeB.tres")
 var type_c_material = preload("res://effects/StarTypeC.tres")
 
+var city_proc_sky = preload("res://environment/city_proc_sky.tres")
+
 # Load our different star textures
 const s64_dot = preload("res://effects/64Dot.png")
 const s64_star = preload("res://effects/64Star.png")
@@ -59,6 +61,9 @@ var profile_dict = {
 
 func dictionary_assert():
     
+    #
+    # Building
+    #
     var window_texture = load( profile_dict["bld_texture_path"] )
     if window_texture != null:
         primary_material.set_shader_param("DotTexture", window_texture)
@@ -69,3 +74,13 @@ func dictionary_assert():
     primary_material.set_shader_param("RedDotColor", profile_dict["bld_red_dot"])
     primary_material.set_shader_param("GreenDotColor", profile_dict["bld_green_dot"])
     primary_material.set_shader_param("BlueDotColor", profile_dict["bld_blue_dot"])
+
+    #
+    # Sky
+    #
+    city_proc_sky.sky_top_color = profile_dict["sky_sky_top"]
+    city_proc_sky.sky_horizon_color = profile_dict["sky_sky_horizon"]
+    city_proc_sky.sky_curve = profile_dict["sky_sky_curve"] / 10000.0
+    city_proc_sky.ground_horizon_color = profile_dict["sky_ground_horizon"]
+    city_proc_sky.ground_bottom_color = profile_dict["sky_ground_bottom"]
+    city_proc_sky.ground_curve = profile_dict["sky_ground_curve"] / 10000.0

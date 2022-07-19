@@ -1,0 +1,217 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gui/SkyTab.gd" type="Script" id=1]
+
+[node name="Sky" type="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+script = ExtResource( 1 )
+
+[node name="VBox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_right = -10.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkyGrid" type="GridContainer" parent="VBox"]
+margin_top = 404.0
+margin_right = 1472.0
+margin_bottom = 476.0
+columns = 4
+
+[node name="TopColor" type="Label" parent="VBox/SkyGrid"]
+margin_top = 3.0
+margin_right = 87.0
+margin_bottom = 17.0
+text = "Top Color"
+align = 1
+
+[node name="TopRect" type="ReferenceRect" parent="VBox/SkyGrid"]
+margin_left = 91.0
+margin_right = 111.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="TopPicker" type="ColorPickerButton" parent="VBox/SkyGrid"]
+margin_left = 115.0
+margin_right = 189.0
+margin_bottom = 20.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopHash" type="Label" parent="VBox/SkyGrid"]
+margin_left = 193.0
+margin_top = 3.0
+margin_right = 256.0
+margin_bottom = 17.0
+text = "#ABABAB"
+
+[node name="HorizonColor" type="Label" parent="VBox/SkyGrid"]
+margin_top = 27.0
+margin_right = 87.0
+margin_bottom = 41.0
+text = "Horizon Color"
+align = 1
+
+[node name="HorizonRect" type="ReferenceRect" parent="VBox/SkyGrid"]
+margin_left = 91.0
+margin_top = 24.0
+margin_right = 111.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="HorizonPicker" type="ColorPickerButton" parent="VBox/SkyGrid"]
+margin_left = 115.0
+margin_top = 24.0
+margin_right = 189.0
+margin_bottom = 44.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HorizonHash" type="Label" parent="VBox/SkyGrid"]
+margin_left = 193.0
+margin_top = 27.0
+margin_right = 256.0
+margin_bottom = 41.0
+text = "#ABABAB"
+
+[node name="Curve" type="Label" parent="VBox/SkyGrid"]
+margin_top = 53.0
+margin_right = 87.0
+margin_bottom = 67.0
+text = "Curve"
+align = 1
+
+[node name="CurveRect" type="ReferenceRect" parent="VBox/SkyGrid"]
+margin_left = 91.0
+margin_top = 48.0
+margin_right = 111.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="SkyCurveSpin" type="SpinBox" parent="VBox/SkyGrid"]
+margin_left = 115.0
+margin_top = 48.0
+margin_right = 189.0
+margin_bottom = 72.0
+min_value = 1.0
+max_value = 9999.0
+value = 365.0
+
+[node name="HSeparator" type="HSeparator" parent="VBox"]
+margin_top = 480.0
+margin_right = 1472.0
+margin_bottom = 484.0
+
+[node name="GroundGrid" type="GridContainer" parent="VBox"]
+margin_top = 488.0
+margin_right = 1472.0
+margin_bottom = 560.0
+columns = 4
+
+[node name="HorizonColor" type="Label" parent="VBox/GroundGrid"]
+margin_top = 3.0
+margin_right = 87.0
+margin_bottom = 17.0
+text = "Horizon Color"
+align = 1
+
+[node name="HorizonRect" type="ReferenceRect" parent="VBox/GroundGrid"]
+margin_left = 91.0
+margin_right = 111.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="HorizonPicker" type="ColorPickerButton" parent="VBox/GroundGrid"]
+margin_left = 115.0
+margin_right = 189.0
+margin_bottom = 20.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HorizonHash" type="Label" parent="VBox/GroundGrid"]
+margin_left = 193.0
+margin_top = 3.0
+margin_right = 256.0
+margin_bottom = 17.0
+text = "#ABABAB"
+
+[node name="BottomColor" type="Label" parent="VBox/GroundGrid"]
+margin_top = 27.0
+margin_right = 87.0
+margin_bottom = 41.0
+text = "Bottom Color"
+align = 1
+
+[node name="BottomRect" type="ReferenceRect" parent="VBox/GroundGrid"]
+margin_left = 91.0
+margin_top = 24.0
+margin_right = 111.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="BottomPicker" type="ColorPickerButton" parent="VBox/GroundGrid"]
+margin_left = 115.0
+margin_top = 24.0
+margin_right = 189.0
+margin_bottom = 44.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomHash" type="Label" parent="VBox/GroundGrid"]
+margin_left = 193.0
+margin_top = 27.0
+margin_right = 256.0
+margin_bottom = 41.0
+text = "#ABABAB"
+
+[node name="Curve" type="Label" parent="VBox/GroundGrid"]
+margin_top = 53.0
+margin_right = 87.0
+margin_bottom = 67.0
+text = "Curve"
+align = 1
+
+[node name="CurveRect" type="ReferenceRect" parent="VBox/GroundGrid"]
+margin_left = 91.0
+margin_top = 48.0
+margin_right = 111.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="GroundCurveSpin" type="SpinBox" parent="VBox/GroundGrid"]
+margin_left = 115.0
+margin_top = 48.0
+margin_right = 189.0
+margin_bottom = 72.0
+min_value = 1.0
+max_value = 9999.0
+value = 200.0
+
+[connection signal="color_changed" from="VBox/SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
+[connection signal="color_changed" from="VBox/SkyGrid/HorizonPicker" to="." method="_on_SkyHorizonPicker_color_changed"]
+[connection signal="value_changed" from="VBox/SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
+[connection signal="color_changed" from="VBox/GroundGrid/HorizonPicker" to="." method="_on_GroundHorizonPicker_color_changed"]
+[connection signal="color_changed" from="VBox/GroundGrid/BottomPicker" to="." method="_on_BottomPicker_color_changed"]
+[connection signal="value_changed" from="VBox/GroundGrid/GroundCurveSpin" to="." method="_on_GroundCurveSpin_value_changed"]

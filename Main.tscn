@@ -5,20 +5,10 @@
 [ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
 [ext_resource path="res://gui/BuildingTab.tscn" type="PackedScene" id=5]
+[ext_resource path="res://gui/SkyTab.tscn" type="PackedScene" id=6]
+[ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
 
 [sub_resource type="SphereMesh" id=1]
-
-[sub_resource type="ProceduralSky" id=2]
-sky_top_color = Color( 0, 0.247059, 0.588235, 1 )
-sky_horizon_color = Color( 0.623529, 0.517647, 0.717647, 1 )
-sky_curve = 0.0365
-ground_bottom_color = Color( 0.027451, 0.0392157, 0.105882, 1 )
-ground_horizon_color = Color( 0, 0.247059, 0.588235, 1 )
-sun_latitude = -90.0
-
-[sub_resource type="Environment" id=3]
-background_mode = 2
-background_sky = SubResource( 2 )
 
 [node name="Main" type="Spatial"]
 pause_mode = 2
@@ -85,212 +75,8 @@ auto_height = true
 [node name="Buildings" parent="GUI/Tabs" instance=ExtResource( 5 )]
 visible = false
 
-[node name="Sky" type="Tabs" parent="GUI/Tabs"]
+[node name="Sky" parent="GUI/Tabs" instance=ExtResource( 6 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-tab_align = 0
-
-[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Sky"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SkyGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
-margin_top = 9.0
-margin_right = 314.0
-margin_bottom = 81.0
-columns = 4
-
-[node name="TopColor" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_top = 3.0
-margin_right = 87.0
-margin_bottom = 17.0
-text = "Top Color"
-align = 1
-
-[node name="TopRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 91.0
-margin_right = 111.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="TopPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 115.0
-margin_right = 189.0
-margin_bottom = 20.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TopHash" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 193.0
-margin_top = 3.0
-margin_right = 256.0
-margin_bottom = 17.0
-text = "#ABABAB"
-
-[node name="HorizonColor" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_top = 27.0
-margin_right = 87.0
-margin_bottom = 41.0
-text = "Horizon Color"
-align = 1
-
-[node name="HorizonRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 91.0
-margin_top = 24.0
-margin_right = 111.0
-margin_bottom = 44.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="HorizonPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 115.0
-margin_top = 24.0
-margin_right = 189.0
-margin_bottom = 44.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HorizonHash" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 193.0
-margin_top = 27.0
-margin_right = 256.0
-margin_bottom = 41.0
-text = "#ABABAB"
-
-[node name="Curve" type="Label" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_top = 53.0
-margin_right = 87.0
-margin_bottom = 67.0
-text = "Curve"
-align = 1
-
-[node name="CurveRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 91.0
-margin_top = 48.0
-margin_right = 111.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="SkyCurveSpin" type="SpinBox" parent="GUI/Tabs/Sky/VBox/SkyGrid"]
-margin_left = 115.0
-margin_top = 48.0
-margin_right = 189.0
-margin_bottom = 72.0
-min_value = 1.0
-max_value = 9999.0
-value = 365.0
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Sky/VBox"]
-margin_top = 85.0
-margin_right = 314.0
-margin_bottom = 89.0
-
-[node name="GroundGrid" type="GridContainer" parent="GUI/Tabs/Sky/VBox"]
-margin_top = 93.0
-margin_right = 314.0
-margin_bottom = 165.0
-columns = 4
-
-[node name="HorizonColor" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_top = 3.0
-margin_right = 87.0
-margin_bottom = 17.0
-text = "Horizon Color"
-align = 1
-
-[node name="HorizonRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 91.0
-margin_right = 111.0
-margin_bottom = 20.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="HorizonPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 115.0
-margin_right = 189.0
-margin_bottom = 20.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HorizonHash" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 193.0
-margin_top = 3.0
-margin_right = 256.0
-margin_bottom = 17.0
-text = "#ABABAB"
-
-[node name="BottomColor" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_top = 27.0
-margin_right = 87.0
-margin_bottom = 41.0
-text = "Bottom Color"
-align = 1
-
-[node name="BottomRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 91.0
-margin_top = 24.0
-margin_right = 111.0
-margin_bottom = 44.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="BottomPicker" type="ColorPickerButton" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 115.0
-margin_top = 24.0
-margin_right = 189.0
-margin_bottom = 44.0
-text = "Color 1"
-edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BottomHash" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 193.0
-margin_top = 27.0
-margin_right = 256.0
-margin_bottom = 41.0
-text = "#ABABAB"
-
-[node name="Curve" type="Label" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_top = 53.0
-margin_right = 87.0
-margin_bottom = 67.0
-text = "Curve"
-align = 1
-
-[node name="CurveRect" type="ReferenceRect" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 91.0
-margin_top = 48.0
-margin_right = 111.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 20, 0 )
-
-[node name="GroundCurveSpin" type="SpinBox" parent="GUI/Tabs/Sky/VBox/GroundGrid"]
-margin_left = 115.0
-margin_top = 48.0
-margin_right = 189.0
-margin_bottom = 72.0
-min_value = 1.0
-max_value = 9999.0
-value = 200.0
 
 [node name="Starfield" type="Tabs" parent="GUI/Tabs"]
 visible = false
@@ -663,7 +449,7 @@ F12 to Show/Hide GUI"
 align = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 3 )
+environment = ExtResource( 7 )
 
 [node name="GrowBlockCity" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
