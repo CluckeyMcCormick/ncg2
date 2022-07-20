@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Star.png-7c6241ad6882e957c0ba46f19b49da60.stex"
+path="res://.import/64Dot.png-72af5d497261a517c81a1b2119df894c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/64Star.png"
-dest_files=[ "res://.import/64Star.png-7c6241ad6882e957c0ba46f19b49da60.stex" ]
+source_file="res://effects/star_textures/64Dot.png"
+dest_files=[ "res://.import/64Dot.png-72af5d497261a517c81a1b2119df894c.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=false

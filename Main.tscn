@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://gui/BuildingTab.tscn" type="PackedScene" id=5]
 [ext_resource path="res://gui/SkyTab.tscn" type="PackedScene" id=6]
 [ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
+[ext_resource path="res://gui/MoonTab.tscn" type="PackedScene" id=8]
+[ext_resource path="res://gui/StarfieldTab.tscn" type="PackedScene" id=10]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -78,148 +80,8 @@ visible = false
 [node name="Sky" parent="GUI/Tabs" instance=ExtResource( 6 )]
 visible = false
 
-[node name="Starfield" type="Tabs" parent="GUI/Tabs"]
+[node name="Starfield" parent="GUI/Tabs" instance=ExtResource( 10 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-tab_align = 0
-tab_close_display_policy = 2
-
-[node name="HBox" type="HBoxContainer" parent="GUI/Tabs/Starfield"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SpinGrid" type="GridContainer" parent="GUI/Tabs/Starfield/HBox"]
-margin_right = 197.0
-margin_bottom = 174.0
-columns = 2
-
-[node name="HeightLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 5.0
-margin_right = 119.0
-margin_bottom = 19.0
-text = "Starfield Height"
-align = 1
-
-[node name="HeightSpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_right = 197.0
-margin_bottom = 24.0
-max_value = 40.0
-step = 0.01
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TypeALabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 33.0
-margin_right = 119.0
-margin_bottom = 47.0
-text = "Star Type A Count"
-align = 1
-
-[node name="TypeASpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_top = 28.0
-margin_right = 197.0
-margin_bottom = 52.0
-max_value = 1000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TypeBLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 61.0
-margin_right = 119.0
-margin_bottom = 75.0
-text = "Star Type B Count"
-align = 1
-
-[node name="TypeBSpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_top = 56.0
-margin_right = 197.0
-margin_bottom = 80.0
-max_value = 1000.0
-
-[node name="TypeCLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 89.0
-margin_right = 119.0
-margin_bottom = 103.0
-text = "Star Type C Count"
-align = 1
-
-[node name="TypeCSpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_top = 84.0
-margin_right = 197.0
-margin_bottom = 108.0
-max_value = 1000.0
-
-[node name="MeanLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 117.0
-margin_right = 119.0
-margin_bottom = 131.0
-text = "Star Scale Mean"
-align = 1
-
-[node name="MeanSpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_top = 112.0
-margin_right = 197.0
-margin_bottom = 136.0
-max_value = 2.0
-step = 0.005
-
-[node name="VarianceLabel" type="Label" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_top = 145.0
-margin_right = 119.0
-margin_bottom = 159.0
-text = "Star Scale Variance"
-align = 1
-
-[node name="VarianceSpinBox" type="SpinBox" parent="GUI/Tabs/Starfield/HBox/SpinGrid"]
-margin_left = 123.0
-margin_top = 140.0
-margin_right = 197.0
-margin_bottom = 164.0
-max_value = 1.0
-step = 0.005
-
-[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 201.0
-margin_right = 211.0
-margin_bottom = 174.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="VSeparator" type="VSeparator" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 215.0
-margin_right = 219.0
-margin_bottom = 174.0
-
-[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 223.0
-margin_right = 233.0
-margin_bottom = 174.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="RegenerateButton" type="Button" parent="GUI/Tabs/Starfield/HBox"]
-margin_left = 237.0
-margin_top = 77.0
-margin_right = 321.0
-margin_bottom = 97.0
-size_flags_vertical = 4
-text = "Regenerate"
 
 [node name="Stars" type="Tabs" parent="GUI/Tabs"]
 visible = false
@@ -334,111 +196,8 @@ text = "Dot"
 items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
 selected = 0
 
-[node name="Moon" type="Tabs" parent="GUI/Tabs"]
+[node name="Moon" parent="GUI/Tabs" instance=ExtResource( 8 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Moon"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
-margin_top = 23.0
-margin_right = 314.0
-margin_bottom = 47.0
-
-[node name="MoonVisCheckBox" type="CheckBox" parent="GUI/Tabs/Moon/VBox/HBoxContainer"]
-margin_right = 71.0
-margin_bottom = 24.0
-text = "Visible"
-
-[node name="MoonColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Moon/VBox/HBoxContainer"]
-margin_left = 75.0
-margin_right = 314.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-
-[node name="ReferenceRect" type="ReferenceRect" parent="GUI/Tabs/Moon/VBox"]
-margin_top = 51.0
-margin_right = 314.0
-margin_bottom = 71.0
-rect_min_size = Vector2( 0, 20 )
-
-[node name="HBoxPos" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
-margin_top = 75.0
-margin_right = 314.0
-margin_bottom = 99.0
-
-[node name="XLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
-margin_top = 5.0
-margin_right = 64.0
-margin_bottom = 19.0
-text = "X Position"
-
-[node name="MoonXPosSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
-margin_left = 68.0
-margin_right = 142.0
-margin_bottom = 24.0
-min_value = -20.0
-max_value = 20.0
-step = 0.01
-
-[node name="VSeparator" type="VSeparator" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
-margin_left = 146.0
-margin_right = 150.0
-margin_bottom = 24.0
-
-[node name="YLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
-margin_left = 154.0
-margin_top = 5.0
-margin_right = 217.0
-margin_bottom = 19.0
-text = "Y Position"
-
-[node name="MoonYPosSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxPos"]
-margin_left = 221.0
-margin_right = 295.0
-margin_bottom = 24.0
-min_value = -20.0
-max_value = 20.0
-step = 0.01
-
-[node name="ReferenceRect2" type="ReferenceRect" parent="GUI/Tabs/Moon/VBox"]
-margin_top = 103.0
-margin_right = 314.0
-margin_bottom = 123.0
-rect_min_size = Vector2( 0, 20 )
-
-[node name="HBoxSize" type="HBoxContainer" parent="GUI/Tabs/Moon/VBox"]
-margin_top = 127.0
-margin_right = 314.0
-margin_bottom = 151.0
-
-[node name="MoonSizeLabel" type="Label" parent="GUI/Tabs/Moon/VBox/HBoxSize"]
-margin_top = 5.0
-margin_right = 66.0
-margin_bottom = 19.0
-text = "Moon Size"
-
-[node name="MoonSizeSpinBox" type="SpinBox" parent="GUI/Tabs/Moon/VBox/HBoxSize"]
-margin_left = 70.0
-margin_right = 144.0
-margin_bottom = 24.0
-min_value = 0.1
-max_value = 10.0
-step = 0.01
-value = 0.1
 
 [node name="Label" type="Label" parent="GUI"]
 margin_top = 214.0
@@ -462,4 +221,7 @@ visible = false
 projection = 1
 size = 30.0
 
+[connection signal="regenerate" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_regenerate"]
+[connection signal="value_update" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_value_update"]
+[connection signal="value_update" from="GUI/Tabs/Moon" to="." method="_on_Moon_value_update"]
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]

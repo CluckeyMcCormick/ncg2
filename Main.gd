@@ -14,9 +14,13 @@ var city_built = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
     randomize()
-    
+    profile_reload()
+
+func profile_reload():
     $GUI/Tabs/Buildings.update_from_global()
     $GUI/Tabs/Sky.update_from_global()
+    $GUI/Tabs/Starfield.update_from_global()
+    $GUI/Tabs/Moon.update_from_global()
 
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
@@ -179,32 +183,6 @@ func _on_ProfileSelection_item_selected(index):
         _:
             pass
 
-func _on_RegenerateButton_pressed():
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_a()
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_b()
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_c()
-
-func _on_BottomSlider_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.height = value
-
-func _on_HeightSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.height = value
-
-func _on_TypeASpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.field_a_count = value
-
-func _on_TypeBSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.field_b_count = value
-
-func _on_TypeCSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.field_c_count = value
-
-func _on_MeanSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.scale_mean = value
-
-func _on_VarianceSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Starfield.scale_variance = value
-
 func _on_TypeA_ColorPickerButton_color_changed(color):
     mcc.type_a_material.albedo_color = color
 
@@ -281,18 +259,24 @@ func _on_TypeC_OptionButton_item_selected(index):
         _:
             pass
 
-func _on_MoonVisCheckBox_toggled(button_pressed):
-    $UpCamera/CameraAlignedEffects/Moon.visible = button_pressed
+func _on_Starfield_regenerate():
+    $UpCamera/CameraAlignedEffects/Starfield.generate_field_a()
+    $UpCamera/CameraAlignedEffects/Starfield.generate_field_b()
+    $UpCamera/CameraAlignedEffects/Starfield.generate_field_c()
 
-func _on_MoonColorPickerButton_color_changed(color):
-    mcc.moon_material.albedo_color = color
+func _on_Starfield_value_update():
+    $UpCamera/CameraAlignedEffects/Starfield.height = mcc.profile_dict["starfield_height"]
+    $UpCamera/CameraAlignedEffects/Starfield.field_a_count = mcc.profile_dict["starfield_type_a_count"]
+    $UpCamera/CameraAlignedEffects/Starfield.field_b_count = mcc.profile_dict["starfield_type_b_count"]
+    $UpCamera/CameraAlignedEffects/Starfield.field_c_count = mcc.profile_dict["starfield_type_c_count"]
+    $UpCamera/CameraAlignedEffects/Starfield.scale_mean = mcc.profile_dict["starfield_scale_mean"]
+    $UpCamera/CameraAlignedEffects/Starfield.scale_variance = mcc.profile_dict["starfield_scale_variance"]
+    
+    _on_Starfield_regenerate()
 
-func _on_MoonXPosSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Moon.translation.x = value
-
-func _on_MoonYPosSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Moon.translation.y = value
-
-func _on_MoonSizeSpinBox_value_changed(value):
-    $UpCamera/CameraAlignedEffects/Moon.mesh.radius = value
-    $UpCamera/CameraAlignedEffects/Moon.mesh.height = value * 2
+func _on_Moon_value_update():
+    $UpCamera/CameraAlignedEffects/Moon.visible = mcc.profile_dict["moon_visible"]
+    $UpCamera/CameraAlignedEffects/Moon.translation.x = mcc.profile_dict["moon_x_pos"]
+    $UpCamera/CameraAlignedEffects/Moon.translation.y = mcc.profile_dict["moon_y_pos"]
+    $UpCamera/CameraAlignedEffects/Moon.mesh.radius = mcc.profile_dict["moon_size"]
+    $UpCamera/CameraAlignedEffects/Moon.mesh.height = mcc.profile_dict["moon_size"] * 2

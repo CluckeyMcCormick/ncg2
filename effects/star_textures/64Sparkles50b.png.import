@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/64Sparkles50b.png-25c5e68f4c77f5a9ab342ef326a1fc84.s3tc.stex"
-path.etc2="res://.import/64Sparkles50b.png-25c5e68f4c77f5a9ab342ef326a1fc84.etc2.stex"
+path.s3tc="res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.s3tc.stex"
+path.etc2="res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://effects/64Sparkles50b.png"
-dest_files=[ "res://.import/64Sparkles50b.png-25c5e68f4c77f5a9ab342ef326a1fc84.s3tc.stex", "res://.import/64Sparkles50b.png-25c5e68f4c77f5a9ab342ef326a1fc84.etc2.stex" ]
+source_file="res://effects/star_textures/64Sparkles50b.png"
+dest_files=[ "res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.s3tc.stex", "res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.etc2.stex" ]
 
 [params]
 

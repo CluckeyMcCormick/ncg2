@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Sparkles50c.png-1582b822418eaf03f1344ccfa7f5aee1.stex"
+path="res://.import/64Sparkles50a.png-b7404580053cdd917c9b2fcf86330f22.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/64Sparkles50c.png"
-dest_files=[ "res://.import/64Sparkles50c.png-1582b822418eaf03f1344ccfa7f5aee1.stex" ]
+source_file="res://effects/star_textures/64Sparkles50a.png"
+dest_files=[ "res://.import/64Sparkles50a.png-b7404580053cdd917c9b2fcf86330f22.stex" ]
 
 [params]
 
@@ -28,6 +28,7 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
+process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

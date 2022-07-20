@@ -18,6 +18,10 @@ onready var building_picker = $VBox/GridContainer/BuildingPicker
 var id_to_path = {}
 var path_to_id = {}
 
+# Do we update the global profile to reflect our values whenever a value gets
+# updated?
+var _update_global = true
+
 func _ready():
     # Initialize our texture choices.
     load_texture_choices()
@@ -81,6 +85,10 @@ func load_texture_choices():
 
 # Updates the GUI to match what's in the global dictionary
 func update_from_global():
+    # Disable updating the globabl dictionary - we don't want to update
+    # something while we're reading from it!
+    _update_global = false
+
     var path = mcc.profile_dict["bld_texture_path"]
     
     # Update the selected path
@@ -102,37 +110,47 @@ func update_from_global():
     $VBox/GridContainer/GreenHash.text = "#" + green_picker.color.to_html()
     $VBox/GridContainer/BlueHash.text = "#" + blue_picker.color.to_html()
     $VBox/GridContainer/BuildingHash.text = "#" + building_picker.color.to_html()
-
-# Updates the global dictionary to match what's in the gui, then
-func update_to_global():
-    # Get the texture path
-    var texture_path = id_to_path[ $VBox/TextureSelection.get_selected_id() ]
     
-    # Update the relevant dictionary entries
-    mcc.profile_dict["bld_texture_path"] = texture_path
-    mcc.profile_dict["bld_red_dot"] = red_picker.color
-    mcc.profile_dict["bld_green_dot"] = green_picker.color
-    mcc.profile_dict["bld_blue_dot"] = blue_picker.color
-    mcc.profile_dict["bld_base_color"] = building_picker.color
-    
-    # Assert the dictionary's values, putting the updated values into practice.
-    mcc.dictionary_assert()
+    # Re-enable updating the global dictionary.
+    _update_global = true
 
 func _on_RedPicker_color_changed(color):
     $VBox/GridContainer/RedHash.text = "#" + color.to_html()
-    update_to_global()
+    
+    if _update_global:
+        mcc.profile_dict["bld_red_dot"] = color
+    
+    mcc.key_update("bld_red_dot")
 
 func _on_GreenPicker_color_changed(color):
     $VBox/GridContainer/GreenHash.text = "#" + color.to_html()
-    update_to_global()
+    
+    if _update_global:
+        mcc.profile_dict["bld_green_dot"] = color
+    
+    mcc.key_update("bld_green_dot")
 
 func _on_BluePicker_color_changed(color):
     $VBox/GridContainer/BlueHash.text = "#" + color.to_html()
-    update_to_global()
+    
+    if _update_global:
+        mcc.profile_dict["bld_blue_dot"] = color
+    
+    mcc.key_update("bld_blue_dot")
 
 func _on_BuildingPicker_color_changed(color):
     $VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
-    update_to_global()
+    
+    if _update_global:
+        mcc.profile_dict["bld_base_color"] = color
+    
+    mcc.key_update("bld_base_color")
 
 func _on_TextureSelection_item_selected(index):
-    update_to_global()
+    # Get the texture path
+    var texture_path = id_to_path[ $VBox/TextureSelection.get_selected_id() ]
+    
+    if _update_global:
+        mcc.profile_dict["bld_texture_path"] = texture_path
+    
+    mcc.key_update("bld_texture_path")
