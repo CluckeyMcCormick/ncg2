@@ -20,6 +20,7 @@ func profile_reload():
     $GUI/Tabs/Buildings.update_from_global()
     $GUI/Tabs/Sky.update_from_global()
     $GUI/Tabs/Starfield.update_from_global()
+    $GUI/Tabs/Stars.update_from_global()
     $GUI/Tabs/Moon.update_from_global()
 
 func _input(event):
@@ -180,82 +181,6 @@ func _on_ProfileSelection_item_selected(index):
             arg_dict["stars_type_c_texture"] = 4
             
             arg_dict["moon_visible"] = false
-        _:
-            pass
-
-func _on_TypeA_ColorPickerButton_color_changed(color):
-    mcc.type_a_material.albedo_color = color
-
-func _on_TypeA_OptionButton_item_selected(index):
-    var mat = mcc.type_a_material
-    
-    match index:
-        0:
-            # Dot
-            mat.albedo_texture = mcc.s64_dot
-        1:
-            # Star
-            mat.albedo_texture = mcc.s64_star
-        2:
-            # 50's Sparkle A
-            mat.albedo_texture = mcc.s64_sparkle_a
-        3:
-            # 50's Sparkle B
-            mat.albedo_texture = mcc.s64_sparkle_b
-        4:
-            # 50's Sparkle C
-            mat.albedo_texture = mcc.s64_sparkle_c
-        _:
-            pass
-
-func _on_TypeB_ColorPickerButton_color_changed(color):
-    mcc.type_b_material.albedo_color = color
-
-func _on_TypeB_OptionButton_item_selected(index):
-    var mat = mcc.type_b_material
-    
-    match index:
-        0:
-            # Dot
-            mat.albedo_texture = mcc.s64_dot
-        1:
-            # Star
-            mat.albedo_texture = mcc.s64_star
-        2:
-            # 50's Sparkle A
-            mat.albedo_texture = mcc.s64_sparkle_a
-        3:
-            # 50's Sparkle B
-            mat.albedo_texture = mcc.s64_sparkle_b
-        4:
-            # 50's Sparkle C
-            mat.albedo_texture = mcc.s64_sparkle_c
-        _:
-            pass
-
-func _on_TypeC_ColorPickerButton_color_changed(color):
-    mcc.type_c_material.albedo_color = color
-
-func _on_TypeC_OptionButton_item_selected(index):
-    
-    var mat = mcc.type_c_material
-    
-    match index:
-        0:
-            # Dot
-            mat.albedo_texture = mcc.s64_dot
-        1:
-            # Star
-            mat.albedo_texture = mcc.s64_star
-        2:
-            # 50's Sparkle A
-            mat.albedo_texture = mcc.s64_sparkle_a
-        3:
-            # 50's Sparkle B
-            mat.albedo_texture = mcc.s64_sparkle_b
-        4:
-            # 50's Sparkle C
-            mat.albedo_texture = mcc.s64_sparkle_c
         _:
             pass
 

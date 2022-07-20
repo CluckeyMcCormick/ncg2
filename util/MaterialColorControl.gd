@@ -5,9 +5,9 @@ const dot_material = preload("res://buildings/DotWindowMaterial.tres")
 const dot_light_material = preload("res://buildings/DotWindowLightMaterial.tres")
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
-var type_a_material = preload("res://effects/StarTypeA.tres")
-var type_b_material = preload("res://effects/StarTypeB.tres")
-var type_c_material = preload("res://effects/StarTypeC.tres")
+var star_a_material = preload("res://effects/StarTypeA.tres")
+var star_b_material = preload("res://effects/StarTypeB.tres")
+var star_c_material = preload("res://effects/StarTypeC.tres")
 
 var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 
@@ -48,11 +48,11 @@ var profile_dict = {
     "starfield_scale_variance": .3,
     
     "stars_type_a_color": Color.white,
-    "stars_type_a_texture": 0,
+    "stars_type_a_texture": "res://effects/star_textures/64Dot.png",
     "stars_type_b_color": Color.white,
-    "stars_type_b_texture": 0,
+    "stars_type_b_texture": "res://effects/star_textures/64Dot.png",
     "stars_type_c_color": Color.white,
-    "stars_type_c_texture": 0,
+    "stars_type_c_texture": "res://effects/star_textures/64Dot.png",
     
     "moon_visible": true,
     "moon_color": Color.white,
@@ -104,9 +104,37 @@ func key_update(key):
             city_proc_sky.ground_bottom_color = profile_dict[key]
         "sky_ground_curve":
             city_proc_sky.ground_curve = profile_dict[key] / 10000.0
+        
         #
         # Stars
         #
+        "stars_type_a_texture":
+            var star_texture = load( profile_dict[key] )
+            if star_texture != null:
+                star_a_material.albedo_texture = star_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "stars_type_b_texture":
+            var star_texture = load( profile_dict[key] )
+            if star_texture != null:
+                star_b_material.albedo_texture = star_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "stars_type_c_texture":
+            var star_texture = load( profile_dict[key] )
+            if star_texture != null:
+                star_c_material.albedo_texture = star_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "stars_type_a_color":
+            star_a_material.albedo_color = profile_dict[key]
+            pass
+        "stars_type_b_color":
+            star_b_material.albedo_color = profile_dict[key]
+            pass
+        "stars_type_c_color":
+            star_c_material.albedo_color = profile_dict[key]
+            pass
         
         #
         # Moon

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://gui/SkyTab.tscn" type="PackedScene" id=6]
 [ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
 [ext_resource path="res://gui/MoonTab.tscn" type="PackedScene" id=8]
+[ext_resource path="res://gui/StarsTab.tscn" type="PackedScene" id=9]
 [ext_resource path="res://gui/StarfieldTab.tscn" type="PackedScene" id=10]
 
 [sub_resource type="SphereMesh" id=1]
@@ -83,118 +84,12 @@ visible = false
 [node name="Starfield" parent="GUI/Tabs" instance=ExtResource( 10 )]
 visible = false
 
-[node name="Stars" type="Tabs" parent="GUI/Tabs"]
+[node name="Stars" parent="GUI/Tabs" instance=ExtResource( 9 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Stars"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TypeALabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 18.0
-margin_right = 314.0
-margin_bottom = 32.0
-text = "Type A Controls"
-align = 1
-
-[node name="HBoxTypeA" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 36.0
-margin_right = 314.0
-margin_bottom = 56.0
-
-[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
-margin_right = 155.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-
-[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeA"]
-margin_left = 159.0
-margin_right = 314.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-text = "Dot"
-items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
-selected = 0
-
-[node name="HSeparator" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 60.0
-margin_right = 314.0
-margin_bottom = 64.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TypeBLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 68.0
-margin_right = 314.0
-margin_bottom = 82.0
-text = "Type B Controls"
-align = 1
-
-[node name="HBoxTypeB" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 86.0
-margin_right = 314.0
-margin_bottom = 106.0
-
-[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
-margin_right = 155.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-
-[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeB"]
-margin_left = 159.0
-margin_right = 314.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-text = "Dot"
-items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
-selected = 0
-
-[node name="HSeparator2" type="HSeparator" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 110.0
-margin_right = 314.0
-margin_bottom = 114.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TypeCLabel" type="Label" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 118.0
-margin_right = 314.0
-margin_bottom = 132.0
-text = "Type C Controls"
-align = 1
-
-[node name="HBoxTypeC" type="HBoxContainer" parent="GUI/Tabs/Stars/VBox"]
-margin_top = 136.0
-margin_right = 314.0
-margin_bottom = 156.0
-
-[node name="ColorPickerButton" type="ColorPickerButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
-margin_right = 155.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-
-[node name="OptionButton" type="OptionButton" parent="GUI/Tabs/Stars/VBox/HBoxTypeC"]
-margin_left = 159.0
-margin_right = 314.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-text = "Dot"
-items = [ "Dot", null, false, 0, null, "Star", null, false, 1, null, "50's Sparkle A", null, false, 2, null, "50's Sparkle B", null, false, 3, null, "50's Sparkle C", null, false, 4, null ]
-selected = 0
+margin_left = -16.0
+margin_top = 12.0
+margin_right = -24.0
+margin_bottom = -24.0
 
 [node name="Moon" parent="GUI/Tabs" instance=ExtResource( 8 )]
 visible = false
