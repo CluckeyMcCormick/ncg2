@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://gui/MoonTab.tscn" type="PackedScene" id=8]
 [ext_resource path="res://gui/StarsTab.tscn" type="PackedScene" id=9]
 [ext_resource path="res://gui/StarfieldTab.tscn" type="PackedScene" id=10]
+[ext_resource path="res://gui/ProfilesTab.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -52,28 +53,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Profiles" type="Tabs" parent="GUI/Tabs"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-tab_align = 0
-tab_close_display_policy = 2
-
-[node name="VBox" type="VBoxContainer" parent="GUI/Tabs/Profiles"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
-
-[node name="ProfileSelection" type="ItemList" parent="GUI/Tabs/Profiles/VBox"]
-margin_right = 314.0
-margin_bottom = 117.0
-items = [ "Hiroshi Nagai's Niteflyte", null, false, "Sunrise in Big City", null, false, "Hiroshi Nagai's Velvet Dream", null, false, "Sailor Moon", null, false, "New York via TWA", null, false, "Custom Scheme", null, false ]
-allow_reselect = true
-auto_height = true
+[node name="Profiles" parent="GUI/Tabs" instance=ExtResource( 11 )]
 
 [node name="Buildings" parent="GUI/Tabs" instance=ExtResource( 5 )]
 visible = false
@@ -116,6 +96,7 @@ visible = false
 projection = 1
 size = 30.0
 
+[connection signal="profile_change" from="GUI/Tabs/Profiles" to="." method="_on_Profiles_profile_change"]
 [connection signal="regenerate" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_regenerate"]
 [connection signal="value_update" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_value_update"]
 [connection signal="value_update" from="GUI/Tabs/Moon" to="." method="_on_Moon_value_update"]

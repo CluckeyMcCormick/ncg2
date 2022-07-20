@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://profiles/GenericProfile.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+profile_name = "New York via TWA"
+building = {
+"bld_base_color": Color( 0, 0, 0, 0 ),
+"bld_blue_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
+"bld_green_dot": Color( 0.231373, 0.584314, 0.831373, 1 ),
+"bld_red_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
+"bld_texture_path": "res://buildings/textures/smorgasbord64_horizontal64_75hs.png"
+}
+sky = {
+"sky_ground_bottom": Color( 0, 0, 0, 1 ),
+"sky_ground_curve": 100,
+"sky_ground_horizon": Color( 0, 0, 0, 1 ),
+"sky_sky_curve": 380,
+"sky_sky_horizon": Color( 0, 0, 0, 1 ),
+"sky_sky_top": Color( 0, 0, 0, 1 )
+}
+starfield = {
+"starfield_height": 25,
+"starfield_scale_mean": 4.0,
+"starfield_scale_variance": 1.0,
+"starfield_type_a_count": 60,
+"starfield_type_b_count": 60,
+"starfield_type_c_count": 60
+}
+stars = {
+"stars_type_a_color": Color( 1, 1, 1, 1 ),
+"stars_type_a_texture": "res://effects/star_textures/64Sparkles50a.png",
+"stars_type_b_color": Color( 1, 1, 1, 1 ),
+"stars_type_b_texture": "res://effects/star_textures/64Sparkles50b.png",
+"stars_type_c_color": Color( 1, 1, 1, 1 ),
+"stars_type_c_texture": "res://effects/star_textures/64Sparkles50c.png"
+}
+moon = {
+"moon_color": Color( 1, 1, 1, 1 ),
+"moon_size": 1.9,
+"moon_visible": false,
+"moon_x_pos": -10.0,
+"moon_y_pos": 5.55
+}

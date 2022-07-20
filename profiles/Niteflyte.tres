@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://profiles/GenericProfile.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+profile_name = "Hiroshi Nagai's Niteflyte"
+building = {
+"bld_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
+"bld_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
+"bld_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
+"bld_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
+"bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+}
+sky = {
+"sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),
+"sky_ground_curve": 200,
+"sky_ground_horizon": Color( 0, 0.247059, 0.588235, 1 ),
+"sky_sky_curve": 365,
+"sky_sky_horizon": Color( 0.623529, 0.517647, 0.717647, 1 ),
+"sky_sky_top": Color( 0, 0.247059, 0.588235, 1 )
+}
+starfield = {
+"starfield_height": 15.0,
+"starfield_scale_mean": 1.7,
+"starfield_scale_variance": 0.3,
+"starfield_type_a_count": 20,
+"starfield_type_b_count": 20,
+"starfield_type_c_count": 20
+}
+stars = {
+"stars_type_a_color": Color( 1, 1, 1, 1 ),
+"stars_type_a_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_b_color": Color( 1, 1, 1, 1 ),
+"stars_type_b_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_c_color": Color( 1, 1, 1, 1 ),
+"stars_type_c_texture": "res://effects/star_textures/64Dot.png"
+}
+moon = {
+"moon_color": Color( 1, 1, 1, 1 ),
+"moon_size": 1.9,
+"moon_visible": true,
+"moon_x_pos": -10.0,
+"moon_y_pos": 5.55
+}

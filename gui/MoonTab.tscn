@@ -105,7 +105,7 @@ max_value = 10.0
 step = 0.01
 value = 0.1
 
-[connection signal="pressed" from="VBox/HBoxContainer/MoonVisCheckBox" to="." method="_on_MoonVisCheckBox_pressed"]
+[connection signal="toggled" from="VBox/HBoxContainer/MoonVisCheckBox" to="." method="_on_MoonVisCheckBox_toggled"]
 [connection signal="color_changed" from="VBox/HBoxContainer/MoonColorPickerButton" to="." method="_on_MoonColorPickerButton_color_changed"]
 [connection signal="value_changed" from="VBox/HBoxPos/MoonXPosSpinBox" to="." method="_on_MoonXPosSpinBox_value_changed"]
 [connection signal="value_changed" from="VBox/HBoxPos/MoonYPosSpinBox" to="." method="_on_MoonYPosSpinBox_value_changed"]

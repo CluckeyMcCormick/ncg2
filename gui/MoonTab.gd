@@ -33,9 +33,9 @@ func update_from_global():
     # Re-enable updating the global dictionary.
     _update_global = true
 
-func _on_MoonVisCheckBox_pressed():
+func _on_MoonVisCheckBox_toggled(button_pressed):
     if _update_global:
-        mcc.profile_dict["moon_visible"] = visible_moon.pressed
+        mcc.profile_dict["moon_visible"] = button_pressed
     
     mcc.key_update("moon_visible")
     emit_signal("value_update")

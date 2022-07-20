@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://profiles/GenericProfile.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+profile_name = "Sailor Moon"
+building = {
+"bld_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
+"bld_blue_dot": Color( 0.6, 1, 0.945098, 1 ),
+"bld_green_dot": Color( 1, 1, 0.501961, 1 ),
+"bld_red_dot": Color( 1, 0.701961, 0.858824, 1 ),
+"bld_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
+}
+sky = {
+"sky_ground_bottom": Color( 0, 0.243137, 0.329412, 1 ),
+"sky_ground_curve": 1000,
+"sky_ground_horizon": Color( 0.317647, 0.858824, 0.705882, 1 ),
+"sky_sky_curve": 380,
+"sky_sky_horizon": Color( 0.317647, 0.858824, 0.705882, 1 ),
+"sky_sky_top": Color( 0, 0.372549, 0.509804, 1 )
+}
+starfield = {
+"starfield_height": 20,
+"starfield_scale_mean": 2.0,
+"starfield_scale_variance": 0.75,
+"starfield_type_a_count": 30,
+"starfield_type_b_count": 30,
+"starfield_type_c_count": 30
+}
+stars = {
+"stars_type_a_color": Color( 1, 1, 1, 1 ),
+"stars_type_a_texture": "res://effects/star_textures/64Star.png",
+"stars_type_b_color": Color( 1, 1, 1, 1 ),
+"stars_type_b_texture": "res://effects/star_textures/64Star.png",
+"stars_type_c_color": Color( 1, 1, 1, 1 ),
+"stars_type_c_texture": "res://effects/star_textures/64Star.png"
+}
+moon = {
+"moon_color": Color( 1, 1, 1, 1 ),
+"moon_size": 2.0,
+"moon_visible": true,
+"moon_x_pos": 6.74,
+"moon_y_pos": 5.48
+}

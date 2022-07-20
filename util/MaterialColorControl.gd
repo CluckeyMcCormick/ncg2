@@ -21,45 +21,20 @@ var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 # Load the moon material. NEEDS to be a var, not a const.
 var moon_material = preload("res://effects/MoonMaterial.tres")
 
+const default_profile = preload("res://profiles/Niteflyte.tres")
+
 # This controls what materials new buildings come out as.
 var primary_material = dot_light_material
 
-# This is the current city profile - essentially the settings for a particular
-# style of city. This is the definitive list of keys and their default values.
-var profile_dict = {
-    "bld_base_color": Color("#000d20"),
-    "bld_red_dot": Color("#77121a"),
-    "bld_green_dot": Color("#98c7d1"),
-    "bld_blue_dot": Color("#d1cc64"),
-    "bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
+var profile_dict = {}
+
+func _ready():
+    profile_dict = default_profile.to_dict()
     
-    "sky_sky_top": Color("#003f96"),
-    "sky_sky_horizon": Color("#9f84b7"),
-    "sky_sky_curve": 365,
-    "sky_ground_horizon": Color("#003f96"),
-    "sky_ground_bottom": Color("#070a1b"),
-    "sky_ground_curve": 200,
-    
-    "starfield_height": 15,
-    "starfield_type_a_count": 20,
-    "starfield_type_b_count": 20,
-    "starfield_type_c_count": 20,
-    "starfield_scale_mean": 1.7,
-    "starfield_scale_variance": .3,
-    
-    "stars_type_a_color": Color.white,
-    "stars_type_a_texture": "res://effects/star_textures/64Dot.png",
-    "stars_type_b_color": Color.white,
-    "stars_type_b_texture": "res://effects/star_textures/64Dot.png",
-    "stars_type_c_color": Color.white,
-    "stars_type_c_texture": "res://effects/star_textures/64Dot.png",
-    
-    "moon_visible": true,
-    "moon_color": Color.white,
-    "moon_x_pos": -10,
-    "moon_y_pos": 5.55,
-    "moon_size": 1.9,
-}
+# Asserts the current values into the dictionary
+func update_whole_dictionary():
+    for key in profile_dict.keys():
+        key_update(key)
 
 # Some of the keys above have special processing when their values are updated.
 # Rather than performing all the special processing actions all at once, we have
@@ -142,7 +117,3 @@ func key_update(key):
         "moon_color":
             moon_material.albedo_color = profile_dict[key]
 
-# Asserts the current values into the dictionary
-func update_whole_dictionary():
-    for key in profile_dict.keys():
-        key_update(key)

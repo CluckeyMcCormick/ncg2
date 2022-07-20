@@ -1,0 +1,45 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://profiles/GenericProfile.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+profile_name = "Sunrise in Big City"
+building = {
+"bld_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
+"bld_blue_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
+"bld_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
+"bld_red_dot": Color( 1, 1, 0.8, 1 ),
+"bld_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
+}
+sky = {
+"sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),
+"sky_ground_curve": 200,
+"sky_ground_horizon": Color( 1, 0, 0, 1 ),
+"sky_sky_curve": 563,
+"sky_sky_horizon": Color( 1, 0, 0, 1 ),
+"sky_sky_top": Color( 0, 0.247059, 0.588235, 1 )
+}
+starfield = {
+"starfield_height": 8,
+"starfield_scale_mean": 0.5,
+"starfield_scale_variance": 0.2,
+"starfield_type_a_count": 6,
+"starfield_type_b_count": 6,
+"starfield_type_c_count": 6
+}
+stars = {
+"stars_type_a_color": Color( 1, 1, 1, 1 ),
+"stars_type_a_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_b_color": Color( 1, 1, 1, 1 ),
+"stars_type_b_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_c_color": Color( 1, 1, 1, 1 ),
+"stars_type_c_texture": "res://effects/star_textures/64Dot.png"
+}
+moon = {
+"moon_color": Color( 1, 1, 1, 1 ),
+"moon_size": 1.9,
+"moon_visible": false,
+"moon_x_pos": -10.0,
+"moon_y_pos": 5.55
+}
