@@ -4,25 +4,23 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
+# TODO: Move closer to an old-style city (where you can see the ground color)
 # TODO: Add lights tab
 # TODO: Add second and third building materials
-# TODO: Sort out the value_update function's repeat calls
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles
+# TODO: Add city generation options (block size, building count)
+# TODO: Add building height curve options (this is gonna be hard so it should
+#       be separate)
 
 var city_built = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+    # Connect to the key update signal, so we can respond to key changes.
+    mcc.connect("key_update", self, "_on_mcc_key_update")
     randomize()
-    profile_reload()
-
-func profile_reload():
-    $GUI/Tabs/Buildings.update_from_global()
-    $GUI/Tabs/Sky.update_from_global()
-    $GUI/Tabs/Starfield.update_from_global()
-    $GUI/Tabs/Stars.update_from_global()
-    $GUI/Tabs/Moon.update_from_global()
+    $GUI/Tabs/Profiles.assert_profile()
 
 func _input(event):
     if event.is_action_pressed("gui_toggle"):
@@ -37,31 +35,44 @@ func _physics_process(delta):
 func _on_GrowBlockCity_city_complete():
     city_built = true
 
-func _on_Profiles_profile_change():
-    profile_reload()
+func _on_mcc_key_update(key):
+    print(key)
+    match key:
+        #
+        # Starfield
+        #
+        "starfield_height":
+            $UpCamera/CameraAlignedEffects/Starfield.height = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        "starfield_type_a_count":
+            $UpCamera/CameraAlignedEffects/Starfield.field_a_count = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        "starfield_type_b_count":
+            $UpCamera/CameraAlignedEffects/Starfield.field_b_count = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        "starfield_type_c_count":
+            $UpCamera/CameraAlignedEffects/Starfield.field_c_count = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        "starfield_scale_mean":
+            $UpCamera/CameraAlignedEffects/Starfield.scale_mean = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        "starfield_scale_variance":
+            $UpCamera/CameraAlignedEffects/Starfield.scale_variance = mcc.profile_dict[key]
+            _on_Starfield_regenerate()
+        #
+        # Moon
+        #
+        "moon_visible":
+            $UpCamera/CameraAlignedEffects/Moon.visible = mcc.profile_dict[key]
+        "moon_x_pos":
+            $UpCamera/CameraAlignedEffects/Moon.translation.x = mcc.profile_dict[key]
+        "moon_y_pos":
+            $UpCamera/CameraAlignedEffects/Moon.translation.y = mcc.profile_dict[key]
+        "moon_size":
+            $UpCamera/CameraAlignedEffects/Moon.mesh.radius = mcc.profile_dict[key]
+            $UpCamera/CameraAlignedEffects/Moon.mesh.height = mcc.profile_dict[key] * 2
 
 func _on_Starfield_regenerate():
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_a()
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_b()
     $UpCamera/CameraAlignedEffects/Starfield.generate_field_c()
-
-func _on_Starfield_value_update():
-    $UpCamera/CameraAlignedEffects/Starfield.height = mcc.profile_dict["starfield_height"]
-    $UpCamera/CameraAlignedEffects/Starfield.field_a_count = mcc.profile_dict["starfield_type_a_count"]
-    $UpCamera/CameraAlignedEffects/Starfield.field_b_count = mcc.profile_dict["starfield_type_b_count"]
-    $UpCamera/CameraAlignedEffects/Starfield.field_c_count = mcc.profile_dict["starfield_type_c_count"]
-    $UpCamera/CameraAlignedEffects/Starfield.scale_mean = mcc.profile_dict["starfield_scale_mean"]
-    $UpCamera/CameraAlignedEffects/Starfield.scale_variance = mcc.profile_dict["starfield_scale_variance"]
-    
-    _on_Starfield_regenerate()
-
-func _on_Moon_value_update():
-    print( mcc.profile_dict["moon_visible"] )
-    $UpCamera/CameraAlignedEffects/Moon.visible = mcc.profile_dict["moon_visible"]
-    $UpCamera/CameraAlignedEffects/Moon.translation.x = mcc.profile_dict["moon_x_pos"]
-    $UpCamera/CameraAlignedEffects/Moon.translation.y = mcc.profile_dict["moon_y_pos"]
-    $UpCamera/CameraAlignedEffects/Moon.mesh.radius = mcc.profile_dict["moon_size"]
-    $UpCamera/CameraAlignedEffects/Moon.mesh.height = mcc.profile_dict["moon_size"] * 2
-
-
-

@@ -27,6 +27,8 @@ var path_to_id = {}
 var _update_global = true
 
 func _ready():
+    # Connect to the key update signal, so we can respond to key changes.
+    mcc.connect("key_update", self, "_on_mcc_key_update")
     # Initialize our texture choices.
     load_texture_choices()
 
@@ -89,59 +91,57 @@ func load_texture_choices():
         # Increment the id
         id += 1
 
-# Updates the GUI to match what's in the global dictionary
-func update_from_global():
+func _on_mcc_key_update(key):
     # Disable updating the globabl dictionary - we don't want to update
     # something while we're reading from it!
     _update_global = false
 
-    # Load Type A
-    var path = mcc.profile_dict["stars_type_a_texture"]
-    if path in path_to_id:
-        option_a.select( option_a.get_item_index( path_to_id[path] ) )
-    else:
-        print("Can't find item for ", path)
+    match key:
+        #
+        # Stars
+        #
+        "stars_type_a_texture":
+            var path = mcc.profile_dict[key]
+            if path in path_to_id:
+                option_a.select( option_a.get_item_index( path_to_id[path] ) )
+            else:
+                print("Can't find item for ", path)
+        "stars_type_b_texture":
+            var path = mcc.profile_dict[key]
+            if path in path_to_id:
+                option_b.select( option_b.get_item_index( path_to_id[path] ) )
+            else:
+                print("Can't find item for ", path)
+        "stars_type_c_texture":
+            var path = mcc.profile_dict[key]
+            if path in path_to_id:
+                option_c.select( option_c.get_item_index( path_to_id[path] ) )
+            else:
+                print("Can't find item for ", path)
+        "stars_type_a_color":
+            picker_a.color = mcc.profile_dict[key]
+        "stars_type_b_color":
+            picker_b.color = mcc.profile_dict[key]
+        "stars_type_c_color":
+            picker_c.color = mcc.profile_dict[key]
 
-    # Load Type B
-    path = mcc.profile_dict["stars_type_b_texture"]
-    if path in path_to_id:
-        option_b.select( option_b.get_item_index( path_to_id[path] ) )
-    else:
-        print("Can't find item for ", path)
-
-    # Load Type C
-    path = mcc.profile_dict["stars_type_c_texture"]
-    if path in path_to_id:
-        option_c.select( option_c.get_item_index( path_to_id[path] ) )
-    else:
-        print("Can't find item for ", path)
-    
-    # Load the colors
-    picker_a.color = mcc.profile_dict["stars_type_a_color"]
-    picker_b.color = mcc.profile_dict["stars_type_b_color"]
-    picker_c.color = mcc.profile_dict["stars_type_c_color"]
-    
     # Re-enable updating the global dictionary.
     _update_global = true
-
 
 func _on_ColorPickerButtonA_color_changed(color):
     if _update_global:
         mcc.profile_dict["stars_type_a_color"] = color
-    
-    mcc.key_update("stars_type_a_color")
+        mcc.update_key("stars_type_a_color")
 
 func _on_ColorPickerButtonB_color_changed(color):
     if _update_global:
         mcc.profile_dict["stars_type_b_color"] = color
-    
-    mcc.key_update("stars_type_b_color")
+        mcc.update_key("stars_type_b_color")
 
 func _on_ColorPickerButtonC_color_changed(color):
     if _update_global:
         mcc.profile_dict["stars_type_c_color"] = color
-    
-    mcc.key_update("stars_type_c_color")
+        mcc.update_key("stars_type_c_color")
 
 func _on_OptionButtonA_item_selected(index):
     # Get the texture path
@@ -149,8 +149,7 @@ func _on_OptionButtonA_item_selected(index):
     
     if _update_global:
         mcc.profile_dict["stars_type_a_texture"] = texture_path
-    
-    mcc.key_update("stars_type_a_texture")
+        mcc.update_key("stars_type_a_texture")
 
 func _on_OptionButtonB_item_selected(index):
     # Get the texture path
@@ -158,8 +157,7 @@ func _on_OptionButtonB_item_selected(index):
     
     if _update_global:
         mcc.profile_dict["stars_type_b_texture"] = texture_path
-    
-    mcc.key_update("stars_type_b_texture")
+        mcc.update_key("stars_type_b_texture")
 
 func _on_OptionButtonC_item_selected(index):
     # Get the texture path
@@ -167,5 +165,4 @@ func _on_OptionButtonC_item_selected(index):
     
     if _update_global:
         mcc.profile_dict["stars_type_c_texture"] = texture_path
-    
-    mcc.key_update("stars_type_c_texture")
+        mcc.update_key("stars_type_c_texture")

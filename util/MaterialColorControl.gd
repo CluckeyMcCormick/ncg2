@@ -11,13 +11,6 @@ var star_c_material = preload("res://effects/StarTypeC.tres")
 
 var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 
-# Load our different star textures
-#const s64_dot = preload("res://effects/64Dot.png")
-#const s64_star = preload("res://effects/64Star.png")
-#const s64_sparkle_a = preload("res://effects/64Sparkles50a.png")
-#const s64_sparkle_b = preload("res://effects/64Sparkles50b.png")
-#const s64_sparkle_c = preload("res://effects/64Sparkles50c.png")
-
 # Load the moon material. NEEDS to be a var, not a const.
 var moon_material = preload("res://effects/MoonMaterial.tres")
 
@@ -28,19 +21,21 @@ var primary_material = dot_light_material
 
 var profile_dict = {}
 
+signal key_update(key)
+
 func _ready():
     profile_dict = default_profile.to_dict()
     
 # Asserts the current values into the dictionary
 func update_whole_dictionary():
     for key in profile_dict.keys():
-        key_update(key)
+        update_key(key)
 
 # Some of the keys above have special processing when their values are updated.
 # Rather than performing all the special processing actions all at once, we have
 # this function - it will perform only the special processing actions for the
 # given key. This allows us to perform updates piecemeal.
-func key_update(key):
+func update_key(key):
     match key:
         #
         # Building
@@ -116,4 +111,6 @@ func key_update(key):
         #
         "moon_color":
             moon_material.albedo_color = profile_dict[key]
-
+    
+    # Tell everyone that we're updating
+    emit_signal("key_update", key)

@@ -12,13 +12,17 @@ var resources = [
     preload("res://profiles/TWA.tres"),
 ]
 
-signal profile_change()
-
 func _ready():
     for res in resources:
         $VBox/ProfileSelection.add_item(res.profile_name)
+    
+    $VBox/ProfileSelection.select(0)
+
+func assert_profile():
+    _on_ProfileSelection_item_selected(
+        $VBox/ProfileSelection.get_selected_items()[0]
+    )
 
 func _on_ProfileSelection_item_selected(index):
     mcc.profile_dict = resources[index].to_dict()
     mcc.update_whole_dictionary()
-    emit_signal("profile_change")

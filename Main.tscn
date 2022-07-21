@@ -96,8 +96,5 @@ visible = false
 projection = 1
 size = 30.0
 
-[connection signal="profile_change" from="GUI/Tabs/Profiles" to="." method="_on_Profiles_profile_change"]
 [connection signal="regenerate" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_regenerate"]
-[connection signal="value_update" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_value_update"]
-[connection signal="value_update" from="GUI/Tabs/Moon" to="." method="_on_Moon_value_update"]
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
