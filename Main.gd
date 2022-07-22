@@ -4,7 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Figure out why profile updates aren't propagating to color-hash labels.
 # TODO: Add lights tab
 # TODO: Add second and third building materials
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)

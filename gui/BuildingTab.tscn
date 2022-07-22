@@ -25,7 +25,7 @@ alignment = 1
 margin_top = 420.0
 margin_right = 1472.0
 margin_bottom = 512.0
-columns = 4
+columns = 3
 
 [node name="RedColor" type="Label" parent="VBox/GridContainer"]
 margin_top = 3.0
@@ -49,13 +49,6 @@ edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="RedHash" type="Label" parent="VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 3.0
-margin_right = 260.0
-margin_bottom = 17.0
-text = "#ABABAB"
 
 [node name="GreenColor" type="Label" parent="VBox/GridContainer"]
 margin_top = 27.0
@@ -82,13 +75,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GreenHash" type="Label" parent="VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 27.0
-margin_right = 260.0
-margin_bottom = 41.0
-text = "#ABABAB"
-
 [node name="BlueColor" type="Label" parent="VBox/GridContainer"]
 margin_top = 51.0
 margin_right = 103.0
@@ -114,13 +100,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BlueHash" type="Label" parent="VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 51.0
-margin_right = 260.0
-margin_bottom = 65.0
-text = "#ABABAB"
-
 [node name="BuildingColor" type="Label" parent="VBox/GridContainer"]
 margin_top = 75.0
 margin_right = 103.0
@@ -145,13 +124,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BuildingHash" type="Label" parent="VBox/GridContainer"]
-margin_left = 197.0
-margin_top = 75.0
-margin_right = 260.0
-margin_bottom = 89.0
-text = "#ABABAB"
-
 [node name="HSeparator" type="HSeparator" parent="VBox"]
 margin_top = 516.0
 margin_right = 1472.0
@@ -162,7 +134,6 @@ margin_top = 524.0
 margin_right = 1472.0
 margin_bottom = 544.0
 text = "Dot Horizontal 25"
-selected = 0
 
 [connection signal="color_changed" from="VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
 [connection signal="color_changed" from="VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]

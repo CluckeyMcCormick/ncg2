@@ -12,6 +12,7 @@ onready var red_picker = $VBox/GridContainer/RedPicker
 onready var blue_picker = $VBox/GridContainer/BluePicker
 onready var green_picker = $VBox/GridContainer/GreenPicker
 onready var building_picker = $VBox/GridContainer/BuildingPicker
+onready var texture_picker = $VBox/TextureSelection
 
 # These two dictionaries are used for getting info out of, and updating, the
 # TextureSelection GUI element
@@ -107,8 +108,8 @@ func _on_mcc_key_update(key):
             
             # Update the selected path
             if path in path_to_id:
-                $VBox/TextureSelection.select(
-                    $VBox/TextureSelection.get_item_index( path_to_id[path] )
+                texture_picker.select(
+                    texture_picker.get_item_index( path_to_id[path] )
                 )
             else:
                 print("Can't find item for ", path)
@@ -117,36 +118,28 @@ func _on_mcc_key_update(key):
     _update_global = true
 
 func _on_RedPicker_color_changed(color):
-    $VBox/GridContainer/RedHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["bld_red_dot"] = color
         mcc.update_key("bld_red_dot")
 
 func _on_GreenPicker_color_changed(color):
-    $VBox/GridContainer/GreenHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["bld_green_dot"] = color
         mcc.update_key("bld_green_dot")
 
 func _on_BluePicker_color_changed(color):
-    $VBox/GridContainer/BlueHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["bld_blue_dot"] = color
         mcc.update_key("bld_blue_dot")
 
 func _on_BuildingPicker_color_changed(color):
-    $VBox/GridContainer/BuildingHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["bld_base_color"] = color
         mcc.update_key("bld_base_color")
 
 func _on_TextureSelection_item_selected(index):
     # Get the texture path
-    var texture_path = id_to_path[ $VBox/TextureSelection.get_selected_id() ]
+    var texture_path = id_to_path[ texture_picker.get_selected_id() ]
     
     if _update_global:
         mcc.profile_dict["bld_texture_path"] = texture_path

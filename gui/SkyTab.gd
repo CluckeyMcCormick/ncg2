@@ -50,15 +50,11 @@ func _on_mcc_key_update(key):
     _update_global = true
 
 func _on_TopPicker_color_changed(color):
-    $VBox/SkyGrid/TopHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["sky_sky_top"] = color
         mcc.update_key("sky_sky_top")
 
 func _on_SkyHorizonPicker_color_changed(color):
-    $VBox/SkyGrid/HorizonHash.text = "#" + color.to_html()
-    
     if _update_global:
         mcc.profile_dict["sky_sky_horizon"] = color
         mcc.update_key("sky_sky_horizon")
@@ -69,15 +65,11 @@ func _on_SkyCurveSpin_value_changed(value):
         mcc.update_key("sky_sky_curve")
 
 func _on_GroundHorizonPicker_color_changed(color):
-    $VBox/GroundGrid/HorizonHash.text = "#" + color.to_html()
-
     if _update_global:
         mcc.profile_dict["sky_ground_horizon"] = color
         mcc.update_key("sky_ground_horizon")
 
 func _on_BottomPicker_color_changed(color):
-    $VBox/GroundGrid/BottomHash.text = "#" + color.to_html()
-
     if _update_global:
         mcc.profile_dict["sky_ground_bottom"] = color
         mcc.update_key("sky_ground_bottom")
