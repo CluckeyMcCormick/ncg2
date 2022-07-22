@@ -9,6 +9,7 @@ var star_a_material = preload("res://effects/StarTypeA.tres")
 var star_b_material = preload("res://effects/StarTypeB.tres")
 var star_c_material = preload("res://effects/StarTypeC.tres")
 
+var city_env = preload("res://environment/city_env.tres")
 var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 
 # Load the moon material. NEEDS to be a var, not a const.
@@ -74,6 +75,10 @@ func update_key(key):
             city_proc_sky.ground_bottom_color = profile_dict[key]
         "sky_ground_curve":
             city_proc_sky.ground_curve = profile_dict[key] / 10000.0
+        "sky_x_rotation":
+            var current_rot = city_env.get_sky_rotation_degrees()
+            current_rot.x = profile_dict[key]
+            city_env.set_sky_rotation_degrees(current_rot)
         
         #
         # Stars

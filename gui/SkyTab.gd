@@ -12,6 +12,8 @@ onready var ground_horizon = $VBox/GroundGrid/HorizonPicker
 onready var ground_bottom = $VBox/GroundGrid/BottomPicker
 onready var ground_curve = $VBox/GroundGrid/GroundCurveSpin
 
+onready var sky_rotation = $VBox/RotationGrid/RotationSpin
+
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?
 var _update_global = true
@@ -41,6 +43,8 @@ func _on_mcc_key_update(key):
             ground_bottom.color = mcc.profile_dict[key]
         "sky_ground_curve":
             ground_curve.value = mcc.profile_dict[key]
+        "sky_x_rotation":
+            sky_rotation.value = mcc.profile_dict[key]
 
     # Re-enable updating the global dictionary.
     _update_global = true
@@ -80,5 +84,10 @@ func _on_BottomPicker_color_changed(color):
 
 func _on_GroundCurveSpin_value_changed(value):
     if _update_global:
-        mcc.profile_dict["sky_ground_curve"] = $value
+        mcc.profile_dict["sky_ground_curve"] = value
         mcc.update_key("sky_ground_curve")
+
+func _on_RotationSpin_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["sky_x_rotation"] = value
+        mcc.update_key("sky_x_rotation")

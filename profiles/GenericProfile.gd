@@ -18,6 +18,7 @@ export var sky = {
     "sky_ground_horizon": Color("#003f96"),
     "sky_ground_bottom": Color("#070a1b"),
     "sky_ground_curve": 200,
+    "sky_x_rotation": 1.0,
 }
 
 export var starfield = {

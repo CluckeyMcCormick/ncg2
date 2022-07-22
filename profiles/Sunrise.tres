@@ -14,11 +14,12 @@ building = {
 }
 sky = {
 "sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),
-"sky_ground_curve": 200,
+"sky_ground_curve": 1270,
 "sky_ground_horizon": Color( 1, 0, 0, 1 ),
-"sky_sky_curve": 563,
+"sky_sky_curve": 350,
 "sky_sky_horizon": Color( 1, 0, 0, 1 ),
-"sky_sky_top": Color( 0, 0.247059, 0.588235, 1 )
+"sky_sky_top": Color( 0, 0.247059, 0.588235, 1 ),
+"sky_x_rotation": 4.75
 }
 starfield = {
 "starfield_height": 8,

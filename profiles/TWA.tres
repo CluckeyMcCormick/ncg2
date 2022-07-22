@@ -18,7 +18,8 @@ sky = {
 "sky_ground_horizon": Color( 0, 0, 0, 1 ),
 "sky_sky_curve": 380,
 "sky_sky_horizon": Color( 0, 0, 0, 1 ),
-"sky_sky_top": Color( 0, 0, 0, 1 )
+"sky_sky_top": Color( 0, 0, 0, 1 ),
+"sky_x_rotation": 0.0
 }
 starfield = {
 "starfield_height": 25,

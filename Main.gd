@@ -4,7 +4,7 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Move closer to an old-style city (where you can see the ground color)
+# TODO: Figure out why profile updates aren't propagating to color-hash labels.
 # TODO: Add lights tab
 # TODO: Add second and third building materials
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
@@ -36,7 +36,6 @@ func _on_GrowBlockCity_city_complete():
     city_built = true
 
 func _on_mcc_key_update(key):
-    print(key)
     match key:
         #
         # Starfield
