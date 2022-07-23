@@ -17,6 +17,11 @@ var moon_material = preload("res://effects/MoonMaterial.tres")
 
 const default_profile = preload("res://profiles/Niteflyte.tres")
 
+const light_group_one = "lights_one"
+const light_group_two = "lights_two"
+const light_group_three = "lights_three"
+const light_group_four = "lights_four"
+
 # This controls what materials new buildings come out as.
 var primary_material = dot_light_material
 
@@ -60,6 +65,41 @@ func update_key(key):
             primary_material.set_shader_param("GreenDotColor", profile_dict[key])
         "bld_blue_dot":
             primary_material.set_shader_param("BlueDotColor", profile_dict[key])
+        #
+        # Lights
+        #
+        "lights_one_color":
+            get_tree().call_group(
+                light_group_one, "set_color", profile_dict[key]
+            )
+        "lights_two_color":
+            get_tree().call_group(
+                light_group_two, "set_color", profile_dict[key]
+            )
+        "lights_three_color":
+            get_tree().call_group(
+                light_group_three, "set_color", profile_dict[key]
+            )
+        "lights_four_color":
+            get_tree().call_group(
+                light_group_four, "set_color", profile_dict[key]
+            )
+        "lights_one_visible":
+            get_tree().call_group(
+                light_group_one, "set_visible", profile_dict[key]
+            )
+        "lights_two_visible":
+            get_tree().call_group(
+                light_group_two, "set_visible", profile_dict[key]
+            )
+        "lights_three_visible":
+            get_tree().call_group(
+                light_group_three, "set_visible", profile_dict[key]
+            )
+        "lights_four_visible":
+            get_tree().call_group(
+                light_group_four, "set_visible", profile_dict[key]
+            )
         #
         # Sky
         #

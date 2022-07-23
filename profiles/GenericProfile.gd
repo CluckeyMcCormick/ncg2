@@ -21,6 +21,18 @@ export var sky = {
     "sky_x_rotation": 1.0,
 }
 
+export var light = {
+    "lights_one_color": Color("002459"),
+    "lights_two_color": Color("002459"),
+    "lights_three_color": Color("002459"),
+    "lights_four_color": Color("002459"),
+
+    "lights_one_visible": true,
+    "lights_two_visible": true,
+    "lights_three_visible": true,
+    "lights_four_visible": true,
+}
+
 export var starfield = {
     "starfield_height": 15.0,
     "starfield_type_a_count": 20,
@@ -55,6 +67,9 @@ func to_dict():
     
     for key in sky.keys():
         dict[key] = sky[key]
+    
+    for key in light.keys():
+        dict[key] = light[key]
     
     for key in starfield.keys():
         dict[key] = starfield[key]

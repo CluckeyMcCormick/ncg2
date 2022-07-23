@@ -2,6 +2,8 @@ extends Spatial
 
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
+# Get the MaterialColorControl
+onready var mcc = get_node("/root/MaterialColorControl")
 
 # A building is composed of two parts: an windowless/untextured base, and a
 # windowed component. The two parts of the building together make up the whole
@@ -39,9 +41,6 @@ export(float) var rotation_deviation = 45
 
 # Ditto as above, but for the length on y of each of our two components
 export(int) var tower_len_y = 14
-
-# Ditto as above, but for the length on y of each of our two components
-export(int) var lights = 2
 
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = false
@@ -271,8 +270,8 @@ func make_blueprint():
             RNGENNIE.randi_range(
                 round(tower_len_y * .25), round(tower_len_y * .75)
             ),
-            # A color
-            Color("002459"),
+            # A group designation
+            RNGENNIE.randi() % 4,
             # The actual position
             pos
         ])
@@ -330,7 +329,23 @@ func make_building():
     for light_arr in blp_lights:
         var light = OmniLight.new()
         light.omni_range = light_arr[0] * GlobalRef.WINDOW_UV_SIZE
-        light.light_color = light_arr[1]
+        match light_arr[1]:
+            0:
+                light.light_color = mcc.profile_dict["lights_one_color"]
+                light.visible = mcc.profile_dict["lights_one_visible"]
+                light.add_to_group(mcc.light_group_one)
+            1:
+                light.light_color = mcc.profile_dict["lights_two_color"]
+                light.visible = mcc.profile_dict["lights_two_visible"]
+                light.add_to_group(mcc.light_group_two)
+            2:
+                light.light_color = mcc.profile_dict["lights_three_color"]
+                light.visible = mcc.profile_dict["lights_three_visible"]
+                light.add_to_group(mcc.light_group_three)
+            3:
+                light.light_color = mcc.profile_dict["lights_four_color"]
+                light.visible = mcc.profile_dict["lights_four_visible"]
+                light.add_to_group(mcc.light_group_four)
         $FxManager.add_child(light)
         light.translation = Vector3(
             light_arr[2].x * GlobalRef.WINDOW_UV_SIZE,
@@ -366,6 +381,9 @@ func make_building():
     $VisibilityNotifier.aabb.size.x = eff_x
     $VisibilityNotifier.aabb.size.y = eff_y
     $VisibilityNotifier.aabb.size.z = eff_z
+    
+    $Base.rotation_degrees.y = blp_rotation
+    $MainTower.rotation_degrees.y = blp_rotation
     
     self.rotation_degrees.y = blp_rotation
 

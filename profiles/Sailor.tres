@@ -21,6 +21,16 @@ sky = {
 "sky_sky_top": Color( 0, 0.372549, 0.509804, 1 ),
 "sky_x_rotation": 3.0
 }
+light = {
+"lights_four_color": Color( 0.419608, 0.705882, 0.584314, 1 ),
+"lights_four_visible": true,
+"lights_one_color": Color( 0.560784, 0.6, 0.768627, 1 ),
+"lights_one_visible": true,
+"lights_three_color": Color( 0.760784, 0.745098, 0.572549, 1 ),
+"lights_three_visible": true,
+"lights_two_color": Color( 0.752941, 0.603922, 0.737255, 1 ),
+"lights_two_visible": true
+}
 starfield = {
 "starfield_height": 20,
 "starfield_scale_mean": 2.0,

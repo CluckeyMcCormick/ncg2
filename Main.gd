@@ -4,7 +4,8 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Add lights tab
+# TODO: Improve light blending in the Light Color shader
+# TODO: Add window alpha to Light Color shader
 # TODO: Add second and third building materials
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles
@@ -30,6 +31,7 @@ func _input(event):
 func _physics_process(delta):
     if city_built:
         $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
+        $Camera.global_transform.origin += Vector3(2, 0, 0) * delta 
 
 func _on_GrowBlockCity_city_complete():
     city_built = true

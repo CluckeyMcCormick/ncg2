@@ -1,0 +1,130 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gui/LightTab.gd" type="Script" id=1]
+
+[node name="Lights" type="Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_min_size = Vector2( 0, 174 )
+script = ExtResource( 1 )
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 3
+
+[node name="OneColor" type="Label" parent="GridContainer"]
+margin_top = 5.0
+margin_right = 80.0
+margin_bottom = 19.0
+text = "Light One"
+align = 1
+
+[node name="OnePicker" type="ColorPickerButton" parent="GridContainer"]
+margin_left = 84.0
+margin_right = 141.0
+margin_bottom = 24.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OneCheck" type="CheckBox" parent="GridContainer"]
+margin_left = 145.0
+margin_right = 222.0
+margin_bottom = 24.0
+pressed = true
+text = "Visible?"
+
+[node name="TwoColor" type="Label" parent="GridContainer"]
+margin_top = 33.0
+margin_right = 80.0
+margin_bottom = 47.0
+text = "Light Two"
+align = 1
+
+[node name="TwoPicker" type="ColorPickerButton" parent="GridContainer"]
+margin_left = 84.0
+margin_top = 28.0
+margin_right = 141.0
+margin_bottom = 52.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TwoCheck" type="CheckBox" parent="GridContainer"]
+margin_left = 145.0
+margin_top = 28.0
+margin_right = 222.0
+margin_bottom = 52.0
+pressed = true
+text = "Visible?"
+
+[node name="ThreeColor" type="Label" parent="GridContainer"]
+margin_top = 61.0
+margin_right = 80.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 80, 0 )
+text = "Light Three"
+align = 1
+
+[node name="ThreePicker" type="ColorPickerButton" parent="GridContainer"]
+margin_left = 84.0
+margin_top = 56.0
+margin_right = 141.0
+margin_bottom = 80.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ThreeCheck" type="CheckBox" parent="GridContainer"]
+margin_left = 145.0
+margin_top = 56.0
+margin_right = 222.0
+margin_bottom = 80.0
+pressed = true
+text = "Visible?"
+
+[node name="FourColor" type="Label" parent="GridContainer"]
+margin_top = 89.0
+margin_right = 80.0
+margin_bottom = 103.0
+text = "Light Four"
+align = 1
+
+[node name="FourPicker" type="ColorPickerButton" parent="GridContainer"]
+margin_left = 84.0
+margin_top = 84.0
+margin_right = 141.0
+margin_bottom = 108.0
+text = "Color 1"
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FourCheck" type="CheckBox" parent="GridContainer"]
+margin_left = 145.0
+margin_top = 84.0
+margin_right = 222.0
+margin_bottom = 108.0
+pressed = true
+text = "Visible?"
+
+[connection signal="color_changed" from="GridContainer/OnePicker" to="." method="_on_OnePicker_color_changed"]
+[connection signal="toggled" from="GridContainer/OneCheck" to="." method="_on_OneCheck_toggled"]
+[connection signal="color_changed" from="GridContainer/TwoPicker" to="." method="_on_TwoPicker_color_changed"]
+[connection signal="toggled" from="GridContainer/TwoCheck" to="." method="_on_TwoCheck_toggled"]
+[connection signal="color_changed" from="GridContainer/ThreePicker" to="." method="_on_ThreePicker_color_changed"]
+[connection signal="toggled" from="GridContainer/ThreeCheck" to="." method="_on_ThreeCheck_toggled"]
+[connection signal="color_changed" from="GridContainer/FourPicker" to="." method="_on_FourPicker_color_changed"]
+[connection signal="toggled" from="GridContainer/FourCheck" to="." method="_on_FourCheck_toggled"]
