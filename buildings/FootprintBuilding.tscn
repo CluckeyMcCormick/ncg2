@@ -2,7 +2,7 @@
 
 [ext_resource path="res://buildings/FootprintBuilding.gd" type="Script" id=1]
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=2]
-[ext_resource path="res://buildings/DotWindowLightMaterial.tres" type="Material" id=3]
+[ext_resource path="res://buildings/DotWindowLightMaterial_V2.tres" type="Material" id=3]
 
 [node name="FootprintBuilding" type="Spatial"]
 transform = Transform( 0.993143, 0, -0.116905, 0, 1, 0, 0.116905, 0, 0.993143, 0, 0, 0 )

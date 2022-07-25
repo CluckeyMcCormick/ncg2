@@ -4,8 +4,7 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Improve light blending in the Light Color shader
-# TODO: Add window alpha to Light Color shader
+# TODO: Update Building Tab for V2 Dot Window Light Shader
 # TODO: Add second and third building materials
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles

@@ -2,7 +2,7 @@ extends Node
 
 # Load our different materials
 const dot_material = preload("res://buildings/DotWindowMaterial.tres")
-const dot_light_material = preload("res://buildings/DotWindowLightMaterial.tres")
+const dot_light_material = preload("res://buildings/DotWindowLightMaterial_V2.tres")
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
 var star_a_material = preload("res://effects/StarTypeA.tres")
