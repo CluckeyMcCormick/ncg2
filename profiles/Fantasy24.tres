@@ -4,34 +4,34 @@
 
 [resource]
 script = ExtResource( 1 )
-profile_name = "Hiroshi Nagai's Niteflyte"
+profile_name = "Fantasy24"
 building = {
-"bld_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
-"bld_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
+"bld_base_color": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
+"bld_blue_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
 "bld_blue_mixer": 1000,
-"bld_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
+"bld_green_dot": Color( 0.937255, 0.847059, 0.631373, 1 ),
 "bld_green_mixer": 1000,
-"bld_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
+"bld_red_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
 "bld_red_mixer": 1000,
 "bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
 }
 sky = {
-"sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),
+"sky_ground_bottom": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
 "sky_ground_curve": 200,
-"sky_ground_horizon": Color( 0, 0.247059, 0.588235, 1 ),
+"sky_ground_horizon": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
 "sky_sky_curve": 365,
-"sky_sky_horizon": Color( 0.623529, 0.517647, 0.717647, 1 ),
-"sky_sky_top": Color( 0, 0.247059, 0.588235, 1 ),
+"sky_sky_horizon": Color( 0.670588, 0.360784, 0.109804, 1 ),
+"sky_sky_top": Color( 0.188235, 0.0588235, 0.0392157, 1 ),
 "sky_x_rotation": 0.0
 }
 light = {
-"lights_four_color": Color( 0, 0.141176, 0.34902, 1 ),
+"lights_four_color": Color( 0.647059, 0.54902, 0.152941, 1 ),
 "lights_four_visible": true,
-"lights_one_color": Color( 0, 0.141176, 0.34902, 1 ),
+"lights_one_color": Color( 0.152941, 0.392157, 0.407843, 1 ),
 "lights_one_visible": true,
-"lights_three_color": Color( 0, 0.141176, 0.34902, 1 ),
+"lights_three_color": Color( 0.607843, 0.101961, 0.0392157, 1 ),
 "lights_three_visible": true,
-"lights_two_color": Color( 0, 0.141176, 0.34902, 1 ),
+"lights_two_color": Color( 0.223529, 0.341176, 0.109804, 1 ),
 "lights_two_visible": true
 }
 starfield = {
@@ -43,15 +43,15 @@ starfield = {
 "starfield_type_c_count": 20
 }
 stars = {
-"stars_type_a_color": Color( 1, 1, 1, 1 ),
+"stars_type_a_color": Color( 0.937255, 0.717647, 0.458824, 1 ),
 "stars_type_a_texture": "res://effects/star_textures/64Dot.png",
-"stars_type_b_color": Color( 1, 1, 1, 1 ),
+"stars_type_b_color": Color( 0.937255, 0.717647, 0.458824, 1 ),
 "stars_type_b_texture": "res://effects/star_textures/64Dot.png",
-"stars_type_c_color": Color( 1, 1, 1, 1 ),
+"stars_type_c_color": Color( 0.937255, 0.717647, 0.458824, 1 ),
 "stars_type_c_texture": "res://effects/star_textures/64Dot.png"
 }
 moon = {
-"moon_color": Color( 1, 1, 1, 1 ),
+"moon_color": Color( 0.937255, 0.717647, 0.458824, 1 ),
 "moon_size": 1.9,
 "moon_visible": true,
 "moon_x_pos": -10.0,

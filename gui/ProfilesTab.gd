@@ -10,6 +10,7 @@ var resources = [
     preload("res://profiles/Velvet.tres"),
     preload("res://profiles/Sailor.tres"),
     preload("res://profiles/TWA.tres"),
+    preload("res://profiles/Fantasy24.tres")
 ]
 
 func _ready():

@@ -8,8 +8,11 @@ profile_name = "Sailor Moon"
 building = {
 "bld_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
 "bld_blue_dot": Color( 0.6, 1, 0.945098, 1 ),
+"bld_blue_mixer": 0,
 "bld_green_dot": Color( 1, 1, 0.501961, 1 ),
+"bld_green_mixer": 0,
 "bld_red_dot": Color( 1, 0.701961, 0.858824, 1 ),
+"bld_red_mixer": 0,
 "bld_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
 }
 sky = {
@@ -22,13 +25,13 @@ sky = {
 "sky_x_rotation": 3.0
 }
 light = {
-"lights_four_color": Color( 0.419608, 0.705882, 0.584314, 1 ),
+"lights_four_color": Color( 1, 0.501961, 0.768627, 1 ),
 "lights_four_visible": true,
-"lights_one_color": Color( 0.560784, 0.6, 0.768627, 1 ),
+"lights_one_color": Color( 0.258824, 0.811765, 0.588235, 1 ),
 "lights_one_visible": true,
-"lights_three_color": Color( 0.760784, 0.745098, 0.572549, 1 ),
+"lights_three_color": Color( 0.419608, 1, 0.921569, 1 ),
 "lights_three_visible": true,
-"lights_two_color": Color( 0.752941, 0.603922, 0.737255, 1 ),
+"lights_two_color": Color( 1, 1, 0.301961, 1 ),
 "lights_two_visible": true
 }
 starfield = {

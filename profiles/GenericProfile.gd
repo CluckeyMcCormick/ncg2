@@ -6,8 +6,11 @@ export var profile_name = "Hiroshi Nagai's Niteflyte"
 export var building = {
     "bld_base_color": Color("#000d20"),
     "bld_red_dot": Color("#77121a"),
+    "bld_red_mixer": 1000,
     "bld_green_dot": Color("#98c7d1"),
+    "bld_green_mixer": 1000,
     "bld_blue_dot": Color("#d1cc64"),
+    "bld_blue_mixer": 1000,
     "bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
 }
 

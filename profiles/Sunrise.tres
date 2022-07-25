@@ -8,8 +8,11 @@ profile_name = "Sunrise in Big City"
 building = {
 "bld_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
 "bld_blue_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
+"bld_blue_mixer": 0,
 "bld_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
+"bld_green_mixer": 500,
 "bld_red_dot": Color( 1, 1, 0.8, 1 ),
+"bld_red_mixer": 1000,
 "bld_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
 }
 sky = {
@@ -22,13 +25,13 @@ sky = {
 "sky_x_rotation": 4.75
 }
 light = {
-"lights_four_color": Color( 0, 0.0352941, 0.0901961, 1 ),
+"lights_four_color": Color( 0, 0.0470588, 0.121569, 1 ),
 "lights_four_visible": true,
-"lights_one_color": Color( 0.0901961, 0, 0, 1 ),
+"lights_one_color": Color( 0.121569, 0, 0, 1 ),
 "lights_one_visible": true,
-"lights_three_color": Color( 0.0470588, 0, 0.0784314, 1 ),
+"lights_three_color": Color( 0.0705882, 0, 0.121569, 1 ),
 "lights_three_visible": true,
-"lights_two_color": Color( 0.0784314, 0, 0.054902, 1 ),
+"lights_two_color": Color( 0.121569, 0, 0.0823529, 1 ),
 "lights_two_visible": true
 }
 starfield = {

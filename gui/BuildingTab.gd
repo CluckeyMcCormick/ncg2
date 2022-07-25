@@ -9,8 +9,11 @@ const IN_WINDOW_TEXTURES = "res://buildings/textures/"
 onready var mcc = get_node("/root/MaterialColorControl")
 
 onready var red_picker = $VBox/GridContainer/RedPicker
+onready var red_spinner = $VBox/GridContainer/RedSpinner
 onready var blue_picker = $VBox/GridContainer/BluePicker
+onready var blue_spinner = $VBox/GridContainer/BlueSpinner
 onready var green_picker = $VBox/GridContainer/GreenPicker
+onready var green_spinner = $VBox/GridContainer/GreenSpinner
 onready var building_picker = $VBox/GridContainer/BuildingPicker
 onready var texture_picker = $VBox/TextureSelection
 
@@ -97,10 +100,16 @@ func _on_mcc_key_update(key):
         #
         "bld_red_dot":
             red_picker.color = mcc.profile_dict[key]
+        "bld_red_mixer":
+            red_spinner.value = mcc.profile_dict[key]
         "bld_green_dot":
             green_picker.color = mcc.profile_dict[key]
+        "bld_green_mixer":
+            green_spinner.value = mcc.profile_dict[key]
         "bld_blue_dot":
             blue_picker.color = mcc.profile_dict[key]
+        "bld_blue_mixer":
+            blue_spinner.value = mcc.profile_dict[key]
         "bld_base_color":
             building_picker.color = mcc.profile_dict[key]
         "bld_texture_path":
@@ -122,15 +131,30 @@ func _on_RedPicker_color_changed(color):
         mcc.profile_dict["bld_red_dot"] = color
         mcc.update_key("bld_red_dot")
 
+func _on_RedSpinner_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["bld_red_mixer"] = value
+        mcc.update_key("bld_red_mixer")
+
 func _on_GreenPicker_color_changed(color):
     if _update_global:
         mcc.profile_dict["bld_green_dot"] = color
         mcc.update_key("bld_green_dot")
 
+func _on_GreenSpinner_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["bld_green_mixer"] = value
+        mcc.update_key("bld_green_mixer")
+
 func _on_BluePicker_color_changed(color):
     if _update_global:
         mcc.profile_dict["bld_blue_dot"] = color
         mcc.update_key("bld_blue_dot")
+
+func _on_BlueSpinner_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["bld_blue_mixer"] = value
+        mcc.update_key("bld_blue_mixer")
 
 func _on_BuildingPicker_color_changed(color):
     if _update_global:

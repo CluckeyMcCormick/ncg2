@@ -61,10 +61,22 @@ func update_key(key):
             primary_material.set_shader_param("BuildingColor", profile_dict[key])
         "bld_red_dot":
             primary_material.set_shader_param("RedDotColor", profile_dict[key])
+        "bld_red_mixer":
+            primary_material.set_shader_param(
+                "RedDotLightMix", profile_dict[key] / 1000.0
+            )
         "bld_green_dot":
             primary_material.set_shader_param("GreenDotColor", profile_dict[key])
+        "bld_green_mixer":
+            primary_material.set_shader_param(
+                "GreenDotLightMix", profile_dict[key] / 1000.0
+            )
         "bld_blue_dot":
             primary_material.set_shader_param("BlueDotColor", profile_dict[key])
+        "bld_blue_mixer":
+            primary_material.set_shader_param(
+                "BlueDotLightMix", profile_dict[key] / 1000.0
+            )
         #
         # Lights
         #

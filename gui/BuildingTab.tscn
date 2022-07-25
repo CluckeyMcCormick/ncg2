@@ -22,9 +22,9 @@ size_flags_vertical = 3
 alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="VBox"]
-margin_top = 420.0
+margin_top = 378.0
 margin_right = 1472.0
-margin_bottom = 512.0
+margin_bottom = 554.0
 columns = 3
 
 [node name="RedColor" type="Label" parent="VBox/GridContainer"]
@@ -42,101 +42,167 @@ rect_min_size = Vector2( 25, 0 )
 
 [node name="RedPicker" type="ColorPickerButton" parent="VBox/GridContainer"]
 margin_left = 136.0
-margin_right = 193.0
+margin_right = 210.0
 margin_bottom = 20.0
 text = "Color 1"
-edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GreenColor" type="Label" parent="VBox/GridContainer"]
-margin_top = 27.0
+[node name="RedMix" type="Label" parent="VBox/GridContainer"]
+margin_top = 29.0
 margin_right = 103.0
-margin_bottom = 41.0
+margin_bottom = 43.0
+text = "Red Dot Mix"
+align = 1
+
+[node name="RedRect2" type="ReferenceRect" parent="VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 24.0
+margin_right = 132.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 25, 0 )
+
+[node name="RedSpinner" type="SpinBox" parent="VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 24.0
+margin_right = 210.0
+margin_bottom = 48.0
+max_value = 1000.0
+value = 1000.0
+
+[node name="GreenColor" type="Label" parent="VBox/GridContainer"]
+margin_top = 55.0
+margin_right = 103.0
+margin_bottom = 69.0
 text = "Green Dot Color"
 align = 1
 
 [node name="GreenRect" type="ReferenceRect" parent="VBox/GridContainer"]
 margin_left = 107.0
-margin_top = 24.0
+margin_top = 52.0
 margin_right = 132.0
-margin_bottom = 44.0
+margin_bottom = 72.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="GreenPicker" type="ColorPickerButton" parent="VBox/GridContainer"]
 margin_left = 136.0
-margin_top = 24.0
-margin_right = 193.0
-margin_bottom = 44.0
+margin_top = 52.0
+margin_right = 210.0
+margin_bottom = 72.0
 text = "Color 1"
-edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BlueColor" type="Label" parent="VBox/GridContainer"]
-margin_top = 51.0
+[node name="GreenMix" type="Label" parent="VBox/GridContainer"]
+margin_top = 81.0
 margin_right = 103.0
-margin_bottom = 65.0
+margin_bottom = 95.0
+text = "Green Dot Mix"
+align = 1
+
+[node name="GreenRect2" type="ReferenceRect" parent="VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 76.0
+margin_right = 132.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="GreenSpinner" type="SpinBox" parent="VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 76.0
+margin_right = 210.0
+margin_bottom = 100.0
+max_value = 1000.0
+value = 1000.0
+
+[node name="BlueColor" type="Label" parent="VBox/GridContainer"]
+margin_top = 107.0
+margin_right = 103.0
+margin_bottom = 121.0
 text = "Blue Dot Color"
 align = 1
 
 [node name="BlueRect" type="ReferenceRect" parent="VBox/GridContainer"]
 margin_left = 107.0
-margin_top = 48.0
+margin_top = 104.0
 margin_right = 132.0
-margin_bottom = 68.0
+margin_bottom = 124.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BluePicker" type="ColorPickerButton" parent="VBox/GridContainer"]
 margin_left = 136.0
-margin_top = 48.0
-margin_right = 193.0
-margin_bottom = 68.0
+margin_top = 104.0
+margin_right = 210.0
+margin_bottom = 124.0
 text = "Color 1"
-edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BuildingColor" type="Label" parent="VBox/GridContainer"]
-margin_top = 75.0
+[node name="BlueMix" type="Label" parent="VBox/GridContainer"]
+margin_top = 133.0
 margin_right = 103.0
-margin_bottom = 89.0
+margin_bottom = 147.0
+text = "Blue Dot Mix"
+align = 1
+
+[node name="BlueRect2" type="ReferenceRect" parent="VBox/GridContainer"]
+margin_left = 107.0
+margin_top = 128.0
+margin_right = 132.0
+margin_bottom = 152.0
+rect_min_size = Vector2( 20, 0 )
+
+[node name="BlueSpinner" type="SpinBox" parent="VBox/GridContainer"]
+margin_left = 136.0
+margin_top = 128.0
+margin_right = 210.0
+margin_bottom = 152.0
+max_value = 1000.0
+value = 1000.0
+
+[node name="BuildingColor" type="Label" parent="VBox/GridContainer"]
+margin_top = 159.0
+margin_right = 103.0
+margin_bottom = 173.0
 text = "Building Color"
 align = 1
 
 [node name="BuildingRect" type="ReferenceRect" parent="VBox/GridContainer"]
 margin_left = 107.0
-margin_top = 72.0
+margin_top = 156.0
 margin_right = 132.0
-margin_bottom = 92.0
+margin_bottom = 176.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BuildingPicker" type="ColorPickerButton" parent="VBox/GridContainer"]
 margin_left = 136.0
-margin_top = 72.0
-margin_right = 193.0
-margin_bottom = 92.0
+margin_top = 156.0
+margin_right = 210.0
+margin_bottom = 176.0
 text = "Color 1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HSeparator" type="HSeparator" parent="VBox"]
-margin_top = 516.0
+margin_top = 558.0
 margin_right = 1472.0
-margin_bottom = 520.0
+margin_bottom = 562.0
 
 [node name="TextureSelection" type="OptionButton" parent="VBox"]
-margin_top = 524.0
+margin_top = 566.0
 margin_right = 1472.0
-margin_bottom = 544.0
+margin_bottom = 586.0
 text = "Dot Horizontal 25"
 
 [connection signal="color_changed" from="VBox/GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
+[connection signal="value_changed" from="VBox/GridContainer/RedSpinner" to="." method="_on_RedSpinner_value_changed"]
 [connection signal="color_changed" from="VBox/GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
+[connection signal="value_changed" from="VBox/GridContainer/GreenSpinner" to="." method="_on_GreenSpinner_value_changed"]
 [connection signal="color_changed" from="VBox/GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
+[connection signal="value_changed" from="VBox/GridContainer/BlueSpinner" to="." method="_on_BlueSpinner_value_changed"]
 [connection signal="color_changed" from="VBox/GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
 [connection signal="item_selected" from="VBox/TextureSelection" to="." method="_on_TextureSelection_item_selected"]
