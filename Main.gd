@@ -4,7 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Update control GUI to something that doesn't require constant readjusts
 # TODO: Add decorations GUI after sorting out decorations
 # TODO: Add second and third building materials
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)

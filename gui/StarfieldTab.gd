@@ -1,4 +1,4 @@
-extends Tabs
+extends HBoxContainer
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.
@@ -7,12 +7,12 @@ onready var mcc = get_node("/root/MaterialColorControl")
 # Emitted when the user presses the "regenerate" button
 signal regenerate()
 
-onready var height = $HBox/SpinGrid/HeightSpinBox
-onready var type_a = $HBox/SpinGrid/TypeASpinBox
-onready var type_b = $HBox/SpinGrid/TypeBSpinBox
-onready var type_c = $HBox/SpinGrid/TypeCSpinBox
-onready var mean = $HBox/SpinGrid/MeanSpinBox
-onready var variance = $HBox/SpinGrid/VarianceSpinBox
+onready var height = $SpinGrid/HeightSpinBox
+onready var type_a = $SpinGrid/TypeASpinBox
+onready var type_b = $SpinGrid/TypeBSpinBox
+onready var type_c = $SpinGrid/TypeCSpinBox
+onready var mean = $SpinGrid/MeanSpinBox
+onready var variance = $SpinGrid/VarianceSpinBox
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

@@ -1,14 +1,14 @@
-extends Tabs
+extends VBoxContainer
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var visible_moon = $VBox/HBoxContainer/MoonVisCheckBox
-onready var color_picker = $VBox/HBoxContainer/MoonColorPickerButton
-onready var x_pos = $VBox/HBoxPos/MoonXPosSpinBox
-onready var y_pos = $VBox/HBoxPos/MoonYPosSpinBox
-onready var size = $VBox/HBoxSize/MoonSizeSpinBox
+onready var visible_moon = $HBoxContainer/MoonVisCheckBox
+onready var color_picker = $HBoxContainer/MoonColorPickerButton
+onready var x_pos = $HBoxPos/MoonXPosSpinBox
+onready var y_pos = $HBoxPos/MoonYPosSpinBox
+onready var size = $HBoxSize/MoonSizeSpinBox
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

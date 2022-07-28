@@ -1,18 +1,18 @@
-extends Tabs
+extends VBoxContainer
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var sky_top = $VBox/SkyGrid/TopPicker
-onready var sky_horizon = $VBox/SkyGrid/HorizonPicker
-onready var sky_curve = $VBox/SkyGrid/SkyCurveSpin
+onready var sky_top = $SkyGrid/TopPicker
+onready var sky_horizon = $SkyGrid/HorizonPicker
+onready var sky_curve = $SkyGrid/SkyCurveSpin
 
-onready var ground_horizon = $VBox/GroundGrid/HorizonPicker
-onready var ground_bottom = $VBox/GroundGrid/BottomPicker
-onready var ground_curve = $VBox/GroundGrid/GroundCurveSpin
+onready var ground_horizon = $GroundGrid/HorizonPicker
+onready var ground_bottom = $GroundGrid/BottomPicker
+onready var ground_curve = $GroundGrid/GroundCurveSpin
 
-onready var sky_rotation = $VBox/RotationGrid/RotationSpin
+onready var sky_rotation = $RotationGrid/RotationSpin
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

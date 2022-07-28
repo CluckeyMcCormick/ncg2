@@ -1,4 +1,4 @@
-extends Tabs
+extends VBoxContainer
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures
@@ -8,14 +8,14 @@ const IN_STAR_TEXTURES = "res://effects/star_textures/"
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var picker_a = $VBox/HBoxTypeA/ColorPickerButtonA
-onready var option_a = $VBox/HBoxTypeA/OptionButtonA
+onready var picker_a = $HBoxTypeA/ColorPickerButtonA
+onready var option_a = $HBoxTypeA/OptionButtonA
 
-onready var picker_b = $VBox/HBoxTypeB/ColorPickerButtonB
-onready var option_b = $VBox/HBoxTypeB/OptionButtonB
+onready var picker_b = $HBoxTypeB/ColorPickerButtonB
+onready var option_b = $HBoxTypeB/OptionButtonB
 
-onready var picker_c = $VBox/HBoxTypeC/ColorPickerButtonC
-onready var option_c = $VBox/HBoxTypeC/OptionButtonC
+onready var picker_c = $HBoxTypeC/ColorPickerButtonC
+onready var option_c = $HBoxTypeC/OptionButtonC
 
 # These two dictionaries are used for getting info out of, and updating, the
 # star selection GUI elements

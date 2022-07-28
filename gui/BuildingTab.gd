@@ -1,4 +1,4 @@
-extends Tabs
+extends VBoxContainer
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures
@@ -8,14 +8,14 @@ const IN_WINDOW_TEXTURES = "res://buildings/textures/"
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var red_picker = $VBox/GridContainer/RedPicker
-onready var red_spinner = $VBox/GridContainer/RedSpinner
-onready var blue_picker = $VBox/GridContainer/BluePicker
-onready var blue_spinner = $VBox/GridContainer/BlueSpinner
-onready var green_picker = $VBox/GridContainer/GreenPicker
-onready var green_spinner = $VBox/GridContainer/GreenSpinner
-onready var building_picker = $VBox/GridContainer/BuildingPicker
-onready var texture_picker = $VBox/TextureSelection
+onready var red_picker = $GridContainer/RedPicker
+onready var red_spinner = $GridContainer/RedSpinner
+onready var blue_picker = $GridContainer/BluePicker
+onready var blue_spinner = $GridContainer/BlueSpinner
+onready var green_picker = $GridContainer/GreenPicker
+onready var green_spinner = $GridContainer/GreenSpinner
+onready var building_picker = $GridContainer/BuildingPicker
+onready var texture_picker = $TextureSelection
 
 # These two dictionaries are used for getting info out of, and updating, the
 # TextureSelection GUI element
@@ -82,7 +82,7 @@ func load_texture_choices():
         # Get the file name, captialized
         file_name = path.get_file().get_basename().capitalize()
         # Stick it in the textures selection area
-        $VBox/TextureSelection.add_item(file_name, id)
+        texture_picker.add_item(file_name, id)
         # Track the id to the path and vice versa
         id_to_path[id] = path
         path_to_id[path] = id

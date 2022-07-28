@@ -1,4 +1,4 @@
-extends Tabs
+extends GridContainer
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures
@@ -8,15 +8,15 @@ const IN_WINDOW_TEXTURES = "res://buildings/textures/"
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var one_picker = $GridContainer/OnePicker
-onready var two_picker = $GridContainer/TwoPicker
-onready var three_picker = $GridContainer/ThreePicker
-onready var four_picker = $GridContainer/FourPicker
+onready var one_picker = $OnePicker
+onready var two_picker = $TwoPicker
+onready var three_picker = $ThreePicker
+onready var four_picker = $FourPicker
 
-onready var one_check = $GridContainer/OneCheck
-onready var two_check = $GridContainer/TwoCheck
-onready var three_check = $GridContainer/ThreeCheck
-onready var four_check = $GridContainer/FourCheck
+onready var one_check = $OneCheck
+onready var two_check = $TwoCheck
+onready var three_check = $ThreeCheck
+onready var four_check = $FourCheck
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?
