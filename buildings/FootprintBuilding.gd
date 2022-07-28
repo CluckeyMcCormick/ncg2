@@ -76,6 +76,8 @@ var RNGENNIE = RandomNumberGenerator.new()
 # random-reliant functions.
 var _seed = 0
 
+var rotation_enabled = true
+
 # --------------------------------------------------------
 #
 # Running Functions
@@ -166,8 +168,13 @@ func make_blueprint():
     blp_lights.clear()
     
     # Okay, pick a random rotation.
-    blp_rotation = RNGENNIE.randfn(0.0, rotation_deviation)
-    
+    if rotation_enabled:
+        blp_rotation = clamp(
+            RNGENNIE.randfn(0.0, rotation_deviation), -45, 45
+        )
+    else:
+        blp_rotation = 0
+        
     # What's the ACTUAL footprint of the rotated building going to be? Notice
     # that we're prematurely shrinking the building lengths, down to a minimum
     # of 1
@@ -218,8 +225,8 @@ func make_blueprint():
         d = d.rotated(deg2rad(blp_rotation))
         
         # Check we're in the footprint
-        in_print = in_footprint(a) and in_footprint(b) and in_footprint(b) \
-           and in_footprint(b)
+        in_print = in_footprint(a) and in_footprint(b) and in_footprint(c) \
+           and in_footprint(d)
         
         # Increment the rolls we've done
         roll_count += 1
@@ -384,8 +391,6 @@ func make_building():
     
     $Base.rotation_degrees.y = blp_rotation
     $MainTower.rotation_degrees.y = blp_rotation
-    
-    self.rotation_degrees.y = blp_rotation
 
 # --------------------------------------------------------
 #

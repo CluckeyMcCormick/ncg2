@@ -21,7 +21,13 @@ const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 onready var dd = get_node("/root/DebugDraw")
 
 const X_WIDTH = 30
-const Z_LENGTH = 120
+const Z_LENGTH = 200
+const TARGET_BLOCKS = 8
+
+# These two scalars are also used in the Grow Block City - they have been
+# included here to mirror what is going on in that scene
+const BUILDING_SCALAR = 1
+const WINDOW_SCALING = 2
 
 export(Curve) var max_square_size
 export(Curve) var min_height
@@ -34,12 +40,12 @@ func _ready():
     
     $GUI/OptionsBox/XBox.value = X_WIDTH
     $GUI/OptionsBox/ZBox.value = Z_LENGTH
-    $GUI/OptionsBox/BuildingBox.value = 20
+    $GUI/OptionsBox/BuildingBox.value = 40
     
     blockifier = GROW_BLOCKIFIER.new(
-        max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 20
+        max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 40
     )
-    blockifier.target_blocks = 4
+    blockifier.target_blocks = TARGET_BLOCKS
 
     # Spawn in the blocks
     generate_blocks()
@@ -61,9 +67,9 @@ func spawn_buildings():
         grow_aabb = blockifier._complete_aabbs.pop_front()
         
         building = BUILDING_SCENE.instance()
-        building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * 2 - 1
-        building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * 2 - 1
-        building.tower_len_y = int(grow_aabb.height)
+        building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * WINDOW_SCALING - 1
+        building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * WINDOW_SCALING - 1
+        building.tower_len_y = int(grow_aabb.height) * WINDOW_SCALING
         building.building_material = MATERIALS[ randi() % len(MATERIALS) ]
         
         building.connect(
@@ -71,10 +77,13 @@ func spawn_buildings():
         )
         
         $BuildingMaster.add_child(building)
-        building.translation.x = (grow_aabb.b.x * 2 + grow_aabb.a.x * 2) / 2
-        building.translation.x *= GlobalRef.WINDOW_UV_SIZE
-        building.translation.z = (grow_aabb.b.z * 2 + grow_aabb.a.z * 2) / 2
-        building.translation.z *= GlobalRef.WINDOW_UV_SIZE
+        building.translation.x = (grow_aabb.b.x * WINDOW_SCALING + grow_aabb.a.x * WINDOW_SCALING) / 2
+        building.translation.x *= GlobalRef.WINDOW_UV_SIZE * BUILDING_SCALAR
+        building.translation.z = (grow_aabb.b.z * WINDOW_SCALING + grow_aabb.a.z * WINDOW_SCALING) / 2
+        building.translation.z *= GlobalRef.WINDOW_UV_SIZE * BUILDING_SCALAR
+        building.scale = Vector3(
+            BUILDING_SCALAR, BUILDING_SCALAR, BUILDING_SCALAR
+        )
 
 func _on_building_blueprint_completed(building):
     # Disconnect the signal
@@ -103,5 +112,6 @@ func _on_RegenerateButton_pressed():
         int($GUI/OptionsBox/ZBox.value),
         int($GUI/OptionsBox/BuildingBox.value)
     )
+    blockifier.target_blocks = TARGET_BLOCKS
     generate_blocks()
     spawn_buildings()
