@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://effects/BeaconPointMesh.tres" type="PointMesh" id=1]
+[ext_resource path="res://effects/BeaconTypeA.tres" type="Material" id=2]
+
+[node name="Beacon" type="MeshInstance"]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )

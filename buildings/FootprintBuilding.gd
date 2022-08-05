@@ -110,16 +110,14 @@ func _physics_process(delta):
         emit_signal("blueprint_completed", self)
 
 func _on_VisibilityNotifier_screen_entered():
-    $Base.visible = true
-    $MainTower.visible = true
+    $Building.visible = true
     $FxManager.visible = true
     
     # Emit!
     emit_signal("screen_entered", self)
 
 func _on_VisibilityNotifier_screen_exited():
-    $Base.visible = false
-    $MainTower.visible = false
+    $Building.visible = false
     $FxManager.visible = false
     
     # Emit!
@@ -285,7 +283,7 @@ func make_blueprint():
 
 func make_building():
     # If we don't have the building nodes for whatever reason, back out
-    if not self.has_node("Base") or not self.has_node("MainTower"):
+    if not self.has_node("Building/Base") or not self.has_node("Building/MainTower"):
         return
     
     # Clear up the lights
@@ -294,31 +292,31 @@ func make_building():
         light.queue_free()
     
     # Otherwise, pass the materials down to the buildings
-    $Base.building_material = building_material
-    $MainTower.building_material = building_material
+    $Building/Base.building_material = building_material
+    $Building/MainTower.building_material = building_material
     
     # Pass down the values to the base
-    $Base.len_x = blp_len_x
-    $Base.len_z = blp_len_z
-    $Base.len_y = BASE_HEIGHT
+    $Building/Base.len_x = blp_len_x
+    $Building/Base.len_z = blp_len_z
+    $Building/Base.len_y = BASE_HEIGHT
     
     # If this tower is so short that it's all base, just set the base to the
     # tower height.
     if tower_len_y < BASE_HEIGHT:
-        $Base.len_y = tower_len_y
+        $Building/Base.len_y = tower_len_y
     
     # Now, pass the values to the main tower
-    $MainTower.len_x = blp_len_x
-    $MainTower.len_z = blp_len_z
+    $Building/MainTower.len_x = blp_len_x
+    $Building/MainTower.len_z = blp_len_z
     # using max will catch instances where tower_len_y < BASE_HEIGHT
-    $MainTower.len_y = max(tower_len_y - BASE_HEIGHT, 0)
+    $Building/MainTower.len_y = max(tower_len_y - BASE_HEIGHT, 0)
     
     # Now, move the tower up appropriately
-    $MainTower.translation.y = GlobalRef.WINDOW_UV_SIZE * BASE_HEIGHT
+    $Building/MainTower.translation.y = GlobalRef.WINDOW_UV_SIZE * BASE_HEIGHT
     
     # Now build both buildings
-    $Base.make_building()
-    $MainTower.make_building()
+    $Building/Base.make_building()
+    $Building/MainTower.make_building()
     
     # Now we need to adjust the visibility modifier. To do that, we need to
     # calculate the effective length on each axis.
@@ -376,11 +374,38 @@ func make_building():
             (blp_len_z * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2), 
             eff_z
         )
+        # TODO: scale up (light.omni_range * 2) by some sort of scalar constant.
+        # We're getting light pop-in, but no building pop-in, which makes me
+        # suspect that the lights are taking extra-long to load in. So we must
+        # extend omni range calculation outward appropriately.
         
         # Now, after all that, apply the effective scalar. Our AABB will scale,
         # but not the light's range.
         light.omni_range *= eff_scalar
     
+    #
+    # Beacons
+    #
+    $Building/BeaconA.translation.x = old_x / 2.0
+    $Building/BeaconA.translation.z = old_z / 2.0
+
+    $Building/BeaconB.translation.x = old_x / 2.0
+    $Building/BeaconB.translation.z = -old_z / 2.0
+
+    $Building/BeaconC.translation.x = -old_x / 2.0
+    $Building/BeaconC.translation.z = -old_z / 2.0
+
+    $Building/BeaconD.translation.x = -old_x / 2.0
+    $Building/BeaconD.translation.z = old_z / 2.0
+    
+    $Building/BeaconA.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
+    $Building/BeaconB.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
+    $Building/BeaconC.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
+    $Building/BeaconD.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
+    
+    #
+    # AABB
+    #
     $VisibilityNotifier.aabb.position.x = -eff_x / 2
     $VisibilityNotifier.aabb.position.y = 0
     $VisibilityNotifier.aabb.position.z = -eff_z / 2
@@ -389,8 +414,10 @@ func make_building():
     $VisibilityNotifier.aabb.size.y = eff_y
     $VisibilityNotifier.aabb.size.z = eff_z
     
-    $Base.rotation_degrees.y = blp_rotation
-    $MainTower.rotation_degrees.y = blp_rotation
+    #
+    # Building
+    #
+    $Building.rotation_degrees.y = blp_rotation
 
 # --------------------------------------------------------
 #
