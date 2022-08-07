@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 profile_name = "New York via TWA"
 building = {
-"bld_base_color": Color( 0, 0, 0, 0.74902 ),
+"bld_base_color": Color( 0, 0, 0, 1 ),
 "bld_blue_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
 "bld_blue_mixer": 1000,
 "bld_green_dot": Color( 0.231373, 0.584314, 0.831373, 1 ),
@@ -56,4 +56,20 @@ moon = {
 "moon_visible": false,
 "moon_x_pos": -10.0,
 "moon_y_pos": 5.55
+}
+beacon = {
+"beacon_color_a": Color( 1, 1, 1, 1 ),
+"beacon_color_b": Color( 1, 1, 1, 1 ),
+"beacon_color_c": Color( 1, 1, 1, 1 ),
+"beacon_correction_a": 0.25,
+"beacon_correction_b": 0.25,
+"beacon_correction_c": 0.25,
+"beacon_enabled": false,
+"beacon_height": 35,
+"beacon_size_a": 5.0,
+"beacon_size_b": 5.0,
+"beacon_size_c": 5.0,
+"beacon_texture_a": "res://effects/beacon_textures/hard_dot.png",
+"beacon_texture_b": "res://effects/beacon_textures/hard_dot.png",
+"beacon_texture_c": "res://effects/beacon_textures/hard_dot.png"
 }

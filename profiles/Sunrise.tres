@@ -57,3 +57,19 @@ moon = {
 "moon_x_pos": -10.0,
 "moon_y_pos": 5.55
 }
+beacon = {
+"beacon_color_a": Color( 1, 0, 0.0784314, 0.235294 ),
+"beacon_color_b": Color( 1, 0, 0.0784314, 0.235294 ),
+"beacon_color_c": Color( 1, 0, 0.0784314, 0.235294 ),
+"beacon_correction_a": 0.2,
+"beacon_correction_b": 0.2,
+"beacon_correction_c": 0.2,
+"beacon_enabled": true,
+"beacon_height": 20,
+"beacon_size_a": 4.5,
+"beacon_size_b": 4.5,
+"beacon_size_c": 4.5,
+"beacon_texture_a": "res://effects/beacon_textures/star_shine.png",
+"beacon_texture_b": "res://effects/beacon_textures/star_shine.png",
+"beacon_texture_c": "res://effects/beacon_textures/star_shine.png"
+}

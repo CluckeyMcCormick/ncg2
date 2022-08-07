@@ -1,12 +1,11 @@
 [gd_resource type="SpatialMaterial" load_steps=2 format=2]
 
-[ext_resource path="res://effects/star_textures/64Star.png" type="Texture" id=1]
+[ext_resource path="res://effects/beacon_textures/soft_transparent.png" type="Texture" id=1]
 
 [resource]
 flags_transparent = true
 flags_unshaded = true
 flags_use_point_size = true
-flags_fixed_size = true
 flags_do_not_receive_shadows = true
 params_cull_mode = 2
 params_point_size = 10.5

@@ -4,13 +4,12 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Add decorations GUI after sorting out decorations
-# TODO: Add second and third building materials
+# TODO: Dynamically generate building textures via blitting.
+# TODO: Add second and third building materials.
+# TODO: Revise GUI to a "Toolbar" w/pop-ups
+# TODO: Decorations (see FootprintBuilding)
 # TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles
-# TODO: Add city generation options (block size, building count)
-# TODO: Add building height curve options (this is gonna be hard so it should
-#       be separate)
 
 var city_built = false
 

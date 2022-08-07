@@ -25,6 +25,13 @@ const MAX_ROLLS = 25 #10
 const MIN_THIN = 2
 
 # TODO: Figure out decorations (distribution, selection, etc.)
+# TODO: Decoration, On-Wall Billboards
+# TODO: Decoration, Hanging Billboards
+# TODO: Decoration, Rooftop Billboards
+# TODO: Decoration, Box Billboards
+# TODO: Decoration, Sparkles
+# TODO: Decoration, AC Box
+# TODO: Decoration, Antennae
 
 # The material we'll use to make this building.
 export(Material) var building_material
@@ -338,19 +345,19 @@ func make_building():
             0:
                 light.light_color = mcc.profile_dict["lights_one_color"]
                 light.visible = mcc.profile_dict["lights_one_visible"]
-                light.add_to_group(mcc.light_group_one)
+                light.add_to_group(GlobalRef.light_group_one)
             1:
                 light.light_color = mcc.profile_dict["lights_two_color"]
                 light.visible = mcc.profile_dict["lights_two_visible"]
-                light.add_to_group(mcc.light_group_two)
+                light.add_to_group(GlobalRef.light_group_two)
             2:
                 light.light_color = mcc.profile_dict["lights_three_color"]
                 light.visible = mcc.profile_dict["lights_three_visible"]
-                light.add_to_group(mcc.light_group_three)
+                light.add_to_group(GlobalRef.light_group_three)
             3:
                 light.light_color = mcc.profile_dict["lights_four_color"]
                 light.visible = mcc.profile_dict["lights_four_visible"]
-                light.add_to_group(mcc.light_group_four)
+                light.add_to_group(GlobalRef.light_group_four)
         $FxManager.add_child(light)
         light.translation = Vector3(
             light_arr[2].x * GlobalRef.WINDOW_UV_SIZE,
@@ -398,10 +405,28 @@ func make_building():
     $Building/BeaconD.translation.x = -old_x / 2.0
     $Building/BeaconD.translation.z = old_z / 2.0
     
-    $Building/BeaconA.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
-    $Building/BeaconB.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
-    $Building/BeaconC.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
-    $Building/BeaconD.translation.y = eff_y + (GlobalRef.WINDOW_UV_SIZE * .1)
+    $Building/BeaconA.curr_beacon_height = tower_len_y
+    $Building/BeaconB.curr_beacon_height = tower_len_y
+    $Building/BeaconC.curr_beacon_height = tower_len_y
+    $Building/BeaconD.curr_beacon_height = tower_len_y
+    
+    # Roll the kind of beacon we get
+    match RNGENNIE.randi() % 3:
+        0:
+            $Building/BeaconA.type = $Building/BeaconA.BeaconType.A
+            $Building/BeaconB.type = $Building/BeaconA.BeaconType.A
+            $Building/BeaconC.type = $Building/BeaconA.BeaconType.A
+            $Building/BeaconD.type = $Building/BeaconA.BeaconType.A
+        1:
+            $Building/BeaconA.type = $Building/BeaconA.BeaconType.B
+            $Building/BeaconB.type = $Building/BeaconA.BeaconType.B
+            $Building/BeaconC.type = $Building/BeaconA.BeaconType.B
+            $Building/BeaconD.type = $Building/BeaconA.BeaconType.B
+        2:
+            $Building/BeaconA.type = $Building/BeaconA.BeaconType.C
+            $Building/BeaconB.type = $Building/BeaconA.BeaconType.C
+            $Building/BeaconC.type = $Building/BeaconA.BeaconType.C
+            $Building/BeaconD.type = $Building/BeaconA.BeaconType.C
     
     #
     # AABB

@@ -1,5 +1,14 @@
 extends Node
 
+# ~~~~~~~~~~~~~~~~
+#
+# Resource Loads
+#
+# ~~~~~~~~~~~~~~~~
+
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
+
 # Load our different materials
 const dot_material = preload("res://buildings/DotWindowMaterial.tres")
 const dot_light_material = preload("res://buildings/DotWindowLightMaterial_V2.tres")
@@ -8,27 +17,48 @@ const dot_light_material = preload("res://buildings/DotWindowLightMaterial_V2.tr
 var star_a_material = preload("res://effects/StarTypeA.tres")
 var star_b_material = preload("res://effects/StarTypeB.tres")
 var star_c_material = preload("res://effects/StarTypeC.tres")
+var beacon_a_material = preload("res://effects/BeaconTypeA.tres")
+var beacon_b_material = preload("res://effects/BeaconTypeB.tres")
+var beacon_c_material = preload("res://effects/BeaconTypeC.tres")
 
+# What's our environment resource?
 var city_env = preload("res://environment/city_env.tres")
+# What's our procedural sky resource?
 var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 
 # Load the moon material. NEEDS to be a var, not a const.
 var moon_material = preload("res://effects/MoonMaterial.tres")
 
+# What's the first profile that we default to?
 const default_profile = preload("res://profiles/Niteflyte.tres")
 
-const light_group_one = "lights_one"
-const light_group_two = "lights_two"
-const light_group_three = "lights_three"
-const light_group_four = "lights_four"
-
+# ~~~~~~~~~~~~~~~~
+#
+# 
+#
+# ~~~~~~~~~~~~~~~~
 # This controls what materials new buildings come out as.
 var primary_material = dot_light_material
 
+# What's the minimum height, in building-windows, that a building has to be in
+# order for it to have beacons? Since this is a global contraint, this is the
+# best place for it.
+var min_beacon_height = 35
+
 var profile_dict = {}
 
+# ~~~~~~~~~~~~~~~~
+#
+# Signals
+#
+# ~~~~~~~~~~~~~~~~
 signal key_update(key)
 
+# ~~~~~~~~~~~~~~~~
+#
+# Functions
+#
+# ~~~~~~~~~~~~~~~~
 func _ready():
     profile_dict = default_profile.to_dict()
     
@@ -82,35 +112,35 @@ func update_key(key):
         #
         "lights_one_color":
             get_tree().call_group(
-                light_group_one, "set_color", profile_dict[key]
+               GlobalRef.light_group_one, "set_color", profile_dict[key]
             )
         "lights_two_color":
             get_tree().call_group(
-                light_group_two, "set_color", profile_dict[key]
+                GlobalRef.light_group_two, "set_color", profile_dict[key]
             )
         "lights_three_color":
             get_tree().call_group(
-                light_group_three, "set_color", profile_dict[key]
+                GlobalRef.light_group_three, "set_color", profile_dict[key]
             )
         "lights_four_color":
             get_tree().call_group(
-                light_group_four, "set_color", profile_dict[key]
+                GlobalRef.light_group_four, "set_color", profile_dict[key]
             )
         "lights_one_visible":
             get_tree().call_group(
-                light_group_one, "set_visible", profile_dict[key]
+                GlobalRef.light_group_one, "set_visible", profile_dict[key]
             )
         "lights_two_visible":
             get_tree().call_group(
-                light_group_two, "set_visible", profile_dict[key]
+                GlobalRef.light_group_two, "set_visible", profile_dict[key]
             )
         "lights_three_visible":
             get_tree().call_group(
-                light_group_three, "set_visible", profile_dict[key]
+                GlobalRef.light_group_three, "set_visible", profile_dict[key]
             )
         "lights_four_visible":
             get_tree().call_group(
-                light_group_four, "set_visible", profile_dict[key]
+                GlobalRef.light_group_four, "set_visible", profile_dict[key]
             )
         #
         # Sky
@@ -168,6 +198,71 @@ func update_key(key):
         #
         "moon_color":
             moon_material.albedo_color = profile_dict[key]
+
+        #
+        # Beacons
+        #
+        "beacon_texture_a":
+            var beacon_texture = load( profile_dict[key] )
+            if beacon_texture != null:
+                beacon_a_material.albedo_texture = beacon_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "beacon_texture_b":
+            var beacon_texture = load( profile_dict[key] )
+            if beacon_texture != null:
+                beacon_b_material.albedo_texture = beacon_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "beacon_texture_c":
+            var beacon_texture = load( profile_dict[key] )
+            if beacon_texture != null:
+                beacon_c_material.albedo_texture = beacon_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "beacon_color_a":
+            beacon_a_material.albedo_color = profile_dict[key]
+        "beacon_color_b":
+            beacon_b_material.albedo_color = profile_dict[key]
+        "beacon_color_c":
+            beacon_c_material.albedo_color = profile_dict[key]
+        "beacon_size_a":
+            beacon_a_material.params_point_size = profile_dict[key]
+        "beacon_size_b":
+            beacon_b_material.params_point_size = profile_dict[key]
+        "beacon_size_c":
+            beacon_c_material.params_point_size = profile_dict[key]
+        "beacon_correction_a":
+            get_tree().call_group(
+                GlobalRef.beacon_group_a,
+                "set_height_correction", profile_dict[key]
+            )
+        "beacon_correction_b":
+            get_tree().call_group(
+                GlobalRef.beacon_group_b,
+                "set_height_correction", profile_dict[key]
+            )
+        "beacon_correction_c":
+            get_tree().call_group(
+                GlobalRef.beacon_group_c,
+                "set_height_correction", profile_dict[key]
+            )
+        "beacon_height":
+            min_beacon_height = profile_dict[key]
+            get_tree().call_group(GlobalRef.beacon_group_a, "beacon_update")
+            get_tree().call_group(GlobalRef.beacon_group_b, "beacon_update")
+            get_tree().call_group(GlobalRef.beacon_group_c, "beacon_update")
+            
+        "beacon_enabled":
+            get_tree().call_group(
+                GlobalRef.beacon_group_a, "set_enabled", profile_dict[key]
+            )
+            get_tree().call_group(
+                GlobalRef.beacon_group_b, "set_enabled", profile_dict[key]
+            )
+            get_tree().call_group(
+                GlobalRef.beacon_group_c, "set_enabled", profile_dict[key]
+            )
     
     # Tell everyone that we're updating
     emit_signal("key_update", key)

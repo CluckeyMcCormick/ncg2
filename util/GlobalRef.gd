@@ -10,3 +10,17 @@ const WINDOW_CELL_LEN = 64
 # unit. Since our texture SHOULD be 64 cells by 64 cells, one world unit divided
 # by WINDOW_CELL_LEN gets us the measure of a cell in the world.
 const WINDOW_UV_SIZE = 1.0 / WINDOW_CELL_LEN
+
+# ~~~~~~~~~~~~~~~~
+#
+# Groups
+#
+# ~~~~~~~~~~~~~~~~
+const light_group_one = "lights_one"
+const light_group_two = "lights_two"
+const light_group_three = "lights_three"
+const light_group_four = "lights_four"
+
+const beacon_group_a = "beacon_a"
+const beacon_group_b = "beacon_b"
+const beacon_group_c = "beacon_c"
