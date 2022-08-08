@@ -1,0 +1,68 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://voronoi/VoroniColorD.material" type="Material" id=1]
+[ext_resource path="res://voronoi/VoroniColorC.material" type="Material" id=2]
+[ext_resource path="res://voronoi/VoroniColorH.material" type="Material" id=3]
+[ext_resource path="res://voronoi/VoroniColorB.material" type="Material" id=4]
+[ext_resource path="res://voronoi/VoroniColorA.material" type="Material" id=5]
+[ext_resource path="res://voronoi/VoroniColorG.material" type="Material" id=6]
+[ext_resource path="res://voronoi/VoroniColorF.material" type="Material" id=7]
+[ext_resource path="res://voronoi/VoroniColorE.material" type="Material" id=8]
+[ext_resource path="res://voronoi/VoroniColorJ.material" type="Material" id=9]
+[ext_resource path="res://voronoi/VoroniColorI.material" type="Material" id=10]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 1, 1, 1 )
+
+[node name="MeasuringBlock" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -0.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 5 )
+
+[node name="2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499997, 0.5, -1.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 4 )
+
+[node name="3" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -2.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 2 )
+
+[node name="4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -3.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="5" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -4.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 8 )
+
+[node name="6" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -5.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 7 )
+
+[node name="7" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -6.49999 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 6 )
+
+[node name="8" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -7.49999 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 3 )
+
+[node name="9" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -8.49999 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 10 )
+
+[node name="10" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.499997, 0.499999, -9.5 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 9 )

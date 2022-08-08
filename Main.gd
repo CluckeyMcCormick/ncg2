@@ -30,6 +30,7 @@ func _physics_process(delta):
     if city_built:
         $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
         $Camera.global_transform.origin += Vector3(2, 0, 0) * delta 
+        $RoofSlope.global_transform.origin += Vector3(2, 0, 0) * delta 
 
 func _on_GrowBlockCity_city_complete():
     city_built = true

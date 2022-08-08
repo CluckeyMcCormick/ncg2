@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
@@ -13,6 +13,11 @@
 [ext_resource path="res://gui/ProfilesTab.tscn" type="PackedScene" id=11]
 [ext_resource path="res://gui/LightTab.tscn" type="PackedScene" id=12]
 [ext_resource path="res://gui/BeaconTab.tscn" type="PackedScene" id=13]
+[ext_resource path="res://effects/SparkleParticalMaterial.tres" type="Material" id=14]
+[ext_resource path="res://effects/SparkleQuadMeshTypeA.tres" type="QuadMesh" id=15]
+[ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
+[ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
+[ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -39,6 +44,36 @@ height = 15.0
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
+[node name="ParticlesA" type="Particles" parent="UpCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
+amount = 2
+lifetime = 2.5
+randomness = 1.0
+visibility_aabb = AABB( -11.4997, -3.4987, -18.4968, 22.9891, 6.99725, 50.4264 )
+local_coords = false
+process_material = ExtResource( 14 )
+draw_pass_1 = ExtResource( 15 )
+
+[node name="ParticlesB" type="Particles" parent="UpCamera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
+amount = 2
+lifetime = 2.5
+randomness = 1.0
+visibility_aabb = AABB( -11.4994, -3.49977, -18.484, 22.9923, 6.99947, 50.4136 )
+local_coords = false
+process_material = ExtResource( 14 )
+draw_pass_1 = ExtResource( 17 )
+
+[node name="ParticlesC" type="Particles" parent="UpCamera"]
+transform = Transform( 1, -3.72529e-09, 0, 0, 1, 0, 0, 1.49012e-08, 1, 9.53674e-07, -0.75, -42 )
+amount = 2
+lifetime = 2.5
+randomness = 1.0
+visibility_aabb = AABB( -11.4997, -3.49977, -18.4984, 22.9926, 6.99886, 50.428 )
+local_coords = false
+process_material = ExtResource( 14 )
+draw_pass_1 = ExtResource( 18 )
+
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 20.0
 margin_top = 20.0
@@ -46,7 +81,7 @@ margin_right = 362.0
 margin_bottom = 265.0
 
 [node name="Tabs" type="TabContainer" parent="GUI"]
-margin_right = 400.0
+margin_right = 342.0
 margin_bottom = 244.0
 size_flags_horizontal = 3
 tab_align = 0
@@ -84,11 +119,24 @@ visible = false
 
 [node name="Label" type="Label" parent="GUI"]
 margin_top = 248.0
-margin_right = 400.0
+margin_right = 342.0
 margin_bottom = 279.0
 text = "
 F12 to Show/Hide GUI"
 align = 1
+
+[node name="RoofSlope" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
+visible = false
+
+[node name="MeasuringBlockA" parent="RoofSlope" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 0.997127, -0.0757445, 0, 0.0757445, 0.997127, -9.848, 0.639, -7.591 )
+
+[node name="MeasuringBlockB" parent="RoofSlope" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 0.997127, -0.0757445, 0, 0.0757445, 0.997127, -9.848, 1.75, -17.6 )
+
+[node name="MeasuringBlockB2" parent="RoofSlope" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -9.848, 2.55, -27.7 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 7 )
