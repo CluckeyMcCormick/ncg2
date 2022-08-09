@@ -12,19 +12,16 @@ onready var texture_a = $VBox/Grid/TextureA
 onready var color_a = $VBox/Grid/ColorA
 onready var size_a = $VBox/Grid/SizeA
 onready var correction_a = $VBox/Grid/CorrectionA
-onready var fixed_a = $VBox/Grid/FixedA
 
 onready var texture_b = $VBox/Grid/TextureB
 onready var color_b = $VBox/Grid/ColorB
 onready var size_b = $VBox/Grid/SizeB
 onready var correction_b = $VBox/Grid/CorrectionB
-onready var fixed_b = $VBox/Grid/FixedB
 
 onready var texture_c = $VBox/Grid/TextureC
 onready var color_c = $VBox/Grid/ColorC
 onready var size_c = $VBox/Grid/SizeC
 onready var correction_c = $VBox/Grid/CorrectionC
-onready var fixed_c = $VBox/Grid/FixedC
 
 onready var min_height = $VBox/HBox/BuildingHeight
 onready var enabled = $VBox/HBox/BeaconEnabled

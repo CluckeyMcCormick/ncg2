@@ -161,7 +161,9 @@ func _on_OptionButtonB_item_selected(index):
 
 func _on_OptionButtonC_item_selected(index):
     # Get the texture path
-    var texture_path = id_to_path[ option_a.get_selected_id() ]
+    var texture_path = id_to_path[ option_c.get_selected_id() ]
+    
+    print("Updating Texture C")
     
     if _update_global:
         mcc.profile_dict["stars_type_c_texture"] = texture_path
