@@ -55,7 +55,7 @@ process_material = ExtResource( 14 )
 draw_pass_1 = ExtResource( 15 )
 
 [node name="ParticlesB" type="Particles" parent="UpCamera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
+transform = Transform( 1, -7.45058e-09, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
 amount = 2
 lifetime = 2.5
 randomness = 1.0

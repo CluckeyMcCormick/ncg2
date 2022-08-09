@@ -47,11 +47,11 @@ export var starfield = {
 
 export var stars = {
     "stars_type_a_color": Color.white,
-    "stars_type_a_texture": "res://effects/star_textures/64Dot.png",
+    "stars_type_a_texture": "res://effects/particle_textures/hard_dot.png",
     "stars_type_b_color": Color.white,
-    "stars_type_b_texture": "res://effects/star_textures/64Dot.png",
+    "stars_type_b_texture": "res://effects/particle_textures/hard_dot.png",
     "stars_type_c_color": Color.white,
-    "stars_type_c_texture": "res://effects/star_textures/64Dot.png",
+    "stars_type_c_texture": "res://effects/particle_textures/hard_dot.png",
 }
 
 export var moon = {
@@ -63,9 +63,9 @@ export var moon = {
 }
 
 export var beacon = {
-    "beacon_texture_a": "res://effects/beacon_textures/hard_dot.png",
-    "beacon_texture_b": "res://effects/beacon_textures/hard_dot.png",
-    "beacon_texture_c": "res://effects/beacon_textures/hard_dot.png",
+    "beacon_texture_a": "res://effects/particle_textures/hard_dot.png",
+    "beacon_texture_b": "res://effects/particle_textures/hard_dot.png",
+    "beacon_texture_c": "res://effects/particle_textures/hard_dot.png",
     "beacon_color_a": Color("#77121a"),
     "beacon_color_b": Color("#98c7d1"),
     "beacon_color_c": Color("#d1cc64"),

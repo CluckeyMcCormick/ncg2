@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.stex"
+path="res://.import/horizontal_diamond.png-5a83f2ace88a56dab6d1f0372a661f12.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/star_textures/64Sparkles50b.png"
-dest_files=[ "res://.import/64Sparkles50b.png-40742bffd6fa68e5ef79824813db2e50.stex" ]
+source_file="res://effects/particle_textures/horizontal_diamond.png"
+dest_files=[ "res://.import/horizontal_diamond.png-5a83f2ace88a56dab6d1f0372a661f12.stex" ]
 
 [params]
 
@@ -19,11 +19,11 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=false
-flags/mipmaps=true
+flags/repeat=0
+flags/filter=true
+flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0

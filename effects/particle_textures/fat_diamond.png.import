@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/64Sparkles50c.png-ddc0f8269b817950335f4be7915346f5.s3tc.stex"
-path.etc2="res://.import/64Sparkles50c.png-ddc0f8269b817950335f4be7915346f5.etc2.stex"
+path.s3tc="res://.import/fat_diamond.png-d23a6824ae2f8b81fd9e7f22250fada4.s3tc.stex"
+path.etc2="res://.import/fat_diamond.png-d23a6824ae2f8b81fd9e7f22250fada4.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://effects/star_textures/64Sparkles50c.png"
-dest_files=[ "res://.import/64Sparkles50c.png-ddc0f8269b817950335f4be7915346f5.s3tc.stex", "res://.import/64Sparkles50c.png-ddc0f8269b817950335f4be7915346f5.etc2.stex" ]
+source_file="res://effects/particle_textures/fat_diamond.png"
+dest_files=[ "res://.import/fat_diamond.png-d23a6824ae2f8b81fd9e7f22250fada4.s3tc.stex", "res://.import/fat_diamond.png-d23a6824ae2f8b81fd9e7f22250fada4.etc2.stex" ]
 
 [params]
 

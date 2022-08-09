@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Dot.png-72af5d497261a517c81a1b2119df894c.stex"
+path="res://.import/hard_dot.png-e43938a223e1865c76c56c5fc2b33c8e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/star_textures/64Dot.png"
-dest_files=[ "res://.import/64Dot.png-72af5d497261a517c81a1b2119df894c.stex" ]
+source_file="res://effects/particle_textures/hard_dot.png"
+dest_files=[ "res://.import/hard_dot.png-e43938a223e1865c76c56c5fc2b33c8e.stex" ]
 
 [params]
 

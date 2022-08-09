@@ -22,7 +22,7 @@ sky = {
 "sky_sky_curve": 365,
 "sky_sky_horizon": Color( 0.623529, 0.517647, 0.717647, 1 ),
 "sky_sky_top": Color( 0, 0.247059, 0.588235, 1 ),
-"sky_x_rotation": 0.0
+"sky_x_rotation": 1.0
 }
 light = {
 "lights_four_color": Color( 0, 0.141176, 0.34902, 1 ),
@@ -44,11 +44,11 @@ starfield = {
 }
 stars = {
 "stars_type_a_color": Color( 1, 1, 1, 1 ),
-"stars_type_a_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_a_texture": "res://effects/particle_textures/hard_dot.png",
 "stars_type_b_color": Color( 1, 1, 1, 1 ),
-"stars_type_b_texture": "res://effects/star_textures/64Dot.png",
+"stars_type_b_texture": "res://effects/particle_textures/hard_dot.png",
 "stars_type_c_color": Color( 1, 1, 1, 1 ),
-"stars_type_c_texture": "res://effects/star_textures/64Dot.png"
+"stars_type_c_texture": "res://effects/particle_textures/hard_dot.png"
 }
 moon = {
 "moon_color": Color( 1, 1, 1, 1 ),
@@ -69,7 +69,7 @@ beacon = {
 "beacon_size_a": 5.0,
 "beacon_size_b": 5.0,
 "beacon_size_c": 5.0,
-"beacon_texture_a": "res://effects/beacon_textures/hard_dot.png",
-"beacon_texture_b": "res://effects/beacon_textures/hard_dot.png",
-"beacon_texture_c": "res://effects/beacon_textures/hard_dot.png"
+"beacon_texture_a": "res://effects/particle_textures/hard_dot.png",
+"beacon_texture_b": "res://effects/particle_textures/hard_dot.png",
+"beacon_texture_c": "res://effects/particle_textures/hard_dot.png"
 }

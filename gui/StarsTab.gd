@@ -2,7 +2,7 @@ extends VBoxContainer
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures
-const IN_STAR_TEXTURES = "res://effects/star_textures/"
+const IN_STAR_TEXTURES = "res://effects/particle_textures/"
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.

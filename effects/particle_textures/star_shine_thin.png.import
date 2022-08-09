@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ring_transparency_2_step.png-a144dbe1a0f93043653c35bb7207b968.stex"
+path="res://.import/star_shine_thin.png-0f3e3a47160015e567386147ade02b19.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/beacon_textures/ring_transparency_2_step.png"
-dest_files=[ "res://.import/ring_transparency_2_step.png-a144dbe1a0f93043653c35bb7207b968.stex" ]
+source_file="res://effects/particle_textures/star_shine_thin.png"
+dest_files=[ "res://.import/star_shine_thin.png-0f3e3a47160015e567386147ade02b19.stex" ]
 
 [params]
 

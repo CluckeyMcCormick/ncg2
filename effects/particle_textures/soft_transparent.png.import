@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ring_transparency_4_step.png-51fca5ff316ef4cde3f3cac46e3b095c.stex"
+path="res://.import/soft_transparent.png-02086296d5d2985a148f2c0b7b90c62f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/beacon_textures/ring_transparency_4_step.png"
-dest_files=[ "res://.import/ring_transparency_4_step.png-51fca5ff316ef4cde3f3cac46e3b095c.stex" ]
+source_file="res://effects/particle_textures/soft_transparent.png"
+dest_files=[ "res://.import/soft_transparent.png-02086296d5d2985a148f2c0b7b90c62f.stex" ]
 
 [params]
 
@@ -19,11 +19,11 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
-flags/filter=true
+flags/repeat=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

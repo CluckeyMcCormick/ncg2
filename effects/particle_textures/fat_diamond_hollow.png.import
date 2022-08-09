@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/soft_transparent.png-536f1691ae9fa0b873b6aaffd5f2e570.s3tc.stex"
-path.etc2="res://.import/soft_transparent.png-536f1691ae9fa0b873b6aaffd5f2e570.etc2.stex"
+path.s3tc="res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.s3tc.stex"
+path.etc2="res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://effects/beacon_textures/soft_transparent.png"
-dest_files=[ "res://.import/soft_transparent.png-536f1691ae9fa0b873b6aaffd5f2e570.s3tc.stex", "res://.import/soft_transparent.png-536f1691ae9fa0b873b6aaffd5f2e570.etc2.stex" ]
+source_file="res://effects/particle_textures/fat_diamond_hollow.png"
+dest_files=[ "res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.s3tc.stex", "res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.etc2.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Sparkles50a.png-b7404580053cdd917c9b2fcf86330f22.stex"
+path="res://.import/star_shine.png-5c5d1d289da0498705bce1aead5aca33.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/star_textures/64Sparkles50a.png"
-dest_files=[ "res://.import/64Sparkles50a.png-b7404580053cdd917c9b2fcf86330f22.stex" ]
+source_file="res://effects/particle_textures/star_shine.png"
+dest_files=[ "res://.import/star_shine.png-5c5d1d289da0498705bce1aead5aca33.stex" ]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
 flags/filter=false
-flags/mipmaps=true
+flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=1
 process/fix_alpha_border=true

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/64Star.png-28ff4218a5462c173d965469f6f64f21.stex"
+path="res://.import/ring_transparency_2_step.png-5a0dee0956d427561d26451248e5bd03.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://effects/star_textures/64Star.png"
-dest_files=[ "res://.import/64Star.png-28ff4218a5462c173d965469f6f64f21.stex" ]
+source_file="res://effects/particle_textures/ring_transparency_2_step.png"
+dest_files=[ "res://.import/ring_transparency_2_step.png-5a0dee0956d427561d26451248e5bd03.stex" ]
 
 [params]
 
@@ -19,11 +19,11 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
+flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=false
+detect_3d=true
 svg/scale=1.0
