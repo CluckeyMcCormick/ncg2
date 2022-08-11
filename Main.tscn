@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
 [ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
 [ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
+[ext_resource path="res://gui/SparkleTab.tscn" type="PackedScene" id=19]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -35,17 +36,8 @@ size = 3.0
 [node name="CameraAlignedEffects" type="Spatial" parent="UpCamera"]
 transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -100 )
 
-[node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0 )
-width = 45.0
-height = 15.0
-
-[node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 2 )
-
-[node name="ParticlesA" type="Particles" parent="UpCamera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
+[node name="ParticlesA" type="Particles" parent="UpCamera/CameraAlignedEffects"]
+transform = Transform( 1, -3.72529e-09, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 9.53674e-07, -0.749999, 58 )
 amount = 2
 lifetime = 2.5
 randomness = 1.0
@@ -54,8 +46,8 @@ local_coords = false
 process_material = ExtResource( 14 )
 draw_pass_1 = ExtResource( 15 )
 
-[node name="ParticlesB" type="Particles" parent="UpCamera"]
-transform = Transform( 1, -7.45058e-09, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, -0.75, -42 )
+[node name="ParticlesB" type="Particles" parent="UpCamera/CameraAlignedEffects"]
+transform = Transform( 1, -1.11759e-08, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 9.53674e-07, -0.749999, 58 )
 amount = 2
 lifetime = 2.5
 randomness = 1.0
@@ -64,8 +56,8 @@ local_coords = false
 process_material = ExtResource( 14 )
 draw_pass_1 = ExtResource( 17 )
 
-[node name="ParticlesC" type="Particles" parent="UpCamera"]
-transform = Transform( 1, -3.72529e-09, 0, 0, 1, 0, 0, 1.49012e-08, 1, 9.53674e-07, -0.75, -42 )
+[node name="ParticlesC" type="Particles" parent="UpCamera/CameraAlignedEffects"]
+transform = Transform( 1, -7.45058e-09, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 1.90735e-06, -0.749999, 58 )
 amount = 2
 lifetime = 2.5
 randomness = 1.0
@@ -74,6 +66,16 @@ local_coords = false
 process_material = ExtResource( 14 )
 draw_pass_1 = ExtResource( 18 )
 
+[node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0 )
+width = 45.0
+height = 15.0
+
+[node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 7.45058e-09, 1, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )
+
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 20.0
 margin_top = 20.0
@@ -81,8 +83,8 @@ margin_right = 362.0
 margin_bottom = 265.0
 
 [node name="Tabs" type="TabContainer" parent="GUI"]
-margin_right = 342.0
-margin_bottom = 244.0
+margin_right = 387.0
+margin_bottom = 284.0
 size_flags_horizontal = 3
 tab_align = 0
 use_hidden_tabs_for_min_size = true
@@ -117,10 +119,13 @@ visible = false
 [node name="Beacons" parent="GUI/Tabs" instance=ExtResource( 13 )]
 visible = false
 
+[node name="Sparkles" parent="GUI/Tabs" instance=ExtResource( 19 )]
+visible = false
+
 [node name="Label" type="Label" parent="GUI"]
-margin_top = 248.0
-margin_right = 342.0
-margin_bottom = 279.0
+margin_top = 288.0
+margin_right = 387.0
+margin_bottom = 319.0
 text = "
 F12 to Show/Hide GUI"
 align = 1

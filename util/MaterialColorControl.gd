@@ -20,6 +20,14 @@ var star_c_material = preload("res://effects/StarTypeC.tres")
 var beacon_a_material = preload("res://effects/BeaconTypeA.tres")
 var beacon_b_material = preload("res://effects/BeaconTypeB.tres")
 var beacon_c_material = preload("res://effects/BeaconTypeC.tres")
+var sparkle_a_material = preload("res://effects/SparkleTypeA.tres")
+var sparkle_b_material = preload("res://effects/SparkleTypeB.tres")
+var sparkle_c_material = preload("res://effects/SparkleTypeC.tres")
+
+# Thes meshes allow us to easily change the size of the sparkle particles
+var sparkle_a_mesh = preload("res://effects/SparkleQuadMeshTypeA.tres")
+var sparkle_b_mesh = preload("res://effects/SparkleQuadMeshTypeB.tres")
+var sparkle_c_mesh = preload("res://effects/SparkleQuadMeshTypeC.tres")
 
 # What's our environment resource?
 var city_env = preload("res://environment/city_env.tres")
@@ -185,13 +193,10 @@ func update_key(key):
                 print( "Could not load image at ", profile_dict[key] )
         "stars_type_a_color":
             star_a_material.albedo_color = profile_dict[key]
-            pass
         "stars_type_b_color":
             star_b_material.albedo_color = profile_dict[key]
-            pass
         "stars_type_c_color":
             star_c_material.albedo_color = profile_dict[key]
-            pass
         
         #
         # Moon
@@ -252,7 +257,6 @@ func update_key(key):
             get_tree().call_group(GlobalRef.beacon_group_a, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_b, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_c, "beacon_update")
-            
         "beacon_enabled":
             get_tree().call_group(
                 GlobalRef.beacon_group_a, "set_enabled", profile_dict[key]
@@ -263,6 +267,43 @@ func update_key(key):
             get_tree().call_group(
                 GlobalRef.beacon_group_c, "set_enabled", profile_dict[key]
             )
-    
+        
+        #
+        # Sparkles
+        #
+        "sparkle_texture_a":
+            var sparkle_texture = load( profile_dict[key] )
+            if sparkle_texture != null:
+                sparkle_a_material.albedo_texture = sparkle_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "sparkle_texture_b":
+            var sparkle_texture = load( profile_dict[key] )
+            if sparkle_texture != null:
+                sparkle_b_material.albedo_texture = sparkle_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "sparkle_texture_c":
+            var sparkle_texture = load( profile_dict[key] )
+            if sparkle_texture != null:
+                sparkle_c_material.albedo_texture = sparkle_texture
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "sparkle_color_a":
+            sparkle_a_material.albedo_color = profile_dict[key]
+        "sparkle_color_b":
+            sparkle_b_material.albedo_color = profile_dict[key]
+        "sparkle_color_c":
+            sparkle_c_material.albedo_color = profile_dict[key]
+        "sparkle_size_a":
+            sparkle_a_mesh.size.x = profile_dict[key]
+            sparkle_a_mesh.size.y = profile_dict[key]
+        "sparkle_size_b":
+            sparkle_b_mesh.size.x = profile_dict[key]
+            sparkle_b_mesh.size.y = profile_dict[key]
+        "sparkle_size_c":
+            sparkle_c_mesh.size.x = profile_dict[key]
+            sparkle_c_mesh.size.y = profile_dict[key]
+        
     # Tell everyone that we're updating
     emit_signal("key_update", key)

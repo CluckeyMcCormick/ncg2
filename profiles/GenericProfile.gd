@@ -79,6 +79,30 @@ export var beacon = {
     "beacon_enabled": false
 }
 
+export var sparkle = {
+    "sparkle_texture_a": "res://effects/particle_textures/hard_dot.png",
+    "sparkle_texture_b": "res://effects/particle_textures/hard_dot.png",
+    "sparkle_texture_c": "res://effects/particle_textures/hard_dot.png",
+    "sparkle_color_a": Color("#77121a"),
+    "sparkle_color_b": Color("#98c7d1"),
+    "sparkle_color_c": Color("#d1cc64"),
+    "sparkle_size_a": .5,
+    "sparkle_size_b": .5,
+    "sparkle_size_c": .5,
+    "sparkle_count_a": 2,
+    "sparkle_count_b": 2,
+    "sparkle_count_c": 2,
+    "sparkle_lifetime_a": 2.5,
+    "sparkle_lifetime_b": 2.5,
+    "sparkle_lifetime_c": 2.5,
+    "sparkle_randomness_a": 1.0,
+    "sparkle_randomness_b": 1.0,
+    "sparkle_randomness_c": 1.0,
+    "sparkle_enabled_a": false,
+    "sparkle_enabled_b": false,
+    "sparkle_enabled_c": false,
+}
+
 func to_dict():
     var dict = { "profile_name": profile_name }
     
@@ -102,5 +126,8 @@ func to_dict():
 
     for key in beacon.keys():
         dict[key] = beacon[key]
+        
+    for key in sparkle.keys():
+        dict[key] = sparkle[key]
 
     return dict

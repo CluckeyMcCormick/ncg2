@@ -29,7 +29,6 @@ const MIN_THIN = 2
 # TODO: Decoration, Hanging Billboards
 # TODO: Decoration, Rooftop Billboards
 # TODO: Decoration, Box Billboards
-# TODO: Decoration, Sparkles
 # TODO: Decoration, AC Box
 # TODO: Decoration, Antennae
 

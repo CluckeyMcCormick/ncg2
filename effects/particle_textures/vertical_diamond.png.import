@@ -2,27 +2,25 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.s3tc.stex"
-path.etc2="res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.etc2.stex"
+path="res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://effects/particle_textures/vertical_diamond.png"
-dest_files=[ "res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.s3tc.stex", "res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.etc2.stex" ]
+dest_files=[ "res://.import/vertical_diamond.png-ddd8de1b58d408392b14db3148df85b3.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=true
+flags/filter=false
 flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=1

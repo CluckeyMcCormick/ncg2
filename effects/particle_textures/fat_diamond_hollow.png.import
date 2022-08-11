@@ -2,27 +2,25 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.s3tc.stex"
-path.etc2="res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.etc2.stex"
+path="res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://effects/particle_textures/fat_diamond_hollow.png"
-dest_files=[ "res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.s3tc.stex", "res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.etc2.stex" ]
+dest_files=[ "res://.import/fat_diamond_hollow.png-3c5cd23efc747da3a244907ee6d4c8da.stex" ]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
-flags/filter=true
+flags/filter=false
 flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=1
