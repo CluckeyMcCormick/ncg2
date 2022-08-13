@@ -74,15 +74,15 @@ beacon = {
 "beacon_texture_c": "res://effects/particle_textures/1950_sparkle_c.png"
 }
 sparkle = {
-"sparkle_color_a": Color( 0.466667, 0.0705882, 0.101961, 1 ),
-"sparkle_color_b": Color( 0.596078, 0.780392, 0.819608, 1 ),
-"sparkle_color_c": Color( 0.819608, 0.8, 0.392157, 1 ),
-"sparkle_count_a": 2,
-"sparkle_count_b": 2,
-"sparkle_count_c": 2,
-"sparkle_enabled_a": false,
-"sparkle_enabled_b": false,
-"sparkle_enabled_c": false,
+"sparkle_color_a": Color( 1, 1, 1, 1 ),
+"sparkle_color_b": Color( 1, 1, 1, 1 ),
+"sparkle_color_c": Color( 1, 1, 1, 1 ),
+"sparkle_count_a": 5,
+"sparkle_count_b": 5,
+"sparkle_count_c": 5,
+"sparkle_enabled_a": true,
+"sparkle_enabled_b": true,
+"sparkle_enabled_c": true,
 "sparkle_lifetime_a": 2.5,
 "sparkle_lifetime_b": 2.5,
 "sparkle_lifetime_c": 2.5,
@@ -94,7 +94,7 @@ sparkle = {
 "sparkle_size_a": 0.5,
 "sparkle_size_b": 0.5,
 "sparkle_size_c": 0.5,
-"sparkle_texture_a": "res://effects/particle_textures/hard_dot.png",
-"sparkle_texture_b": "res://effects/particle_textures/hard_dot.png",
-"sparkle_texture_c": "res://effects/particle_textures/hard_dot.png"
+"sparkle_texture_a": "res://effects/particle_textures/1950_sparkle_a.png",
+"sparkle_texture_b": "res://effects/particle_textures/1950_sparkle_b.png",
+"sparkle_texture_c": "res://effects/particle_textures/1950_sparkle_c.png"
 }

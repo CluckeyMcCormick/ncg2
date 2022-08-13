@@ -74,9 +74,9 @@ beacon = {
 "beacon_texture_c": "res://effects/particle_textures/hard_dot.png"
 }
 sparkle = {
-"sparkle_color_a": Color( 0.466667, 0.0705882, 0.101961, 1 ),
-"sparkle_color_b": Color( 0.596078, 0.780392, 0.819608, 1 ),
-"sparkle_color_c": Color( 0.819608, 0.8, 0.392157, 1 ),
+"sparkle_color_a": Color( 0.152941, 0.392157, 0.407843, 1 ),
+"sparkle_color_b": Color( 0.223529, 0.341176, 0.109804, 1 ),
+"sparkle_color_c": Color( 0.607843, 0.101961, 0.0392157, 1 ),
 "sparkle_count_a": 2,
 "sparkle_count_b": 2,
 "sparkle_count_c": 2,

@@ -48,7 +48,7 @@ stars = {
 "stars_type_b_color": Color( 1, 1, 1, 1 ),
 "stars_type_b_texture": "res://effects/particle_textures/hard_dot.png",
 "stars_type_c_color": Color( 1, 1, 1, 1 ),
-"stars_type_c_texture": "res://effectres://effects/particle_textures/hard_dot.png"
+"stars_type_c_texture": "res://effects/particle_textures/hard_dot.png"
 }
 moon = {
 "moon_color": Color( 1, 1, 1, 1 ),
@@ -74,9 +74,9 @@ beacon = {
 "beacon_texture_c": "res://effects/particle_textures/star_shine.png"
 }
 sparkle = {
-"sparkle_color_a": Color( 0.466667, 0.0705882, 0.101961, 1 ),
-"sparkle_color_b": Color( 0.596078, 0.780392, 0.819608, 1 ),
-"sparkle_color_c": Color( 0.819608, 0.8, 0.392157, 1 ),
+"sparkle_color_a": Color( 1, 0, 0.0784314, 0.235294 ),
+"sparkle_color_b": Color( 1, 0, 0.0784314, 0.235294 ),
+"sparkle_color_c": Color( 1, 0, 0.0784314, 0.235294 ),
 "sparkle_count_a": 2,
 "sparkle_count_b": 2,
 "sparkle_count_c": 2,
