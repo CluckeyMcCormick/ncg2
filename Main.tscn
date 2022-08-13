@@ -88,7 +88,7 @@ margin_bottom = 265.0
 
 [node name="Tabs" type="TabContainer" parent="GUI"]
 margin_right = 445.0
-margin_bottom = 284.0
+margin_bottom = 312.0
 size_flags_horizontal = 3
 tab_align = 0
 use_hidden_tabs_for_min_size = true
@@ -120,9 +120,9 @@ visible = false
 visible = false
 
 [node name="Label" type="Label" parent="GUI"]
-margin_top = 288.0
+margin_top = 316.0
 margin_right = 445.0
-margin_bottom = 319.0
+margin_bottom = 347.0
 text = "
 F12 to Show/Hide GUI"
 align = 1

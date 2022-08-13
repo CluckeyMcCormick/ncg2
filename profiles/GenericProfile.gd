@@ -101,6 +101,8 @@ export var sparkle = {
     "sparkle_enabled_a": false,
     "sparkle_enabled_b": false,
     "sparkle_enabled_c": false,
+    "sparkle_scale": 1.0,
+    "sparkle_scale_random" : 0.0,
 }
 
 func to_dict():

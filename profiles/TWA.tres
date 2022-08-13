@@ -35,20 +35,20 @@ light = {
 "lights_two_visible": false
 }
 starfield = {
-"starfield_height": 25,
+"starfield_height": 15.63,
 "starfield_scale_mean": 4.0,
 "starfield_scale_variance": 1.0,
-"starfield_type_a_count": 60,
-"starfield_type_b_count": 60,
-"starfield_type_c_count": 60
+"starfield_type_a_count": 25,
+"starfield_type_b_count": 25,
+"starfield_type_c_count": 10
 }
 stars = {
 "stars_type_a_color": Color( 1, 1, 1, 1 ),
-"stars_type_a_texture": "res://effects/particle_textures/1950_sparkle_a.png",
+"stars_type_a_texture": "res://effects/particle_textures/star_shine.png",
 "stars_type_b_color": Color( 1, 1, 1, 1 ),
-"stars_type_b_texture": "res://effects/particle_textures/1950_sparkle_b.png",
+"stars_type_b_texture": "res://effects/particle_textures/star_shine_thin.png",
 "stars_type_c_color": Color( 1, 1, 1, 1 ),
-"stars_type_c_texture": "res://effects/particle_textures/1950_sparkle_c.png"
+"stars_type_c_texture": "res://effects/particle_textures/vertical_diamond.png"
 }
 moon = {
 "moon_color": Color( 1, 1, 1, 1 ),
@@ -89,6 +89,8 @@ sparkle = {
 "sparkle_randomness_a": 1.0,
 "sparkle_randomness_b": 1.0,
 "sparkle_randomness_c": 1.0,
+"sparkle_scale": 1.0,
+"sparkle_scale_random": 0.0,
 "sparkle_size_a": 0.5,
 "sparkle_size_b": 0.5,
 "sparkle_size_c": 0.5,

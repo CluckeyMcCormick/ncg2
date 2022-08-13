@@ -9,7 +9,7 @@ script = ExtResource( 1 )
 
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_right = 379.0
-margin_bottom = 248.0
+margin_bottom = 276.0
 
 [node name="UpperGrid" type="GridContainer" parent="VBox"]
 margin_right = 379.0
@@ -280,6 +280,43 @@ margin_bottom = 98.0
 max_value = 1.0
 step = 0.01
 
+[node name="HBox" type="HBoxContainer" parent="VBox"]
+margin_top = 252.0
+margin_right = 379.0
+margin_bottom = 276.0
+alignment = 1
+
+[node name="Scale" type="Label" parent="VBox/HBox"]
+margin_left = 40.0
+margin_top = 5.0
+margin_right = 81.0
+margin_bottom = 19.0
+text = " Scale "
+
+[node name="ScaleSpin" type="SpinBox" parent="VBox/HBox"]
+unique_name_in_owner = true
+margin_left = 85.0
+margin_right = 159.0
+margin_bottom = 24.0
+max_value = 16.0
+step = 0.001
+value = 1.0
+
+[node name="ScaleRandom" type="Label" parent="VBox/HBox"]
+margin_left = 163.0
+margin_top = 5.0
+margin_right = 260.0
+margin_bottom = 19.0
+text = " Scale Random "
+
+[node name="ScaleRandomSpin" type="SpinBox" parent="VBox/HBox"]
+unique_name_in_owner = true
+margin_left = 264.0
+margin_right = 338.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
+
 [connection signal="item_selected" from="VBox/UpperGrid/TextureA" to="." method="_on_TextureA_item_selected"]
 [connection signal="color_changed" from="VBox/UpperGrid/ColorA" to="." method="_on_ColorA_color_changed"]
 [connection signal="toggled" from="VBox/UpperGrid/EnabledA" to="." method="_on_EnabledA_toggled"]
@@ -301,3 +338,5 @@ step = 0.01
 [connection signal="value_changed" from="VBox/LowerGrid/CountC" to="." method="_on_CountC_value_changed"]
 [connection signal="value_changed" from="VBox/LowerGrid/LifetimeC" to="." method="_on_LifetimeC_value_changed"]
 [connection signal="value_changed" from="VBox/LowerGrid/RandomnessC" to="." method="_on_RandomnessC_value_changed"]
+[connection signal="value_changed" from="VBox/HBox/ScaleSpin" to="." method="_on_ScaleSpin_value_changed"]
+[connection signal="value_changed" from="VBox/HBox/ScaleRandomSpin" to="." method="_on_ScaleRandomSpin_value_changed"]

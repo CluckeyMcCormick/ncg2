@@ -32,6 +32,9 @@ onready var count_c = $"%CountC"
 onready var lifetime_c = $"%LifetimeC"
 onready var randomness_c = $"%RandomnessC"
 
+onready var scale = $"%ScaleSpin"
+onready var scale_random = $"%ScaleRandomSpin"
+
 # These two dictionaries are used for getting info out of, and updating, the
 # texture selection GUI elements
 var id_to_path = {}
@@ -173,6 +176,11 @@ func _on_mcc_key_update(key):
         "sparkle_randomness_c":
             randomness_c.value = mcc.profile_dict[key]
 
+        "sparkle_scale":
+            scale.value = mcc.profile_dict[key]
+        "sparkle_scale_random":
+            scale_random.value = mcc.profile_dict[key]
+
     # Re-enable updating the global dictionary.
     _update_global = true
 
@@ -309,3 +317,13 @@ func _on_RandomnessC_value_changed(value):
     if _update_global:
         mcc.profile_dict["sparkle_randomness_c"] = value
         mcc.update_key("sparkle_randomness_c")
+
+func _on_ScaleSpin_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["sparkle_scale"] = value
+        mcc.update_key("sparkle_scale")
+
+func _on_ScaleRandomSpin_value_changed(value):
+    if _update_global:
+        mcc.profile_dict["sparkle_scale_random"] = value
+        mcc.update_key("sparkle_scale_random")

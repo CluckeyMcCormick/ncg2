@@ -89,6 +89,8 @@ sparkle = {
 "sparkle_randomness_a": 1.0,
 "sparkle_randomness_b": 1.0,
 "sparkle_randomness_c": 1.0,
+"sparkle_scale": 1.0,
+"sparkle_scale_random": 0.0,
 "sparkle_size_a": 0.5,
 "sparkle_size_b": 0.5,
 "sparkle_size_c": 0.5,

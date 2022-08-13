@@ -98,6 +98,14 @@ func _on_mcc_key_update(key):
             $"%ParticlesB".emitting = mcc.profile_dict[key]
         "sparkle_enabled_c":
             $"%ParticlesC".emitting = mcc.profile_dict[key]
+#        "sparkle_scale":
+#            $"%ParticlesA".restart()
+#            $"%ParticlesB".restart()
+#            $"%ParticlesC".restart()
+#        "sparkle_scale_random":
+#            $"%ParticlesA".restart()
+#            $"%ParticlesB".restart()
+#            $"%ParticlesC".restart()
 
 func _on_Starfield_regenerate():
     $"%Starfield".generate_field_a()

@@ -24,10 +24,13 @@ var sparkle_a_material = preload("res://effects/SparkleTypeA.tres")
 var sparkle_b_material = preload("res://effects/SparkleTypeB.tres")
 var sparkle_c_material = preload("res://effects/SparkleTypeC.tres")
 
-# Thes meshes allow us to easily change the size of the sparkle particles
+# These meshes allow us to easily change the size of the sparkle particles
 var sparkle_a_mesh = preload("res://effects/SparkleQuadMeshTypeA.tres")
 var sparkle_b_mesh = preload("res://effects/SparkleQuadMeshTypeB.tres")
 var sparkle_c_mesh = preload("res://effects/SparkleQuadMeshTypeC.tres")
+
+# Grab the Sparkle particle material
+var sparkle_particles = preload("res://effects/SparkleParticalMaterial.tres")
 
 # What's our environment resource?
 var city_env = preload("res://environment/city_env.tres")
@@ -304,6 +307,10 @@ func update_key(key):
         "sparkle_size_c":
             sparkle_c_mesh.size.x = profile_dict[key]
             sparkle_c_mesh.size.y = profile_dict[key]
+        "sparkle_scale":
+            sparkle_particles.scale = profile_dict[key]
+        "sparkle_scale_random":
+            sparkle_particles.scale_random = profile_dict[key]
         
     # Tell everyone that we're updating
     emit_signal("key_update", key)
