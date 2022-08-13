@@ -1,16 +1,16 @@
 extends Spatial
 
 const MATERIALS = [
-    preload("res://voronoi/VoroniColorA.material"),
-    preload("res://voronoi/VoroniColorB.material"),
-    preload("res://voronoi/VoroniColorC.material"),
-    preload("res://voronoi/VoroniColorD.material"),
-    preload("res://voronoi/VoroniColorE.material"),
-    preload("res://voronoi/VoroniColorF.material"),
-    preload("res://voronoi/VoroniColorG.material"),
-    preload("res://voronoi/VoroniColorH.material"),
-    preload("res://voronoi/VoroniColorI.material"),
-    preload("res://voronoi/VoroniColorJ.material"),
+    preload("res://voronoi/VoroniColorA.tres"),
+    preload("res://voronoi/VoroniColorB.tres"),
+    preload("res://voronoi/VoroniColorC.tres"),
+    preload("res://voronoi/VoroniColorD.tres"),
+    preload("res://voronoi/VoroniColorE.tres"),
+    preload("res://voronoi/VoroniColorF.tres"),
+    preload("res://voronoi/VoroniColorG.tres"),
+    preload("res://voronoi/VoroniColorH.tres"),
+    preload("res://voronoi/VoroniColorI.tres"),
+    preload("res://voronoi/VoroniColorJ.tres"),
 ]
 
 const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://voronoi/VoroniColorF.material" type="Material" id=1]
+[ext_resource path="res://voronoi/VoroniColorF.tres" type="Material" id=1]
 [ext_resource path="res://grow_points/GrowthTest.gd" type="Script" id=2]
 [ext_resource path="res://grow_points/BuildingSizeCurve.tres" type="Curve" id=3]
 
