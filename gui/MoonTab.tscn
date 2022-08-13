@@ -16,11 +16,13 @@ margin_right = 1492.0
 margin_bottom = 24.0
 
 [node name="MoonVisCheckBox" type="CheckBox" parent="HBoxContainer"]
+unique_name_in_owner = true
 margin_right = 71.0
 margin_bottom = 24.0
 text = "Visible"
 
 [node name="MoonColorPickerButton" type="ColorPickerButton" parent="HBoxContainer"]
+unique_name_in_owner = true
 margin_left = 75.0
 margin_right = 1492.0
 margin_bottom = 24.0
@@ -44,6 +46,7 @@ margin_bottom = 19.0
 text = "X Position"
 
 [node name="MoonXPosSpinBox" type="SpinBox" parent="HBoxPos"]
+unique_name_in_owner = true
 margin_left = 68.0
 margin_right = 142.0
 margin_bottom = 24.0
@@ -64,6 +67,7 @@ margin_bottom = 19.0
 text = "Y Position"
 
 [node name="MoonYPosSpinBox" type="SpinBox" parent="HBoxPos"]
+unique_name_in_owner = true
 margin_left = 221.0
 margin_right = 295.0
 margin_bottom = 24.0
@@ -89,6 +93,7 @@ margin_bottom = 19.0
 text = "Moon Size"
 
 [node name="MoonSizeSpinBox" type="SpinBox" parent="HBoxSize"]
+unique_name_in_owner = true
 margin_left = 70.0
 margin_right = 144.0
 margin_bottom = 24.0

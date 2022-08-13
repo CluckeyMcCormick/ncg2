@@ -33,7 +33,7 @@ uniform_name = "BlueDotColor"
 
 [resource]
 code = "shader_type spatial;
-render_mode depth_draw_alpha_prepass, specular_schlick_ggx, unshaded;
+render_mode depth_draw_alpha_prepass, specular_schlick_ggx, async_visible, unshaded;
 
 uniform vec4 BuildingColor : hint_color;
 uniform vec4 RedDotColor : hint_color;

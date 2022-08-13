@@ -24,6 +24,7 @@ text = "Starfield Height"
 align = 1
 
 [node name="HeightSpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_right = 197.0
 margin_bottom = 24.0
@@ -41,6 +42,7 @@ text = "Star Type A Count"
 align = 1
 
 [node name="TypeASpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_top = 28.0
 margin_right = 197.0
@@ -58,6 +60,7 @@ text = "Star Type B Count"
 align = 1
 
 [node name="TypeBSpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_top = 56.0
 margin_right = 197.0
@@ -72,6 +75,7 @@ text = "Star Type C Count"
 align = 1
 
 [node name="TypeCSpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_top = 84.0
 margin_right = 197.0
@@ -86,6 +90,7 @@ text = "Star Scale Mean"
 align = 1
 
 [node name="MeanSpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_top = 112.0
 margin_right = 197.0
@@ -101,6 +106,7 @@ text = "Star Scale Variance"
 align = 1
 
 [node name="VarianceSpinBox" type="SpinBox" parent="SpinGrid"]
+unique_name_in_owner = true
 margin_left = 123.0
 margin_top = 140.0
 margin_right = 197.0

@@ -8,14 +8,14 @@ const IN_STAR_TEXTURES = "res://effects/particle_textures/"
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var picker_a = $HBoxTypeA/ColorPickerButtonA
-onready var option_a = $HBoxTypeA/OptionButtonA
+onready var picker_a = $"%ColorPickerButtonA"
+onready var option_a = $"%OptionButtonA"
 
-onready var picker_b = $HBoxTypeB/ColorPickerButtonB
-onready var option_b = $HBoxTypeB/OptionButtonB
+onready var picker_b = $"%ColorPickerButtonB"
+onready var option_b = $"%OptionButtonB"
 
-onready var picker_c = $HBoxTypeC/ColorPickerButtonC
-onready var option_c = $HBoxTypeC/OptionButtonC
+onready var picker_c = $"%ColorPickerButtonC"
+onready var option_c = $"%OptionButtonC"
 
 # These two dictionaries are used for getting info out of, and updating, the
 # star selection GUI elements

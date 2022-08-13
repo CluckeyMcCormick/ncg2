@@ -4,11 +4,11 @@ extends VBoxContainer
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var visible_moon = $HBoxContainer/MoonVisCheckBox
-onready var color_picker = $HBoxContainer/MoonColorPickerButton
-onready var x_pos = $HBoxPos/MoonXPosSpinBox
-onready var y_pos = $HBoxPos/MoonYPosSpinBox
-onready var size = $HBoxSize/MoonSizeSpinBox
+onready var visible_moon = $"%MoonVisCheckBox"
+onready var color_picker = $"%MoonColorPickerButton"
+onready var x_pos = $"%MoonXPosSpinBox"
+onready var y_pos = $"%MoonYPosSpinBox"
+onready var size = $"%MoonSizeSpinBox"
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

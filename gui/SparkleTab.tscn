@@ -48,18 +48,21 @@ margin_bottom = 45.0
 text = " Type A "
 
 [node name="TextureA" type="OptionButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 18.0
 margin_right = 111.0
 margin_bottom = 58.0
 
 [node name="ColorA" type="ColorPickerButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 18.0
 margin_right = 156.0
 margin_bottom = 58.0
 
 [node name="EnabledA" type="CheckButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 160.0
 margin_top = 18.0
 margin_right = 236.0
@@ -72,18 +75,21 @@ margin_bottom = 89.0
 text = " Type B "
 
 [node name="TextureB" type="OptionButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 62.0
 margin_right = 111.0
 margin_bottom = 102.0
 
 [node name="ColorB" type="ColorPickerButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 62.0
 margin_right = 156.0
 margin_bottom = 102.0
 
 [node name="EnabledB" type="CheckButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 160.0
 margin_top = 62.0
 margin_right = 236.0
@@ -96,18 +102,21 @@ margin_bottom = 133.0
 text = " Type C "
 
 [node name="TextureC" type="OptionButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 106.0
 margin_right = 111.0
 margin_bottom = 146.0
 
 [node name="ColorC" type="ColorPickerButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 106.0
 margin_right = 156.0
 margin_bottom = 146.0
 
 [node name="EnabledC" type="CheckButton" parent="VBox/UpperGrid"]
+unique_name_in_owner = true
 margin_left = 160.0
 margin_top = 106.0
 margin_right = 236.0
@@ -158,6 +167,7 @@ margin_bottom = 37.0
 text = " Type A "
 
 [node name="SizeA" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 18.0
 margin_right = 129.0
@@ -166,12 +176,14 @@ max_value = 5.0
 step = 0.001
 
 [node name="CountA" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 133.0
 margin_top = 18.0
 margin_right = 207.0
 margin_bottom = 42.0
 
 [node name="LifetimeA" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 211.0
 margin_top = 18.0
 margin_right = 285.0
@@ -180,6 +192,7 @@ max_value = 6.0
 step = 0.01
 
 [node name="RandomnessA" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 289.0
 margin_top = 18.0
 margin_right = 379.0
@@ -194,6 +207,7 @@ margin_bottom = 65.0
 text = " Type B "
 
 [node name="SizeB" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 46.0
 margin_right = 129.0
@@ -202,12 +216,14 @@ max_value = 5.0
 step = 0.001
 
 [node name="CountB" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 133.0
 margin_top = 46.0
 margin_right = 207.0
 margin_bottom = 70.0
 
 [node name="LifetimeB" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 211.0
 margin_top = 46.0
 margin_right = 285.0
@@ -216,6 +232,7 @@ max_value = 6.0
 step = 0.01
 
 [node name="RandomnessB" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 289.0
 margin_top = 46.0
 margin_right = 379.0
@@ -230,6 +247,7 @@ margin_bottom = 93.0
 text = " Type C "
 
 [node name="SizeC" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 74.0
 margin_right = 129.0
@@ -238,12 +256,14 @@ max_value = 5.0
 step = 0.001
 
 [node name="CountC" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 133.0
 margin_top = 74.0
 margin_right = 207.0
 margin_bottom = 98.0
 
 [node name="LifetimeC" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 211.0
 margin_top = 74.0
 margin_right = 285.0
@@ -252,6 +272,7 @@ max_value = 6.0
 step = 0.01
 
 [node name="RandomnessC" type="SpinBox" parent="VBox/LowerGrid"]
+unique_name_in_owner = true
 margin_left = 289.0
 margin_top = 74.0
 margin_right = 379.0

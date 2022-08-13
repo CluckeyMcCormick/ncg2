@@ -78,7 +78,7 @@ input_name = "attenuation"
 
 [resource]
 code = "shader_type spatial;
-render_mode depth_draw_alpha_prepass, diffuse_toon, specular_schlick_ggx;
+render_mode depth_draw_alpha_prepass, diffuse_toon, specular_schlick_ggx, async_visible;
 
 uniform vec4 BuildingColor : hint_color;
 uniform vec4 RedDotColor : hint_color;

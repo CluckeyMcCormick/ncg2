@@ -41,65 +41,65 @@ func _on_mcc_key_update(key):
         # Starfield
         #
         "starfield_height":
-            $UpCamera/CameraAlignedEffects/Starfield.height = mcc.profile_dict[key]
+            $"%Starfield".height = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         "starfield_type_a_count":
-            $UpCamera/CameraAlignedEffects/Starfield.field_a_count = mcc.profile_dict[key]
+            $"%Starfield".field_a_count = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         "starfield_type_b_count":
-            $UpCamera/CameraAlignedEffects/Starfield.field_b_count = mcc.profile_dict[key]
+            $"%Starfield".field_b_count = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         "starfield_type_c_count":
-            $UpCamera/CameraAlignedEffects/Starfield.field_c_count = mcc.profile_dict[key]
+            $"%Starfield".field_c_count = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         "starfield_scale_mean":
-            $UpCamera/CameraAlignedEffects/Starfield.scale_mean = mcc.profile_dict[key]
+            $"%Starfield".scale_mean = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         "starfield_scale_variance":
-            $UpCamera/CameraAlignedEffects/Starfield.scale_variance = mcc.profile_dict[key]
+            $"%Starfield".scale_variance = mcc.profile_dict[key]
             _on_Starfield_regenerate()
         #
         # Moon
         #
         "moon_visible":
-            $UpCamera/CameraAlignedEffects/Moon.visible = mcc.profile_dict[key]
+            $"%Moon".visible = mcc.profile_dict[key]
         "moon_x_pos":
-            $UpCamera/CameraAlignedEffects/Moon.translation.x = mcc.profile_dict[key]
+            $"%Moon".translation.x = mcc.profile_dict[key]
         "moon_y_pos":
-            $UpCamera/CameraAlignedEffects/Moon.translation.y = mcc.profile_dict[key]
+            $"%Moon".translation.y = mcc.profile_dict[key]
         "moon_size":
-            $UpCamera/CameraAlignedEffects/Moon.mesh.radius = mcc.profile_dict[key]
-            $UpCamera/CameraAlignedEffects/Moon.mesh.height = mcc.profile_dict[key] * 2
+            $"%Moon".mesh.radius = mcc.profile_dict[key]
+            $"%Moon".mesh.height = mcc.profile_dict[key] * 2
 
         #
         # Sparkles
         #
         "sparkle_count_a":
-            $UpCamera/CameraAlignedEffects/ParticlesA.amount = mcc.profile_dict[key]
+            $"%ParticlesA".amount = mcc.profile_dict[key]
         "sparkle_count_b":
-            $UpCamera/CameraAlignedEffects/ParticlesB.amount = mcc.profile_dict[key]
+            $"%ParticlesB".amount = mcc.profile_dict[key]
         "sparkle_count_c":
-            $UpCamera/CameraAlignedEffects/ParticlesC.amount = mcc.profile_dict[key]
+            $"%ParticlesC".amount = mcc.profile_dict[key]
         "sparkle_lifetime_a":
-            $UpCamera/CameraAlignedEffects/ParticlesA.lifetime = mcc.profile_dict[key]
+            $"%ParticlesA".lifetime = mcc.profile_dict[key]
         "sparkle_lifetime_b":
-            $UpCamera/CameraAlignedEffects/ParticlesB.lifetime = mcc.profile_dict[key]
+            $"%ParticlesB".lifetime = mcc.profile_dict[key]
         "sparkle_lifetime_c":
-            $UpCamera/CameraAlignedEffects/ParticlesC.lifetime = mcc.profile_dict[key]
+            $"%ParticlesC".lifetime = mcc.profile_dict[key]
         "sparkle_randomness_a":
-            $UpCamera/CameraAlignedEffects/ParticlesA.randomness = mcc.profile_dict[key]
+            $"%ParticlesA".randomness = mcc.profile_dict[key]
         "sparkle_randomness_b":
-            $UpCamera/CameraAlignedEffects/ParticlesB.randomness = mcc.profile_dict[key]
+            $"%ParticlesB".randomness = mcc.profile_dict[key]
         "sparkle_randomness_c":
-            $UpCamera/CameraAlignedEffects/ParticlesC.randomness = mcc.profile_dict[key]
+            $"%ParticlesC".randomness = mcc.profile_dict[key]
         "sparkle_enabled_a":
-            $UpCamera/CameraAlignedEffects/ParticlesA.emitting = mcc.profile_dict[key]
+            $"%ParticlesA".emitting = mcc.profile_dict[key]
         "sparkle_enabled_b":
-            $UpCamera/CameraAlignedEffects/ParticlesB.emitting = mcc.profile_dict[key]
+            $"%ParticlesB".emitting = mcc.profile_dict[key]
         "sparkle_enabled_c":
-            $UpCamera/CameraAlignedEffects/ParticlesC.emitting = mcc.profile_dict[key]
+            $"%ParticlesC".emitting = mcc.profile_dict[key]
 
 func _on_Starfield_regenerate():
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_a()
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_b()
-    $UpCamera/CameraAlignedEffects/Starfield.generate_field_c()
+    $"%Starfield".generate_field_a()
+    $"%Starfield".generate_field_b()
+    $"%Starfield".generate_field_c()

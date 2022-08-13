@@ -23,11 +23,13 @@ margin_right = 1492.0
 margin_bottom = 38.0
 
 [node name="ColorPickerButtonA" type="ColorPickerButton" parent="HBoxTypeA"]
+unique_name_in_owner = true
 margin_right = 744.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButtonA" type="OptionButton" parent="HBoxTypeA"]
+unique_name_in_owner = true
 margin_left = 748.0
 margin_right = 1492.0
 margin_bottom = 20.0
@@ -55,11 +57,13 @@ margin_right = 1492.0
 margin_bottom = 88.0
 
 [node name="ColorPickerButtonB" type="ColorPickerButton" parent="HBoxTypeB"]
+unique_name_in_owner = true
 margin_right = 744.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButtonB" type="OptionButton" parent="HBoxTypeB"]
+unique_name_in_owner = true
 margin_left = 748.0
 margin_right = 1492.0
 margin_bottom = 20.0
@@ -87,11 +91,13 @@ margin_right = 1492.0
 margin_bottom = 138.0
 
 [node name="ColorPickerButtonC" type="ColorPickerButton" parent="HBoxTypeC"]
+unique_name_in_owner = true
 margin_right = 744.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="OptionButtonC" type="OptionButton" parent="HBoxTypeC"]
+unique_name_in_owner = true
 margin_left = 748.0
 margin_right = 1492.0
 margin_bottom = 20.0

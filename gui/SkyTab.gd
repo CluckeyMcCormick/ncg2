@@ -4,15 +4,15 @@ extends VBoxContainer
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var sky_top = $SkyGrid/TopPicker
-onready var sky_horizon = $SkyGrid/HorizonPicker
-onready var sky_curve = $SkyGrid/SkyCurveSpin
+onready var sky_top = $"%TopPicker"
+onready var sky_horizon = $"%SkyHorizonPicker"
+onready var sky_curve = $"%SkyCurveSpin"
 
-onready var ground_horizon = $GroundGrid/HorizonPicker
-onready var ground_bottom = $GroundGrid/BottomPicker
-onready var ground_curve = $GroundGrid/GroundCurveSpin
+onready var ground_horizon = $"%GroundHorizonPicker"
+onready var ground_bottom = $"%BottomPicker"
+onready var ground_curve = $"%GroundCurveSpin"
 
-onready var sky_rotation = $RotationGrid/RotationSpin
+onready var sky_rotation = $"%RotationSpin"
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

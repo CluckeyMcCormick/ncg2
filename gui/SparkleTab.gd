@@ -8,29 +8,29 @@ const IN_SPARKLE_TEXTURES = "res://effects/particle_textures/"
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var texture_a = $VBox/UpperGrid/TextureA
-onready var color_a = $VBox/UpperGrid/ColorA
-onready var enabled_a = $VBox/UpperGrid/EnabledA
-onready var size_a = $VBox/LowerGrid/SizeA
-onready var count_a = $VBox/LowerGrid/CountA
-onready var lifetime_a = $VBox/LowerGrid/LifetimeA
-onready var randomness_a = $VBox/LowerGrid/RandomnessA
+onready var texture_a = $"%TextureA"
+onready var color_a = $"%ColorA"
+onready var enabled_a = $"%EnabledA"
+onready var size_a = $"%SizeA"
+onready var count_a = $"%CountA"
+onready var lifetime_a = $"%LifetimeA"
+onready var randomness_a = $"%RandomnessA"
 
-onready var texture_b = $VBox/UpperGrid/TextureB
-onready var color_b = $VBox/UpperGrid/ColorB
-onready var enabled_b = $VBox/UpperGrid/EnabledB
-onready var size_b = $VBox/LowerGrid/SizeB
-onready var count_b = $VBox/LowerGrid/CountB
-onready var lifetime_b = $VBox/LowerGrid/LifetimeB
-onready var randomness_b = $VBox/LowerGrid/RandomnessB
+onready var texture_b = $"%TextureB"
+onready var color_b = $"%ColorB"
+onready var enabled_b = $"%EnabledB"
+onready var size_b = $"%SizeB"
+onready var count_b = $"%CountB"
+onready var lifetime_b = $"%LifetimeB"
+onready var randomness_b = $"%RandomnessB"
 
-onready var texture_c = $VBox/UpperGrid/TextureC
-onready var color_c = $VBox/UpperGrid/ColorC
-onready var enabled_c = $VBox/UpperGrid/EnabledC
-onready var size_c = $VBox/LowerGrid/SizeC
-onready var count_c = $VBox/LowerGrid/CountC
-onready var lifetime_c = $VBox/LowerGrid/LifetimeC
-onready var randomness_c = $VBox/LowerGrid/RandomnessC
+onready var texture_c = $"%TextureC"
+onready var color_c = $"%ColorC"
+onready var enabled_c = $"%EnabledC"
+onready var size_c = $"%SizeC"
+onready var count_c = $"%CountC"
+onready var lifetime_c = $"%LifetimeC"
+onready var randomness_c = $"%RandomnessC"
 
 # These two dictionaries are used for getting info out of, and updating, the
 # texture selection GUI elements

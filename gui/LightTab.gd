@@ -4,15 +4,15 @@ extends GridContainer
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-onready var one_picker = $OnePicker
-onready var two_picker = $TwoPicker
-onready var three_picker = $ThreePicker
-onready var four_picker = $FourPicker
+onready var one_picker = $"%OnePicker"
+onready var two_picker = $"%TwoPicker"
+onready var three_picker = $"%ThreePicker"
+onready var four_picker = $"%FourPicker"
 
-onready var one_check = $OneCheck
-onready var two_check = $TwoCheck
-onready var three_check = $ThreeCheck
-onready var four_check = $FourCheck
+onready var one_check = $"%OneCheck"
+onready var two_check = $"%TwoCheck"
+onready var three_check = $"%ThreeCheck"
+onready var four_check = $"%FourCheck"
 
 # Do we update the global profile to reflect our values whenever a value gets
 # updated?

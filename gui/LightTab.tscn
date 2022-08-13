@@ -21,6 +21,7 @@ text = "Light One"
 align = 1
 
 [node name="OnePicker" type="ColorPickerButton" parent="."]
+unique_name_in_owner = true
 margin_left = 84.0
 margin_right = 141.0
 margin_bottom = 24.0
@@ -31,6 +32,7 @@ __meta__ = {
 }
 
 [node name="OneCheck" type="CheckBox" parent="."]
+unique_name_in_owner = true
 margin_left = 145.0
 margin_right = 222.0
 margin_bottom = 24.0
@@ -45,6 +47,7 @@ text = "Light Two"
 align = 1
 
 [node name="TwoPicker" type="ColorPickerButton" parent="."]
+unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 28.0
 margin_right = 141.0
@@ -56,6 +59,7 @@ __meta__ = {
 }
 
 [node name="TwoCheck" type="CheckBox" parent="."]
+unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 28.0
 margin_right = 222.0
@@ -72,6 +76,7 @@ text = "Light Three"
 align = 1
 
 [node name="ThreePicker" type="ColorPickerButton" parent="."]
+unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 56.0
 margin_right = 141.0
@@ -83,6 +88,7 @@ __meta__ = {
 }
 
 [node name="ThreeCheck" type="CheckBox" parent="."]
+unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 56.0
 margin_right = 222.0
@@ -98,6 +104,7 @@ text = "Light Four"
 align = 1
 
 [node name="FourPicker" type="ColorPickerButton" parent="."]
+unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 84.0
 margin_right = 141.0
@@ -109,6 +116,7 @@ __meta__ = {
 }
 
 [node name="FourCheck" type="CheckBox" parent="."]
+unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 84.0
 margin_right = 222.0

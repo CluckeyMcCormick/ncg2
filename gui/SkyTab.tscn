@@ -30,6 +30,7 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="TopPicker" type="ColorPickerButton" parent="SkyGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_right = 189.0
 margin_bottom = 20.0
@@ -53,7 +54,8 @@ margin_right = 111.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 20, 0 )
 
-[node name="HorizonPicker" type="ColorPickerButton" parent="SkyGrid"]
+[node name="SkyHorizonPicker" type="ColorPickerButton" parent="SkyGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 24.0
 margin_right = 189.0
@@ -79,6 +81,7 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="SkyCurveSpin" type="SpinBox" parent="SkyGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 48.0
 margin_right = 189.0
@@ -111,7 +114,8 @@ margin_right = 111.0
 margin_bottom = 20.0
 rect_min_size = Vector2( 10, 0 )
 
-[node name="HorizonPicker" type="ColorPickerButton" parent="GroundGrid"]
+[node name="GroundHorizonPicker" type="ColorPickerButton" parent="GroundGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_right = 189.0
 margin_bottom = 20.0
@@ -136,6 +140,7 @@ margin_bottom = 44.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BottomPicker" type="ColorPickerButton" parent="GroundGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 24.0
 margin_right = 189.0
@@ -161,6 +166,7 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="GroundCurveSpin" type="SpinBox" parent="GroundGrid"]
+unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 48.0
 margin_right = 189.0
@@ -194,6 +200,7 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="RotationSpin" type="SpinBox" parent="RotationGrid"]
+unique_name_in_owner = true
 margin_left = 118.0
 margin_right = 192.0
 margin_bottom = 24.0
@@ -201,9 +208,9 @@ min_value = -100.0
 step = 0.01
 
 [connection signal="color_changed" from="SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
-[connection signal="color_changed" from="SkyGrid/HorizonPicker" to="." method="_on_SkyHorizonPicker_color_changed"]
+[connection signal="color_changed" from="SkyGrid/SkyHorizonPicker" to="." method="_on_SkyHorizonPicker_color_changed"]
 [connection signal="value_changed" from="SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
-[connection signal="color_changed" from="GroundGrid/HorizonPicker" to="." method="_on_GroundHorizonPicker_color_changed"]
+[connection signal="color_changed" from="GroundGrid/GroundHorizonPicker" to="." method="_on_GroundHorizonPicker_color_changed"]
 [connection signal="color_changed" from="GroundGrid/BottomPicker" to="." method="_on_BottomPicker_color_changed"]
 [connection signal="value_changed" from="GroundGrid/GroundCurveSpin" to="." method="_on_GroundCurveSpin_value_changed"]
 [connection signal="value_changed" from="RotationGrid/RotationSpin" to="." method="_on_RotationSpin_value_changed"]
