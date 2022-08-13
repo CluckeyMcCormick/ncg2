@@ -39,7 +39,7 @@ func _ready():
     )
     
     # Spawn in the blocks
-    blockifier.spawn_pass()
+    blockifier.spawn_step()
 
     for block in blockifier._blocks:
         for grow_aabb in block.all_aabbs:
