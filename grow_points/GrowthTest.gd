@@ -18,7 +18,8 @@ const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 onready var dd = get_node("/root/DebugDraw")
 
 const X_WIDTH = 20
-const Z_LENGTH = 30
+const Z_LENGTH = 200
+const TARGET_BLOCKS = 8
 
 export(Curve) var max_square_size
 
@@ -31,12 +32,13 @@ var pass_count = 0
 var points_to_mesh = {}
 
 func _ready():
+    var current_mats = MATERIALS.duplicate()
     var new_node
-    
     
     blockifier = GROW_BLOCKIFIER.new(
         max_square_size, min_height, max_height, X_WIDTH, Z_LENGTH, 40
     )
+    blockifier.target_blocks = TARGET_BLOCKS
     
     # Spawn in the blocks
     blockifier.spawn_step()
@@ -47,7 +49,7 @@ func _ready():
             self.add_child(new_node)
             new_node.mesh = PlaneMesh.new()
             new_node.set_surface_material(
-                0, MATERIALS[ randi() % len(MATERIALS)]
+                0, current_mats.pop_front()
             )
             points_to_mesh[grow_aabb] = new_node
             
@@ -55,10 +57,15 @@ func _ready():
             self.add_child(new_node)
             new_node.translation = grow_aabb.origin + Vector3(0, 1, 0)
             
+            if(current_mats.empty()):
+                current_mats = MATERIALS.duplicate()
 
     $Timer.start()
 
 func update_mesh(grow_aabb):
+    if not grow_aabb in points_to_mesh:
+        return
+    
     var mesh = points_to_mesh[grow_aabb]
     
     mesh.translation = (grow_aabb.a + grow_aabb.b) / 2
