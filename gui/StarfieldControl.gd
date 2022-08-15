@@ -1,4 +1,4 @@
-extends CenterContainer
+extends VBoxContainer
 
 # Where do we look for window textures?
 # TODO: Add support for "user://" textures

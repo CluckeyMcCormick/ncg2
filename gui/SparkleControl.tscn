@@ -1,0 +1,338 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gui/SparkleControl.gd" type="Script" id=1]
+
+[node name="Sparkles" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="UpperGrid" type="GridContainer" parent="."]
+margin_right = 379.0
+margin_bottom = 146.0
+columns = 4
+
+[node name="Block Rect" type="ReferenceRect" parent="UpperGrid"]
+margin_right = 51.0
+margin_bottom = 14.0
+
+[node name="Texture" type="Label" parent="UpperGrid"]
+margin_left = 55.0
+margin_right = 111.0
+margin_bottom = 14.0
+text = " Texture "
+align = 1
+
+[node name="Color" type="Label" parent="UpperGrid"]
+margin_left = 115.0
+margin_right = 156.0
+margin_bottom = 14.0
+text = " Color "
+align = 1
+
+[node name="Enabled" type="Label" parent="UpperGrid"]
+margin_left = 160.0
+margin_right = 236.0
+margin_bottom = 14.0
+text = " Enabled "
+align = 1
+
+[node name="TypeA" type="Label" parent="UpperGrid"]
+margin_top = 31.0
+margin_right = 51.0
+margin_bottom = 45.0
+text = " Type A "
+
+[node name="TextureA" type="OptionButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 18.0
+margin_right = 111.0
+margin_bottom = 58.0
+
+[node name="ColorA" type="ColorPickerButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 115.0
+margin_top = 18.0
+margin_right = 156.0
+margin_bottom = 58.0
+
+[node name="EnabledA" type="CheckButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 160.0
+margin_top = 18.0
+margin_right = 236.0
+margin_bottom = 58.0
+
+[node name="TypeB" type="Label" parent="UpperGrid"]
+margin_top = 75.0
+margin_right = 51.0
+margin_bottom = 89.0
+text = " Type B "
+
+[node name="TextureB" type="OptionButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 62.0
+margin_right = 111.0
+margin_bottom = 102.0
+
+[node name="ColorB" type="ColorPickerButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 115.0
+margin_top = 62.0
+margin_right = 156.0
+margin_bottom = 102.0
+
+[node name="EnabledB" type="CheckButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 160.0
+margin_top = 62.0
+margin_right = 236.0
+margin_bottom = 102.0
+
+[node name="TypeC" type="Label" parent="UpperGrid"]
+margin_top = 119.0
+margin_right = 51.0
+margin_bottom = 133.0
+text = " Type C "
+
+[node name="TextureC" type="OptionButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 106.0
+margin_right = 111.0
+margin_bottom = 146.0
+
+[node name="ColorC" type="ColorPickerButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 115.0
+margin_top = 106.0
+margin_right = 156.0
+margin_bottom = 146.0
+
+[node name="EnabledC" type="CheckButton" parent="UpperGrid"]
+unique_name_in_owner = true
+margin_left = 160.0
+margin_top = 106.0
+margin_right = 236.0
+margin_bottom = 146.0
+
+[node name="LowerGrid" type="GridContainer" parent="."]
+margin_top = 150.0
+margin_right = 379.0
+margin_bottom = 248.0
+columns = 5
+
+[node name="Block Rect" type="ReferenceRect" parent="LowerGrid"]
+margin_right = 51.0
+margin_bottom = 14.0
+
+[node name="Size" type="Label" parent="LowerGrid"]
+margin_left = 55.0
+margin_right = 129.0
+margin_bottom = 14.0
+text = " Size "
+align = 1
+
+[node name="Count" type="Label" parent="LowerGrid"]
+margin_left = 133.0
+margin_right = 207.0
+margin_bottom = 14.0
+text = " Count "
+align = 1
+
+[node name="Lifetime" type="Label" parent="LowerGrid"]
+margin_left = 211.0
+margin_right = 285.0
+margin_bottom = 14.0
+text = " Lifetime "
+align = 1
+
+[node name="Randomness" type="Label" parent="LowerGrid"]
+margin_left = 289.0
+margin_right = 379.0
+margin_bottom = 14.0
+text = " Randomness "
+align = 1
+
+[node name="TypeA" type="Label" parent="LowerGrid"]
+margin_top = 23.0
+margin_right = 51.0
+margin_bottom = 37.0
+text = " Type A "
+
+[node name="SizeA" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 18.0
+margin_right = 129.0
+margin_bottom = 42.0
+max_value = 5.0
+step = 0.001
+
+[node name="CountA" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 133.0
+margin_top = 18.0
+margin_right = 207.0
+margin_bottom = 42.0
+
+[node name="LifetimeA" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 211.0
+margin_top = 18.0
+margin_right = 285.0
+margin_bottom = 42.0
+max_value = 6.0
+step = 0.01
+
+[node name="RandomnessA" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 289.0
+margin_top = 18.0
+margin_right = 379.0
+margin_bottom = 42.0
+max_value = 1.0
+step = 0.01
+
+[node name="TypeB" type="Label" parent="LowerGrid"]
+margin_top = 51.0
+margin_right = 51.0
+margin_bottom = 65.0
+text = " Type B "
+
+[node name="SizeB" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 46.0
+margin_right = 129.0
+margin_bottom = 70.0
+max_value = 5.0
+step = 0.001
+
+[node name="CountB" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 133.0
+margin_top = 46.0
+margin_right = 207.0
+margin_bottom = 70.0
+
+[node name="LifetimeB" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 211.0
+margin_top = 46.0
+margin_right = 285.0
+margin_bottom = 70.0
+max_value = 6.0
+step = 0.01
+
+[node name="RandomnessB" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 289.0
+margin_top = 46.0
+margin_right = 379.0
+margin_bottom = 70.0
+max_value = 1.0
+step = 0.01
+
+[node name="TypeC" type="Label" parent="LowerGrid"]
+margin_top = 79.0
+margin_right = 51.0
+margin_bottom = 93.0
+text = " Type C "
+
+[node name="SizeC" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 55.0
+margin_top = 74.0
+margin_right = 129.0
+margin_bottom = 98.0
+max_value = 5.0
+step = 0.001
+
+[node name="CountC" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 133.0
+margin_top = 74.0
+margin_right = 207.0
+margin_bottom = 98.0
+
+[node name="LifetimeC" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 211.0
+margin_top = 74.0
+margin_right = 285.0
+margin_bottom = 98.0
+max_value = 6.0
+step = 0.01
+
+[node name="RandomnessC" type="SpinBox" parent="LowerGrid"]
+unique_name_in_owner = true
+margin_left = 289.0
+margin_top = 74.0
+margin_right = 379.0
+margin_bottom = 98.0
+max_value = 1.0
+step = 0.01
+
+[node name="HBox" type="HBoxContainer" parent="."]
+margin_top = 252.0
+margin_right = 379.0
+margin_bottom = 276.0
+alignment = 1
+
+[node name="Scale" type="Label" parent="HBox"]
+margin_left = 40.0
+margin_top = 5.0
+margin_right = 81.0
+margin_bottom = 19.0
+text = " Scale "
+
+[node name="ScaleSpin" type="SpinBox" parent="HBox"]
+unique_name_in_owner = true
+margin_left = 85.0
+margin_right = 159.0
+margin_bottom = 24.0
+max_value = 16.0
+step = 0.001
+value = 1.0
+
+[node name="ScaleRandom" type="Label" parent="HBox"]
+margin_left = 163.0
+margin_top = 5.0
+margin_right = 260.0
+margin_bottom = 19.0
+text = " Scale Random "
+
+[node name="ScaleRandomSpin" type="SpinBox" parent="HBox"]
+unique_name_in_owner = true
+margin_left = 264.0
+margin_right = 338.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.001
+
+[connection signal="item_selected" from="UpperGrid/TextureA" to="." method="_on_TextureA_item_selected"]
+[connection signal="color_changed" from="UpperGrid/ColorA" to="." method="_on_ColorA_color_changed"]
+[connection signal="toggled" from="UpperGrid/EnabledA" to="." method="_on_EnabledA_toggled"]
+[connection signal="item_selected" from="UpperGrid/TextureB" to="." method="_on_TextureB_item_selected"]
+[connection signal="color_changed" from="UpperGrid/ColorB" to="." method="_on_ColorB_color_changed"]
+[connection signal="toggled" from="UpperGrid/EnabledB" to="." method="_on_EnabledB_toggled"]
+[connection signal="item_selected" from="UpperGrid/TextureC" to="." method="_on_TextureC_item_selected"]
+[connection signal="color_changed" from="UpperGrid/ColorC" to="." method="_on_ColorC_color_changed"]
+[connection signal="toggled" from="UpperGrid/EnabledC" to="." method="_on_EnabledC_toggled"]
+[connection signal="value_changed" from="LowerGrid/SizeA" to="." method="_on_SizeA_value_changed"]
+[connection signal="value_changed" from="LowerGrid/CountA" to="." method="_on_CountA_value_changed"]
+[connection signal="value_changed" from="LowerGrid/LifetimeA" to="." method="_on_LifetimeA_value_changed"]
+[connection signal="value_changed" from="LowerGrid/RandomnessA" to="." method="_on_RandomnessA_value_changed"]
+[connection signal="value_changed" from="LowerGrid/SizeB" to="." method="_on_SizeB_value_changed"]
+[connection signal="value_changed" from="LowerGrid/CountB" to="." method="_on_CountB_value_changed"]
+[connection signal="value_changed" from="LowerGrid/LifetimeB" to="." method="_on_LifetimeB_value_changed"]
+[connection signal="value_changed" from="LowerGrid/RandomnessB" to="." method="_on_RandomnessB_value_changed"]
+[connection signal="value_changed" from="LowerGrid/SizeC" to="." method="_on_SizeC_value_changed"]
+[connection signal="value_changed" from="LowerGrid/CountC" to="." method="_on_CountC_value_changed"]
+[connection signal="value_changed" from="LowerGrid/LifetimeC" to="." method="_on_LifetimeC_value_changed"]
+[connection signal="value_changed" from="LowerGrid/RandomnessC" to="." method="_on_RandomnessC_value_changed"]
+[connection signal="value_changed" from="HBox/ScaleSpin" to="." method="_on_ScaleSpin_value_changed"]
+[connection signal="value_changed" from="HBox/ScaleRandomSpin" to="." method="_on_ScaleRandomSpin_value_changed"]

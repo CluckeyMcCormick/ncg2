@@ -47,14 +47,19 @@ enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
 
 [input]
 
-gui_toggle={
+control_camera_pause={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777255,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
-game_pause={
+control_effect_pause={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+control_toggle_gui={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777255,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

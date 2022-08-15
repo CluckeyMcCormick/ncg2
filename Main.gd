@@ -6,28 +6,30 @@ onready var mcc = get_node("/root/MaterialColorControl")
 
 # TODO: Dynamically generate building textures via blitting.
 # TODO: Add second and third building materials.
-# TODO: Revise GUI to a "Toolbar" w/pop-ups
+# TODO: Replace Pop-up Window/Dialogs with something that doesn't freeze the GUI
 # TODO: Decorations (see FootprintBuilding)
-# TODO: Load profiles from a JSON file (w/ permanent and user pools)
 # TODO: Add ability for user to save profiles
 
+# Has the city been built yet?
 var city_built = false
+# Is the camera moving/panning?
+var movement_enabled = true
+# Are the effects - i.e. the particles - currently paused?
+var effects_paused = false
+# Are we allowed to show/hide the GUI? We need this because pressing the "Hide"
+# action triggers twice, and I haven't quite been able to solve the why of that.
+var gui_flip_enabled = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
     # Connect to the key update signal, so we can respond to key changes.
     mcc.connect("key_update", self, "_on_mcc_key_update")
     randomize()
-    $GUI/Tabs/Profiles.assert_profile()
-
-func _input(event):
-    if event.is_action_pressed("gui_toggle"):
-        $GUI.visible = not $GUI.visible
-    elif event.is_action_pressed("game_pause"):
-        get_tree().paused = not get_tree().paused
+    
+    $Toolbar.assert_profile()
 
 func _physics_process(delta):
-    if city_built:
+    if city_built and movement_enabled:
         $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
         $Camera.global_transform.origin += Vector3(2, 0, 0) * delta 
         $RoofSlope.global_transform.origin += Vector3(2, 0, 0) * delta 
@@ -42,22 +44,22 @@ func _on_mcc_key_update(key):
         #
         "starfield_height":
             $"%Starfield".height = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         "starfield_type_a_count":
             $"%Starfield".field_a_count = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         "starfield_type_b_count":
             $"%Starfield".field_b_count = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         "starfield_type_c_count":
             $"%Starfield".field_c_count = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         "starfield_scale_mean":
             $"%Starfield".scale_mean = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         "starfield_scale_variance":
             $"%Starfield".scale_variance = mcc.profile_dict[key]
-            _on_Starfield_regenerate()
+            _on_Toolbar_regenerate()
         #
         # Moon
         #
@@ -98,16 +100,28 @@ func _on_mcc_key_update(key):
             $"%ParticlesB".emitting = mcc.profile_dict[key]
         "sparkle_enabled_c":
             $"%ParticlesC".emitting = mcc.profile_dict[key]
-#        "sparkle_scale":
-#            $"%ParticlesA".restart()
-#            $"%ParticlesB".restart()
-#            $"%ParticlesC".restart()
-#        "sparkle_scale_random":
-#            $"%ParticlesA".restart()
-#            $"%ParticlesB".restart()
-#            $"%ParticlesC".restart()
 
-func _on_Starfield_regenerate():
+func _on_Toolbar_regenerate():
     $"%Starfield".generate_field_a()
     $"%Starfield".generate_field_b()
     $"%Starfield".generate_field_c()
+
+func _on_Toolbar_toggle_camera_pause():
+    movement_enabled = not movement_enabled
+
+func _on_Toolbar_toggle_effect_pause():
+    
+    effects_paused = not effects_paused
+    
+    if effects_paused:
+        $"%ParticlesA".speed_scale = 0
+        $"%ParticlesB".speed_scale = 0
+        $"%ParticlesC".speed_scale = 0
+    else:
+        $"%ParticlesA".speed_scale = 1
+        $"%ParticlesB".speed_scale = 1
+        $"%ParticlesC".speed_scale = 1
+
+func _on_Toolbar_toggle_gui():
+    # Flip the visibility
+    $Toolbar.visible = not $Toolbar.visible

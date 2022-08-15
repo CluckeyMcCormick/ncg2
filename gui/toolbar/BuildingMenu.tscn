@@ -1,0 +1,137 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://gui/BuildingControl.tscn" type="PackedScene" id=1]
+[ext_resource path="res://gui/toolbar/BuildingMenu.gd" type="Script" id=2]
+[ext_resource path="res://gui/LightControl.tscn" type="PackedScene" id=3]
+[ext_resource path="res://gui/BeaconControl.tscn" type="PackedScene" id=4]
+
+[node name="BuildingMenu" type="MenuButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.0
+margin_top = -10.0
+margin_right = 32.0
+margin_bottom = 10.0
+text = "Building"
+items = [ "Texture", null, 0, false, false, 0, 0, null, "", false, "Lights", null, 0, false, false, 10, 0, null, "", false, "Beacons", null, 0, false, false, 20, 0, null, "", false ]
+script = ExtResource( 2 )
+
+[node name="TextureDialog" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -590.518
+margin_top = 15.7458
+margin_right = -273.518
+margin_bottom = 298.746
+popup_exclusive = true
+window_title = "Textures"
+resizable = true
+
+[node name="TextureMargin" type="MarginContainer" parent="TextureDialog"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="TextureDialog/TextureMargin"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 307.0
+margin_bottom = 273.0
+
+[node name="Buildings" parent="TextureDialog/TextureMargin/CenterContainer" instance=ExtResource( 1 )]
+unique_name_in_owner = true
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 43.0
+margin_top = 27.0
+margin_right = 253.0
+margin_bottom = 235.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="LightDialog" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -148.142
+margin_top = 87.4802
+margin_right = 168.858
+margin_bottom = 370.48
+popup_exclusive = true
+window_title = "Lights"
+resizable = true
+
+[node name="LightMargin" type="MarginContainer" parent="LightDialog"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="LightDialog/LightMargin"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 307.0
+margin_bottom = 272.0
+
+[node name="Lights" parent="LightDialog/LightMargin/CenterContainer" instance=ExtResource( 3 )]
+unique_name_in_owner = true
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 37.0
+margin_top = 77.0
+margin_right = 259.0
+margin_bottom = 185.0
+
+[node name="BeaconDialog" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 297.0
+margin_top = 87.0
+margin_right = 698.0
+margin_bottom = 374.0
+popup_exclusive = true
+window_title = "Beacons"
+resizable = true
+
+[node name="BeaconMargin" type="MarginContainer" parent="BeaconDialog"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="BeaconDialog/BeaconMargin"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 391.0
+margin_bottom = 277.0
+
+[node name="Beacons" parent="BeaconDialog/BeaconMargin/CenterContainer" instance=ExtResource( 4 )]
+unique_name_in_owner = true
+margin_left = 26.0
+margin_top = 58.0
+margin_right = 354.0
+margin_bottom = 208.0
+
+[connection signal="resized" from="TextureDialog" to="." method="_on_TextureDialog_resized"]
+[connection signal="resized" from="TextureDialog/TextureMargin/CenterContainer/Buildings" to="." method="_on_Buildings_resized"]
+[connection signal="resized" from="LightDialog" to="." method="_on_LightDialog_resized"]
+[connection signal="resized" from="LightDialog/LightMargin/CenterContainer/Lights" to="." method="_on_Lights_resized"]
+[connection signal="resized" from="BeaconDialog" to="." method="_on_BeaconDialog_resized"]
+[connection signal="resized" from="BeaconDialog/BeaconMargin/CenterContainer/Beacons" to="." method="_on_Beacons_resized"]

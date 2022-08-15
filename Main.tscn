@@ -1,23 +1,16 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
 [ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
-[ext_resource path="res://gui/BuildingTab.tscn" type="PackedScene" id=5]
-[ext_resource path="res://gui/SkyTab.tscn" type="PackedScene" id=6]
 [ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
-[ext_resource path="res://gui/MoonTab.tscn" type="PackedScene" id=8]
-[ext_resource path="res://gui/StarfieldTab.tscn" type="PackedScene" id=10]
-[ext_resource path="res://gui/ProfilesTab.tscn" type="PackedScene" id=11]
-[ext_resource path="res://gui/LightTab.tscn" type="PackedScene" id=12]
-[ext_resource path="res://gui/BeaconTab.tscn" type="PackedScene" id=13]
+[ext_resource path="res://gui/toolbar/Toolbar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://effects/SparkleParticalMaterial.tres" type="Material" id=14]
 [ext_resource path="res://effects/SparkleQuadMeshTypeA.tres" type="QuadMesh" id=15]
 [ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
 [ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
 [ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
-[ext_resource path="res://gui/SparkleTab.tscn" type="PackedScene" id=19]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -80,53 +73,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 7.45058e-09, 1, 0, 0, 0 )
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
-[node name="GUI" type="VBoxContainer" parent="."]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 362.0
-margin_bottom = 265.0
-
-[node name="Tabs" type="TabContainer" parent="GUI"]
-margin_right = 445.0
-margin_bottom = 312.0
-size_flags_horizontal = 3
-tab_align = 0
-use_hidden_tabs_for_min_size = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Profiles" parent="GUI/Tabs" instance=ExtResource( 11 )]
-
-[node name="Buildings" parent="GUI/Tabs" instance=ExtResource( 5 )]
-visible = false
-
-[node name="Lights" parent="GUI/Tabs" instance=ExtResource( 12 )]
-visible = false
-
-[node name="Sky" parent="GUI/Tabs" instance=ExtResource( 6 )]
-visible = false
-
-[node name="Starfield" parent="GUI/Tabs" instance=ExtResource( 10 )]
-visible = false
-
-[node name="Moon" parent="GUI/Tabs" instance=ExtResource( 8 )]
-visible = false
-
-[node name="Beacons" parent="GUI/Tabs" instance=ExtResource( 13 )]
-visible = false
-
-[node name="Sparkles" parent="GUI/Tabs" instance=ExtResource( 19 )]
-visible = false
-
-[node name="Label" type="Label" parent="GUI"]
-margin_top = 316.0
-margin_right = 445.0
-margin_bottom = 347.0
-text = "
-F12 to Show/Hide GUI"
-align = 1
-
 [node name="RoofSlope" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 visible = false
@@ -153,5 +99,10 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 
 projection = 1
 size = 60.0
 
-[connection signal="regenerate" from="GUI/Tabs/Starfield" to="." method="_on_Starfield_regenerate"]
+[node name="Toolbar" parent="." instance=ExtResource( 9 )]
+
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
+[connection signal="regenerate" from="Toolbar" to="." method="_on_Toolbar_regenerate"]
+[connection signal="toggle_camera_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_camera_pause"]
+[connection signal="toggle_effect_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_effect_pause"]
+[connection signal="toggle_gui" from="Toolbar" to="." method="_on_Toolbar_toggle_gui"]
