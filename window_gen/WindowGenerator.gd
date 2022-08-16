@@ -1,17 +1,23 @@
 
-# How long, in pixels, is each side of the building texture?
-const BUILDING_SIZE = 4096
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
+
 # How long, in pixels, is each side of the core window textures?
-const WINDOW_SIZE = 64
-# Given the BUILDING SIZE and WINDOW SIZE, how many windows constitute one side
-# of a building?
-const WINDOW_SIDE_COUNT = BUILDING_SIZE / WINDOW_SIZE
+const WINDOW_PIXEL_SIZE = 64
+# How many windows do we have on one side of our texture? This is just a
+# convenience wrapper for WINDOW_CELL_LEN in GlobalRef
+const WINDOW_SIDE_COUNT = GlobalRef.WINDOW_CELL_LEN
+# Given the WINDOW_PIXEL_SIZE, and WINDOW_SIDE_COUNT, how many pixels constitute
+# one side of a building texture?
+const BUILDING_SIZE = WINDOW_PIXEL_SIZE * WINDOW_SIDE_COUNT;
 
 # We'll be building a texture via a pixel-copy operation known as blitting (or
 # it might be 'blending', who knows, I'll keep changing it). Anyway, since the
 # size of the window is fixed, we can create the RECT2 object ahead of time and
 # save ourselves some syntax.
-const BLIT_RECT = Rect2( Vector2.ZERO, Vector2(WINDOW_SIZE, WINDOW_SIZE) )
+const BLIT_RECT = Rect2(
+    Vector2.ZERO, Vector2(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE)
+)
 
 # We support multiple shapes for the windows, and support multiple colors for
 # each shape. We'll randomly roll to determine shape and color. This enumerator
@@ -70,9 +76,9 @@ class WindowSet:
         blue = Image.new()
         
         # Initialize the window images
-        red.create(WINDOW_SIZE, WINDOW_SIZE, false, format)
-        green.create(WINDOW_SIZE, WINDOW_SIZE, false, format)
-        blue.create(WINDOW_SIZE, WINDOW_SIZE, false, format)
+        red.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
+        green.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
+        blue.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
         
         # Lock down the images so we can modify them.
         root_image.lock()
@@ -81,8 +87,8 @@ class WindowSet:
         blue.lock()
         
         # For each pixel...
-        for x in range(WINDOW_SIZE):
-            for y in range(WINDOW_SIZE):
+        for x in range(WINDOW_PIXEL_SIZE):
+            for y in range(WINDOW_PIXEL_SIZE):
                 # Copy the alpha from the pixel while forming the red, green,
                 # and blue voices.
                 color = root_image.get_pixel(x, y)
@@ -215,7 +221,7 @@ class WindowGenerator:
                 _texture_image.blend_rect(
                     curr_image,
                     BLIT_RECT,
-                    Vector2( x * WINDOW_SIZE, y * WINDOW_SIZE)
+                    Vector2( x * WINDOW_PIXEL_SIZE, y * WINDOW_PIXEL_SIZE)
                 )
             
             # Knock one off of our shape and color chains
@@ -326,7 +332,7 @@ class WindowGenerator:
                     _texture_image.blend_rect(
                         curr_image,
                         BLIT_RECT,
-                        Vector2( x * WINDOW_SIZE, y * WINDOW_SIZE)
+                        Vector2( x * WINDOW_PIXEL_SIZE, y * WINDOW_PIXEL_SIZE)
                     )
                 
                 # Knock one off of our shape and color chains
