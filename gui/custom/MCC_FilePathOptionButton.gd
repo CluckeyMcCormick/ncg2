@@ -2,7 +2,8 @@ extends OptionButton
 class_name MCCFilePathOptionButton
 
 # TODO: Implement some sort of global cache, where resources loaded are stored
-# in arrays. These arrays are then accessed with a given directory path.
+# in arrays. These arrays are then accessed with a given directory path. We
+# would need a reload function capable of ignoring the global cache.
 
 # Utility script to find resources
 const DIR_RES_FIND = preload("res://util/DirectoryResourceFinder.gd")

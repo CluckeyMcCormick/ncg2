@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://gui/StarfieldControl.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=3]
+[ext_resource path="res://gui/custom/MCC_FilePathOptionButton.gd" type="Script" id=4]
 
 [node name="Starfield" type="VBoxContainer"]
 anchor_right = 1.0
@@ -49,32 +52,34 @@ text = " Type A "
 align = 1
 
 [node name="OptionButtonA" type="OptionButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 18.0
 margin_right = 783.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
 text = "Dot"
+script = ExtResource( 4 )
+target_key = "stars_type_a_texture"
+default_directory = "res://effects/particle_textures/"
+default_extension = ".png"
 
 [node name="ColorPickerButtonA" type="ColorPickerButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 787.0
 margin_top = 18.0
 margin_right = 1514.0
 margin_bottom = 42.0
 size_flags_horizontal = 3
+script = ExtResource( 3 )
+target_key = "stars_type_a_color"
 
 [node name="TypeASpinBox" type="SpinBox" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 1518.0
 margin_top = 18.0
 margin_right = 1592.0
 margin_bottom = 42.0
 max_value = 1000.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "starfield_type_a_count"
 
 [node name="TypeBLabel" type="Label" parent="TypeGrid"]
 margin_top = 51.0
@@ -84,29 +89,34 @@ text = " Type B "
 align = 1
 
 [node name="OptionButtonB" type="OptionButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 46.0
 margin_right = 783.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
 text = "Dot"
+script = ExtResource( 4 )
+target_key = "stars_type_b_texture"
+default_directory = "res://effects/particle_textures/"
+default_extension = ".png"
 
 [node name="ColorPickerButtonB" type="ColorPickerButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 787.0
 margin_top = 46.0
 margin_right = 1514.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
+script = ExtResource( 3 )
+target_key = "stars_type_b_color"
 
 [node name="TypeBSpinBox" type="SpinBox" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 1518.0
 margin_top = 46.0
 margin_right = 1592.0
 margin_bottom = 70.0
 max_value = 1000.0
+script = ExtResource( 2 )
+target_key = "starfield_type_b_count"
 
 [node name="TypeCLabel" type="Label" parent="TypeGrid"]
 margin_top = 79.0
@@ -116,29 +126,34 @@ text = " Type C "
 align = 1
 
 [node name="OptionButtonC" type="OptionButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 55.0
 margin_top = 74.0
 margin_right = 783.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
 text = "Dot"
+script = ExtResource( 4 )
+target_key = "stars_type_c_texture"
+default_directory = "res://effects/particle_textures/"
+default_extension = ".png"
 
 [node name="ColorPickerButtonC" type="ColorPickerButton" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 787.0
 margin_top = 74.0
 margin_right = 1514.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
+script = ExtResource( 3 )
+target_key = "stars_type_c_color"
 
 [node name="TypeCSpinBox" type="SpinBox" parent="TypeGrid"]
-unique_name_in_owner = true
 margin_left = 1518.0
 margin_top = 74.0
 margin_right = 1592.0
 margin_bottom = 98.0
 max_value = 1000.0
+script = ExtResource( 2 )
+target_key = "starfield_type_c_count"
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_top = 102.0
@@ -161,15 +176,13 @@ text = "Starfield Height"
 align = 1
 
 [node name="HeightSpinBox" type="SpinBox" parent="HBox/Height"]
-unique_name_in_owner = true
 margin_top = 18.0
 margin_right = 98.0
 margin_bottom = 42.0
 max_value = 40.0
 step = 0.01
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "starfield_height"
 
 [node name="VSeparator2" type="VSeparator" parent="HBox"]
 margin_left = 102.0
@@ -188,12 +201,13 @@ text = "Star Scale Mean"
 align = 1
 
 [node name="MeanSpinBox" type="SpinBox" parent="HBox/Mean"]
-unique_name_in_owner = true
 margin_top = 18.0
 margin_right = 100.0
 margin_bottom = 42.0
 max_value = 6.0
 step = 0.005
+script = ExtResource( 2 )
+target_key = "starfield_scale_mean"
 
 [node name="VSeparator3" type="VSeparator" parent="HBox"]
 margin_left = 214.0
@@ -212,12 +226,13 @@ text = "Star Scale Variance"
 align = 1
 
 [node name="VarianceSpinBox" type="SpinBox" parent="HBox/Variance"]
-unique_name_in_owner = true
 margin_top = 18.0
 margin_right = 119.0
 margin_bottom = 42.0
 max_value = 3.0
 step = 0.005
+script = ExtResource( 2 )
+target_key = "starfield_scale_variance"
 
 [node name="VSeparator4" type="VSeparator" parent="HBox"]
 margin_left = 345.0
@@ -232,16 +247,4 @@ margin_bottom = 31.0
 size_flags_vertical = 4
 text = "Regenerate"
 
-[connection signal="item_selected" from="TypeGrid/OptionButtonA" to="." method="_on_OptionButtonA_item_selected"]
-[connection signal="color_changed" from="TypeGrid/ColorPickerButtonA" to="." method="_on_ColorPickerButtonA_color_changed"]
-[connection signal="value_changed" from="TypeGrid/TypeASpinBox" to="." method="_on_TypeASpinBox_value_changed"]
-[connection signal="item_selected" from="TypeGrid/OptionButtonB" to="." method="_on_OptionButtonB_item_selected"]
-[connection signal="color_changed" from="TypeGrid/ColorPickerButtonB" to="." method="_on_ColorPickerButtonB_color_changed"]
-[connection signal="value_changed" from="TypeGrid/TypeBSpinBox" to="." method="_on_TypeBSpinBox_value_changed"]
-[connection signal="item_selected" from="TypeGrid/OptionButtonC" to="." method="_on_OptionButtonC_item_selected"]
-[connection signal="color_changed" from="TypeGrid/ColorPickerButtonC" to="." method="_on_ColorPickerButtonC_color_changed"]
-[connection signal="value_changed" from="TypeGrid/TypeCSpinBox" to="." method="_on_TypeCSpinBox_value_changed"]
-[connection signal="value_changed" from="HBox/Height/HeightSpinBox" to="." method="_on_HeightSpinBox_value_changed"]
-[connection signal="value_changed" from="HBox/Mean/MeanSpinBox" to="." method="_on_MeanSpinBox_value_changed"]
-[connection signal="value_changed" from="HBox/Variance/VarianceSpinBox" to="." method="_on_VarianceSpinBox_value_changed"]
 [connection signal="pressed" from="HBox/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]

@@ -1,42 +1,47 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://gui/MoonControl.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=3]
+[ext_resource path="res://gui/custom/MCC_CheckBox.gd" type="Script" id=4]
 
 [node name="Moon" type="VBoxContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-script = ExtResource( 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -147.5
+margin_top = -64.0
+margin_right = 147.5
+margin_bottom = 64.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 24.0
 
 [node name="MoonVisCheckBox" type="CheckBox" parent="HBoxContainer"]
-unique_name_in_owner = true
 margin_right = 71.0
 margin_bottom = 24.0
 text = "Visible"
+script = ExtResource( 4 )
+target_key = "moon_visible"
 
 [node name="MoonColorPickerButton" type="ColorPickerButton" parent="HBoxContainer"]
-unique_name_in_owner = true
 margin_left = 75.0
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
+script = ExtResource( 3 )
+target_key = "moon_color"
 
 [node name="ReferenceRect" type="ReferenceRect" parent="."]
 margin_top = 28.0
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="HBoxPos" type="HBoxContainer" parent="."]
 margin_top = 52.0
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 76.0
 
 [node name="XLabel" type="Label" parent="HBoxPos"]
@@ -46,13 +51,14 @@ margin_bottom = 19.0
 text = "X Position"
 
 [node name="MoonXPosSpinBox" type="SpinBox" parent="HBoxPos"]
-unique_name_in_owner = true
 margin_left = 68.0
 margin_right = 142.0
 margin_bottom = 24.0
 min_value = -20.0
 max_value = 20.0
 step = 0.01
+script = ExtResource( 2 )
+target_key = "moon_x_pos"
 
 [node name="VSeparator" type="VSeparator" parent="HBoxPos"]
 margin_left = 146.0
@@ -67,23 +73,24 @@ margin_bottom = 19.0
 text = "Y Position"
 
 [node name="MoonYPosSpinBox" type="SpinBox" parent="HBoxPos"]
-unique_name_in_owner = true
 margin_left = 221.0
 margin_right = 295.0
 margin_bottom = 24.0
 min_value = -20.0
 max_value = 20.0
 step = 0.01
+script = ExtResource( 2 )
+target_key = "moon_y_pos"
 
 [node name="ReferenceRect2" type="ReferenceRect" parent="."]
 margin_top = 80.0
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="HBoxSize" type="HBoxContainer" parent="."]
 margin_top = 104.0
-margin_right = 1492.0
+margin_right = 295.0
 margin_bottom = 128.0
 
 [node name="MoonSizeLabel" type="Label" parent="HBoxSize"]
@@ -93,7 +100,6 @@ margin_bottom = 19.0
 text = "Moon Size"
 
 [node name="MoonSizeSpinBox" type="SpinBox" parent="HBoxSize"]
-unique_name_in_owner = true
 margin_left = 70.0
 margin_right = 144.0
 margin_bottom = 24.0
@@ -101,9 +107,5 @@ min_value = 0.1
 max_value = 10.0
 step = 0.01
 value = 0.1
-
-[connection signal="toggled" from="HBoxContainer/MoonVisCheckBox" to="." method="_on_MoonVisCheckBox_toggled"]
-[connection signal="color_changed" from="HBoxContainer/MoonColorPickerButton" to="." method="_on_MoonColorPickerButton_color_changed"]
-[connection signal="value_changed" from="HBoxPos/MoonXPosSpinBox" to="." method="_on_MoonXPosSpinBox_value_changed"]
-[connection signal="value_changed" from="HBoxPos/MoonYPosSpinBox" to="." method="_on_MoonYPosSpinBox_value_changed"]
-[connection signal="value_changed" from="HBoxSize/MoonSizeSpinBox" to="." method="_on_MoonSizeSpinBox_value_changed"]
+script = ExtResource( 2 )
+target_key = "moon_size"

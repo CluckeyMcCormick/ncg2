@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://gui/BuildingControl.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=3]
+[ext_resource path="res://gui/custom/MCC_FilePathOptionButton.gd" type="Script" id=4]
 
 [node name="Buildings" type="VBoxContainer"]
 anchor_right = 1.0
@@ -9,7 +11,6 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-script = ExtResource( 1 )
 
 [node name="GridContainer" type="GridContainer" parent="."]
 margin_right = 1592.0
@@ -30,14 +31,12 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 25, 0 )
 
 [node name="RedPicker" type="ColorPickerButton" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_right = 210.0
 margin_bottom = 20.0
 text = "Color 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "bld_red_dot"
 
 [node name="RedMix" type="Label" parent="GridContainer"]
 margin_top = 29.0
@@ -54,13 +53,14 @@ margin_bottom = 48.0
 rect_min_size = Vector2( 25, 0 )
 
 [node name="RedSpinner" type="SpinBox" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 24.0
 margin_right = 210.0
 margin_bottom = 48.0
 max_value = 1000.0
 value = 1000.0
+script = ExtResource( 2 )
+target_key = "bld_red_mixer"
 
 [node name="GreenColor" type="Label" parent="GridContainer"]
 margin_top = 55.0
@@ -77,15 +77,13 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="GreenPicker" type="ColorPickerButton" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 52.0
 margin_right = 210.0
 margin_bottom = 72.0
 text = "Color 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "bld_green_dot"
 
 [node name="GreenMix" type="Label" parent="GridContainer"]
 margin_top = 81.0
@@ -102,13 +100,14 @@ margin_bottom = 100.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="GreenSpinner" type="SpinBox" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 76.0
 margin_right = 210.0
 margin_bottom = 100.0
 max_value = 1000.0
 value = 1000.0
+script = ExtResource( 2 )
+target_key = "bld_green_mixer"
 
 [node name="BlueColor" type="Label" parent="GridContainer"]
 margin_top = 107.0
@@ -125,15 +124,13 @@ margin_bottom = 124.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BluePicker" type="ColorPickerButton" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 104.0
 margin_right = 210.0
 margin_bottom = 124.0
 text = "Color 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "bld_blue_dot"
 
 [node name="BlueMix" type="Label" parent="GridContainer"]
 margin_top = 133.0
@@ -150,13 +147,14 @@ margin_bottom = 152.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BlueSpinner" type="SpinBox" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 128.0
 margin_right = 210.0
 margin_bottom = 152.0
 max_value = 1000.0
 value = 1000.0
+script = ExtResource( 2 )
+target_key = "bld_blue_mixer"
 
 [node name="BuildingColor" type="Label" parent="GridContainer"]
 margin_top = 159.0
@@ -173,15 +171,13 @@ margin_bottom = 176.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BuildingPicker" type="ColorPickerButton" parent="GridContainer"]
-unique_name_in_owner = true
 margin_left = 136.0
 margin_top = 156.0
 margin_right = 210.0
 margin_bottom = 176.0
 text = "Color 1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "bld_base_color"
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_top = 180.0
@@ -189,17 +185,11 @@ margin_right = 1592.0
 margin_bottom = 184.0
 
 [node name="TextureSelection" type="OptionButton" parent="."]
-unique_name_in_owner = true
 margin_top = 188.0
 margin_right = 1592.0
 margin_bottom = 208.0
 text = "Dot Horizontal 25"
-
-[connection signal="color_changed" from="GridContainer/RedPicker" to="." method="_on_RedPicker_color_changed"]
-[connection signal="value_changed" from="GridContainer/RedSpinner" to="." method="_on_RedSpinner_value_changed"]
-[connection signal="color_changed" from="GridContainer/GreenPicker" to="." method="_on_GreenPicker_color_changed"]
-[connection signal="value_changed" from="GridContainer/GreenSpinner" to="." method="_on_GreenSpinner_value_changed"]
-[connection signal="color_changed" from="GridContainer/BluePicker" to="." method="_on_BluePicker_color_changed"]
-[connection signal="value_changed" from="GridContainer/BlueSpinner" to="." method="_on_BlueSpinner_value_changed"]
-[connection signal="color_changed" from="GridContainer/BuildingPicker" to="." method="_on_BuildingPicker_color_changed"]
-[connection signal="item_selected" from="TextureSelection" to="." method="_on_TextureSelection_item_selected"]
+script = ExtResource( 4 )
+target_key = "bld_texture_path"
+default_directory = "res://buildings/textures/"
+default_extension = ".png"

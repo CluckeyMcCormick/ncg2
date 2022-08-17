@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://gui/LightControl.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_CheckBox.gd" type="Script" id=3]
 
 [node name="Lights" type="GridContainer"]
 anchor_right = 1.0
@@ -10,7 +11,6 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 columns = 3
-script = ExtResource( 1 )
 
 [node name="OneColor" type="Label" parent="."]
 margin_top = 5.0
@@ -20,23 +20,22 @@ text = "Light One"
 align = 1
 
 [node name="OnePicker" type="ColorPickerButton" parent="."]
-unique_name_in_owner = true
 margin_left = 84.0
 margin_right = 141.0
 margin_bottom = 24.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "lights_one_color"
 
 [node name="OneCheck" type="CheckBox" parent="."]
-unique_name_in_owner = true
 margin_left = 145.0
 margin_right = 222.0
 margin_bottom = 24.0
 pressed = true
 text = "Visible?"
+script = ExtResource( 3 )
+target_key = "lights_one_visible"
 
 [node name="TwoColor" type="Label" parent="."]
 margin_top = 33.0
@@ -46,25 +45,24 @@ text = "Light Two"
 align = 1
 
 [node name="TwoPicker" type="ColorPickerButton" parent="."]
-unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 28.0
 margin_right = 141.0
 margin_bottom = 52.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "lights_two_color"
 
 [node name="TwoCheck" type="CheckBox" parent="."]
-unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 28.0
 margin_right = 222.0
 margin_bottom = 52.0
 pressed = true
 text = "Visible?"
+script = ExtResource( 3 )
+target_key = "lights_two_visible"
 
 [node name="ThreeColor" type="Label" parent="."]
 margin_top = 61.0
@@ -75,25 +73,24 @@ text = "Light Three"
 align = 1
 
 [node name="ThreePicker" type="ColorPickerButton" parent="."]
-unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 56.0
 margin_right = 141.0
 margin_bottom = 80.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "lights_three_color"
 
 [node name="ThreeCheck" type="CheckBox" parent="."]
-unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 56.0
 margin_right = 222.0
 margin_bottom = 80.0
 pressed = true
 text = "Visible?"
+script = ExtResource( 3 )
+target_key = "lights_three_visible"
 
 [node name="FourColor" type="Label" parent="."]
 margin_top = 89.0
@@ -103,31 +100,21 @@ text = "Light Four"
 align = 1
 
 [node name="FourPicker" type="ColorPickerButton" parent="."]
-unique_name_in_owner = true
 margin_left = 84.0
 margin_top = 84.0
 margin_right = 141.0
 margin_bottom = 108.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 2 )
+target_key = "lights_four_color"
 
 [node name="FourCheck" type="CheckBox" parent="."]
-unique_name_in_owner = true
 margin_left = 145.0
 margin_top = 84.0
 margin_right = 222.0
 margin_bottom = 108.0
 pressed = true
 text = "Visible?"
-
-[connection signal="color_changed" from="OnePicker" to="." method="_on_OnePicker_color_changed"]
-[connection signal="toggled" from="OneCheck" to="." method="_on_OneCheck_toggled"]
-[connection signal="color_changed" from="TwoPicker" to="." method="_on_TwoPicker_color_changed"]
-[connection signal="toggled" from="TwoCheck" to="." method="_on_TwoCheck_toggled"]
-[connection signal="color_changed" from="ThreePicker" to="." method="_on_ThreePicker_color_changed"]
-[connection signal="toggled" from="ThreeCheck" to="." method="_on_ThreeCheck_toggled"]
-[connection signal="color_changed" from="FourPicker" to="." method="_on_FourPicker_color_changed"]
-[connection signal="toggled" from="FourCheck" to="." method="_on_FourCheck_toggled"]
+script = ExtResource( 3 )
+target_key = "lights_four_visible"

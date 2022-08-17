@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://gui/SkyControl.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=3]
 
 [node name="Sky" type="VBoxContainer"]
 anchor_right = 1.0
@@ -9,7 +10,6 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-script = ExtResource( 1 )
 
 [node name="SkyGrid" type="GridContainer" parent="."]
 margin_right = 1592.0
@@ -30,15 +30,13 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="TopPicker" type="ColorPickerButton" parent="SkyGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_right = 189.0
 margin_bottom = 20.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "sky_sky_top"
 
 [node name="HorizonColor" type="Label" parent="SkyGrid"]
 margin_top = 27.0
@@ -55,16 +53,14 @@ margin_bottom = 44.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="SkyHorizonPicker" type="ColorPickerButton" parent="SkyGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 24.0
 margin_right = 189.0
 margin_bottom = 44.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "sky_sky_horizon"
 
 [node name="Curve" type="Label" parent="SkyGrid"]
 margin_top = 53.0
@@ -81,7 +77,6 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="SkyCurveSpin" type="SpinBox" parent="SkyGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 48.0
 margin_right = 189.0
@@ -89,6 +84,8 @@ margin_bottom = 72.0
 min_value = 1.0
 max_value = 9999.0
 value = 365.0
+script = ExtResource( 2 )
+target_key = "sky_sky_curve"
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_top = 76.0
@@ -115,15 +112,13 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="GroundHorizonPicker" type="ColorPickerButton" parent="GroundGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_right = 189.0
 margin_bottom = 20.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "sky_ground_horizon"
 
 [node name="BottomColor" type="Label" parent="GroundGrid"]
 margin_top = 27.0
@@ -140,16 +135,14 @@ margin_bottom = 44.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="BottomPicker" type="ColorPickerButton" parent="GroundGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 24.0
 margin_right = 189.0
 margin_bottom = 44.0
 text = "Color 1"
 edit_alpha = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 3 )
+target_key = "sky_ground_bottom"
 
 [node name="Curve" type="Label" parent="GroundGrid"]
 margin_top = 53.0
@@ -166,7 +159,6 @@ margin_bottom = 72.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="GroundCurveSpin" type="SpinBox" parent="GroundGrid"]
-unique_name_in_owner = true
 margin_left = 115.0
 margin_top = 48.0
 margin_right = 189.0
@@ -174,6 +166,8 @@ margin_bottom = 72.0
 min_value = 1.0
 max_value = 9999.0
 value = 200.0
+script = ExtResource( 2 )
+target_key = "sky_ground_curve"
 
 [node name="HSeparator2" type="HSeparator" parent="."]
 margin_top = 160.0
@@ -200,17 +194,10 @@ margin_bottom = 24.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="RotationSpin" type="SpinBox" parent="RotationGrid"]
-unique_name_in_owner = true
 margin_left = 118.0
 margin_right = 192.0
 margin_bottom = 24.0
 min_value = -100.0
 step = 0.01
-
-[connection signal="color_changed" from="SkyGrid/TopPicker" to="." method="_on_TopPicker_color_changed"]
-[connection signal="color_changed" from="SkyGrid/SkyHorizonPicker" to="." method="_on_SkyHorizonPicker_color_changed"]
-[connection signal="value_changed" from="SkyGrid/SkyCurveSpin" to="." method="_on_SkyCurveSpin_value_changed"]
-[connection signal="color_changed" from="GroundGrid/GroundHorizonPicker" to="." method="_on_GroundHorizonPicker_color_changed"]
-[connection signal="color_changed" from="GroundGrid/BottomPicker" to="." method="_on_BottomPicker_color_changed"]
-[connection signal="value_changed" from="GroundGrid/GroundCurveSpin" to="." method="_on_GroundCurveSpin_value_changed"]
-[connection signal="value_changed" from="RotationGrid/RotationSpin" to="." method="_on_RotationSpin_value_changed"]
+script = ExtResource( 2 )
+target_key = "sky_x_rotation"
