@@ -1,4 +1,8 @@
 extends OptionButton
+class_name MCCFilePathOptionButton
+
+# TODO: Implement some sort of global cache, where resources loaded are stored
+# in arrays. These arrays are then accessed with a given directory path.
 
 # Utility script to find resources
 const DIR_RES_FIND = preload("res://util/DirectoryResourceFinder.gd")
@@ -51,6 +55,8 @@ func _ready():
     resources = DIR_RES_FIND.get_path_resources(
         default_directory, default_extension
     )
+
+    # TODO: add support for user directories
 
     # Sort the textures so the names are alphabetical
     resources.sort()

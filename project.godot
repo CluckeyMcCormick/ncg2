@@ -13,9 +13,39 @@ _global_script_classes=[ {
 "class": "GenericProfile",
 "language": "GDScript",
 "path": "res://profiles/GenericProfile.gd"
+}, {
+"base": "CheckBox",
+"class": "MCCCheckBox",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_CheckBox.gd"
+}, {
+"base": "CheckButton",
+"class": "MCCCheckButton",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_CheckButton.gd"
+}, {
+"base": "ColorPickerButton",
+"class": "MCCColorPickerButton",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_ColorPickerButton.gd"
+}, {
+"base": "OptionButton",
+"class": "MCCFilePathOptionButton",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_FilePathOptionButton.gd"
+}, {
+"base": "SpinBox",
+"class": "MCCSpinBox",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_SpinBox.gd"
 } ]
 _global_script_class_icons={
-"GenericProfile": ""
+"GenericProfile": "",
+"MCCCheckBox": "",
+"MCCCheckButton": "",
+"MCCColorPickerButton": "",
+"MCCFilePathOptionButton": "",
+"MCCSpinBox": ""
 }
 
 [application]

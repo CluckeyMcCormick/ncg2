@@ -1,4 +1,5 @@
 extends SpinBox
+class_name MCCSpinBox
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.

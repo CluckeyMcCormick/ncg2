@@ -1,4 +1,5 @@
 extends ColorPickerButton
+class_name MCCColorPickerButton
 
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.
