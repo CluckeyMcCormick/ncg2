@@ -32,9 +32,6 @@ const MIN_THIN = 2
 # TODO: Decoration, AC Box
 # TODO: Decoration, Antennae
 
-# The material we'll use to make this building.
-export(Material) var building_material
-
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
 export(int) var footprint_len_x = 8
@@ -288,6 +285,8 @@ func make_blueprint():
         ])
 
 func make_building():
+    var chosen_mat
+    
     # If we don't have the building nodes for whatever reason, back out
     if not self.has_node("Building/Base") or not self.has_node("Building/MainTower"):
         return
@@ -297,9 +296,18 @@ func make_building():
         $FxManager.remove_child(light)
         light.queue_free()
     
-    # Otherwise, pass the materials down to the buildings
-    $Building/Base.building_material = building_material
-    $Building/MainTower.building_material = building_material
+    match RNGENNIE.randi_range(1, 3):
+        1:
+            chosen_mat = mcc.mat_a
+        2:
+            chosen_mat = mcc.mat_b
+        3:
+            chosen_mat = mcc.mat_c
+        _:
+            pass
+    
+    $Building/Base.building_material = chosen_mat
+    $Building/MainTower.building_material = chosen_mat
     
     # Pass down the values to the base
     $Building/Base.len_x = blp_len_x

@@ -10,8 +10,9 @@ extends Node
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # Load our different materials
-const dot_material = preload("res://buildings/DotWindowMaterial.tres")
-const dot_light_material = preload("res://buildings/DotWindowLightMaterial_V2.tres")
+const dot_mat_a = preload("res://buildings/DotWindowLightMaterial_V2_A.tres")
+const dot_mat_b = preload("res://buildings/DotWindowLightMaterial_V2_B.tres")
+const dot_mat_c = preload("res://buildings/DotWindowLightMaterial_V2_C.tres")
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
 var star_a_material = preload("res://effects/StarTypeA.tres")
@@ -45,11 +46,16 @@ const default_profile = preload("res://profiles/Niteflyte.tres")
 
 # ~~~~~~~~~~~~~~~~
 #
-# 
+#  Variables
 #
 # ~~~~~~~~~~~~~~~~
-# This controls what materials new buildings come out as.
-var primary_material = dot_light_material
+
+# Assign the three active materials to the DotWindowLightMaterial_V2 shaders. We
+# use these intermediary variables so we can avoid tying code to a specific
+# preloaded material.
+var mat_a = dot_mat_a
+var mat_b = dot_mat_b
+var mat_c = dot_mat_c
 
 # What's the minimum height, in building-windows, that a building has to be in
 # order for it to have beacons? Since this is a global contraint, this is the
@@ -85,37 +91,105 @@ func update_whole_dictionary():
 func update_key(key):
     match key:
         #
-        # Building
+        # Building A
         #
-        "bld_texture_path":
+        "bld_a_texture_path":
             var window_texture = load( profile_dict[key] )
             if window_texture != null:
-                primary_material.set_shader_param(
+                mat_a.set_shader_param(
                     "DotTexture", window_texture
                 )
-                primary_material.set_shader_param(
+                mat_a.set_shader_param(
                     "DotTextureLight", window_texture
                 )
             else:
                 print( "Could not load image at ", profile_dict[key] )
-        "bld_base_color":
-            primary_material.set_shader_param("BuildingColor", profile_dict[key])
-        "bld_red_dot":
-            primary_material.set_shader_param("RedDotColor", profile_dict[key])
-        "bld_red_mixer":
-            primary_material.set_shader_param(
+        "bld_a_base_color":
+            mat_a.set_shader_param("BuildingColor", profile_dict[key])
+        "bld_a_red_dot":
+            mat_a.set_shader_param("RedDotColor", profile_dict[key])
+        "bld_a_red_mixer":
+            mat_a.set_shader_param(
                 "RedDotLightMix", profile_dict[key] / 1000.0
             )
-        "bld_green_dot":
-            primary_material.set_shader_param("GreenDotColor", profile_dict[key])
-        "bld_green_mixer":
-            primary_material.set_shader_param(
+        "bld_a_green_dot":
+            mat_a.set_shader_param("GreenDotColor", profile_dict[key])
+        "bld_a_green_mixer":
+            mat_a.set_shader_param(
                 "GreenDotLightMix", profile_dict[key] / 1000.0
             )
-        "bld_blue_dot":
-            primary_material.set_shader_param("BlueDotColor", profile_dict[key])
-        "bld_blue_mixer":
-            primary_material.set_shader_param(
+        "bld_a_blue_dot":
+            mat_a.set_shader_param("BlueDotColor", profile_dict[key])
+        "bld_a_blue_mixer":
+            mat_a.set_shader_param(
+                "BlueDotLightMix", profile_dict[key] / 1000.0
+            )
+        #
+        # Building B
+        #
+        "bld_b_texture_path":
+            var window_texture = load( profile_dict[key] )
+            if window_texture != null:
+                mat_b.set_shader_param(
+                    "DotTexture", window_texture
+                )
+                mat_b.set_shader_param(
+                    "DotTextureLight", window_texture
+                )
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "bld_b_base_color":
+            mat_b.set_shader_param("BuildingColor", profile_dict[key])
+        "bld_b_red_dot":
+            mat_b.set_shader_param("RedDotColor", profile_dict[key])
+        "bld_b_red_mixer":
+            mat_b.set_shader_param(
+                "RedDotLightMix", profile_dict[key] / 1000.0
+            )
+        "bld_b_green_dot":
+            mat_b.set_shader_param("GreenDotColor", profile_dict[key])
+        "bld_b_green_mixer":
+            mat_b.set_shader_param(
+                "GreenDotLightMix", profile_dict[key] / 1000.0
+            )
+        "bld_b_blue_dot":
+            mat_b.set_shader_param("BlueDotColor", profile_dict[key])
+        "bld_b_blue_mixer":
+            mat_b.set_shader_param(
+                "BlueDotLightMix", profile_dict[key] / 1000.0
+            )
+        #
+        # Building C
+        #
+        "bld_c_texture_path":
+            var window_texture = load( profile_dict[key] )
+            if window_texture != null:
+                mat_c.set_shader_param(
+                    "DotTexture", window_texture
+                )
+                mat_c.set_shader_param(
+                    "DotTextureLight", window_texture
+                )
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "bld_c_base_color":
+            mat_c.set_shader_param("BuildingColor", profile_dict[key])
+        "bld_c_red_dot":
+            mat_c.set_shader_param("RedDotColor", profile_dict[key])
+        "bld_c_red_mixer":
+            mat_c.set_shader_param(
+                "RedDotLightMix", profile_dict[key] / 1000.0
+            )
+        "bld_c_green_dot":
+            mat_c.set_shader_param("GreenDotColor", profile_dict[key])
+        "bld_c_green_mixer":
+            mat_c.set_shader_param(
+                "GreenDotLightMix", profile_dict[key] / 1000.0
+            )
+        "bld_c_blue_dot":
+            mat_c.set_shader_param("BlueDotColor", profile_dict[key])
+        "bld_c_blue_mixer":
+            mat_c.set_shader_param(
                 "BlueDotLightMix", profile_dict[key] / 1000.0
             )
         #

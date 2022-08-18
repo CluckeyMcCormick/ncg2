@@ -5,15 +5,35 @@
 [resource]
 script = ExtResource( 1 )
 profile_name = "Sunrise in Big City"
-building = {
-"bld_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
-"bld_blue_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
-"bld_blue_mixer": 0,
-"bld_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
-"bld_green_mixer": 500,
-"bld_red_dot": Color( 1, 1, 0.8, 1 ),
-"bld_red_mixer": 1000,
-"bld_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
+building_a = {
+"bld_a_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
+"bld_a_blue_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
+"bld_a_blue_mixer": 0,
+"bld_a_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
+"bld_a_green_mixer": 500,
+"bld_a_red_dot": Color( 1, 1, 0.8, 1 ),
+"bld_a_red_mixer": 1000,
+"bld_a_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
+}
+building_b = {
+"bld_b_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
+"bld_b_blue_dot": Color( 1, 1, 0.8, 1 ),
+"bld_b_blue_mixer": 1000,
+"bld_b_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
+"bld_b_green_mixer": 500,
+"bld_b_red_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
+"bld_b_red_mixer": 0,
+"bld_b_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
+}
+building_c = {
+"bld_c_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),
+"bld_c_blue_dot": Color( 1, 1, 0.8, 1 ),
+"bld_c_blue_mixer": 1000,
+"bld_c_green_dot": Color( 0.290196, 0.231373, 0.27451, 1 ),
+"bld_c_green_mixer": 500,
+"bld_c_red_dot": Color( 0.14902, 0.0509804, 0.0901961, 1 ),
+"bld_c_red_mixer": 0,
+"bld_c_texture_path": "res://buildings/textures/squares64_horizontal64_25hs.png"
 }
 sky = {
 "sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),

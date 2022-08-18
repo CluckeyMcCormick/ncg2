@@ -5,15 +5,35 @@
 [resource]
 script = ExtResource( 1 )
 profile_name = "Hiroshi Nagai's Niteflyte"
-building = {
-"bld_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
-"bld_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
-"bld_blue_mixer": 1000,
-"bld_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
-"bld_green_mixer": 1000,
-"bld_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
-"bld_red_mixer": 1000,
-"bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+building_a = {
+"bld_a_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
+"bld_a_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
+"bld_a_blue_mixer": 1000,
+"bld_a_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
+"bld_a_green_mixer": 1000,
+"bld_a_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
+"bld_a_red_mixer": 1000,
+"bld_a_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+}
+building_b = {
+"bld_b_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
+"bld_b_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
+"bld_b_blue_mixer": 1000,
+"bld_b_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
+"bld_b_green_mixer": 1000,
+"bld_b_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
+"bld_b_red_mixer": 1000,
+"bld_b_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+}
+building_c = {
+"bld_c_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
+"bld_c_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
+"bld_c_blue_mixer": 1000,
+"bld_c_green_dot": Color( 0.596078, 0.780392, 0.819608, 1 ),
+"bld_c_green_mixer": 1000,
+"bld_c_red_dot": Color( 0.466667, 0.0705882, 0.101961, 1 ),
+"bld_c_red_mixer": 1000,
+"bld_c_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
 }
 sky = {
 "sky_ground_bottom": Color( 0.027451, 0.0392157, 0.105882, 1 ),

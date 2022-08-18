@@ -1,0 +1,144 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=2]
+
+[node name="BuildingBControl" type="HBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -122.5
+margin_top = -88.0
+margin_right = 122.5
+margin_bottom = 88.0
+
+[node name="ColorLabel" type="Label" parent="."]
+margin_top = 81.0
+margin_right = 41.0
+margin_bottom = 95.0
+text = " Color "
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 45.0
+margin_right = 245.0
+margin_bottom = 176.0
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+margin_right = 200.0
+margin_bottom = 134.0
+columns = 2
+
+[node name="RedColor" type="Label" parent="VBoxContainer/GridContainer"]
+margin_right = 103.0
+margin_bottom = 14.0
+text = "Red Dot Color"
+align = 1
+
+[node name="RedMix" type="Label" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_right = 200.0
+margin_bottom = 14.0
+text = "Red Dot Mix"
+align = 1
+
+[node name="RedPicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+margin_top = 18.0
+margin_right = 103.0
+margin_bottom = 42.0
+text = "Color 1"
+script = ExtResource( 2 )
+target_key = "bld_b_red_dot"
+
+[node name="RedSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_top = 18.0
+margin_right = 200.0
+margin_bottom = 42.0
+max_value = 1000.0
+value = 1000.0
+script = ExtResource( 1 )
+target_key = "bld_b_red_mixer"
+
+[node name="GreenColor" type="Label" parent="VBoxContainer/GridContainer"]
+margin_top = 46.0
+margin_right = 103.0
+margin_bottom = 60.0
+text = "Green Dot Color"
+align = 1
+
+[node name="GreenMix" type="Label" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_top = 46.0
+margin_right = 200.0
+margin_bottom = 60.0
+text = "Green Dot Mix"
+align = 1
+
+[node name="GreenPicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+margin_top = 64.0
+margin_right = 103.0
+margin_bottom = 88.0
+text = "Color 1"
+script = ExtResource( 2 )
+target_key = "bld_b_green_dot"
+
+[node name="GreenSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_top = 64.0
+margin_right = 200.0
+margin_bottom = 88.0
+max_value = 1000.0
+value = 1000.0
+script = ExtResource( 1 )
+target_key = "bld_b_green_mixer"
+
+[node name="BlueColor" type="Label" parent="VBoxContainer/GridContainer"]
+margin_top = 92.0
+margin_right = 103.0
+margin_bottom = 106.0
+text = "Blue Dot Color"
+align = 1
+
+[node name="BlueMix" type="Label" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_top = 92.0
+margin_right = 200.0
+margin_bottom = 106.0
+text = "Blue Dot Mix"
+align = 1
+
+[node name="BluePicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+margin_top = 110.0
+margin_right = 103.0
+margin_bottom = 134.0
+text = "Color 1"
+script = ExtResource( 2 )
+target_key = "bld_b_blue_dot"
+
+[node name="BlueSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+margin_left = 107.0
+margin_top = 110.0
+margin_right = 200.0
+margin_bottom = 134.0
+max_value = 1000.0
+value = 1000.0
+script = ExtResource( 1 )
+target_key = "bld_b_blue_mixer"
+
+[node name="BuildingColor" type="Label" parent="VBoxContainer"]
+margin_top = 138.0
+margin_right = 200.0
+margin_bottom = 152.0
+text = "Building Color"
+align = 1
+
+[node name="BuildingPicker" type="ColorPickerButton" parent="VBoxContainer"]
+margin_top = 156.0
+margin_right = 200.0
+margin_bottom = 176.0
+text = "Color 1"
+script = ExtResource( 2 )
+target_key = "bld_b_base_color"

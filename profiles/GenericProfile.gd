@@ -3,15 +3,37 @@ class_name GenericProfile
 
 export var profile_name = "Hiroshi Nagai's Niteflyte"
 
-export var building = {
-    "bld_base_color": Color("#000d20"),
-    "bld_red_dot": Color("#77121a"),
-    "bld_red_mixer": 1000,
-    "bld_green_dot": Color("#98c7d1"),
-    "bld_green_mixer": 1000,
-    "bld_blue_dot": Color("#d1cc64"),
-    "bld_blue_mixer": 1000,
-    "bld_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
+export var building_a = {
+    "bld_a_base_color": Color("#000d20"),
+    "bld_a_red_dot": Color("#77121a"),
+    "bld_a_red_mixer": 1000,
+    "bld_a_green_dot": Color("#98c7d1"),
+    "bld_a_green_mixer": 1000,
+    "bld_a_blue_dot": Color("#d1cc64"),
+    "bld_a_blue_mixer": 1000,
+    "bld_a_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
+}
+
+export var building_b = {
+    "bld_b_base_color": Color("#000d20"),
+    "bld_b_red_dot": Color("#77121a"),
+    "bld_b_red_mixer": 1000,
+    "bld_b_green_dot": Color("#98c7d1"),
+    "bld_b_green_mixer": 1000,
+    "bld_b_blue_dot": Color("#d1cc64"),
+    "bld_b_blue_mixer": 1000,
+    "bld_b_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
+}
+
+export var building_c = {
+    "bld_c_base_color": Color("#000d20"),
+    "bld_c_red_dot": Color("#77121a"),
+    "bld_c_red_mixer": 1000,
+    "bld_c_green_dot": Color("#98c7d1"),
+    "bld_c_green_mixer": 1000,
+    "bld_c_blue_dot": Color("#d1cc64"),
+    "bld_c_blue_mixer": 1000,
+    "bld_c_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png",
 }
 
 export var sky = {
@@ -108,8 +130,14 @@ export var sparkle = {
 func to_dict():
     var dict = { "profile_name": profile_name }
     
-    for key in building.keys():
-        dict[key] = building[key]
+    for key in building_a.keys():
+        dict[key] = building_a[key]
+
+    for key in building_b.keys():
+        dict[key] = building_b[key]
+
+    for key in building_c.keys():
+        dict[key] = building_c[key]
     
     for key in sky.keys():
         dict[key] = sky[key]

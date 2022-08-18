@@ -5,15 +5,35 @@
 [resource]
 script = ExtResource( 1 )
 profile_name = "Sailor Moon"
-building = {
-"bld_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
-"bld_blue_dot": Color( 0.6, 1, 0.945098, 1 ),
-"bld_blue_mixer": 0,
-"bld_green_dot": Color( 1, 1, 0.501961, 1 ),
-"bld_green_mixer": 0,
-"bld_red_dot": Color( 1, 0.701961, 0.858824, 1 ),
-"bld_red_mixer": 0,
-"bld_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
+building_a = {
+"bld_a_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
+"bld_a_blue_dot": Color( 0.6, 1, 0.945098, 1 ),
+"bld_a_blue_mixer": 0,
+"bld_a_green_dot": Color( 1, 1, 0.501961, 1 ),
+"bld_a_green_mixer": 0,
+"bld_a_red_dot": Color( 1, 0.701961, 0.858824, 1 ),
+"bld_a_red_mixer": 0,
+"bld_a_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
+}
+building_b = {
+"bld_b_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
+"bld_b_blue_dot": Color( 1, 0.701961, 0.858824, 1 ),
+"bld_b_blue_mixer": 0,
+"bld_b_green_dot": Color( 1, 1, 0.501961, 1 ),
+"bld_b_green_mixer": 0,
+"bld_b_red_dot": Color( 0.6, 1, 0.945098, 1 ),
+"bld_b_red_mixer": 0,
+"bld_b_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
+}
+building_c = {
+"bld_c_base_color": Color( 0.0470588, 0.211765, 0.34902, 1 ),
+"bld_c_blue_dot": Color( 1, 0.701961, 0.858824, 1 ),
+"bld_c_blue_mixer": 0,
+"bld_c_green_dot": Color( 1, 1, 0.501961, 1 ),
+"bld_c_green_mixer": 0,
+"bld_c_red_dot": Color( 0.6, 1, 0.945098, 1 ),
+"bld_c_red_mixer": 0,
+"bld_c_texture_path": "res://buildings/textures/squares64_horizontal64_75hs.png"
 }
 sky = {
 "sky_ground_bottom": Color( 0, 0.243137, 0.329412, 1 ),
