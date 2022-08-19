@@ -11,6 +11,12 @@ const WINDOW_SIDE_COUNT = GlobalRef.WINDOW_CELL_LEN
 # one side of a building texture?
 const BUILDING_SIZE = WINDOW_PIXEL_SIZE * WINDOW_SIDE_COUNT;
 
+# Formats in Godot are a bit tricky - to blit/blend between images, they all
+# need to be the same format. With that in mind, we're going to force them all
+# to be one format because... well honestly I'm not that imaginitive, I'm very
+# lazy  and I can't see the inevitable way this bites me.
+const BUILDING_FORMAT = Image.FORMAT_RGBA8
+
 # We'll be building a texture via a pixel-copy operation known as blitting (or
 # it might be 'blending', who knows, I'll keep changing it). Anyway, since the
 # size of the window is fixed, we can create the RECT2 object ahead of time and
@@ -67,7 +73,6 @@ class WindowSet:
     # Creates a window set from a root image. This includes three pixel-by-pixel
     # copies, so you had best be prepare for this to take a second.
     func _init(root_image):
-        var format = root_image.get_format()
         var color
         
         # Create the window image objects
@@ -76,9 +81,9 @@ class WindowSet:
         blue = Image.new()
         
         # Initialize the window images
-        red.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
-        green.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
-        blue.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, format)
+        red.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, BUILDING_FORMAT)
+        green.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, BUILDING_FORMAT)
+        blue.create(WINDOW_PIXEL_SIZE, WINDOW_PIXEL_SIZE, false, BUILDING_FORMAT)
         
         # Lock down the images so we can modify them.
         root_image.lock()
@@ -151,13 +156,12 @@ class WindowGenerator:
         
         # For each window, create a window set
         for window in windows_arr:
+            window.convert(BUILDING_FORMAT)
             window_sets.append( WindowSet.new(window) )
         
         # Create a blank texture image
         _texture_image.create(
-            BUILDING_SIZE, BUILDING_SIZE,
-            false,
-            window_sets[0].red.get_format()
+            BUILDING_SIZE, BUILDING_SIZE, false, BUILDING_FORMAT
         )
         
         # For each window...
@@ -250,13 +254,12 @@ class WindowGenerator:
         
         # For each window, create a window set
         for window in windows_arr:
+            window.convert(BUILDING_FORMAT)
             window_sets.append( WindowSet.new(window) )
         
         # Create a blank texture image
         _texture_image.create(
-            BUILDING_SIZE, BUILDING_SIZE,
-            false,
-            Image.FORMAT_RGBA8
+            BUILDING_SIZE, BUILDING_SIZE, false, BUILDING_FORMAT
         )
         
         # As it turns out, incrementing diagonally through a two dimensional
