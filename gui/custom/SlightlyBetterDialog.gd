@@ -6,10 +6,8 @@ class_name SlightlyBetterDialog
 # We don't necessarily want to shrink ALL the way down to a minimum size. It may
 # be useful to leave some margins on any one side - these variables allow for
 # that. Negative values are effectively treated as 0.
-export(int) var child_margin_right = 0
-export(int) var child_margin_top = 0
-export(int) var child_margin_left = 0
-export(int) var child_margin_bottom = 0
+export(int) var horizontal_margin = 0
+export(int) var vertical_margin = 0
 
 func _ready():
     # Connect our signals. Unless this is done manually, they don't seem to work
@@ -56,9 +54,7 @@ func _resize(shrink=false):
     #
     # Step 2: X Size check
     #
-    target_size = max_size.x
-    target_size += clamp(child_margin_right, 0, INF)
-    target_size += clamp(child_margin_left, 0, INF)
+    target_size = max_size.x + clamp(horizontal_margin, 0, INF)
     
     if (not shrink) and self.rect_size.x < target_size:
         self.rect_size.x = target_size
@@ -69,9 +65,7 @@ func _resize(shrink=false):
     #
     # Step 3: Y Size check
     #
-    target_size = max_size.y
-    target_size += clamp(child_margin_top, 0, INF)
-    target_size += clamp(child_margin_bottom, 0, INF)
+    target_size = max_size.y + clamp(vertical_margin, 0, INF)
     
     if (not shrink) and self.rect_size.y < target_size:
         self.rect_size.y = target_size

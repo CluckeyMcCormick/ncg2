@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=1]
 [ext_resource path="res://gui/custom/MCC_ColorPickerButton.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_FilePathCheckBoxList.tscn" type="PackedScene" id=3]
 
 [node name="BuildingBControl" type="HBoxContainer"]
 anchor_left = 0.5
@@ -21,30 +22,30 @@ text = " Color "
 align = 1
 valign = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Colors" type="VBoxContainer" parent="."]
 margin_left = 45.0
 margin_right = 245.0
 margin_bottom = 176.0
 
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="Colors"]
 margin_right = 200.0
 margin_bottom = 134.0
 columns = 2
 
-[node name="RedColor" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="RedColor" type="Label" parent="Colors/GridContainer"]
 margin_right = 103.0
 margin_bottom = 14.0
 text = "Red Dot Color"
 align = 1
 
-[node name="RedMix" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="RedMix" type="Label" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_right = 200.0
 margin_bottom = 14.0
 text = "Red Dot Mix"
 align = 1
 
-[node name="RedPicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+[node name="RedPicker" type="ColorPickerButton" parent="Colors/GridContainer"]
 margin_top = 18.0
 margin_right = 103.0
 margin_bottom = 42.0
@@ -52,7 +53,7 @@ text = "Color 1"
 script = ExtResource( 2 )
 target_key = "bld_b_red_dot"
 
-[node name="RedSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+[node name="RedSpinner" type="SpinBox" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_top = 18.0
 margin_right = 200.0
@@ -62,14 +63,14 @@ value = 1000.0
 script = ExtResource( 1 )
 target_key = "bld_b_red_mixer"
 
-[node name="GreenColor" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="GreenColor" type="Label" parent="Colors/GridContainer"]
 margin_top = 46.0
 margin_right = 103.0
 margin_bottom = 60.0
 text = "Green Dot Color"
 align = 1
 
-[node name="GreenMix" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="GreenMix" type="Label" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_top = 46.0
 margin_right = 200.0
@@ -77,7 +78,7 @@ margin_bottom = 60.0
 text = "Green Dot Mix"
 align = 1
 
-[node name="GreenPicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+[node name="GreenPicker" type="ColorPickerButton" parent="Colors/GridContainer"]
 margin_top = 64.0
 margin_right = 103.0
 margin_bottom = 88.0
@@ -85,7 +86,7 @@ text = "Color 1"
 script = ExtResource( 2 )
 target_key = "bld_b_green_dot"
 
-[node name="GreenSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+[node name="GreenSpinner" type="SpinBox" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_top = 64.0
 margin_right = 200.0
@@ -95,14 +96,14 @@ value = 1000.0
 script = ExtResource( 1 )
 target_key = "bld_b_green_mixer"
 
-[node name="BlueColor" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="BlueColor" type="Label" parent="Colors/GridContainer"]
 margin_top = 92.0
 margin_right = 103.0
 margin_bottom = 106.0
 text = "Blue Dot Color"
 align = 1
 
-[node name="BlueMix" type="Label" parent="VBoxContainer/GridContainer"]
+[node name="BlueMix" type="Label" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_top = 92.0
 margin_right = 200.0
@@ -110,7 +111,7 @@ margin_bottom = 106.0
 text = "Blue Dot Mix"
 align = 1
 
-[node name="BluePicker" type="ColorPickerButton" parent="VBoxContainer/GridContainer"]
+[node name="BluePicker" type="ColorPickerButton" parent="Colors/GridContainer"]
 margin_top = 110.0
 margin_right = 103.0
 margin_bottom = 134.0
@@ -118,7 +119,7 @@ text = "Color 1"
 script = ExtResource( 2 )
 target_key = "bld_b_blue_dot"
 
-[node name="BlueSpinner" type="SpinBox" parent="VBoxContainer/GridContainer"]
+[node name="BlueSpinner" type="SpinBox" parent="Colors/GridContainer"]
 margin_left = 107.0
 margin_top = 110.0
 margin_right = 200.0
@@ -128,17 +129,49 @@ value = 1000.0
 script = ExtResource( 1 )
 target_key = "bld_b_blue_mixer"
 
-[node name="BuildingColor" type="Label" parent="VBoxContainer"]
+[node name="BuildingColor" type="Label" parent="Colors"]
 margin_top = 138.0
 margin_right = 200.0
 margin_bottom = 152.0
 text = "Building Color"
 align = 1
 
-[node name="BuildingPicker" type="ColorPickerButton" parent="VBoxContainer"]
+[node name="BuildingPicker" type="ColorPickerButton" parent="Colors"]
 margin_top = 156.0
 margin_right = 200.0
 margin_bottom = 176.0
 text = "Color 1"
 script = ExtResource( 2 )
 target_key = "bld_b_base_color"
+
+[node name="VSeparator" type="VSeparator" parent="."]
+margin_left = 249.0
+margin_right = 253.0
+margin_bottom = 176.0
+
+[node name="Texture" type="VBoxContainer" parent="."]
+margin_left = 257.0
+margin_right = 507.0
+margin_bottom = 176.0
+
+[node name="MCC_FilePathCheckBoxList" parent="Texture" instance=ExtResource( 3 )]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 250.0
+margin_bottom = 152.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+target_key = "texture_set_b"
+default_directory = "res://window_gen/windows/"
+default_extension = ".png"
+
+[node name="Button" type="Button" parent="Texture"]
+margin_top = 156.0
+margin_right = 250.0
+margin_bottom = 176.0
+text = "Regenerate"
