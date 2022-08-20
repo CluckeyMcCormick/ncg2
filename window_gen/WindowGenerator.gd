@@ -72,7 +72,7 @@ class WindowSet:
     
     # Creates a window set from a root image. This includes three pixel-by-pixel
     # copies, so you had best be prepare for this to take a second.
-    func _init(root_image):
+    func _init(root_image : Image):
         var color
         
         # Create the window image objects
@@ -108,8 +108,11 @@ class WindowSet:
         blue.lock()
 
 class WindowGenerator:
-    # The
+    # The image that's being directly modified by the generator. Generally, you
+    # shouldn't need to access this.
     var _texture_image
+    # The texture created from the above image. This is what you'll want to
+    # actually for materials.
     var texture
     
     # When we roll colors, we also roll a "chain length". This many windows will
@@ -136,6 +139,14 @@ class WindowGenerator:
 
     func paint_anti_diagonal(windows_arr : Array):
         paint_diagonal_generic(windows_arr, WindowAlgorithm.ANTI_DIAGONAL)
+    
+    func paint_blank():
+        # Create a blank texture image
+        _texture_image.create(
+            BUILDING_SIZE, BUILDING_SIZE, false, BUILDING_FORMAT
+        )
+        # Update our texture.
+        texture.create_from_image(_texture_image)
     
     func paint_generic(windows_arr : Array, algorithm):
         
@@ -222,7 +233,7 @@ class WindowGenerator:
             # Blend in that that image we selected into the overall building
             # image - if we have an image!
             if curr_image != null:
-                _texture_image.blend_rect(
+                _texture_image.blit_rect(
                     curr_image,
                     BLIT_RECT,
                     Vector2( x * WINDOW_PIXEL_SIZE, y * WINDOW_PIXEL_SIZE)
@@ -234,6 +245,11 @@ class WindowGenerator:
         
         # Update our texture.
         texture.create_from_image(_texture_image)
+        # Creating the texture using that create method reset the texture's
+        # option flags. We'll need to set them by hand now - turn on repeating
+        # (since the city effect relies on that) and ansiotropic filtering (so
+        # that we can see the window effect from angles).
+        texture.flags = Texture.FLAG_REPEAT | Texture.FLAG_ANISOTROPIC_FILTER
   
     func paint_diagonal_generic(windows_arr : Array, algorithm):
         
@@ -355,6 +371,11 @@ class WindowGenerator:
         
         # Update our texture.
         texture.create_from_image(_texture_image)
+        # Creating the texture using that create method reset the texture's
+        # option flags. We'll need to set them by hand now - turn on repeating
+        # (since the city effect relies on that) and ansiotropic filtering (so
+        # that we can see the window effect from angles).
+        texture.flags = Texture.FLAG_REPEAT | Texture.FLAG_ANISOTROPIC_FILTER
     
     func pick_random_color():
         var roll = randi() % COLOR_ROLL_SIZE

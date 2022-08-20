@@ -81,6 +81,13 @@ window/size/resizable=false
 
 enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
 
+[importer_defaults]
+
+texture={
+"detect_3d": false,
+"flags/filter": false
+}
+
 [input]
 
 control_camera_pause={
@@ -111,5 +118,6 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/filters/anisotropic_filter_level=16
 limits/rendering/max_lights_per_object=64
 environment/default_environment="res://default_env.tres"
