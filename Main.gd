@@ -6,7 +6,6 @@ onready var mcc = get_node("/root/MaterialColorControl")
 
 # TODO: Dynamically generate building textures via blitting.
 # TODO: Add second and third building materials.
-# TODO: Replace Pop-up Window/Dialogs with something that doesn't freeze the GUI
 # TODO: Decorations (see FootprintBuilding)
 # TODO: Add ability for user to save profiles
 

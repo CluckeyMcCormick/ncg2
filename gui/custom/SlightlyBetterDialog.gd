@@ -1,6 +1,11 @@
 extends WindowDialog
 class_name SlightlyBetterDialog
 
+# TODO: Replace Pop-up Window/Dialogs with something that doesn't freeze the GUI
+
+# We don't necessarily want to shrink ALL the way down to a minimum size. It may
+# be useful to leave some margins on any one side - these variables allow for
+# that. Negative values are effectively treated as 0.
 export(int) var child_margin_right = 0
 export(int) var child_margin_top = 0
 export(int) var child_margin_left = 0
@@ -13,12 +18,12 @@ func _ready():
     self.connect("resized", self, "_on_resized")
 
 func _on_about_to_show():
-    _resize()
+    _resize(true)
 
 func _on_resized():
     _resize()
 
-func _resize():
+func _resize(shrink=false):
     var target_size
     var max_size = Vector2(-INF, -INF)
     
@@ -39,17 +44,28 @@ func _resize():
             
         if max_size.y < child.rect_size.y:
             max_size.y = child.rect_size.y
-
+    
+    # Apparently there's an issue with Control nodes - sometimes, when you
+    # change the rect_size of the node, it won't actually update. In that case,
+    # you need to wait for an idle frame. I've had trouble with this
+    # yield-to-tree syntax before, but it seems to work here.
+    # Thanks to girng @ GitHub for this solution:
+    # https://github.com/godotengine/godot/issues/32349
+    yield(get_tree(), "idle_frame")
+    
     #
     # Step 2: X Size check
     #
     target_size = max_size.x
     target_size += clamp(child_margin_right, 0, INF)
     target_size += clamp(child_margin_left, 0, INF)
-
-    if self.rect_size.x < target_size:
+    
+    if (not shrink) and self.rect_size.x < target_size:
         self.rect_size.x = target_size
-
+        
+    if shrink and target_size < self.rect_size.x:
+        self.rect_size.x = target_size
+    
     #
     # Step 3: Y Size check
     #
@@ -57,5 +73,8 @@ func _resize():
     target_size += clamp(child_margin_top, 0, INF)
     target_size += clamp(child_margin_bottom, 0, INF)
     
-    if self.rect_size.y < target_size:
+    if (not shrink) and self.rect_size.y < target_size:
+        self.rect_size.y = target_size
+        
+    if shrink and target_size < self.rect_size.y:
         self.rect_size.y = target_size
