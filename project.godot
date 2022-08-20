@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "MCCSpinBox",
 "language": "GDScript",
 "path": "res://gui/custom/MCC_SpinBox.gd"
+}, {
+"base": "WindowDialog",
+"class": "SlightlyBetterDialog",
+"language": "GDScript",
+"path": "res://gui/custom/SlightlyBetterDialog.gd"
 } ]
 _global_script_class_icons={
 "GenericProfile": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "MCCCheckButton": "",
 "MCCColorPickerButton": "",
 "MCCFilePathOptionButton": "",
-"MCCSpinBox": ""
+"MCCSpinBox": "",
+"SlightlyBetterDialog": ""
 }
 
 [application]

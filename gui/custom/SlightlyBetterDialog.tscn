@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gui/custom/SlightlyBetterDialog.gd" type="Script" id=1]
+
+[node name="SlightlyBetterDialog" type="WindowDialog"]
+margin_right = 48.0
+margin_bottom = 40.0
+popup_exclusive = true
+window_title = "Dialogus"
+resizable = true
+script = ExtResource( 1 )
+
+[connection signal="about_to_show" from="." to="." method="_on_BetterDialog_about_to_show"]
+[connection signal="resized" from="." to="." method="_on_BetterDialog_resized"]
