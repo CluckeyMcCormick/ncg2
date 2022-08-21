@@ -11,6 +11,16 @@ const WINDOW_CELL_LEN = 64
 # by WINDOW_CELL_LEN gets us the measure of a cell in the world.
 const WINDOW_UV_SIZE = 1.0 / WINDOW_CELL_LEN
 
+# We support multiple window algorithms - after all, the sequence in which we
+# place the windows results in a unique look for each texture.
+enum WindowAlgorithm {
+    RANDOM = 0
+    HORIZONTAL = 1
+    VERTICAL = 2
+    DIAGONAL = 3
+    ANTI_DIAGONAL = 4
+}
+
 # ~~~~~~~~~~~~~~~~
 #
 # Groups

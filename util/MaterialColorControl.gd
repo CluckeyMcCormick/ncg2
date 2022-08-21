@@ -101,13 +101,13 @@ func update_whole_dictionary():
         update_key(key)
 
 func regenerate_texture_a():
-    regenerate_generic("bld_a_texture_set", "", texture_gen_a)
+    regenerate_generic("bld_a_texture_set", "bld_a_algorithm", texture_gen_a)
 
 func regenerate_texture_b():
-    regenerate_generic("bld_b_texture_set", "", texture_gen_b)
+    regenerate_generic("bld_b_texture_set", "bld_b_algorithm", texture_gen_b)
 
 func regenerate_texture_c():
-    regenerate_generic("bld_c_texture_set", "", texture_gen_c)
+    regenerate_generic("bld_c_texture_set", "bld_c_algorithm", texture_gen_c)
 
 func regenerate_generic(texture_key, algorithm_key, generator):
     var window
@@ -132,8 +132,28 @@ func regenerate_generic(texture_key, algorithm_key, generator):
             window = window.get_data()
         
         images.append(window)
-        
-    generator.paint_horizontal(images)
+    
+    # If the user didn't select any images, paint a blank canvas and back out
+    if images.empty():
+        generator.paint_blank()
+        return
+    
+    # Paint using the user's selected algorithm
+    match profile_dict[algorithm_key]:
+        GlobalRef.WindowAlgorithm.RANDOM:
+            generator.paint_random(images)
+            
+        GlobalRef.WindowAlgorithm.HORIZONTAL:
+            generator.paint_horizontal(images)
+            
+        GlobalRef.WindowAlgorithm.VERTICAL:
+            generator.paint_vertical(images)
+            
+        GlobalRef.WindowAlgorithm.DIAGONAL:
+            generator.paint_diagonal(images)
+            
+        GlobalRef.WindowAlgorithm.ANTI_DIAGONAL:
+            generator.paint_anti_diagonal(images)
 
 # Some of the keys above have special processing when their values are updated.
 # Rather than performing all the special processing actions all at once, we have

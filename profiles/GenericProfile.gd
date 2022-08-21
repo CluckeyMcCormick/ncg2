@@ -11,6 +11,7 @@ export var building_a = {
     "bld_a_green_mixer": 1000,
     "bld_a_blue_dot": Color("#d1cc64"),
     "bld_a_blue_mixer": 1000,
+    "bld_a_algorithm" : 1,
     "bld_a_texture_set": ["res://window_gen/windows/dot_75p.png"],
 }
 
@@ -22,6 +23,7 @@ export var building_b = {
     "bld_b_green_mixer": 1000,
     "bld_b_blue_dot": Color("#d1cc64"),
     "bld_b_blue_mixer": 1000,
+    "bld_b_algorithm" : 1,
     "bld_b_texture_set": ["res://window_gen/windows/dot_75p.png"],
 }
 
@@ -33,6 +35,7 @@ export var building_c = {
     "bld_c_green_mixer": 1000,
     "bld_c_blue_dot": Color("#d1cc64"),
     "bld_c_blue_mixer": 1000,
+    "bld_c_algorithm" : 1,
     "bld_c_texture_set": ["res://window_gen/windows/dot_75p.png"],
 }
 

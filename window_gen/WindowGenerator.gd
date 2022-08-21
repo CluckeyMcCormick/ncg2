@@ -49,16 +49,6 @@ const GREEN_CHANCE = 87
 # If we're not OFF or RED OR GREEN, then we will be BLUE. The chance of being
 # BLUE can thus be calculated as COLOR_ROLL_SIZE - GREEN_CHANCE.
 
-# We support multiple window algorithms - after all, the sequence in which we
-# place the windows results in a unique look for each texture.
-enum WindowAlgorithm {
-    RANDOM = 0
-    HORIZONTAL = 1
-    VERTICAL = 2
-    DIAGONAL = 3
-    ANTI_DIAGONAL = 4
-}
-
 # Windows need to come in three colors: red, green, or blue. We need to generate
 # these three color windows from a template, which we refer to as a root window.
 # This WindowSet class exists to help us easily create RGB window images from
@@ -126,19 +116,19 @@ class WindowGenerator:
         texture = ImageTexture.new()
         
     func paint_random(windows_arr : Array):
-        paint_generic(windows_arr, WindowAlgorithm.RANDOM)
+        paint_generic(windows_arr, GlobalRef.WindowAlgorithm.RANDOM)
     
     func paint_horizontal(windows_arr : Array):
-        paint_generic(windows_arr, WindowAlgorithm.HORIZONTAL)
+        paint_generic(windows_arr, GlobalRef.WindowAlgorithm.HORIZONTAL)
 
     func paint_vertical(windows_arr : Array):
-        paint_generic(windows_arr, WindowAlgorithm.VERTICAL)
+        paint_generic(windows_arr, GlobalRef.WindowAlgorithm.VERTICAL)
     
     func paint_diagonal(windows_arr : Array):
-        paint_diagonal_generic(windows_arr, WindowAlgorithm.DIAGONAL)
+        paint_diagonal_generic(windows_arr, GlobalRef.WindowAlgorithm.DIAGONAL)
 
     func paint_anti_diagonal(windows_arr : Array):
-        paint_diagonal_generic(windows_arr, WindowAlgorithm.ANTI_DIAGONAL)
+        paint_diagonal_generic(windows_arr, GlobalRef.WindowAlgorithm.ANTI_DIAGONAL)
     
     func paint_blank():
         # Create a blank texture image
@@ -178,16 +168,16 @@ class WindowGenerator:
         # For each window...
         for i in range(WINDOW_SIDE_COUNT * WINDOW_SIDE_COUNT):
             match algorithm:
-                WindowAlgorithm.RANDOM:
+                GlobalRef.WindowAlgorithm.RANDOM:
                     x = i % WINDOW_SIDE_COUNT
                     y = i / WINDOW_SIDE_COUNT
                     # Force a chain reroll since this is random
                     shape_chain = 0
                     color_chain = 0
-                WindowAlgorithm.HORIZONTAL:
+                GlobalRef.WindowAlgorithm.HORIZONTAL:
                     x = i % WINDOW_SIDE_COUNT
                     y = i / WINDOW_SIDE_COUNT
-                WindowAlgorithm.VERTICAL:
+                GlobalRef.WindowAlgorithm.VERTICAL:
                     x = i / WINDOW_SIDE_COUNT
                     y = i % WINDOW_SIDE_COUNT
                 _:
@@ -290,14 +280,14 @@ class WindowGenerator:
         # a vague sense to me, and that's all I'll say
         for i in range( WINDOW_SIDE_COUNT + WINDOW_SIDE_COUNT - 1):
             match algorithm:
-                WindowAlgorithm.DIAGONAL:
+                GlobalRef.WindowAlgorithm.DIAGONAL:
                     if i < WINDOW_SIDE_COUNT:
                         x = i
                         y = 0
                     else:
                         x = WINDOW_SIDE_COUNT - 1
                         y = i - WINDOW_SIDE_COUNT + 1
-                WindowAlgorithm.ANTI_DIAGONAL:
+                GlobalRef.WindowAlgorithm.ANTI_DIAGONAL:
                     if i < WINDOW_SIDE_COUNT:
                         x = i
                         y = WINDOW_SIDE_COUNT - 1
@@ -360,10 +350,10 @@ class WindowGenerator:
                 
                 # Increment ourselves - DIAGONALLY!
                 match algorithm:
-                    WindowAlgorithm.DIAGONAL:
+                    GlobalRef.WindowAlgorithm.DIAGONAL:
                         x -= 1
                         y += 1
-                    WindowAlgorithm.ANTI_DIAGONAL:
+                    GlobalRef.WindowAlgorithm.ANTI_DIAGONAL:
                         x -= 1
                         y -= 1
                     _:

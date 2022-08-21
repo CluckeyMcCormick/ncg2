@@ -31,7 +31,7 @@ func _on_mcc_key_update(key):
     # Update only if our key matches.
     match key:
         target_key:
-            self.select( self.get_item_index( 0 ) )
+            self.select( self.get_item_index( mcc.profile_dict[target_key] ) )
 
     # Enable global updating again
     _update_global = true

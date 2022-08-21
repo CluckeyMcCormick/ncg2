@@ -6,6 +6,7 @@
 script = ExtResource( 1 )
 profile_name = "Hiroshi Nagai's Niteflyte"
 building_a = {
+"bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
 "bld_a_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
 "bld_a_blue_mixer": 1000,
@@ -16,6 +17,7 @@ building_a = {
 "bld_a_texture_set": [ "res://window_gen/windows/dot_75p.png" ]
 }
 building_b = {
+"bld_b_algorithm": 1,
 "bld_b_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
 "bld_b_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
 "bld_b_blue_mixer": 1000,
@@ -26,6 +28,7 @@ building_b = {
 "bld_b_texture_set": [ "res://window_gen/windows/dot_75p.png" ]
 }
 building_c = {
+"bld_c_algorithm": 1,
 "bld_c_base_color": Color( 0, 0.0509804, 0.12549, 1 ),
 "bld_c_blue_dot": Color( 0.819608, 0.8, 0.392157, 1 ),
 "bld_c_blue_mixer": 1000,
