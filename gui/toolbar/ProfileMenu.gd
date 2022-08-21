@@ -35,6 +35,10 @@ func _ready():
 func assert_profile():
     mcc.profile_dict = id_to_res[current_id].to_dict()
     mcc.update_whole_dictionary()
+    
+    mcc.regenerate_texture_a()
+    mcc.regenerate_texture_b()
+    mcc.regenerate_texture_c()
 
 func _build_menu():
     # What are the paths to our user profiles?

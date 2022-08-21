@@ -16,8 +16,6 @@ var resources = [
 func _ready():
     for res in resources:
         $ProfileSelection.add_item(res.profile_name)
-    
-    $ProfileSelection.select(0)
 
 func assert_profile():
     _on_ProfileSelection_item_selected(
@@ -27,3 +25,7 @@ func assert_profile():
 func _on_ProfileSelection_item_selected(index):
     mcc.profile_dict = resources[index].to_dict()
     mcc.update_whole_dictionary()
+    
+    mcc.regenerate_texture_a()
+    mcc.regenerate_texture_b()
+    mcc.regenerate_texture_c()
