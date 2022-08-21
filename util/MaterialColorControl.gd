@@ -9,6 +9,9 @@ extends Node
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
+# Load the Image Generator script
+const ImageGenerator = preload("res://window_gen/WindowGenerator.gd")
+
 # Load our different materials
 const dot_mat_a = preload("res://buildings/DotWindowLightMaterial_V2_A.tres")
 const dot_mat_b = preload("res://buildings/DotWindowLightMaterial_V2_B.tres")
@@ -57,11 +60,16 @@ var mat_a = dot_mat_a
 var mat_b = dot_mat_b
 var mat_c = dot_mat_c
 
+var texture_gen_a = ImageGenerator.WindowGenerator.new()
+var texture_gen_b = ImageGenerator.WindowGenerator.new()
+var texture_gen_c = ImageGenerator.WindowGenerator.new()
+
 # What's the minimum height, in building-windows, that a building has to be in
 # order for it to have beacons? Since this is a global contraint, this is the
 # best place for it.
 var min_beacon_height = 35
 
+# The dictionary that makes up our profile object
 var profile_dict = {}
 
 # ~~~~~~~~~~~~~~~~
@@ -79,10 +87,53 @@ signal key_update(key)
 func _ready():
     profile_dict = default_profile.to_dict()
     
+    mat_a.set_shader_param("DotTexture", texture_gen_a.texture)
+    mat_b.set_shader_param("DotTexture", texture_gen_b.texture)
+    mat_c.set_shader_param("DotTexture", texture_gen_c.texture)
+    
+    regenerate_texture_a()
+    regenerate_texture_b()
+    regenerate_texture_c()
+    
 # Asserts the current values into the dictionary
 func update_whole_dictionary():
     for key in profile_dict.keys():
         update_key(key)
+
+func regenerate_texture_a():
+    regenerate_generic("bld_a_texture_set", "", texture_gen_a)
+
+func regenerate_texture_b():
+    regenerate_generic("bld_b_texture_set", "", texture_gen_b)
+
+func regenerate_texture_c():
+    regenerate_generic("bld_c_texture_set", "", texture_gen_c)
+
+func regenerate_generic(texture_key, algorithm_key, generator):
+    var window
+    var images = []
+    
+    # For each window path we need to load...
+    for path in profile_dict[texture_key]:
+        # Load the resource
+        window = load( path )
+        
+        # If we didn't get anything, skip this path
+        if window == null:
+            print( "Could not load image at ", path )
+            continue
+        
+        # If what we loaded is not an image or a texture, skip this path!
+        if not (window is Image or window is Texture):
+            print("Invalid window image ", window)
+            continue
+        
+        if window is Texture:
+            window = window.get_data()
+        
+        images.append(window)
+        
+    generator.paint_horizontal(images)
 
 # Some of the keys above have special processing when their values are updated.
 # Rather than performing all the special processing actions all at once, we have
@@ -93,17 +144,6 @@ func update_key(key):
         #
         # Building A
         #
-        "bld_a_texture_path":
-            var window_texture = load( profile_dict[key] )
-            if window_texture != null:
-                mat_a.set_shader_param(
-                    "DotTexture", window_texture
-                )
-                mat_a.set_shader_param(
-                    "DotTextureLight", window_texture
-                )
-            else:
-                print( "Could not load image at ", profile_dict[key] )
         "bld_a_base_color":
             mat_a.set_shader_param("BuildingColor", profile_dict[key])
         "bld_a_red_dot":
@@ -127,17 +167,6 @@ func update_key(key):
         #
         # Building B
         #
-        "bld_b_texture_path":
-            var window_texture = load( profile_dict[key] )
-            if window_texture != null:
-                mat_b.set_shader_param(
-                    "DotTexture", window_texture
-                )
-                mat_b.set_shader_param(
-                    "DotTextureLight", window_texture
-                )
-            else:
-                print( "Could not load image at ", profile_dict[key] )
         "bld_b_base_color":
             mat_b.set_shader_param("BuildingColor", profile_dict[key])
         "bld_b_red_dot":
@@ -161,17 +190,6 @@ func update_key(key):
         #
         # Building C
         #
-        "bld_c_texture_path":
-            var window_texture = load( profile_dict[key] )
-            if window_texture != null:
-                mat_c.set_shader_param(
-                    "DotTexture", window_texture
-                )
-                mat_c.set_shader_param(
-                    "DotTextureLight", window_texture
-                )
-            else:
-                print( "Could not load image at ", profile_dict[key] )
         "bld_c_base_color":
             mat_c.set_shader_param("BuildingColor", profile_dict[key])
         "bld_c_red_dot":
@@ -197,7 +215,7 @@ func update_key(key):
         #
         "lights_one_color":
             get_tree().call_group(
-               GlobalRef.light_group_one, "set_color", profile_dict[key]
+                GlobalRef.light_group_one, "set_color", profile_dict[key]
             )
         "lights_two_color":
             get_tree().call_group(
