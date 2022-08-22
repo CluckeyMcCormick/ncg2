@@ -6,6 +6,7 @@
 script = ExtResource( 1 )
 profile_name = "New York via TWA"
 building_a = {
+"bld_a_algorithm": 0,
 "bld_a_base_color": Color( 0, 0, 0, 1 ),
 "bld_a_blue_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
 "bld_a_blue_mixer": 1000,
@@ -13,27 +14,29 @@ building_a = {
 "bld_a_green_mixer": 1000,
 "bld_a_red_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
 "bld_a_red_mixer": 1000,
-"bld_a_texture_path": "res://buildings/textures/smorgasbord64_horizontal64_75hs.png"
+"bld_a_texture_set": [ "res://window_gen/windows/fat_diamond_100p.png" ]
 }
 building_b = {
+"bld_b_algorithm": 1,
 "bld_b_base_color": Color( 0, 0, 0, 1 ),
-"bld_b_blue_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
+"bld_b_blue_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
 "bld_b_blue_mixer": 1000,
 "bld_b_green_dot": Color( 0.231373, 0.584314, 0.831373, 1 ),
 "bld_b_green_mixer": 1000,
-"bld_b_red_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
+"bld_b_red_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
 "bld_b_red_mixer": 1000,
-"bld_b_texture_path": "res://buildings/textures/smorgasbord64_horizontal64_75hs.png"
+"bld_b_texture_set": [ "res://window_gen/windows/diamond_100p.png" ]
 }
 building_c = {
+"bld_c_algorithm": 1,
 "bld_c_base_color": Color( 0, 0, 0, 1 ),
-"bld_c_blue_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
+"bld_c_blue_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
 "bld_c_blue_mixer": 1000,
 "bld_c_green_dot": Color( 0.231373, 0.584314, 0.831373, 1 ),
 "bld_c_green_mixer": 1000,
-"bld_c_red_dot": Color( 0.94902, 0.941176, 0.0666667, 1 ),
+"bld_c_red_dot": Color( 0.772549, 0.223529, 0.12549, 1 ),
 "bld_c_red_mixer": 1000,
-"bld_c_texture_path": "res://buildings/textures/smorgasbord64_horizontal64_75hs.png"
+"bld_c_texture_set": [ "res://window_gen/windows/bullet_down_100p.png", "res://window_gen/windows/bullet_left_100p.png", "res://window_gen/windows/bullet_right_100p.png", "res://window_gen/windows/bullet_up_100p.png", "res://window_gen/windows/dot_100p.png", "res://window_gen/windows/eye_left_100p.png", "res://window_gen/windows/eye_right_100p.png", "res://window_gen/windows/fat_diamond_100p.png", "res://window_gen/windows/square_100p.png" ]
 }
 sky = {
 "sky_ground_bottom": Color( 0, 0, 0, 1 ),
@@ -97,9 +100,9 @@ sparkle = {
 "sparkle_color_a": Color( 1, 1, 1, 1 ),
 "sparkle_color_b": Color( 1, 1, 1, 1 ),
 "sparkle_color_c": Color( 1, 1, 1, 1 ),
-"sparkle_count_a": 5,
-"sparkle_count_b": 5,
-"sparkle_count_c": 5,
+"sparkle_count_a": 15,
+"sparkle_count_b": 15,
+"sparkle_count_c": 15,
 "sparkle_enabled_a": true,
 "sparkle_enabled_b": true,
 "sparkle_enabled_c": true,

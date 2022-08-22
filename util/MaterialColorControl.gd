@@ -91,9 +91,9 @@ func _ready():
     mat_b.set_shader_param("DotTexture", texture_gen_b.texture)
     mat_c.set_shader_param("DotTexture", texture_gen_c.texture)
     
-    regenerate_texture_a()
-    regenerate_texture_b()
-    regenerate_texture_c()
+    texture_gen_a.paint_blank()
+    texture_gen_b.paint_blank()
+    texture_gen_c.paint_blank()
     
 # Asserts the current values into the dictionary
 func update_whole_dictionary():

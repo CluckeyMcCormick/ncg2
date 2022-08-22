@@ -6,6 +6,7 @@
 script = ExtResource( 1 )
 profile_name = "Fantasy24"
 building_a = {
+"bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
 "bld_a_blue_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
 "bld_a_blue_mixer": 1000,
@@ -13,27 +14,29 @@ building_a = {
 "bld_a_green_mixer": 1000,
 "bld_a_red_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
 "bld_a_red_mixer": 1000,
-"bld_a_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+"bld_a_texture_set": [ "res://window_gen/windows/dot_75p.png" ]
 }
 building_b = {
+"bld_b_algorithm": 1,
 "bld_b_base_color": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
-"bld_b_blue_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
+"bld_b_blue_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
 "bld_b_blue_mixer": 1000,
 "bld_b_green_dot": Color( 0.937255, 0.847059, 0.631373, 1 ),
 "bld_b_green_mixer": 1000,
-"bld_b_red_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
+"bld_b_red_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
 "bld_b_red_mixer": 1000,
-"bld_b_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+"bld_b_texture_set": [ "res://window_gen/windows/dot_75p.png" ]
 }
 building_c = {
+"bld_c_algorithm": 1,
 "bld_c_base_color": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
-"bld_c_blue_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
+"bld_c_blue_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
 "bld_c_blue_mixer": 1000,
 "bld_c_green_dot": Color( 0.937255, 0.847059, 0.631373, 1 ),
 "bld_c_green_mixer": 1000,
-"bld_c_red_dot": Color( 0.235294, 0.623529, 0.611765, 1 ),
+"bld_c_red_dot": Color( 0.937255, 0.411765, 0.184314, 1 ),
 "bld_c_red_mixer": 1000,
-"bld_c_texture_path": "res://buildings/textures/dots64_horizontal64_75hs.png"
+"bld_c_texture_set": [ "res://window_gen/windows/dot_75p.png" ]
 }
 sky = {
 "sky_ground_bottom": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),
