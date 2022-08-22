@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 profile_name = "New York via TWA"
+author_name = "[SOURCE]"
+extra_notes = "Inspired by an old TWA travel poster depicting Times Square."
 building_a = {
 "bld_a_algorithm": 0,
 "bld_a_base_color": Color( 0, 0, 0, 1 ),

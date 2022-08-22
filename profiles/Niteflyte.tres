@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource( 1 )
-profile_name = "Hiroshi Nagai's Niteflyte"
+profile_name = "Niteflyte"
+author_name = "[SOURCE]"
+extra_notes = "Inspired by the work of Hiroshi Nagai."
 building_a = {
 "bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0, 0.0509804, 0.12549, 1 ),

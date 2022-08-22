@@ -5,6 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 profile_name = "Fantasy24"
+author_name = ""
+extra_notes = ""
 building_a = {
 "bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0.0823529, 0.0588235, 0.0392157, 1 ),

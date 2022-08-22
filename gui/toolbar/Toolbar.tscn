@@ -105,6 +105,17 @@ margin_top = 0.0
 margin_right = 304.0
 margin_bottom = 20.0
 
+[node name="ProfileNotes" type="Label" parent="HBox"]
+margin_left = 308.0
+margin_top = 3.0
+margin_right = 1586.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 0.490196 )
+text = "by Source"
+align = 2
+clip_text = true
+
 [node name="VisibilityCooldown" type="Timer" parent="."]
 wait_time = 0.01
 
