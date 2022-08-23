@@ -1,0 +1,125 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://profiles/GenericProfile.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+profile_name = "Bad Moon"
+author_name = "[SOURCE]"
+extra_notes = "Based on 'gotham' from Gogh terminal profile project; possibly by get-me-power@GitHub"
+building_a = {
+"bld_a_algorithm": 1,
+"bld_a_base_color": Color( 0.0392157, 0.0588235, 0.0784314, 1 ),
+"bld_a_blue_dot": Color( 0.764706, 0.188235, 0.152941, 1 ),
+"bld_a_blue_mixer": 1000,
+"bld_a_green_dot": Color( 0.823529, 0.411765, 0.223529, 1 ),
+"bld_a_green_mixer": 1000,
+"bld_a_red_dot": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"bld_a_red_mixer": 1000,
+"bld_a_texture_set": [ "res://window_gen/windows/bar_horizontal_25p.png" ]
+}
+building_b = {
+"bld_b_algorithm": 1,
+"bld_b_base_color": Color( 0.0392157, 0.0588235, 0.0784314, 1 ),
+"bld_b_blue_dot": Color( 0.764706, 0.188235, 0.152941, 1 ),
+"bld_b_blue_mixer": 1000,
+"bld_b_green_dot": Color( 0.823529, 0.411765, 0.223529, 1 ),
+"bld_b_green_mixer": 1000,
+"bld_b_red_dot": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"bld_b_red_mixer": 1000,
+"bld_b_texture_set": [ "res://window_gen/windows/bar_vertical_50p.png" ]
+}
+building_c = {
+"bld_c_algorithm": 1,
+"bld_c_base_color": Color( 0.0392157, 0.0588235, 0.0784314, 1 ),
+"bld_c_blue_dot": Color( 0.764706, 0.188235, 0.152941, 1 ),
+"bld_c_blue_mixer": 1000,
+"bld_c_green_dot": Color( 0.823529, 0.411765, 0.223529, 1 ),
+"bld_c_green_mixer": 1000,
+"bld_c_red_dot": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"bld_c_red_mixer": 1000,
+"bld_c_texture_set": [ "res://window_gen/windows/square_25p.png" ]
+}
+sky = {
+"sky_ground_bottom": Color( 0.0627451, 0.0823529, 0.105882, 1 ),
+"sky_ground_curve": 200,
+"sky_ground_horizon": Color( 0.0627451, 0.0823529, 0.105882, 1 ),
+"sky_sky_curve": 365,
+"sky_sky_horizon": Color( 0.0627451, 0.0823529, 0.105882, 1 ),
+"sky_sky_top": Color( 0.0627451, 0.0823529, 0.105882, 1 ),
+"sky_x_rotation": 1.0
+}
+light = {
+"lights_four_color": Color( 0, 0, 0, 1 ),
+"lights_four_visible": false,
+"lights_one_color": Color( 0.3, 0.072, 0.06, 1 ),
+"lights_one_visible": true,
+"lights_three_color": Color( 0.3, 0.15035, 0.081, 1 ),
+"lights_three_visible": true,
+"lights_two_color": Color( 0.3, 0.2286, 0.096, 1 ),
+"lights_two_visible": true
+}
+starfield = {
+"starfield_height": 18.0,
+"starfield_scale_mean": 2.25,
+"starfield_scale_variance": 0.25,
+"starfield_type_a_count": 20,
+"starfield_type_b_count": 20,
+"starfield_type_c_count": 20
+}
+stars = {
+"stars_type_a_color": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"stars_type_a_texture": "res://effects/particle_textures/soft_transparent.png",
+"stars_type_b_color": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"stars_type_b_texture": "res://effects/particle_textures/soft_transparent.png",
+"stars_type_c_color": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"stars_type_c_texture": "res://effects/particle_textures/soft_transparent.png"
+}
+moon = {
+"moon_color": Color( 0.929412, 0.592157, 0.294118, 1 ),
+"moon_size": 10.0,
+"moon_visible": true,
+"moon_x_pos": -18.0,
+"moon_y_pos": 12.0
+}
+beacon = {
+"beacon_color_a": Color( 0, 0, 0, 1 ),
+"beacon_color_b": Color( 0, 0, 0, 1 ),
+"beacon_color_c": Color( 0, 0, 0, 1 ),
+"beacon_correction_a": 0.25,
+"beacon_correction_b": 0.25,
+"beacon_correction_c": 0.25,
+"beacon_enabled": false,
+"beacon_height": 35,
+"beacon_size_a": 5.0,
+"beacon_size_b": 5.0,
+"beacon_size_c": 5.0,
+"beacon_texture_a": "res://effects/particle_textures/hard_dot.png",
+"beacon_texture_b": "res://effects/particle_textures/hard_dot.png",
+"beacon_texture_c": "res://effects/particle_textures/hard_dot.png"
+}
+sparkle = {
+"sparkle_color_a": Color( 0, 0, 0, 1 ),
+"sparkle_color_b": Color( 0, 0, 0, 1 ),
+"sparkle_color_c": Color( 0, 0, 0, 1 ),
+"sparkle_count_a": 2,
+"sparkle_count_b": 2,
+"sparkle_count_c": 2,
+"sparkle_enabled_a": false,
+"sparkle_enabled_b": false,
+"sparkle_enabled_c": false,
+"sparkle_lifetime_a": 2.5,
+"sparkle_lifetime_b": 2.5,
+"sparkle_lifetime_c": 2.5,
+"sparkle_randomness_a": 1.0,
+"sparkle_randomness_b": 1.0,
+"sparkle_randomness_c": 1.0,
+"sparkle_scale": 1.0,
+"sparkle_scale_random": 0.0,
+"sparkle_size_a": 0.5,
+"sparkle_size_b": 0.5,
+"sparkle_size_c": 0.5,
+"sparkle_texture_a": "res://effects/particle_textures/hard_dot.png",
+"sparkle_texture_b": "res://effects/particle_textures/hard_dot.png",
+"sparkle_texture_c": "res://effects/particle_textures/hard_dot.png"
+}

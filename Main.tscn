@@ -64,7 +64,7 @@ draw_pass_1 = ExtResource( 18 )
 [node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
 unique_name_in_owner = true
 transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0 )
-width = 45.0
+width = 50.0
 height = 15.0
 
 [node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
