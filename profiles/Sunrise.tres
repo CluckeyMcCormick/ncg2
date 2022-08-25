@@ -76,9 +76,17 @@ stars = {
 "stars_type_c_texture": "res://effects/particle_textures/hard_dot.png"
 }
 moon = {
-"moon_color": Color( 1, 1, 1, 1 ),
-"moon_size": 1.9,
-"moon_visible": false,
+"moon_back_color": Color( 1, 1, 1, 0 ),
+"moon_back_mirror_x": false,
+"moon_back_mirror_y": false,
+"moon_back_rotation": 0.0,
+"moon_back_texture": "res://effects/moon_textures/full.png",
+"moon_front_color": Color( 0, 0, 0, 0 ),
+"moon_front_mirror_x": false,
+"moon_front_mirror_y": false,
+"moon_front_rotation": 0.0,
+"moon_front_texture": "res://effects/moon_textures/full.png",
+"moon_size": 6,
 "moon_x_pos": -10.0,
 "moon_y_pos": 5.55
 }

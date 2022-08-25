@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
-[ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=2]
 [ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
+[ext_resource path="res://effects/Moon.tscn" type="PackedScene" id=5]
 [ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
 [ext_resource path="res://gui/toolbar/Toolbar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://effects/SparkleParticalMaterial.tres" type="Material" id=14]
@@ -11,8 +11,6 @@
 [ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
 [ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
 [ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
-
-[sub_resource type="SphereMesh" id=1]
 
 [node name="Main" type="Spatial"]
 pause_mode = 2
@@ -67,11 +65,9 @@ transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0
 width = 50.0
 height = 15.0
 
-[node name="Moon" type="MeshInstance" parent="UpCamera/CameraAlignedEffects"]
+[node name="Moon" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 5 )]
 unique_name_in_owner = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 7.45058e-09, 1, 0, 0, 0 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 2 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, 0, 1 )
 
 [node name="RoofSlope" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )

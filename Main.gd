@@ -4,8 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Dynamically generate building textures via blitting.
-# TODO: Add second and third building materials.
 # TODO: Decorations (see FootprintBuilding)
 # TODO: Add ability for user to save profiles
 
@@ -62,15 +60,10 @@ func _on_mcc_key_update(key):
         #
         # Moon
         #
-        "moon_visible":
-            $"%Moon".visible = mcc.profile_dict[key]
         "moon_x_pos":
             $"%Moon".translation.x = mcc.profile_dict[key]
         "moon_y_pos":
             $"%Moon".translation.y = mcc.profile_dict[key]
-        "moon_size":
-            $"%Moon".mesh.radius = mcc.profile_dict[key]
-            $"%Moon".mesh.height = mcc.profile_dict[key] * 2
 
         #
         # Sparkles

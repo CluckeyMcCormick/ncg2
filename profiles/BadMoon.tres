@@ -76,9 +76,17 @@ stars = {
 "stars_type_c_texture": "res://effects/particle_textures/soft_transparent.png"
 }
 moon = {
-"moon_color": Color( 0.929412, 0.592157, 0.294118, 1 ),
-"moon_size": 10.0,
-"moon_visible": true,
+"moon_back_color": Color( 0.823529, 0.411765, 0.223529, 1 ),
+"moon_back_mirror_x": false,
+"moon_back_mirror_y": false,
+"moon_back_rotation": 0.0,
+"moon_back_texture": "res://effects/moon_textures/full.png",
+"moon_front_color": Color( 0.929412, 0.709804, 0.294118, 1 ),
+"moon_front_mirror_x": false,
+"moon_front_mirror_y": false,
+"moon_front_rotation": -90.0,
+"moon_front_texture": "res://effects/moon_textures/half_fade_out.png",
+"moon_size": 25,
 "moon_x_pos": -18.0,
 "moon_y_pos": 12.0
 }

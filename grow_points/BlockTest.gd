@@ -35,6 +35,8 @@ export(Curve) var max_height
 
 var blockifier = null
 
+# FIXME: Block Test is currently broken
+
 func _ready():
     var new_node
     
@@ -70,7 +72,6 @@ func spawn_buildings():
         building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * WINDOW_SCALING - 1
         building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * WINDOW_SCALING - 1
         building.tower_len_y = int(grow_aabb.height) * WINDOW_SCALING
-        building.building_material = MATERIALS[ randi() % len(MATERIALS) ]
         
         building.connect(
             "blueprint_completed", self, "_on_building_blueprint_completed"
@@ -92,6 +93,7 @@ func _on_building_blueprint_completed(building):
     )
     # Construct this building
     building.make_building()
+    
 
 func _on_CameraOptions_item_selected(index):
     if index == 0:

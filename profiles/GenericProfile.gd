@@ -82,11 +82,19 @@ export var stars = {
 }
 
 export var moon = {
-    "moon_visible": true,
-    "moon_color": Color.white,
+    "moon_front_color": Color(0, 0, 0, 0),
+    "moon_front_texture": "res://effects/moon_textures/full.png",
+    "moon_front_rotation": 0.0,
+    "moon_front_mirror_x": false,
+    "moon_front_mirror_y": false,
+    "moon_back_color": Color.white,
+    "moon_back_texture": "res://effects/moon_textures/full.png",
+    "moon_back_rotation": 0.0,
+    "moon_back_mirror_x": false,
+    "moon_back_mirror_y": false,
     "moon_x_pos": -10.0,
     "moon_y_pos": 5.55,
-    "moon_size": 1.9,
+    "moon_size": 6.0,
 }
 
 export var beacon = {

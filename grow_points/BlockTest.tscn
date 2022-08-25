@@ -1,17 +1,15 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://voronoi/VoroniColorF.tres" type="Material" id=1]
 [ext_resource path="res://grow_points/BlockTest.gd" type="Script" id=2]
 [ext_resource path="res://grow_points/BuildingSizeCurve.tres" type="Curve" id=3]
-[ext_resource path="res://effects/MoonMaterial.tres" type="Material" id=4]
+[ext_resource path="res://effects/Moon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=5]
 [ext_resource path="res://grow_points/BuildingMinHeightCurve.tres" type="Curve" id=6]
 [ext_resource path="res://grow_points/BuildingMaxHeightCurve.tres" type="Curve" id=7]
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 20, 30 )
-
-[sub_resource type="SphereMesh" id=3]
 
 [node name="BlockTest" type="Spatial"]
 script = ExtResource( 2 )
@@ -54,9 +52,8 @@ transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, -1.90735
 width = 22.0
 height = 10.0
 
-[node name="Moon" type="MeshInstance" parent="FOV15Camera/CameraAlignedEffects"]
-mesh = SubResource( 3 )
-material/0 = ExtResource( 4 )
+[node name="Moon" parent="FOV15Camera/CameraAlignedEffects" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 0, 0 )
 
 [node name="GUI" type="VBoxContainer" parent="."]
 margin_left = 10.0

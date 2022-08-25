@@ -41,9 +41,6 @@ var city_env = preload("res://environment/city_env.tres")
 # What's our procedural sky resource?
 var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 
-# Load the moon material. NEEDS to be a var, not a const.
-var moon_material = preload("res://effects/MoonMaterial.tres")
-
 # What's the first profile that we default to?
 const default_profile = preload("res://profiles/Niteflyte.tres")
 
@@ -312,12 +309,6 @@ func update_key(key):
             star_b_material.albedo_color = profile_dict[key]
         "stars_type_c_color":
             star_c_material.albedo_color = profile_dict[key]
-        
-        #
-        # Moon
-        #
-        "moon_color":
-            moon_material.albedo_color = profile_dict[key]
 
         #
         # Beacons

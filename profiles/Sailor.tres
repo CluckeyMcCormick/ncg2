@@ -76,11 +76,19 @@ stars = {
 "stars_type_c_texture": "res://effects/particle_textures/star_shine.png"
 }
 moon = {
-"moon_color": Color( 1, 1, 1, 1 ),
-"moon_size": 2.0,
-"moon_visible": true,
-"moon_x_pos": 6.74,
-"moon_y_pos": 5.48
+"moon_back_color": Color( 1, 1, 1, 1 ),
+"moon_back_mirror_x": true,
+"moon_back_mirror_y": false,
+"moon_back_rotation": 22.0,
+"moon_back_texture": "res://effects/moon_textures/crescent.png",
+"moon_front_color": Color( 1, 1, 1, 0 ),
+"moon_front_mirror_x": false,
+"moon_front_mirror_y": false,
+"moon_front_rotation": 0.0,
+"moon_front_texture": "res://effects/moon_textures/full.png",
+"moon_size": 6,
+"moon_x_pos": -13.0,
+"moon_y_pos": 5.0
 }
 beacon = {
 "beacon_color_a": Color( 0, 0.733333, 1, 1 ),
