@@ -24,7 +24,8 @@ func _ready():
     popup.connect("id_pressed", self, "_on_popup_id_pressed")
     
     # TODO: Figure out shortcuts; I'm worried how I'm doing it right now is
-    #       incompatible with international keyboards.
+    # incompatible with international keyboards.
+    
     # Now add the pop-ups
     popup.add_shortcut(shortcut_camera_pause, CAMERA_ID)
     popup.set_item_text(0, "Toggle Camera Pause")

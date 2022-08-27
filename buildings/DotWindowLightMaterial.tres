@@ -1,13 +1,16 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
-[ext_resource path="res://buildings/DotWindowLightShader.tres" type="Shader" id=2]
-[ext_resource path="res://buildings/textures/dots64_horizontal64_75hs.png" type="Texture" id=3]
+[ext_resource path="res://buildings/DotWindowLightShaderV2.tres" type="Shader" id=1]
+[ext_resource path="res://buildings/window_sample_texture.png" type="Texture" id=2]
 
 [resource]
-shader = ExtResource( 2 )
-shader_param/BuildingColor = Color( 0, 0.0509804, 0.12549, 1 )
-shader_param/RedDotColor = Color( 0.466667, 0.0705882, 0.101961, 1 )
-shader_param/BlueDotColor = Color( 0.596078, 0.780392, 0.819608, 1 )
-shader_param/GreenDotColor = Color( 0.819608, 0.8, 0.392157, 1 )
-shader_param/DotTexture = ExtResource( 3 )
-shader_param/DotTextureLight = ExtResource( 3 )
+shader = ExtResource( 1 )
+shader_param/BuildingColor = Color( 0, 0, 0, 1 )
+shader_param/RedDotColor = Color( 1, 0, 0, 1 )
+shader_param/RedDotLightMix = 1.0
+shader_param/GreenDotColor = Color( 0, 1, 0, 1 )
+shader_param/GreenDotLightMix = 1.0
+shader_param/BlueDotColor = Color( 0, 0, 1, 1 )
+shader_param/BlueDotLightMix = 1.0
+shader_param/window_border_correction = 1.0
+shader_param/DotTexture = ExtResource( 2 )

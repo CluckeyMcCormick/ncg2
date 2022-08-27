@@ -13,9 +13,10 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const ImageGenerator = preload("res://window_gen/WindowGenerator.gd")
 
 # Load our different materials
-const dot_mat_a = preload("res://buildings/DotWindowLightMaterial_V2_A.tres")
-const dot_mat_b = preload("res://buildings/DotWindowLightMaterial_V2_B.tres")
-const dot_mat_c = preload("res://buildings/DotWindowLightMaterial_V2_C.tres")
+const dot_mat_a = preload("res://buildings/DotWindowLightMaterial_A.tres")
+const dot_mat_b = preload("res://buildings/DotWindowLightMaterial_B.tres")
+const dot_mat_c = preload("res://buildings/DotWindowLightMaterial_C.tres")
+
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
 var star_a_material = preload("res://effects/StarTypeA.tres")
