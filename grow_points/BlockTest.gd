@@ -35,8 +35,6 @@ export(Curve) var max_height
 
 var blockifier = null
 
-# FIXME: Block Test is currently broken
-
 func _ready():
     var new_node
     

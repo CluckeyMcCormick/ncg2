@@ -4,9 +4,6 @@ extends Spatial
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")
 
-# TODO: Decorations (see FootprintBuilding)
-# TODO: Add ability for user to save profiles
-
 # Has the city been built yet?
 var city_built = false
 # Is the camera moving/panning?

@@ -24,6 +24,14 @@ const MAX_ROLLS = 25 #10
 # buildings.
 const MIN_THIN = 2
 
+# We include the radius of the lights when calculating the building's Visibility
+# AABB (which determines if we're on screen or not). However, it's been observed
+# that sometimes the building loads in but the lights won't load until later. To
+# get around that, we'll use this scalar to increase the light radius included
+# in the AABB - that means the buildings will load in sooner, and so too will
+# their lights.
+const LIGHT_SCALAR = 2
+
 # TODO: Figure out decorations (distribution, selection, etc.)
 # TODO: Decoration, On-Wall Billboards
 # TODO: Decoration, Hanging Billboards
@@ -88,6 +96,9 @@ var RNGENNIE = RandomNumberGenerator.new()
 # random-reliant functions.
 var _seed = 0
 
+# Do we rotate the building in the footprint? Since we shrink rotated buildings
+# to fit in the footprint, this can result in thinner buildings but ALSO results
+# in a much more dynamic looking city.
 var rotation_enabled = true
 
 # --------------------------------------------------------
@@ -393,17 +404,13 @@ func make_building():
         # encompass A through Z. That means doubling the omni_radius and adding
         # it onto the length of the appropriate side of the footprint.
         eff_x = max(
-            (blp_len_x * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2), 
+            (blp_len_x * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2 * LIGHT_SCALAR), 
             eff_x
         )
         eff_z = max(
-            (blp_len_z * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2), 
+            (blp_len_z * GlobalRef.WINDOW_UV_SIZE) + (light.omni_range * 2 * LIGHT_SCALAR), 
             eff_z
         )
-        # TODO: scale up (light.omni_range * 2) by some sort of scalar constant.
-        # We're getting light pop-in, but no building pop-in, which makes me
-        # suspect that the lights are taking extra-long to load in. So we must
-        # extend omni range calculation outward appropriately.
         
         # Now, after all that, apply the effective scalar. Our AABB will scale,
         # but not the light's range.
