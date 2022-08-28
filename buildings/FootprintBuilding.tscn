@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://buildings/FootprintBuilding.gd" type="Script" id=1]
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=2]
+[ext_resource path="res://decorations/RoofBox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://effects/Beacon.tscn" type="PackedScene" id=5]
 
 [node name="FootprintBuilding" type="Spatial"]
@@ -10,7 +11,6 @@ script = ExtResource( 1 )
 auto_build = true
 
 [node name="Building" type="Spatial" parent="."]
-visible = false
 
 [node name="Base" parent="Building" instance=ExtResource( 2 )]
 transform = Transform( 1, -1.41995e-29, -5.96046e-08, 0, 1, -2.25857e-22, 5.96046e-08, 2.25857e-22, 1, -2.60649e-07, 5.96046e-08, -3.55271e-15 )
@@ -39,11 +39,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.2, -0.1 )
 [node name="BeaconD" parent="Building" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.2, 0.1 )
 
+[node name="RoofBoxA" parent="Building" instance=ExtResource( 3 )]
+
+[node name="RoofBoxB" parent="Building" instance=ExtResource( 3 )]
+
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -0.0546875, 0, -0.0546875, 0.109375, 0.21875, 0.109375 )
 
 [node name="FxManager" type="Spatial" parent="."]
-visible = false
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="_on_VisibilityNotifier_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="_on_VisibilityNotifier_screen_exited"]

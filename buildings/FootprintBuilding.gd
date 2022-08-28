@@ -32,6 +32,11 @@ const MIN_THIN = 2
 # their lights.
 const LIGHT_SCALAR = 2
 
+# We're allowed to set the Air Conditioning boxes 
+const AC_HEIGHT_MIN = 3
+const AC_HEIGHT_MAX = 12
+const AC_SCALAR = .125
+
 # TODO: Figure out decorations (distribution, selection, etc.)
 # TODO: Decoration, On-Wall Billboards
 # TODO: Decoration, Hanging Billboards
@@ -306,6 +311,8 @@ func make_blueprint():
 
 func make_building():
     var chosen_mat
+    var box_max_x
+    var box_max_z
     
     # If we don't have the building nodes for whatever reason, back out
     if not self.has_node("Building/Base") or not self.has_node("Building/MainTower"):
@@ -326,11 +333,11 @@ func make_building():
         _:
             pass
     if override_material:
-        $Building/Base.building_material = override_material
-        $Building/MainTower.building_material = override_material
-    else:
-        $Building/Base.building_material = chosen_mat
-        $Building/MainTower.building_material = chosen_mat
+        chosen_mat = override_material
+    
+    # Pass down the materials
+    $Building/Base.building_material = chosen_mat
+    $Building/MainTower.building_material = chosen_mat
     
     # Pass down the values to the base
     $Building/Base.len_x = blp_len_x
@@ -469,6 +476,68 @@ func make_building():
     # Building
     #
     $Building.rotation_degrees.y = blp_rotation
+
+    #
+    # AC Boxes (A and B)
+    #
+    # Set the materials on the AC Boxes
+    $Building/RoofBoxA.material = chosen_mat
+    $Building/RoofBoxB.material = chosen_mat
+    
+    # Calculate the maximum possible size on X & Z. We want it to shrink back
+    # from the edges so we subtract two from each side to calculate the max
+    # possible box size
+    box_max_x = blp_len_x - 2
+    box_max_z = blp_len_z - 2
+    
+    # Roll a random length on x and z
+    $Building/RoofBoxA.len_x = RNGENNIE.randi_range(1, box_max_x)
+    $Building/RoofBoxA.len_z = RNGENNIE.randi_range(1, box_max_z)
+    # Roll a random height - we roll discrete integers which we then multiply by
+    # our scalar.
+    $Building/RoofBoxA.len_y = RNGENNIE.randi_range(AC_HEIGHT_MIN, AC_HEIGHT_MAX) * AC_SCALAR
+    # Depending on the sizes we rolled, we should have some room on the x and z
+    # side of the boxes. So, roll a random shift on X and Z.
+    $Building/RoofBoxA.translation.x += RNGENNIE.randf_range(
+        -(box_max_x - $Building/RoofBoxA.len_x) / 2.0,
+         (box_max_x - $Building/RoofBoxA.len_x) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/RoofBoxA.translation.z += RNGENNIE.randf_range(
+        -(box_max_z - $Building/RoofBoxA.len_z) / 2.0,
+         (box_max_z - $Building/RoofBoxA.len_z) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    # Finally move the roof box to start at the roof.
+    $Building/RoofBoxA.translation.y = GlobalRef.WINDOW_UV_SIZE * tower_len_y
+    
+    # Ditto the above, but for Roof Box B
+    $Building/RoofBoxB.len_x = RNGENNIE.randi_range(1, box_max_x)
+    $Building/RoofBoxB.len_z = RNGENNIE.randi_range(1, box_max_z)
+    $Building/RoofBoxB.len_y = RNGENNIE.randi_range(AC_HEIGHT_MIN, AC_HEIGHT_MAX) * AC_SCALAR
+    $Building/RoofBoxB.translation.x = RNGENNIE.randf_range(
+        -(box_max_x - $Building/RoofBoxB.len_x) / 2.0,
+         (box_max_x - $Building/RoofBoxB.len_x) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/RoofBoxB.translation.z = RNGENNIE.randf_range(
+        -(box_max_z - $Building/RoofBoxB.len_z) / 2.0,
+         (box_max_z - $Building/RoofBoxB.len_z) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/RoofBoxB.translation.y = GlobalRef.WINDOW_UV_SIZE * tower_len_y
+    
+    # Make the Boxes
+    $Building/RoofBoxA.make_box()
+    $Building/RoofBoxB.make_box()
+    
+    # If Box A is too small, hide it. Otherwise, show it.
+    if $Building/RoofBoxA.len_x <= 1 or $Building/RoofBoxA.len_z <= 1:
+        $Building/RoofBoxA.visible = false
+    else:
+        $Building/RoofBoxA.visible = true
+
+    # If Box B is too small, hide it. Otherwise, show it.
+    if $Building/RoofBoxB.len_x <= 1 or $Building/RoofBoxB.len_z <= 1:
+        $Building/RoofBoxB.visible = false
+    else:
+        $Building/RoofBoxB.visible = true
 
 # --------------------------------------------------------
 #

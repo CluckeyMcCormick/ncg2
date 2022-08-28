@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=1]
+[ext_resource path="res://buildings/DotWindowLightMaterial.tres" type="Material" id=2]
+[ext_resource path="res://decorations/RoofBox.gd" type="Script" id=3]
+
+[node name="RoofBox" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="AutoTower" parent="." instance=ExtResource( 1 )]
+building_material = ExtResource( 2 )
+len_x = 8
+len_y = 1.5
+len_z = 8
+use_window_texture = false
+auto_build = false
