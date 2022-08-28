@@ -7,8 +7,6 @@ const WIN_GEN = preload("res://window_gen/WindowGenerator.gd")
 
 var WINDOW_IMAGE = preload("res://window_gen/windows/bar_vertical_50p.png").get_data()
 
-var thread
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
     var gennie = WIN_GEN.WindowGenerator.new()

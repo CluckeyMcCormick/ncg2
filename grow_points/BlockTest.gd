@@ -72,6 +72,7 @@ func spawn_buildings():
         building.footprint_len_x = int(grow_aabb.b.x - grow_aabb.a.x) * WINDOW_SCALING - 1
         building.footprint_len_z = int(grow_aabb.b.z - grow_aabb.a.z) * WINDOW_SCALING - 1
         building.tower_len_y = int(grow_aabb.height) * WINDOW_SCALING
+        building.override_material = MATERIALS[ randi() % len(MATERIALS) ]
         
         building.connect(
             "blueprint_completed", self, "_on_building_blueprint_completed"

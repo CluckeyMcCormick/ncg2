@@ -48,6 +48,15 @@ export(int) var tower_len_y = 14
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = false
 
+# The footprint building will automatically select one of the three MCC
+# materials - however, you can provide it with an override material if you have
+# something specific in mind. This takes effect in the make_building() method,
+# so you'll either need to set this when the building enters the scene OR you'll
+# need to call make_building() again.
+# TODO: Use Override Material on the Base & MainTower whenever it is set. If the
+# Override Material is unset, it should fall back to an mcc material.
+export(Material) var override_material = null
+
 # Signal emitted when our blueprint-construction thread is completed. Emits the
 # building that got completed.
 signal blueprint_completed(building)
@@ -305,9 +314,12 @@ func make_building():
             chosen_mat = mcc.mat_c
         _:
             pass
-    
-    $Building/Base.building_material = chosen_mat
-    $Building/MainTower.building_material = chosen_mat
+    if override_material:
+        $Building/Base.building_material = override_material
+        $Building/MainTower.building_material = override_material
+    else:
+        $Building/Base.building_material = chosen_mat
+        $Building/MainTower.building_material = chosen_mat
     
     # Pass down the values to the base
     $Building/Base.len_x = blp_len_x
