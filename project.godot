@@ -39,10 +39,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://gui/custom/MCC_FixedOptionButton.gd"
 }, {
+"base": "HSlider",
+"class": "MCCHSlider",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_HSlider.gd"
+}, {
 "base": "SpinBox",
 "class": "MCCSpinBox",
 "language": "GDScript",
 "path": "res://gui/custom/MCC_SpinBox.gd"
+}, {
+"base": "VSlider",
+"class": "MCCVSlider",
+"language": "GDScript",
+"path": "res://gui/custom/MCC_VSlider.gd"
 }, {
 "base": "WindowDialog",
 "class": "SlightlyBetterDialog",
@@ -56,7 +66,9 @@ _global_script_class_icons={
 "MCCColorPickerButton": "",
 "MCCFilePathOptionButton": "",
 "MCCFixedOptionButton": "",
+"MCCHSlider": "",
 "MCCSpinBox": "",
+"MCCVSlider": "",
 "SlightlyBetterDialog": ""
 }
 
