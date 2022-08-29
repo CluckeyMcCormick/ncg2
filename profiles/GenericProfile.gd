@@ -101,16 +101,18 @@ export var beacon = {
     "beacon_texture_a": "res://effects/particle_textures/hard_dot.png",
     "beacon_texture_b": "res://effects/particle_textures/hard_dot.png",
     "beacon_texture_c": "res://effects/particle_textures/hard_dot.png",
-    "beacon_color_a": Color("#77121a"),
-    "beacon_color_b": Color("#98c7d1"),
-    "beacon_color_c": Color("#d1cc64"),
+    "beacon_color_a": Color("#000000"),
+    "beacon_color_b": Color("#000000"),
+    "beacon_color_c": Color("#000000"),
     "beacon_size_a": 5.0,
     "beacon_size_b": 5.0,
     "beacon_size_c": 5.0,
     "beacon_correction_a": .25,
     "beacon_correction_b": .25,
     "beacon_correction_c": .25,
-    "beacon_height": 35,
+    "beacon_min_height": 35,
+    "beacon_max_height": 100,
+    "beacon_occurrence": 100,
     "beacon_enabled": false
 }
 

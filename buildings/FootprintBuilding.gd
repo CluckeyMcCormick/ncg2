@@ -461,6 +461,15 @@ func make_building():
             $Building/BeaconC.type = $Building/BeaconA.BeaconType.C
             $Building/BeaconD.type = $Building/BeaconA.BeaconType.C
     
+    # Roll a random occurrence rating then pass it around to the other beacons
+    # so they also have the same occurrence rating
+    $Building/BeaconA.occurrence = RNGENNIE.randi_range(
+        0, $Building/BeaconA.OCCURRENCE_MAX
+    )
+    $Building/BeaconB.occurrence = $Building/BeaconA.occurrence
+    $Building/BeaconC.occurrence = $Building/BeaconA.occurrence
+    $Building/BeaconD.occurrence = $Building/BeaconA.occurrence
+    
     #
     # AABB
     #

@@ -8,6 +8,9 @@ const TypeAMat = preload("res://effects/BeaconTypeA.tres")
 const TypeBMat = preload("res://effects/BeaconTypeB.tres")
 const TypeCMat = preload("res://effects/BeaconTypeC.tres")
 
+# What's the maximum value we'll accept for an occurrence rating?
+const OCCURRENCE_MAX = 100
+
 # Get the MaterialColorControl
 onready var mcc = get_node("/root/MaterialColorControl")
 
@@ -25,10 +28,14 @@ var curr_beacon_height = 0 setget set_curr_beacon_height
 var height_correction = .25 setget set_height_correction
 # What is the type of this Beacon? This determines the material we use.
 var type = BeaconType.A setget set_type
+# What is the occurrence rating for this beacon? If this value is greater than
+# the global occurrence value, then the node will be hidden.
+var occurrence = 0 setget set_occurrence
+
 # Is this beacon enabled? Because we directly manipulate the visible variable,
 # we need this extra variable to control whether we're showing & hiding the
 # beacons.
-var enabled = false setget set_enabled  
+var enabled = false setget set_enabled
 
 func _ready():
     beacon_update()
@@ -55,7 +62,11 @@ func set_curr_beacon_height(new_height):
 
 func set_height_correction(new_correction):
     height_correction = new_correction
-    beacon_update()    
+    beacon_update()
+
+func set_occurrence(new_rating):
+    occurrence = new_rating % (OCCURRENCE_MAX + 1)
+    beacon_update()
 
 func set_enabled(new_enable):
     enabled = new_enable
@@ -65,9 +76,32 @@ func set_enabled(new_enable):
 # we can take advantage of Godot's call_group() function, initiating updates
 # en-masse.
 func beacon_update():
+    # Is this beacon going to be visibile or not? We have a lot of tests we need
+    # to perform so we'll use this variable to store our result
+    var viz = false
+    
     # Adjust the beacon according to the building's height
     self.translation.y = GlobalRef.WINDOW_UV_SIZE * curr_beacon_height
     self.translation.y += GlobalRef.WINDOW_UV_SIZE * height_correction
     
-    if self.mcc != null:
-        self.visible = curr_beacon_height >= mcc.min_beacon_height and enabled
+    if self.mcc == null:
+        return
+    
+    if not "beacon_min_height" in mcc.profile_dict:
+        return
+    
+    if not "beacon_max_height" in mcc.profile_dict:
+        return
+    
+    if not "beacon_occurrence" in mcc.profile_dict:
+        return
+    
+    # We're visible if we pass a whole bunch of tests.
+    # First, are we at-or-above the minimum height?
+    viz = curr_beacon_height >= mcc.profile_dict["beacon_min_height"]
+    # Second, are we at-or-below the maximum height?
+    viz = viz and curr_beacon_height <= mcc.profile_dict["beacon_max_height"]
+    # Third, is our occurrence rating at-or-below the global ocurrence rating?
+    viz = viz and occurrence <= mcc.profile_dict["beacon_occurrence"]
+    # Finally, is this enabled?
+    self.visible = viz and enabled

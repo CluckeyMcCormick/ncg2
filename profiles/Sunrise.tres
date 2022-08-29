@@ -98,13 +98,15 @@ beacon = {
 "beacon_correction_b": 0.2,
 "beacon_correction_c": 0.2,
 "beacon_enabled": true,
-"beacon_height": 20,
+"beacon_max_height": 100,
+"beacon_min_height": 35,
+"beacon_occurrence": 60,
 "beacon_size_a": 4.5,
 "beacon_size_b": 4.5,
 "beacon_size_c": 4.5,
-"beacon_texture_a": "res://effects/particle_textures/star_shine.png",
-"beacon_texture_b": "res://effects/particle_textures/star_shine.png",
-"beacon_texture_c": "res://effects/particle_textures/star_shine.png"
+"beacon_texture_a": "res://effects/particle_textures/star_shine_soft.png",
+"beacon_texture_b": "res://effects/particle_textures/star_shine_soft.png",
+"beacon_texture_c": "res://effects/particle_textures/star_shine_soft.png"
 }
 sparkle = {
 "sparkle_color_a": Color( 1, 0, 0.0784314, 0.235294 ),

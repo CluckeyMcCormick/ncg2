@@ -62,11 +62,6 @@ var texture_gen_a = ImageGenerator.WindowGenerator.new()
 var texture_gen_b = ImageGenerator.WindowGenerator.new()
 var texture_gen_c = ImageGenerator.WindowGenerator.new()
 
-# What's the minimum height, in building-windows, that a building has to be in
-# order for it to have beacons? Since this is a global contraint, this is the
-# best place for it.
-var min_beacon_height = 35
-
 # The dictionary that makes up our profile object
 var profile_dict = {}
 
@@ -359,8 +354,7 @@ func update_key(key):
                 GlobalRef.beacon_group_c,
                 "set_height_correction", profile_dict[key]
             )
-        "beacon_height":
-            min_beacon_height = profile_dict[key]
+        "beacon_min_height", "beacon_max_height", "beacon_occurrence":
             get_tree().call_group(GlobalRef.beacon_group_a, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_b, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_c, "beacon_update")

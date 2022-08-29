@@ -56,8 +56,6 @@ horizontal_margin = 20
 vertical_margin = 20
 
 [node name="BuildingBControl" parent="BuildingBDialog" instance=ExtResource( 6 )]
-margin_left = -253.5
-margin_right = 253.5
 
 [node name="BuildingCDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -76,8 +74,6 @@ horizontal_margin = 20
 vertical_margin = 20
 
 [node name="BuildingCControl" parent="BuildingCDialog" instance=ExtResource( 5 )]
-margin_left = -253.5
-margin_right = 253.5
 
 [node name="LightDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -110,8 +106,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 394.0
-margin_top = 161.0
+margin_left = 329.0
+margin_top = 218.0
 margin_right = 795.0
 margin_bottom = 448.0
 popup_exclusive = true
