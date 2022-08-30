@@ -493,6 +493,18 @@ func make_building():
     $Building/RoofBoxA.material = chosen_mat
     $Building/RoofBoxB.material = chosen_mat
     
+    # Set the heights
+    $Building/RoofBoxA.roof_height = tower_len_y
+    $Building/RoofBoxB.roof_height = tower_len_y
+    
+    # Assign two separate occurrence ratings
+    $Building/RoofBoxA.occurrence = RNGENNIE.randi_range(
+        0, $Building/RoofBoxA.OCCURRENCE_MAX
+    )
+    $Building/RoofBoxB.occurrence = RNGENNIE.randi_range(
+        0, $Building/RoofBoxB.OCCURRENCE_MAX
+    )
+    
     # Calculate the maximum possible size on X & Z. We want it to shrink back
     # from the edges so we subtract two from each side to calculate the max
     # possible box size
@@ -515,8 +527,7 @@ func make_building():
         -(box_max_z - $Building/RoofBoxA.len_z) / 2.0,
          (box_max_z - $Building/RoofBoxA.len_z) / 2.0
     ) * GlobalRef.WINDOW_UV_SIZE
-    # Finally move the roof box to start at the roof.
-    $Building/RoofBoxA.translation.y = GlobalRef.WINDOW_UV_SIZE * tower_len_y
+    
     
     # Ditto the above, but for Roof Box B
     $Building/RoofBoxB.len_x = RNGENNIE.randi_range(1, box_max_x)
@@ -530,23 +541,18 @@ func make_building():
         -(box_max_z - $Building/RoofBoxB.len_z) / 2.0,
          (box_max_z - $Building/RoofBoxB.len_z) / 2.0
     ) * GlobalRef.WINDOW_UV_SIZE
-    $Building/RoofBoxB.translation.y = GlobalRef.WINDOW_UV_SIZE * tower_len_y
     
     # Make the Boxes
     $Building/RoofBoxA.make_box()
     $Building/RoofBoxB.make_box()
     
-    # If Box A is too small, hide it. Otherwise, show it.
+    # If Box A is too small, remove it and hope it gets garbage collected.
     if $Building/RoofBoxA.len_x <= 1 or $Building/RoofBoxA.len_z <= 1:
-        $Building/RoofBoxA.visible = false
-    else:
-        $Building/RoofBoxA.visible = true
+        $Building.remove_child($Building/RoofBoxA)
 
-    # If Box B is too small, hide it. Otherwise, show it.
+    # If Box B is too small, remove it and hope it gets garbage collected.
     if $Building/RoofBoxB.len_x <= 1 or $Building/RoofBoxB.len_z <= 1:
-        $Building/RoofBoxB.visible = false
-    else:
-        $Building/RoofBoxB.visible = true
+        $Building.remove_child($Building/RoofBoxB)
 
 # --------------------------------------------------------
 #

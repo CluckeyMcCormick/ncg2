@@ -133,3 +133,9 @@ sparkle = {
 "sparkle_texture_b": "res://effects/particle_textures/hard_dot.png",
 "sparkle_texture_c": "res://effects/particle_textures/hard_dot.png"
 }
+box = {
+"box_enabled": false,
+"box_max_height": 100,
+"box_min_height": 0,
+"box_occurrence": 100
+}

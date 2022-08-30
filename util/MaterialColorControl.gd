@@ -410,5 +410,11 @@ func update_key(key):
         "sparkle_scale_random":
             sparkle_particles.scale_random = profile_dict[key]
         
+        #
+        # Rooftop Boxes
+        #
+        "box_min_height", "box_max_height", "box_occurrence", "box_enabled":
+            get_tree().call_group(GlobalRef.box_group, "box_update")
+    
     # Tell everyone that we're updating
     emit_signal("key_update", key)

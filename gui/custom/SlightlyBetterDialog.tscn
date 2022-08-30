@@ -9,6 +9,3 @@ popup_exclusive = true
 window_title = "Dialogus"
 resizable = true
 script = ExtResource( 1 )
-
-[connection signal="about_to_show" from="." to="." method="_on_BetterDialog_about_to_show"]
-[connection signal="resized" from="." to="." method="_on_BetterDialog_resized"]

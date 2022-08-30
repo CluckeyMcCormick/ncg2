@@ -133,3 +133,9 @@ sparkle = {
 "sparkle_texture_b": "res://effects/particle_textures/hexagon_watercolor.png",
 "sparkle_texture_c": "res://effects/particle_textures/watercolor_dot.png"
 }
+box = {
+"box_enabled": true,
+"box_max_height": 100,
+"box_min_height": 0,
+"box_occurrence": 50
+}

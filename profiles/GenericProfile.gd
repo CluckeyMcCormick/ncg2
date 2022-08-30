@@ -142,6 +142,13 @@ export var sparkle = {
     "sparkle_scale_random" : 0.0,
 }
 
+export var box = {
+    "box_min_height": 0,
+    "box_max_height": 100,
+    "box_occurrence": 100,
+    "box_enabled": false
+}
+
 func to_dict():
     var dict = {
         "profile_name": profile_name, "author_name": author_name,
@@ -177,5 +184,8 @@ func to_dict():
         
     for key in sparkle.keys():
         dict[key] = sparkle[key]
+
+    for key in box.keys():
+        dict[key] = box[key]
 
     return dict

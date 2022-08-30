@@ -72,7 +72,6 @@ margin_left = 65.0
 margin_top = 0.0
 margin_right = 129.0
 margin_bottom = 20.0
-items = [ "Building A Control", null, 0, false, false, 0, 0, null, "", false, "Building B Control", null, 0, false, false, 10, 0, null, "", false, "Building C Control", null, 0, false, false, 20, 0, null, "", false, "Lights", null, 0, false, false, 30, 0, null, "", false, "Beacons", null, 0, false, false, 40, 0, null, "", false ]
 
 [node name="VSeparator2" type="VSeparator" parent="HBox"]
 margin_left = 133.0

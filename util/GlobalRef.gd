@@ -34,3 +34,5 @@ const light_group_four = "lights_four"
 const beacon_group_a = "beacon_a"
 const beacon_group_b = "beacon_b"
 const beacon_group_c = "beacon_c"
+
+const box_group = "roof_boxes"
