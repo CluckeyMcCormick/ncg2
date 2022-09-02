@@ -4,9 +4,9 @@ extends MeshInstance
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # Load the three different meterial types
-const TypeAMat = preload("res://effects/BeaconTypeA.tres")
-const TypeBMat = preload("res://effects/BeaconTypeB.tres")
-const TypeCMat = preload("res://effects/BeaconTypeC.tres")
+const TypeAMat = preload("res://decorations/BeaconTypeA.tres")
+const TypeBMat = preload("res://decorations/BeaconTypeB.tres")
+const TypeCMat = preload("res://decorations/BeaconTypeC.tres")
 
 # What's the maximum value we'll accept for an occurrence rating?
 const OCCURRENCE_MAX = 100

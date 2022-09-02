@@ -2,6 +2,9 @@ extends Spatial
 
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
+# Load the CityLight scene
+const CityLight = preload("res://decorations/CityLight.tscn")
+
 # Get the MaterialColorControl
 onready var mcc = get_node("/root/MaterialColorControl")
 
@@ -44,6 +47,14 @@ const AC_SCALAR = .125
 # TODO: Decoration, Box Billboards
 # TODO: Decoration, AC Box
 # TODO: Decoration, Antennae
+# TODO: Refactor this as a factory pattern with a series of "hooks" - functions
+# called for each building decoration to set up that particular set of
+# decorations. Hooks for the building itself, the lights, the roofboxes, the
+# billboards, etc. Each decoration set should have two hooks - the blueprint
+# phase where the decoration is planned, and the build phase where the
+# decoration is added to the building. What hooks to call and what order should
+# be something dynamic, like an array. If implemented correctly, this should
+# make it trivial to add a new decoration set (unlike now).
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
@@ -376,26 +387,24 @@ func make_building():
     var eff_scalar = abs( (scale.x + scale.y + scale.z) / 2 )
     
     for light_arr in blp_lights:
-        var light = OmniLight.new()
+        var light = CityLight.instance()
         light.omni_range = light_arr[0] * GlobalRef.WINDOW_UV_SIZE
+        
+        # Stick the light in the scene
+        $FxManager.add_child(light)
+        
+        # Now that the light is in the scene, it should have access to the MCC;
+        # ergo we can safely set the type.
         match light_arr[1]:
             0:
-                light.light_color = mcc.profile_dict["lights_one_color"]
-                light.visible = mcc.profile_dict["lights_one_visible"]
-                light.add_to_group(GlobalRef.light_group_one)
+                light.type = light.LightCategory.ONE
             1:
-                light.light_color = mcc.profile_dict["lights_two_color"]
-                light.visible = mcc.profile_dict["lights_two_visible"]
-                light.add_to_group(GlobalRef.light_group_two)
+                light.type = light.LightCategory.TWO
             2:
-                light.light_color = mcc.profile_dict["lights_three_color"]
-                light.visible = mcc.profile_dict["lights_three_visible"]
-                light.add_to_group(GlobalRef.light_group_three)
+                light.type = light.LightCategory.THREE
             3:
-                light.light_color = mcc.profile_dict["lights_four_color"]
-                light.visible = mcc.profile_dict["lights_four_visible"]
-                light.add_to_group(GlobalRef.light_group_four)
-        $FxManager.add_child(light)
+                light.type = light.LightCategory.FOUR
+        
         light.translation = Vector3(
             light_arr[2].x * GlobalRef.WINDOW_UV_SIZE,
             0,

@@ -3,7 +3,7 @@
 [ext_resource path="res://buildings/FootprintBuilding.gd" type="Script" id=1]
 [ext_resource path="res://buildings/AutoTower.tscn" type="PackedScene" id=2]
 [ext_resource path="res://decorations/RoofBox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://effects/Beacon.tscn" type="PackedScene" id=5]
+[ext_resource path="res://decorations/Beacon.tscn" type="PackedScene" id=5]
 
 [node name="FootprintBuilding" type="Spatial"]
 transform = Transform( 0.993143, 0, -0.116905, 0, 1, 0, 0.116905, 0, 0.993143, 0, 0, 0 )

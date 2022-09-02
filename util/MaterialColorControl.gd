@@ -22,9 +22,9 @@ const dot_mat_c = preload("res://buildings/DotWindowLightMaterial_C.tres")
 var star_a_material = preload("res://effects/StarTypeA.tres")
 var star_b_material = preload("res://effects/StarTypeB.tres")
 var star_c_material = preload("res://effects/StarTypeC.tres")
-var beacon_a_material = preload("res://effects/BeaconTypeA.tres")
-var beacon_b_material = preload("res://effects/BeaconTypeB.tres")
-var beacon_c_material = preload("res://effects/BeaconTypeC.tres")
+var beacon_a_material = preload("res://decorations/BeaconTypeA.tres")
+var beacon_b_material = preload("res://decorations/BeaconTypeB.tres")
+var beacon_c_material = preload("res://decorations/BeaconTypeC.tres")
 var sparkle_a_material = preload("res://effects/SparkleTypeA.tres")
 var sparkle_b_material = preload("res://effects/SparkleTypeB.tres")
 var sparkle_c_material = preload("res://effects/SparkleTypeC.tres")
@@ -225,39 +225,15 @@ func update_key(key):
             )
         #
         # Lights
-        #
-        "lights_one_color":
-            get_tree().call_group(
-                GlobalRef.light_group_one, "set_color", profile_dict[key]
-            )
-        "lights_two_color":
-            get_tree().call_group(
-                GlobalRef.light_group_two, "set_color", profile_dict[key]
-            )
-        "lights_three_color":
-            get_tree().call_group(
-                GlobalRef.light_group_three, "set_color", profile_dict[key]
-            )
-        "lights_four_color":
-            get_tree().call_group(
-                GlobalRef.light_group_four, "set_color", profile_dict[key]
-            )
-        "lights_one_visible":
-            get_tree().call_group(
-                GlobalRef.light_group_one, "set_visible", profile_dict[key]
-            )
-        "lights_two_visible":
-            get_tree().call_group(
-                GlobalRef.light_group_two, "set_visible", profile_dict[key]
-            )
-        "lights_three_visible":
-            get_tree().call_group(
-                GlobalRef.light_group_three, "set_visible", profile_dict[key]
-            )
-        "lights_four_visible":
-            get_tree().call_group(
-                GlobalRef.light_group_four, "set_visible", profile_dict[key]
-            )
+         #
+        "lights_one_color", "lights_one_visible":
+            get_tree().call_group(GlobalRef.light_group_one, "_mcc_update")
+        "lights_two_color", "lights_two_visible":
+            get_tree().call_group(GlobalRef.light_group_two, "_mcc_update")
+        "lights_three_color", "lights_three_visible":
+            get_tree().call_group(GlobalRef.light_group_three, "_mcc_update")
+        "lights_four_color", "lights_four_visible":
+            get_tree().call_group(GlobalRef.light_group_four, "_mcc_update")
         #
         # Sky
         #
