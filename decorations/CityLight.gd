@@ -44,7 +44,8 @@ func set_type(new_type):
     
     _mcc_update()
 
-# Updates the CityLight to 
+# Updates the CityLight to match match the values in the MCC for the light's
+# current type.
 func _mcc_update():
     match type:
         LightCategory.ONE:

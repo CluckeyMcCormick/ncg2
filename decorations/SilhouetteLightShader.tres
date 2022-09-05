@@ -1,0 +1,63 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+
+render_mode depth_draw_alpha_prepass;
+
+// Color of the building
+uniform vec4 SilhouetteColor : hint_color;
+
+// The actual texture we'll be using to create the building
+uniform sampler2D SilhouetteTexture;
+
+void fragment(){
+    vec4 silhouette_texture = texture(SilhouetteTexture, UV.xy);
+    
+    // Whatever silhouette color was passed in is whatever color we're going to
+    // use for every single pixel.
+    ALBEDO = SilhouetteColor.rgb;
+    
+    // For the alpha, multiply the two alphas together. Since they're scalars
+    // between 0 and 1, this means they'll cut each other down by the
+    // appropriate amount.
+    ALPHA = silhouette_texture.a * SilhouetteColor.a;
+}
+
+void light(){
+    // This shader is a modified copy of the Dot Window Light Shader V2. Like
+    // that one, I don't exactly understand how this works but I've left what
+    // comments I can.
+    
+    // We have two lights that we can work with - SPECULAR and DIFFUSE.
+    // Now, as far as I can observe, the specular and the diffuse just sorta
+    // nicely blend into each other automatically. Not sure what's going on
+    // there or if that's correct, but that's what I've observed. So, since we
+    // always want to blend in with the silhouette color, we'll just use the
+    // Albedo (the texture color) as the specular and lay the diffuse on top.
+    SPECULAR_LIGHT = ALBEDO;
+
+    // LIGHT is actually the light vector - literally the projection of the
+    // light in space. The normal is the vector perpendicular to the surface
+    // we're hitting - taking the dot product of the two produces... something.
+    // I honestly have no idea what it is. The light dot or something? It's a
+    // float value and it's a scalar. Couldn't tell you anything elese.
+    float clamped_dot = clamp( dot(NORMAL, LIGHT), 0.00000, 1.00000);
+
+    // Okay, now take that dot product and use it to scale the attenuation. Then
+    // take the length of that vector and clamp it - this is now a one-to-zero
+    // measure of how powerful the light is. So we can use this to mix with any
+    // existing albedo and diffuse light.
+    float light_scalar = clamp(
+        length(ATTENUATION * clamped_dot), 0.00000, 1.00000
+    );
+    
+    // Just a quick note - we do need to clamp those values above. I noticed if
+    // you don't clamp then, you start to see some weird stuff. In particular,
+    // lights begin to  \"peek\" through surfaces and begin to render on the wrong
+    // sides.
+    
+    // Now using that scalar, mix this light in with the existing diffuse light.
+    // This should just blend all the colors together.
+    DIFFUSE_LIGHT = mix(DIFFUSE_LIGHT, LIGHT_COLOR, light_scalar);
+}"
