@@ -562,6 +562,13 @@ func make_building():
     # If Box B is too small, remove it and hope it gets garbage collected.
     if $Building/RoofBoxB.len_x <= 1 or $Building/RoofBoxB.len_z <= 1:
         $Building.remove_child($Building/RoofBoxB)
+    
+    #
+    # Antennae
+    #
+    $Building/Antenna.roof_height = tower_len_y
+    $Building/Antenna.width = 1
+    $Building/Antenna.height = 5
 
 # --------------------------------------------------------
 #
