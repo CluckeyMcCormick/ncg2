@@ -149,6 +149,15 @@ export var box = {
     "box_enabled": false
 }
 
+export var antennae = {
+    "antennae_occurrence": 100,
+    "antennae_enabled": false,
+    "antennae_a_texture": 100,
+    "antennae_a_min_height": 0,
+    "antennae_a_max_height": 100,
+    "antennae_a_height_factor": 100,
+}
+
 func to_dict():
     var dict = {
         "profile_name": profile_name, "author_name": author_name,

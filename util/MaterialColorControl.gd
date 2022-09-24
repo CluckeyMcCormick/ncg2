@@ -34,6 +34,19 @@ var sparkle_a_mesh = preload("res://effects/SparkleQuadMeshTypeA.tres")
 var sparkle_b_mesh = preload("res://effects/SparkleQuadMeshTypeB.tres")
 var sparkle_c_mesh = preload("res://effects/SparkleQuadMeshTypeC.tres")
 
+# These materials are for our antennae - we have three kinds of antennae, each
+# of which need to come in three different colors. Hence the nine separate
+# materials. I don't like it that much either.
+var antennae_mat_a1 = preload("res://decorations/AntennaeMaterialA1.tres")
+var antennae_mat_a2 = preload("res://decorations/AntennaeMaterialA2.tres")
+var antennae_mat_a3 = preload("res://decorations/AntennaeMaterialA3.tres")
+var antennae_mat_b1 = preload("res://decorations/AntennaeMaterialB1.tres")
+var antennae_mat_b2 = preload("res://decorations/AntennaeMaterialB2.tres")
+var antennae_mat_b3 = preload("res://decorations/AntennaeMaterialB3.tres")
+var antennae_mat_c1 = preload("res://decorations/AntennaeMaterialC1.tres")
+var antennae_mat_c2 = preload("res://decorations/AntennaeMaterialC2.tres")
+var antennae_mat_c3 = preload("res://decorations/AntennaeMaterialC3.tres")
+
 # Grab the Sparkle particle material
 var sparkle_particles = preload("res://effects/SparkleParticalMaterial.tres")
 
@@ -159,6 +172,9 @@ func update_key(key):
         #
         "bld_a_base_color":
             mat_a.set_shader_param("BuildingColor", profile_dict[key])
+            antennae_mat_a1.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_a2.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_a3.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_a_red_dot":
             mat_a.set_shader_param("RedDotColor", profile_dict[key])
         "bld_a_red_mixer":
@@ -182,6 +198,9 @@ func update_key(key):
         #
         "bld_b_base_color":
             mat_b.set_shader_param("BuildingColor", profile_dict[key])
+            antennae_mat_b1.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_b2.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_b3.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_b_red_dot":
             mat_b.set_shader_param("RedDotColor", profile_dict[key])
         "bld_b_red_mixer":
@@ -205,6 +224,9 @@ func update_key(key):
         #
         "bld_c_base_color":
             mat_c.set_shader_param("BuildingColor", profile_dict[key])
+            antennae_mat_c1.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_c2.set_shader_param("SilhouetteColor", profile_dict[key])
+            antennae_mat_c3.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_c_red_dot":
             mat_c.set_shader_param("RedDotColor", profile_dict[key])
         "bld_c_red_mixer":

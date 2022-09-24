@@ -321,6 +321,7 @@ func make_blueprint():
         ])
 
 func make_building():
+    var building_type
     var chosen_mat
     var box_max_x
     var box_max_z
@@ -334,7 +335,11 @@ func make_building():
         $FxManager.remove_child(light)
         light.queue_free()
     
-    match RNGENNIE.randi_range(1, 3):
+    # Randomly choose the building type
+    building_type = RNGENNIE.randi_range(1, 3)
+    
+    # Set the material based on building type
+    match building_type:
         1:
             chosen_mat = mcc.mat_a
         2:
@@ -343,6 +348,8 @@ func make_building():
             chosen_mat = mcc.mat_c
         _:
             pass
+    
+    # If we have an override material to use, use that instead.
     if override_material:
         chosen_mat = override_material
     
@@ -566,9 +573,77 @@ func make_building():
     #
     # Antennae
     #
-    $Building/Antenna.roof_height = tower_len_y
-    $Building/Antenna.width = 1
-    $Building/Antenna.height = 5
+    var material1
+    var material2
+    var material3
+    
+    match building_type:
+        1:
+            material1 = mcc.antennae_mat_a1
+            material2 = mcc.antennae_mat_a2
+            material3 = mcc.antennae_mat_a3
+        2:
+            material1 = mcc.antennae_mat_b1
+            material2 = mcc.antennae_mat_b2
+            material3 = mcc.antennae_mat_b3
+        3:
+            material1 = mcc.antennae_mat_c1
+            material2 = mcc.antennae_mat_c2
+            material3 = mcc.antennae_mat_c3
+    
+    match RNGENNIE.randi_range(1, 3):
+        1: $Building/AntennaA.set_surface_material(0, material1)
+        2: $Building/AntennaA.set_surface_material(0, material2)
+        3: $Building/AntennaA.set_surface_material(0, material3)
+
+    match RNGENNIE.randi_range(1, 3):
+        1: $Building/AntennaB.set_surface_material(0, material1)
+        2: $Building/AntennaB.set_surface_material(0, material2)
+        3: $Building/AntennaB.set_surface_material(0, material3)
+
+    match RNGENNIE.randi_range(1, 3):
+        1: $Building/AntennaC.set_surface_material(0, material1)
+        2: $Building/AntennaC.set_surface_material(0, material2)
+        3: $Building/AntennaC.set_surface_material(0, material3)
+    
+    $Building/AntennaA.roof_height = tower_len_y
+    $Building/AntennaB.roof_height = tower_len_y
+    $Building/AntennaC.roof_height = tower_len_y
+    
+    $Building/AntennaA.width = 1
+    $Building/AntennaB.width = 1
+    $Building/AntennaC.width = 1
+    
+    $Building/AntennaA.base_height = RNGENNIE.randf_range(1, 3) * (tower_len_y / 30.0)
+    $Building/AntennaB.base_height = RNGENNIE.randf_range(1, 3) * (tower_len_y / 30.0)
+    $Building/AntennaC.base_height = RNGENNIE.randf_range(1, 3) * (tower_len_y / 30.0)
+    
+    $Building/AntennaA.transform.origin.x = RNGENNIE.randf_range(
+        -(box_max_x - $Building/AntennaA.width) / 2.0,
+         (box_max_x - $Building/AntennaA.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/AntennaB.transform.origin.x = RNGENNIE.randf_range(
+        -(box_max_x - $Building/AntennaB.width) / 2.0,
+         (box_max_x - $Building/AntennaB.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/AntennaC.transform.origin.x = RNGENNIE.randf_range(
+        -(box_max_x - $Building/AntennaC.width) / 2.0,
+         (box_max_x - $Building/AntennaC.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+
+    $Building/AntennaA.transform.origin.z = RNGENNIE.randf_range(
+        -(box_max_z - $Building/AntennaA.width) / 2.0,
+         (box_max_z - $Building/AntennaA.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/AntennaB.transform.origin.z = RNGENNIE.randf_range(
+        -(box_max_z - $Building/AntennaB.width) / 2.0,
+         (box_max_z - $Building/AntennaB.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    $Building/AntennaC.transform.origin.z = RNGENNIE.randf_range(
+        -(box_max_z - $Building/AntennaC.width) / 2.0,
+         (box_max_z - $Building/AntennaC.width) / 2.0
+    ) * GlobalRef.WINDOW_UV_SIZE
+    
 
 # --------------------------------------------------------
 #

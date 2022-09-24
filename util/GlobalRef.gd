@@ -21,6 +21,10 @@ enum WindowAlgorithm {
     ANTI_DIAGONAL = 4
 }
 
+enum Antennae {
+    
+}
+
 # ~~~~~~~~~~~~~~~~
 #
 # Groups

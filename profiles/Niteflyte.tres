@@ -139,3 +139,11 @@ box = {
 "box_min_height": 0,
 "box_occurrence": 100
 }
+antennae = {
+"antennae_a_height_factor": 100,
+"antennae_a_max_height": 100,
+"antennae_a_min_height": 0,
+"antennae_a_texture": 100,
+"antennae_enabled": false,
+"antennae_occurrence": 100
+}
