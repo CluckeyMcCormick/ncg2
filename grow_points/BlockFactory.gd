@@ -18,13 +18,62 @@ export(int) var buildings_per_block = 20
 # How many blocks?
 export(int, 1, 100) var blocks = 50
 
-#
+# These are "Z Curves" - curves that the Blockifier samples (indexing with the
+# Grow AABB's Z value) to determine certain values.
+# This curve determines the maximum possible size for a side of a GrowAABB.
 export(Curve) var max_square_size
+# This curve determines the minimum height for buildings, in window units.
 export(Curve) var min_height
+# This curve determines the maximum height for buildings, in window units.
 export(Curve) var max_height
 
 # Thread for growing the blockifier's blocks
 var thread = null
+
+# --------------------------------------------------------
+#
+# Godot Functions
+#
+# --------------------------------------------------------
+
+func _ready():
+    # Disable physics processing for this node. We only want to use that when a
+    # thread is running.
+    set_physics_process(false)
+
+# The physics process function, called at a regular interval - we use this to
+# check and see if the thread is done. We need to do that for two reasons:
+# firstly, we need to know when the thread is done so we can clean it up.
+# Secondly, Godot doesn't have "queued signals" like, say, Qt. Emitting a
+# signal immediately calls the connected functions - meaning if we emit in a
+# thread we call in that same thread. And that's bad! So we need to emit in this
+# physics process function call.
+func _physics_process(_delta):
+    # We'll use this to capture output
+    var grow_aabbs
+    
+    # If we don't have a thread, then we shouldn't be doing physics processing.
+    # Disable it and back out.
+    if thread == null:
+        set_physics_process(false)
+        return
+    
+    # If the thread is still alive, we can't do anything just yet. Back out.
+    if thread.is_alive():
+        return
+    
+    # Otherwise, we're good for cleanup! First, wait for the thread to finish.
+    # This will return the list of Grow AABBs.
+    grow_aabbs = thread.wait_to_finish()
+    
+    # Clear the current thread
+    thread = null
+    
+    # Turn off our physics processing
+    set_physics_process(false)
+    
+    # Tell the world our blocks are finished!
+    emit_signal("blocks_completed", grow_aabbs)
 
 # --------------------------------------------------------
 #
@@ -45,12 +94,20 @@ func start_make_blocks_thread():
     thread = Thread.new()
     
     # Launch the blueprint-crafting thread
-    err = thread.start(self, "make_blocks", true)
+    err = thread.start(self, "make_blocks")
+    
+    # No issues? Great! Start physics processing!
+    if err == OK:
+        set_physics_process(true)
+    
+    # Otherwise, we failed. Nullify the thread.
+    else:
+        thread = null
     
     # Return true if we successfully started a thread.
     return err == OK
 
-func make_blocks(emit_signal=false):
+func make_blocks():
     var grow_aabbs = []
     
     # Create a new blockifier
@@ -76,29 +133,5 @@ func make_blocks(emit_signal=false):
     # Disconnect the blockifier, which should dereference and clean it up.
     blockifier = null
     
-    # If we're supposed to emit a signal, emit a signal
-    if emit_signal:
-        emit_signal("blocks_completed", grow_aabbs)
-    
+    # Return the Grow AABBs
     return grow_aabbs
-    
-func thread_cleanup():
-    # If we don't have a thread, can't very well do anything can we? Return
-    # false.
-    if thread == null:
-        return false
-    
-    # If the thread is still ongoing, we're not interested.
-    if thread.is_alive():
-        print("Block Factory Thread is still alive!")
-        print("Cowardly refusing to clean up an ongoing thread!")
-        return false
-    
-    # Wait until the thread is finished.
-    thread.wait_to_finish()
-    
-    # Clear the current thread
-    thread = null
-    
-    # Clean-up complete! Return true.
-    return true
