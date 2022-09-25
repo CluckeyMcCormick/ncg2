@@ -1,3 +1,4 @@
+extends Reference
 
 # Including this scene so we can spawn GrowPoint objects.
 const GROW_POINT = preload("res://grow_points/BuildingGrowPoint.gd")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://grow_points/BlockFactory.gd" type="Script" id=1]
+
+[node name="BlockFactory" type="Node"]
+script = ExtResource( 1 )
