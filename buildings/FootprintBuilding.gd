@@ -47,14 +47,6 @@ const AC_SCALAR = .125
 # TODO: Decoration, Box Billboards
 # TODO: Decoration, AC Box
 # TODO: Decoration, Antennae
-# TODO: Refactor this as a factory pattern with a series of "hooks" - functions
-# called for each building decoration to set up that particular set of
-# decorations. Hooks for the building itself, the lights, the roofboxes, the
-# billboards, etc. Each decoration set should have two hooks - the blueprint
-# phase where the decoration is planned, and the build phase where the
-# decoration is added to the building. What hooks to call and what order should
-# be something dynamic, like an array. If implemented correctly, this should
-# make it trivial to add a new decoration set (unlike now).
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.

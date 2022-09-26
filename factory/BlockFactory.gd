@@ -28,7 +28,7 @@ export(Curve) var min_height
 export(Curve) var max_height
 
 # Thread for growing the blockifier's blocks
-var thread = null
+var active_thread = null
 
 # --------------------------------------------------------
 #
@@ -54,20 +54,20 @@ func _physics_process(_delta):
     
     # If we don't have a thread, then we shouldn't be doing physics processing.
     # Disable it and back out.
-    if thread == null:
+    if active_thread == null:
         set_physics_process(false)
         return
     
     # If the thread is still alive, we can't do anything just yet. Back out.
-    if thread.is_alive():
+    if active_thread.is_alive():
         return
     
     # Otherwise, we're good for cleanup! First, wait for the thread to finish.
     # This will return the list of Grow AABBs.
-    grow_aabbs = thread.wait_to_finish()
+    grow_aabbs = active_thread.wait_to_finish()
     
     # Clear the current thread
-    thread = null
+    active_thread = null
     
     # Turn off our physics processing
     set_physics_process(false)
@@ -82,19 +82,26 @@ func _physics_process(_delta):
 # --------------------------------------------------------
 
 func start_make_blocks_thread():
+    # Any errors?
     var err
     
     # If we have a thread, we need to handle that.
-    if thread != null:
+    if active_thread != null:
         print("Attempted to start make-blocks thread when previous thread hasn't yet been cleaned!")
         print("Cowardly refusing to start a duplicate make-blocks thread.")
         return false
     
+    # Create a new blockifier
+    var blockifier = GROW_BLOCKIFIER.new(
+        max_square_size, min_height, max_height,
+        block_x_width, block_z_length, buildings_per_block
+    )
+    
     # Create a new thread
-    thread = Thread.new()
+    active_thread = Thread.new()
     
     # Launch the blueprint-crafting thread
-    err = thread.start(self, "make_blocks")
+    err = active_thread.start(self, "make_blocks")
     
     # No issues? Great! Start physics processing!
     if err == OK:
@@ -102,7 +109,7 @@ func start_make_blocks_thread():
     
     # Otherwise, we failed. Nullify the thread.
     else:
-        thread = null
+        active_thread = null
     
     # Return true if we successfully started a thread.
     return err == OK
@@ -115,6 +122,9 @@ func make_blocks():
         max_square_size, min_height, max_height,
         block_x_width, block_z_length, buildings_per_block
     )
+    
+    # Carry down the correct number of blocks
+    blockifier.target_blocks = blocks
     
     # Spawn all the blocks
     blockifier.spawn_step()

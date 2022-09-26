@@ -278,7 +278,9 @@ func _spawn_block():
         while redo:
             origin = _block_offset
             
-            origin.x += randi() % x_width
+            # HACK: Somehow, x_width was a float here (despite being set to an
+            # int???). Not sure what's going on here.
+            origin.x += randi() % int(x_width)
             origin.x = stepify(origin.x, POINT_POSITION_STEP)
             
             origin.z += abs(point_distro.randfn(0, z_length * .4))
@@ -286,6 +288,7 @@ func _spawn_block():
             origin.z = stepify(origin.z, POINT_POSITION_STEP)
             
             redo = origin in points
+            break
         
         max_len = max_square_size.interpolate( float(origin.z) / z_length)
         max_len = stepify(max_len, 1.0)

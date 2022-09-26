@@ -92,7 +92,11 @@ func _on_building_blueprint_completed(building):
     )
     # Construct this building
     building.make_building()
-    
+    # Reassert the scale
+    building.scale = Vector3(
+        BUILDING_SCALAR, BUILDING_SCALAR, BUILDING_SCALAR
+    )
+    print(building.scale)
 
 func _on_CameraOptions_item_selected(index):
     if index == 0:

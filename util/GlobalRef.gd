@@ -21,8 +21,10 @@ enum WindowAlgorithm {
     ANTI_DIAGONAL = 4
 }
 
-enum Antennae {
-    
+# We have three different types of building materials - which means different
+# sorts of windows, colors, etc. 
+enum BuildingMaterial {
+    A = 0, B = 1, C = 2
 }
 
 # ~~~~~~~~~~~~~~~~

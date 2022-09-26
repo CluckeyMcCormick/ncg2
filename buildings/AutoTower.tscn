@@ -1,8 +1,60 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://buildings/AutoTower.gd" type="Script" id=1]
 
 [sub_resource type="ArrayMesh" id=1]
+surfaces/0 = {
+"aabb": AABB( -0.0625, 0, -0.0625, 0.125, 0.25, 9.99868e-06 ),
+"array_data": PoolByteArray( 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 189, 127, 127, 127, 193, 0, 36, 0, 172, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 189, 127, 127, 127, 193, 128, 48, 0, 181, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 189, 127, 127, 127, 193, 0, 36, 0, 181, 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 189, 127, 127, 127, 193, 0, 36, 0, 172, 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 189, 127, 127, 127, 193, 128, 48, 0, 172, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 189, 127, 127, 127, 193, 128, 48, 0, 181 ),
+"array_index_data": PoolByteArray(  ),
+"blend_shape_data": [  ],
+"format": 2194455,
+"index_count": 0,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 6
+}
+
+[sub_resource type="ArrayMesh" id=2]
+surfaces/0 = {
+"aabb": AABB( -0.0625, 0, 0.0625, 0.125, 0.25001, 9.99868e-06 ),
+"array_data": PoolByteArray( 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 61, 0, 0, 127, 63, 64, 58, 224, 187, 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 127, 63, 64, 59, 224, 185, 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 127, 63, 64, 58, 224, 185, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 61, 0, 0, 127, 63, 64, 58, 224, 187, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 61, 0, 0, 127, 63, 64, 59, 224, 187, 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 127, 63, 64, 59, 224, 185 ),
+"array_index_data": PoolByteArray(  ),
+"blend_shape_data": [  ],
+"format": 2194455,
+"index_count": 0,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 6
+}
+
+[sub_resource type="ArrayMesh" id=3]
+surfaces/0 = {
+"aabb": AABB( 0.0625, 0, -0.0625, 9.99868e-06, 0.25, 0.125 ),
+"array_data": PoolByteArray( 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 189, 127, 0, 0, 193, 32, 57, 192, 182, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 61, 127, 0, 0, 193, 32, 58, 96, 185, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 189, 127, 0, 0, 193, 32, 57, 96, 185, 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 189, 127, 0, 0, 193, 32, 57, 192, 182, 0, 0, 128, 61, 0, 0, 0, 0, 0, 0, 128, 61, 127, 0, 0, 193, 32, 58, 192, 182, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 61, 127, 0, 0, 193, 32, 58, 96, 185 ),
+"array_index_data": PoolByteArray(  ),
+"blend_shape_data": [  ],
+"format": 2194455,
+"index_count": 0,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 6
+}
+
+[sub_resource type="ArrayMesh" id=4]
+surfaces/0 = {
+"aabb": AABB( -0.0625, 0, -0.0625, 9.99868e-06, 0.25001, 0.125 ),
+"array_data": PoolByteArray( 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 189, 129, 0, 0, 63, 64, 59, 96, 185, 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 61, 129, 0, 0, 63, 32, 60, 192, 182, 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 189, 129, 0, 0, 63, 64, 59, 192, 182, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 189, 129, 0, 0, 63, 64, 59, 96, 185, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 61, 129, 0, 0, 63, 32, 60, 96, 185, 0, 0, 128, 189, 0, 0, 0, 0, 0, 0, 128, 61, 129, 0, 0, 63, 32, 60, 192, 182 ),
+"array_index_data": PoolByteArray(  ),
+"blend_shape_data": [  ],
+"format": 2194455,
+"index_count": 0,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 6
+}
+
+[sub_resource type="ArrayMesh" id=5]
 surfaces/0 = {
 "aabb": AABB( -0.0625, 0.25, -0.0625, 0.125, 1.00136e-05, 0.125 ),
 "array_data": PoolByteArray( 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 189, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 61, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 61, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 189, 0, 0, 128, 62, 0, 0, 128, 189, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 189, 0, 127, 127, 63, 0, 0, 0, 0, 0, 0, 128, 61, 0, 0, 128, 62, 0, 0, 128, 61, 0, 127, 127, 63, 0, 0, 0, 0 ),
@@ -18,14 +70,21 @@ surfaces/0 = {
 [node name="AutoTower" type="Spatial"]
 transform = Transform( 1, -1.43584e-29, -6.3573e-08, 0, 1, -2.25857e-22, 6.3573e-08, 2.25857e-22, 1, -2.60649e-07, 5.96046e-08, 0 )
 script = ExtResource( 1 )
+len_x = 8
+len_y = 16
+len_z = 8
 
 [node name="ZNeg" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
 
 [node name="ZPos" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
 
 [node name="XNeg" type="MeshInstance" parent="."]
+mesh = SubResource( 3 )
 
 [node name="XPos" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
 
 [node name="YTop" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
+mesh = SubResource( 5 )

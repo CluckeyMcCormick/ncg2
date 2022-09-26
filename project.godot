@@ -82,6 +82,7 @@ config/icon="res://icon.png"
 [autoload]
 
 MaterialColorControl="*res://util/MaterialColorControl.gd"
+FactoryStageManifest="*res://factory/FactoryStageManifest.gd"
 DebugDraw="*res://addons/zylann.debug_draw/debug_draw.gd"
 
 [debug]
