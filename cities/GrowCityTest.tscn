@@ -150,6 +150,7 @@ light_specular = 2.054
 
 [node name="GrowBlockCityAlt" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, -16, 0, 0 )
+offscreen_processing = false
 max_square_size = ExtResource( 3 )
 min_height = ExtResource( 6 )
 max_height = ExtResource( 7 )

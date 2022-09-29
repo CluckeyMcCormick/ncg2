@@ -76,7 +76,8 @@ func _on_GrowBlockCityAlt_city_complete():
 # the standard materials with bright debug materials.
 func make_construction(building : Spatial, blueprint : Dictionary):
     var autotower = building.get_node("AutoTower")
-    
     autotower.building_material = MATERIALS[ randi() % len(MATERIALS) ]
-    
     autotower.make_building()
+
+    #for child in autotower.get_children():
+        #print( child )

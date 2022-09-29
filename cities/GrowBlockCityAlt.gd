@@ -26,6 +26,13 @@ export(int) var block_z_length = 120
 export(int) var buildings_per_block = 20
 # How many blocks?
 export(int, 1, 100) var blocks = 50
+# When a building moves offscreen, we set it to "offscreen mode" and then move
+# it so the city effectively loops. However, there may be some instances where
+# we DON'T want the city to do that - you can do that with this variable. You
+# shouldn't change this once you've started the make chain. Keep in mind this
+# doesn't disable the processing for when files come on screen.
+export(bool) var offscreen_processing = true
+
 
 # These are "Z Curves" - curves that the Blockifier samples (indexing with the
 # Grow AABB's Z value) to determine certain values.
@@ -103,11 +110,41 @@ func _on_BlockFactory_blocks_completed(grow_aabbs):
 func _on_BuildingFactory_blueprint_completed(blueprint):
     var building : Spatial
     
+    # Construct a building using a blueprint
     building = $BuildingFactory.construct_building($BuildingMaster, blueprint)
     
-    # TODO: Visibility AABB?
+    # Connect the screen entered/exit functions
+    building.connect("screen_entered", self,"_on_building_screen_entered")
+    building.connect("screen_exited", self,"_on_building_screen_exited")
     
+    # Increment our current 
     _current_buildings += 1
-
+    
+    # If we're done making buildings, tell any listeners we're done
     if _current_buildings == _total_buildings:
         emit_signal("city_complete")
+
+func _on_building_screen_entered(building):
+    building.set_onscreen_mode()
+
+func _on_building_screen_exited(building):
+    # We'll use this to calculate how much to translate the building by
+    var trans = Vector3.ZERO
+    
+    # If we're actually doing offscreen processing...
+    if offscreen_processing:
+        # Set the building to offscreen mode
+        building.set_offscreen_mode()
+        
+        # Calculate how much to move the building. We need to move it by the
+        # width of the city. We can get that in window units multiplying the
+        # block count, block window width, and the window scalar.
+        trans.x += $BlockFactory.blocks * block_x_width * WINDOW_SCALING
+        # Then, transform the measurement from window units to REAL units by
+        # using the WINDOW_UV_SIZE constant
+        trans.x *= GlobalRef.WINDOW_UV_SIZE
+        # Then scale that transform up to match the city's scale
+        trans.x *= BUILDING_SCALAR
+        
+        # Shift it!
+        building.translation += trans

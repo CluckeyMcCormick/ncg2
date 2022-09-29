@@ -24,11 +24,13 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     autotower.make_building()
 
     # Set Visibility AABB's position
-    visi.aabb.position.x = -(blueprint["len_x"] * GlobalRef.WINDOW_UV_SIZE) / 2
+    visi.aabb.position.x = -(blueprint["footprint_x"] * GlobalRef.WINDOW_UV_SIZE) / 2
     visi.aabb.position.y = 0
-    visi.aabb.position.z = -(blueprint["len_z"] * GlobalRef.WINDOW_UV_SIZE) / 2
+    visi.aabb.position.z = -(blueprint["footprint_z"] * GlobalRef.WINDOW_UV_SIZE) / 2
     
-    # Set the Visibility AABB's size
-    visi.aabb.size.x = blueprint["len_x"] * GlobalRef.WINDOW_UV_SIZE
-    visi.aabb.size.y = blueprint["len_y"] * GlobalRef.WINDOW_UV_SIZE
-    visi.aabb.size.z = blueprint["len_z"] * GlobalRef.WINDOW_UV_SIZE
+    # Set the Visibility AABB's size to match the footprint.
+    visi.aabb.size.x = blueprint["footprint_x"] * GlobalRef.WINDOW_UV_SIZE
+    visi.aabb.size.z = blueprint["footprint_z"] * GlobalRef.WINDOW_UV_SIZE
+    # Set the y to something arbitrary; we don't want stuff discounted for the
+    # height
+    visi.aabb.size.y = 100
