@@ -26,6 +26,9 @@ func _ready():
     randomize()
     
     $Toolbar.assert_profile()
+    
+    # Spawn the city!
+    $GrowBlockCity.start_make_chain()
 
 func _physics_process(delta):
     if city_built and movement_enabled:

@@ -15,10 +15,14 @@ func set_onscreen_mode():
     $AutoTower.visible = true
     $FootprintFX.visible = true
 
-# Set the building to "OFFSCREEN" mode.  
+# Set the building to "OFFSCREEN" mode.
 func set_offscreen_mode():
     $AutoTower.visible = false
     $FootprintFX.visible = false
+
+# Utility function - is this building currently onscreen?
+func is_onscreen():
+    return $VisibilityNotifier.is_on_screen()
 
 func _on_VisibilityNotifier_screen_entered():
     emit_signal("screen_entered", self)
