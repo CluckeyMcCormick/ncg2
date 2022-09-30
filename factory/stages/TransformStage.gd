@@ -26,9 +26,8 @@ const MAX_ROTATION_DEGREES = 45
 # you need - after all, it's threaded. Any values you wish to carry over to the
 # construction stage should be placed in the blueprint Dictionary.
 static func make_blueprint(blueprint : Dictionary):
-    
-    var rng = RandomNumberGenerator.new()
-    rng.randomize()
+    # Get our random number generator
+    var rng = blueprint["rngen"]
     
     # Now we want to rotate the building, but we need to make sure we stay in
     # the footprint. So, we'll use the four variables to ensure that the four

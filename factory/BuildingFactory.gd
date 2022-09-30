@@ -84,7 +84,7 @@ func _physics_process(_delta):
 # --------------------------------------------------------
 
 # A wrapper for make_blueprint that runs it in a thread.
-func start_make_blueprint_thread(footprint_x, footprint_z, len_y, origin, scale):
+func start_make_blueprint_thread(footprint_x, footprint_z, len_y, origin, scale, in_seed=null):
     # Any errors?
     var err
 
@@ -98,6 +98,13 @@ func start_make_blueprint_thread(footprint_x, footprint_z, len_y, origin, scale)
     dict = _create_basic_blueprint(
         footprint_x, footprint_z, len_y, origin, scale
     )
+    
+    # If we weren't given a seed, randomize this building's seed
+    if in_seed == null:
+        dict["rngen"].randomize()
+    # Otherwise, use the seed we were given.
+    else:
+        dict["rngen"].seed = in_seed
     
     # Start the thread
     err = thread.start(self, "_make_blueprint", dict)
@@ -122,11 +129,18 @@ func start_make_blueprint_thread(footprint_x, footprint_z, len_y, origin, scale)
 # Creates a blueprint dictionary and returns it. Unfortunately because threaded
 # functions must only accept one argument, we just call the _make_blueprint
 # function, which has the actual functionality in there.
-func make_blueprint(footprint_x, footprint_z, len_y, origin, scale):
+func make_blueprint(footprint_x, footprint_z, len_y, origin, scale, in_seed=null):
     # Generate a basic blueprint dictionary
     var dict = _create_basic_blueprint(
         footprint_x, footprint_z, len_y, origin, scale
     )
+    
+    # If we weren't given a seed, randomize this building's seed
+    if in_seed == null:
+        dict["rngen"].randomize()
+    # Otherwise, use the seed we were given.
+    else:
+        dict["rngen"].seed = in_seed
     
     # Call the actual function
     dict = _make_blueprint(dict)
@@ -171,5 +185,6 @@ func _create_basic_blueprint(footprint_x, footprint_z, len_y, origin, scale):
         "footprint_x": footprint_x, "footprint_z": footprint_z,
         "len_x": max(footprint_x - 1, 1), "len_z": max(footprint_z - 1, 1),
         "len_y": len_y, "origin": origin, "scale": scale,
-        "rotation_deviation": rotation_deviation
+        "rotation_deviation": rotation_deviation,
+        "rngen" : RandomNumberGenerator.new()
     }

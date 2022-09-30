@@ -8,7 +8,8 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # Pick a material for the building.
 static func make_blueprint(blueprint : Dictionary):
     var values = GlobalRef.BuildingMaterial.values()
-    blueprint["material_enum"] = values[ randi() % len(values) ]
+    var rng = blueprint["rngen"]
+    blueprint["material_enum"] = values[ rng.randi() % len(values) ]
 
 # Pass the chosen material to the autotower.
 static func make_construction(building : Spatial, blueprint : Dictionary):
