@@ -8,11 +8,6 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the Beacon script so we can refer to that when we need to.
 const BeaconScript = preload("res://decorations/Beacon.gd")
 
-# LOGOFF: Implement beacon stage. Almost everything should be the same, except
-# for the Beacon scene itself. That should be updated so it doesn't set it's own
-# y-translation. Make sure to load the Beacon scene in instead of preloading so
-# we don't load things in some excessive chain.
-
 # This function gets called first, in the blueprint stage. This one will most
 # likely be run from a thread, so you must avoid creating nodes in it. This is
 # where the "planning" should take place, and can be algorithmically complex as

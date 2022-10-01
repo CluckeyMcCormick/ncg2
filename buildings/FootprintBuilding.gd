@@ -16,6 +16,8 @@ onready var mcc = get_node("/root/MaterialColorControl")
 # base.
 const BASE_HEIGHT = 3
 
+const LIGHT_SCALAR = 2
+
 # In order to add more variation to the buildings, we randomly rotate the
 # tower and then shrink it to fit in our footprint. However, we don't want to do
 # that infinitely - how many times do we do that before we just give up and

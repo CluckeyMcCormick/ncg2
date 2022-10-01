@@ -17,7 +17,7 @@ const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
 onready var dd = get_node("/root/DebugDraw")
 
-const X_WIDTH = 20
+const X_WIDTH = 30
 const Z_LENGTH = 200
 const TARGET_BLOCKS = 8
 

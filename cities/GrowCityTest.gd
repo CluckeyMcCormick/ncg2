@@ -16,7 +16,6 @@ const MATERIALS = [
 const GlobalRef = preload("res://util/GlobalRef.gd")
 const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")
-const BUILDING_SCENE = preload("res://buildings/FootprintBuilding.tscn")
 
 const X_WIDTH = 30
 const Z_LENGTH = 200
@@ -33,7 +32,7 @@ func _ready():
     $GUI/OptionsBox/BuildingBox.value = 40
     
     # Sneak in our own construction stage
-    $GrowBlockCityAlt/BuildingFactory.construction_stages.append(self)
+    $GrowBlockCity/BuildingFactory.construction_stages.append(self)
     
     # Start the build process
     start_build()
@@ -41,19 +40,19 @@ func _ready():
 func start_build():
     # If we're cleaning up the buildings...
     if $"%CleanToggle".pressed:
-        $GrowBlockCityAlt.clean_buildings()
+        $GrowBlockCity.clean_buildings()
     
     # Load GUI values
-    $GrowBlockCityAlt.block_x_width = $GUI/OptionsBox/XBox.value
-    $GrowBlockCityAlt.block_z_length = $GUI/OptionsBox/ZBox.value
-    $GrowBlockCityAlt.buildings_per_block = $GUI/OptionsBox/BuildingBox.value
-    $GrowBlockCityAlt.blocks = TARGET_BLOCKS
+    $GrowBlockCity.block_x_width = $GUI/OptionsBox/XBox.value
+    $GrowBlockCity.block_z_length = $GUI/OptionsBox/ZBox.value
+    $GrowBlockCity.buildings_per_block = $GUI/OptionsBox/BuildingBox.value
+    $GrowBlockCity.blocks = TARGET_BLOCKS
     
     # Disable the regenerate button
     $"%RegenerateButton".disabled = true
     
     # Start the chain!
-    $GrowBlockCityAlt.start_make_chain()
+    $GrowBlockCity.start_make_chain()
 
 func _on_CameraOptions_item_selected(index):
     if index == 0:
@@ -66,18 +65,25 @@ func _on_CameraOptions_item_selected(index):
 func _on_RegenerateButton_pressed():
     start_build()
 
-func _on_GrowBlockCityAlt_city_complete():
+func _on_GrowBlockCity_city_complete():
     print("City Complete!")
     # Reenable the regenerate button
     $"%RegenerateButton".disabled = false
 
 # One of the advantages of the Building Factory is that you can easily add your
 # own steps - case in point, this function. We sneak it in to quickly override
-# the standard materials with bright debug materials.
+# the standard materials with bright debug materials and remove some unnecessary
+# decorations.
 func make_construction(building : Spatial, blueprint : Dictionary):
     var autotower = building.get_node("AutoTower")
+    var footprintFX = building.get_node("AutoTower/BuildingFX")
+    var buildingFX = building.get_node("FootprintFX")
+    
     autotower.building_material = MATERIALS[ randi() % len(MATERIALS) ]
     autotower.make_building()
-
-    #for child in autotower.get_children():
-        #print( child )
+    
+    for child in footprintFX.get_children():
+        footprintFX.remove_child(child)
+    
+    for child in buildingFX.get_children():
+        buildingFX.remove_child(child)

@@ -157,4 +157,4 @@ max_height = ExtResource( 7 )
 
 [connection signal="item_selected" from="GUI/CameraBox/CameraOptions" to="." method="_on_CameraOptions_item_selected"]
 [connection signal="pressed" from="GUI/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
-[connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCityAlt_city_complete"]
+[connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
