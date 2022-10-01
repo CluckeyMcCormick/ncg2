@@ -82,7 +82,7 @@ func _on_BlockFactory_blocks_completed(grow_aabbs):
     var blueprint = {}
     
     var origin = Vector3.ZERO
-    var scale = Vector3( BUILDING_SCALAR, BUILDING_SCALAR, BUILDING_SCALAR )
+    var in_scale = Vector3( BUILDING_SCALAR, BUILDING_SCALAR, BUILDING_SCALAR )
     
     print("Stage 2: Building Factory, Blueprints")
     
@@ -101,7 +101,7 @@ func _on_BlockFactory_blocks_completed(grow_aabbs):
         
         # Start a thread to make a blueprint
         $BuildingFactory.start_make_blueprint_thread(
-            fp_x, fp_z, height, origin, scale
+            fp_x, fp_z, height, origin, in_scale
         )
         
         # Increment our total buildings

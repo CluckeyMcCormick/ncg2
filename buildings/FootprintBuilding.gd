@@ -27,14 +27,6 @@ const MAX_ROLLS = 25 #10
 # buildings.
 const MIN_THIN = 2
 
-# We include the radius of the lights when calculating the building's Visibility
-# AABB (which determines if we're on screen or not). However, it's been observed
-# that sometimes the building loads in but the lights won't load until later. To
-# get around that, we'll use this scalar to increase the light radius included
-# in the AABB - that means the buildings will load in sooner, and so too will
-# their lights.
-const LIGHT_SCALAR = 2
-
 # We're allowed to set the Air Conditioning boxes 
 const AC_HEIGHT_MIN = 3
 const AC_HEIGHT_MAX = 12
