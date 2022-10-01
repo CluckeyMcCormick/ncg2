@@ -1,6 +1,8 @@
 
 # This script creates the city lights, which are integral to the city's
 # look-and-feel.
+
+# Load the GlobalRef script so we have that
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # We include the radius of the lights when calculating the building's Visibility

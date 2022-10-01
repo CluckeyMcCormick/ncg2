@@ -26,6 +26,9 @@ var roof_height = 0 setget set_roof_height
 # the global occurrence value, then the node will be hidden.
 var occurrence = 0 setget set_occurrence
 
+# TODO: This object is having a massive impact on construction time. Recommend
+# using the single mesh scaling that we currently use for Antennae. 
+
 func _ready():
     # Stick this roof box in the box group
     self.add_to_group( GlobalRef.box_group )

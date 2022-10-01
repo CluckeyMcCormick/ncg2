@@ -9,8 +9,6 @@ script = ExtResource( 3 )
 
 [node name="AutoTower" parent="." instance=ExtResource( 1 )]
 building_material = ExtResource( 2 )
-len_x = 8
 len_y = 1.5
-len_z = 8
 use_window_texture = false
 auto_build = false
