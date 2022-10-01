@@ -16,7 +16,8 @@ extends Node
 var blueprint_stages = [
     preload("res://factory/stages/MaterialStage.gd"), # Determine the material
     preload("res://factory/stages/TransformStage.gd"), # Determine the Transform
-    preload("res://factory/stages/LightStage.gd")
+    preload("res://factory/stages/LightStage.gd"), # Pick lights
+    preload("res://factory/stages/BeaconStage.gd"), # Set beacon type/occurrence
 ]
 
 # Those objects in construction_stages need to have a "make_construction"
@@ -25,5 +26,6 @@ var construction_stages = [
     preload("res://factory/stages/MaterialStage.gd"), # Set the material
     preload("res://factory/stages/TransformStage.gd"), # Set the Transform
     preload("res://factory/stages/AutoTowerBuildStage.gd"), # Build the tower
-    preload("res://factory/stages/LightStage.gd")
+    preload("res://factory/stages/LightStage.gd"), # Add the lights
+    preload("res://factory/stages/BeaconStage.gd"), # Create beacons
 ]
