@@ -42,6 +42,11 @@ func _ready():
 
 func set_type(new_type):
     type = new_type
+    
+    # Clear our old groups
+    for group in self.get_groups():
+        self.remove_from_group(group)
+    
     match type:
         BeaconType.A:
             self.set_surface_material(0, TypeAMat)

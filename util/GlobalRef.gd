@@ -42,3 +42,7 @@ const beacon_group_b = "beacon_b"
 const beacon_group_c = "beacon_c"
 
 const box_group = "roof_boxes"
+
+const antenna_group_a = "antenna_a"
+const antenna_group_b = "antenna_b"
+const antenna_group_c = "antenna_c"

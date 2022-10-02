@@ -4,8 +4,11 @@
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
+# Load the Antenna script
+const AntennaScript = preload("res://decorations/Antenna.gd")
+
 # How many atennae do we generate, per building?
-const ANTENNAE_COUNT = 3
+const ANTENNAE_COUNT = 5
 
 # Okay, so we want taller antennae on taller buildings and shorter antennae on
 # shorter buildings. Makes sense, right? To do that, we'll use this ratio...
@@ -19,30 +22,29 @@ const GEN_MIN_HEIGHT = 1
 # What's the maximum base height we'll generate for an antenna, in window units?
 const GEN_MAX_HEIGHT = 3
 
-# We support three types of antennae.
-enum AntennaType {ONE = 1, TWO = 2, THREE = 3}
-
 # Class definition for our antenna data
 class AntennaData:
     # What's the type of this antenna?
     var type
+    # What's the occurrence rating for this antenna?
+    var occurrence
     # What's the width of this antenna, in window units?
     var width
-    # What's the base height of this antennae, in window units?
+    # What's the base height of this antenna, in window units?
     var base_height
     # What's the offset of this antenna on X, in window units?
     var offset_x
     # What's the offset of this antenna on Z, in window units?
     var offset_z
 
-# 
+# Plan out each antenna
 static func make_blueprint(blueprint : Dictionary):
     # Our current antennae data
     var data = null
     
     # Our type choices; need these in an array so we can easily pick them at
     # random.
-    var type_choices = AntennaType.values()
+    var type_choices = AntennaScript.AntennaType.values()
     
     # What's the maximum possible size, in window units, that a box can be on
     # x and z? We subtract 2 to get away from the very edges of the building
@@ -62,6 +64,9 @@ static func make_blueprint(blueprint : Dictionary):
         
         # Pick a random type
         data.type = type_choices[ rng.randi() % len(type_choices) ]
+        
+        # Roll a random occurrence
+        data.occurrence = rng.randi() % AntennaScript.OCCURRENCE_MAX
         
         # Width is currently fixed
         data.width = 1
@@ -86,10 +91,10 @@ static func make_blueprint(blueprint : Dictionary):
         # Add the data
         blueprint["antennae"].append(data)
 
-# 
+# Construct each antenna
 static func make_construction(building : Spatial, blueprint : Dictionary):
     # Load the Antenna scene
-    var Antenna = load("res://decorations/Antenna.tscn")
+    var AntennaScene = load("res://decorations/Antenna.tscn")
     
     # Get the MaterialColorControl, using the building
     var mcc = building.get_node("/root/MaterialColorControl")
@@ -103,7 +108,7 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     # For each box we're supposed to make...
     for data in blueprint["antennae"]:
         # Create a new box
-        ante = Antenna.instance()
+        ante = AntennaScene.instance()
         
         # Add it!
         towerFX.add_child(ante)
@@ -115,28 +120,33 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
         match blueprint["material_enum"]:
             GlobalRef.BuildingMaterial.A:
                 match data.type:
-                    AntennaType.ONE:
+                    AntennaScript.AntennaType.ONE:
                         ante.set_surface_material(0, mcc.antennae_mat_a1)
-                    AntennaType.TWO:
+                    AntennaScript.AntennaType.TWO:
                         ante.set_surface_material(0, mcc.antennae_mat_a2)
-                    AntennaType.THREE:
+                    AntennaScript.AntennaType.THREE:
                         ante.set_surface_material(0, mcc.antennae_mat_a3)
             GlobalRef.BuildingMaterial.B:
                 match data.type:
-                    AntennaType.ONE:
+                    AntennaScript.AntennaType.ONE:
                         ante.set_surface_material(0, mcc.antennae_mat_b1)
-                    AntennaType.TWO:
+                    AntennaScript.AntennaType.TWO:
                         ante.set_surface_material(0, mcc.antennae_mat_b2)
-                    AntennaType.THREE:
+                    AntennaScript.AntennaType.THREE:
                         ante.set_surface_material(0, mcc.antennae_mat_b3)
             GlobalRef.BuildingMaterial.C:
                 match data.type:
-                    AntennaType.ONE:
+                    AntennaScript.AntennaType.ONE:
                         ante.set_surface_material(0, mcc.antennae_mat_c1)
-                    AntennaType.TWO:
+                    AntennaScript.AntennaType.TWO:
                         ante.set_surface_material(0, mcc.antennae_mat_c2)
-                    AntennaType.THREE:
+                    AntennaScript.AntennaType.THREE:
                         ante.set_surface_material(0, mcc.antennae_mat_c3)
+        # Set the type
+        ante.type = data.type
+        
+        # Set the occurrence
+        ante.occurrence = data.occurrence
         
         # Set the roof height
         ante.roof_height = blueprint["len_y"]
@@ -146,9 +156,6 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
         
         # Set the base height
         ante.base_height = data.base_height
-        
-        # Move the antenna up appropriately
-        ante.transform.origin.y = blueprint["len_y"] * GlobalRef.WINDOW_UV_SIZE
         
         # Shift the antenna around 
         ante.transform.origin.x = data.offset_x * GlobalRef.WINDOW_UV_SIZE
