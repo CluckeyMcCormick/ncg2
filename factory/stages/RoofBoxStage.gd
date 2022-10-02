@@ -89,8 +89,8 @@ static func make_blueprint(blueprint : Dictionary):
         
         # Generate a random offset on Z
         box_data.offset_z = rng.randf_range(
-            -(max_x - box_data.len_x ) / 2.0,
-             (max_x - box_data.len_x ) / 2.0
+            -(max_z - box_data.len_z ) / 2.0,
+             (max_z - box_data.len_z ) / 2.0
         )
         
         # Add the data
@@ -112,18 +112,20 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     
     # For each box we're supposed to make...
     for box_data in blueprint["roof_boxes"]:
-        
         # Create a new box
         box = RoofBox.instance()
+        
+        # Add it!
+        towerFX.add_child(box)
         
         # Set the material appropriately given the material enum.
         match blueprint["material_enum"]:
             GlobalRef.BuildingMaterial.A:
-                box.material = mcc.mat_a
+                box.material = mcc.roofbox_mat_a
             GlobalRef.BuildingMaterial.B:
-                box.material = mcc.mat_b
+                box.material = mcc.roofbox_mat_b
             GlobalRef.BuildingMaterial.C:
-                box.material = mcc.mat_c
+                box.material = mcc.roofbox_mat_c
         
         # Set the height
         box.roof_height = blueprint["len_y"]
@@ -134,13 +136,9 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
         box.len_x = box_data.len_x
         box.len_y = box_data.len_y
         box.len_z = box_data.len_z
-        
-        # Add it!
-        towerFX.add_child(box)
-        # Make that box!
-        box.make_box()
-        # Make sure the box is in the right position (and other such nonsense)
-        box.box_update()
+            
+        # We're going to skip updating the box (via box_update) because setting
+        # the roof height and occurrence should have called it already.
         
         # Move the box around
         box.translation.x += box_data.offset_x * GlobalRef.WINDOW_UV_SIZE

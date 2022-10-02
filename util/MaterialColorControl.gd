@@ -28,6 +28,9 @@ var beacon_c_material = preload("res://decorations/BeaconTypeC.tres")
 var sparkle_a_material = preload("res://effects/SparkleTypeA.tres")
 var sparkle_b_material = preload("res://effects/SparkleTypeB.tres")
 var sparkle_c_material = preload("res://effects/SparkleTypeC.tres")
+var roofbox_mat_a = preload("res://decorations/RoofBoxMaterialA.tres")
+var roofbox_mat_b = preload("res://decorations/RoofBoxMaterialB.tres")
+var roofbox_mat_c = preload("res://decorations/RoofBoxMaterialC.tres")
 
 # These meshes allow us to easily change the size of the sparkle particles
 var sparkle_a_mesh = preload("res://effects/SparkleQuadMeshTypeA.tres")
@@ -175,6 +178,7 @@ func update_key(key):
             antennae_mat_a1.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_a2.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_a3.set_shader_param("SilhouetteColor", profile_dict[key])
+            roofbox_mat_a.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_a_red_dot":
             mat_a.set_shader_param("RedDotColor", profile_dict[key])
         "bld_a_red_mixer":
@@ -201,6 +205,7 @@ func update_key(key):
             antennae_mat_b1.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_b2.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_b3.set_shader_param("SilhouetteColor", profile_dict[key])
+            roofbox_mat_b.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_b_red_dot":
             mat_b.set_shader_param("RedDotColor", profile_dict[key])
         "bld_b_red_mixer":
@@ -227,6 +232,7 @@ func update_key(key):
             antennae_mat_c1.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_c2.set_shader_param("SilhouetteColor", profile_dict[key])
             antennae_mat_c3.set_shader_param("SilhouetteColor", profile_dict[key])
+            roofbox_mat_c.set_shader_param("SilhouetteColor", profile_dict[key])
         "bld_c_red_dot":
             mat_c.set_shader_param("RedDotColor", profile_dict[key])
         "bld_c_red_mixer":

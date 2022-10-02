@@ -26,9 +26,6 @@ var roof_height = 0 setget set_roof_height
 # the global occurrence value, then the node will be hidden.
 var occurrence = 0 setget set_occurrence
 
-# TODO: This object is having a massive impact on construction time. Recommend
-# using the single mesh scaling that we currently use for Antennae. 
-
 func _ready():
     # Stick this roof box in the box group
     self.add_to_group( GlobalRef.box_group )
@@ -40,19 +37,20 @@ func _ready():
 # --------------------------------------------------------
 func set_length_x(new_length):
     len_x = new_length
-    $AutoTower.len_x = len_x
+    $Box.scale.x = GlobalRef.WINDOW_UV_SIZE * len_x
 
 func set_length_y(new_length):
     len_y = new_length
-    $AutoTower.len_y = len_y
+    $Box.scale.y = GlobalRef.WINDOW_UV_SIZE * len_y
+    $Box.translation.y = $Box.scale.y / 2.0
     
 func set_length_z(new_length):
     len_z = new_length
-    $AutoTower.len_z = len_z
+    $Box.scale.z = GlobalRef.WINDOW_UV_SIZE * len_z
 
 func set_material(new_material):
     material = new_material
-    $AutoTower.building_material = material
+    $Box.set_surface_material(0, material)
 
 func set_roof_height(new_height):
     roof_height = new_height
@@ -66,10 +64,7 @@ func set_occurrence(new_rating):
 #
 # Other Functions
 #
-# --------------------------------------------------------
-func make_box():
-    $AutoTower.make_building()
-    
+# --------------------------------------------------------   
 func box_update():
     # Is this box going to be visibile or not? We have a lot of tests we need
     # to perform so we'll use this variable to store our result
@@ -101,4 +96,4 @@ func box_update():
     # Third, is our occurrence rating at-or-below the global ocurrence rating?
     viz = viz and occurrence <= mcc.profile_dict["box_occurrence"]
     # Finally, is this enabled?
-    self.visible = viz and mcc.profile_dict["box_enabled"]
+    $Box.visible = viz and mcc.profile_dict["box_enabled"]
