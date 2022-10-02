@@ -19,6 +19,7 @@ var blueprint_stages = [
     preload("res://factory/stages/LightStage.gd"), # Pick lights
     preload("res://factory/stages/BeaconStage.gd"), # Set beacon type/occurrence
     preload("res://factory/stages/RoofBoxStage.gd"), # Roof Box randomization
+    preload("res://factory/stages/AntennaStage.gd"),
 ]
 
 # Those objects in construction_stages need to have a "make_construction"
@@ -30,4 +31,5 @@ var construction_stages = [
     preload("res://factory/stages/LightStage.gd"), # Add the lights
     preload("res://factory/stages/BeaconStage.gd"), # Create beacons
     preload("res://factory/stages/RoofBoxStage.gd"), # Roof Box instantiation
+    preload("res://factory/stages/AntennaStage.gd"),
 ]

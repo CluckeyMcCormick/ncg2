@@ -8,11 +8,7 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the Beacon script so we can refer to that when we need to.
 const BeaconScript = preload("res://decorations/Beacon.gd")
 
-# This function gets called first, in the blueprint stage. This one will most
-# likely be run from a thread, so you must avoid creating nodes in it. This is
-# where the "planning" should take place, and can be algorithmically complex as
-# you need - after all, it's threaded. Any values you wish to carry over to the
-# construction stage should be placed in the blueprint Dictionary.
+# Roll up the occurrence and type for the beacon
 static func make_blueprint(blueprint : Dictionary):
     # Get the various beacon types
     var beacon_types = BeaconScript.BeaconType.values()
@@ -27,16 +23,8 @@ static func make_blueprint(blueprint : Dictionary):
         0, BeaconScript.OCCURRENCE_MAX
     )
 
-# This function gets called after make_blueprint, in the construction stage.
-# This function wil not be run from a thread; here is where nodes are spawned
-# and placed appropriately. However, it's not threaded, so take care and ensure
-# the function isn't too complex. The provided building is a TemplateBuilding,
-# any modifications should be made to that node. The blueprint dictionary is the
-# same one from the make_blueprint function call.
-#
-# This function doesn't necessarily need to be static, but you do need it if
-# you're just going to call this script directly without instancing it or
-# attaching it to something.
+# Spawn in the beacons, move them to the correct location, set the type,
+# location and height.
 static func make_construction(building : Spatial, blueprint : Dictionary):
     # Load the beacon scene
     var Beacon = load("res://decorations/Beacon.tscn")

@@ -14,11 +14,6 @@ var effects_paused = false
 # action triggers twice, and I haven't quite been able to solve the why of that.
 var gui_flip_enabled = true
 
-# TODO: Occassionally we'll get an error: "Reference to a Thread object was lost
-# while the thread is still running". Seems I'm not closing out my threads using
-# wait_to_finish - and honsetly, I'd believe it. I've been pretty sloppy with my
-# threading strategies.
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
     # Connect to the key update signal, so we can respond to key changes.

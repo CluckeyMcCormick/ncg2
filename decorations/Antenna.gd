@@ -10,9 +10,6 @@ onready var mcc = get_node("/root/MaterialColorControl")
 # What's the maximum value we'll accept for an occurrence rating?
 const OCCURRENCE_MAX = 100
 
-# We support three types of antennae.
-enum AntennaeType {ONE = 1, TWO = 2, THREE = 3}
-
 # The width and height (in total number of cells) of this antennae. This is
 # achieved by manipulating the scale of the node, so try not to mess with the
 # scale of this node!
