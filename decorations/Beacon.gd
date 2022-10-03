@@ -32,13 +32,9 @@ var type = BeaconType.A setget set_type
 # the global occurrence value, then the node will be hidden.
 var occurrence = 0 setget set_occurrence
 
-# Is this beacon enabled? Because we directly manipulate the visible variable,
-# we need this extra variable to control whether we're showing & hiding the
-# beacons.
-var enabled = false setget set_enabled
-
 func _ready():
-    beacon_update()
+    _pos_update()
+    _visual_update()
 
 func set_type(new_type):
     type = new_type
@@ -47,47 +43,56 @@ func set_type(new_type):
     for group in self.get_groups():
         self.remove_from_group(group)
     
+    # Add ourselves to the general beacon group
+    self.add_to_group(GlobalRef.beacon_group)
+    
     match type:
         BeaconType.A:
             self.set_surface_material(0, TypeAMat)
             self.add_to_group(GlobalRef.beacon_group_a)
-            self.height_correction = mcc.profile_dict["beacon_correction_a"]
+        
         BeaconType.B:
             self.set_surface_material(0, TypeBMat)
             self.add_to_group(GlobalRef.beacon_group_b)
-            self.height_correction = mcc.profile_dict["beacon_correction_b"]
+        
         BeaconType.C:
             self.set_surface_material(0, TypeCMat)
             self.add_to_group(GlobalRef.beacon_group_c)
-            self.height_correction = mcc.profile_dict["beacon_correction_c"]
+    
+    # Update values from the MCC
+    _mcc_update()
+    
+    # Update the position
+    _pos_update()
 
 func set_curr_beacon_height(new_height):
     curr_beacon_height = new_height
-    beacon_update()
+    _pos_update()
 
 func set_height_correction(new_correction):
     height_correction = new_correction
-    beacon_update()
+    _pos_update()
 
 func set_occurrence(new_rating):
     occurrence = new_rating % (OCCURRENCE_MAX + 1)
-    beacon_update()
+    _visual_update()
 
-func set_enabled(new_enable):
-    enabled = new_enable
-    beacon_update()
+#########################################
+#
+# UPDATE FUNCTIONS
+#
+#########################################
 
-# Updates whether the beacon is visible or not. This is a separate function so
-# we can take advantage of Godot's call_group() function, initiating updates
-# en-masse.
-func beacon_update():
+# Adjust the beacon according to the our current variables
+func _pos_update():
+    self.translation.y = GlobalRef.WINDOW_UV_SIZE * curr_beacon_height
+    self.translation.y += GlobalRef.WINDOW_UV_SIZE * height_correction
+    
+# Updates whether the beacon is visible or not.
+func _visual_update():
     # Is this beacon going to be visibile or not? We have a lot of tests we need
     # to perform so we'll use this variable to store our result
     var viz = false
-    
-    # Adjust the beacon according to the building's height
-    self.translation.y = GlobalRef.WINDOW_UV_SIZE * curr_beacon_height
-    self.translation.y += GlobalRef.WINDOW_UV_SIZE * height_correction
     
     if self.mcc == null:
         return
@@ -100,7 +105,10 @@ func beacon_update():
     
     if not "beacon_occurrence" in mcc.profile_dict:
         return
-    
+
+    if not "beacon_enabled" in mcc.profile_dict:
+        return
+ 
     # We're visible if we pass a whole bunch of tests.
     # First, are we at-or-above the minimum height?
     viz = curr_beacon_height >= mcc.profile_dict["beacon_min_height"]
@@ -109,4 +117,28 @@ func beacon_update():
     # Third, is our occurrence rating at-or-below the global ocurrence rating?
     viz = viz and occurrence <= mcc.profile_dict["beacon_occurrence"]
     # Finally, is this enabled?
-    self.visible = viz and enabled
+    self.visible = viz and mcc.profile_dict["beacon_enabled"]
+
+# Updates the Beacons's local variables to match the values in the MCC for the
+# Beacon's current type.
+func _mcc_update():
+    match type:
+        BeaconType.A:
+            self.height_correction = mcc.profile_dict["beacon_correction_a"]
+        BeaconType.B:
+            self.height_correction = mcc.profile_dict["beacon_correction_b"]
+        BeaconType.C:
+            self.height_correction = mcc.profile_dict["beacon_correction_c"]
+
+# The "Total Update" function takes values from the MCC and then applies the
+# appropriate position and visual updates. This function is required to avoid
+# lagtime when doing enmasse updates.
+func total_update():
+    # Get our MCC values
+    _mcc_update()
+            
+    # Perform a position update
+    _pos_update()
+    
+    # Perform a visual update
+    _visual_update()

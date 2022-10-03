@@ -78,6 +78,10 @@ var texture_gen_a = ImageGenerator.WindowGenerator.new()
 var texture_gen_b = ImageGenerator.WindowGenerator.new()
 var texture_gen_c = ImageGenerator.WindowGenerator.new()
 
+# Are we currently performing a mass update? This is needed to optimize how we
+# update decorations
+var _mass_update = false
+
 # The dictionary that makes up our profile object
 var profile_dict = {}
 
@@ -106,10 +110,30 @@ func _ready():
     
 # Asserts the current values into the dictionary
 func update_whole_dictionary():
+    # We're now doing a MASS UPDATE
+    _mass_update = true
+    
+    # For each key, do an update.
     for key in profile_dict.keys():
-        if "antennae" in key:
-            continue
         update_key(key)
+    
+    # Now we need to call the "total update" functions on all of our groups -
+    # this SHOULD save us from queuing multiple redundant calls.
+    
+    # Lights
+    get_tree().call_group(GlobalRef.light_group, "total_update")
+    
+    # Beacons
+    get_tree().call_group(GlobalRef.beacon_group, "total_update")
+    
+    # Rooftop Boxes
+    get_tree().call_group(GlobalRef.box_group, "total_update")
+    
+    # Antennae
+    get_tree().call_group(GlobalRef.antenna_group, "total_update")
+    
+    # Mass update complete!
+    _mass_update = false
 
 func regenerate_texture_a():
     regenerate_generic("bld_a_texture_set", "bld_a_algorithm", texture_gen_a)
@@ -255,14 +279,22 @@ func update_key(key):
             )
         #
         # Lights
-         #
+        #
         "lights_one_color", "lights_one_visible":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.light_group_one, "_mcc_update")
         "lights_two_color", "lights_two_visible":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.light_group_two, "_mcc_update")
         "lights_three_color", "lights_three_visible":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.light_group_three, "_mcc_update")
         "lights_four_color", "lights_four_visible":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.light_group_four, "_mcc_update")
         #
         # Sky
@@ -346,25 +378,35 @@ func update_key(key):
         "beacon_size_c":
             beacon_c_material.params_point_size = profile_dict[key]
         "beacon_correction_a":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.beacon_group_a,
                 "set_height_correction", profile_dict[key]
             )
         "beacon_correction_b":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.beacon_group_b,
                 "set_height_correction", profile_dict[key]
             )
         "beacon_correction_c":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.beacon_group_c,
                 "set_height_correction", profile_dict[key]
             )
         "beacon_min_height", "beacon_max_height", "beacon_occurrence":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.beacon_group_a, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_b, "beacon_update")
             get_tree().call_group(GlobalRef.beacon_group_c, "beacon_update")
         "beacon_enabled":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.beacon_group_a, "set_enabled", profile_dict[key]
             )
@@ -420,6 +462,8 @@ func update_key(key):
         # Rooftop Boxes
         #
         "box_min_height", "box_max_height", "box_occurrence", "box_enabled":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.box_group, "box_update")
         
         #
@@ -450,38 +494,54 @@ func update_key(key):
             else:
                 print( "Could not load image at ", profile_dict[key] )
         "antennae_denominator_1":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_1, "set_height_ratio_denom", profile_dict[key]
             )
         "antennae_denominator_2":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_2, "set_height_ratio_denom", profile_dict[key]
             )
         "antennae_denominator_3":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_3, "set_height_ratio_denom", profile_dict[key]
             )
         "antennae_extra_1":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_1, "set_extra_scalar", profile_dict[key]
             )
         "antennae_extra_2":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_2, "set_extra_scalar", profile_dict[key]
             )
         "antennae_extra_3":
+            if _mass_update:
+                continue
             get_tree().call_group(
                 GlobalRef.antenna_group_3, "set_extra_scalar", profile_dict[key]
             )
         "antennae_occurrence", "antennae_enabled", \
         "antennae_min_height", "antennae_max_height":
+            if _mass_update:
+                continue
             get_tree().call_group(GlobalRef.antenna_group_1, "_visual_update")
             get_tree().call_group(GlobalRef.antenna_group_2, "_visual_update")
             get_tree().call_group(GlobalRef.antenna_group_3, "_visual_update")
         "antennae_ratio_enabled":
-            get_tree().call_group(GlobalRef.antenna_group_1, "_adjust_height")
-            get_tree().call_group(GlobalRef.antenna_group_2, "_adjust_height")
-            get_tree().call_group(GlobalRef.antenna_group_3, "_adjust_height")
+            if _mass_update:
+                continue
+            get_tree().call_group(GlobalRef.antenna_group_1, "_height_update")
+            get_tree().call_group(GlobalRef.antenna_group_2, "_height_update")
+            get_tree().call_group(GlobalRef.antenna_group_3, "_height_update")
     
     # Tell everyone that we're updating
     emit_signal("key_update", key)

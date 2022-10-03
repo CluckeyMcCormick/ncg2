@@ -27,7 +27,7 @@ var roof_height = 0 setget set_roof_height
 var occurrence = 0 setget set_occurrence
 
 func _ready():
-    # Stick this roof box in the box group
+    # Stick this roof box in general box group
     self.add_to_group( GlobalRef.box_group )
 
 # --------------------------------------------------------
@@ -54,24 +54,34 @@ func set_material(new_material):
 
 func set_roof_height(new_height):
     roof_height = new_height
-    box_update()
+    _pos_update()
+    _visual_update()
 
 func set_occurrence(new_rating):
     occurrence = new_rating % (OCCURRENCE_MAX + 1)
-    box_update()
+    _visual_update()
 
 # --------------------------------------------------------
 #
-# Other Functions
+# Update Functions
 #
 # --------------------------------------------------------   
-func box_update():
+
+# Updates the Roof Box's local variables to match the values in the MCC for the
+# Roof Box's current type.
+func _mcc_update():
+    # As of this writing, the Roof Box has no MCC values it needs to retrieve
+    # and store locally.
+    pass
+
+func _pos_update():
+    # Adjust the beacon according to the building's height
+    self.translation.y = GlobalRef.WINDOW_UV_SIZE * roof_height
+
+func _visual_update():
     # Is this box going to be visibile or not? We have a lot of tests we need
     # to perform so we'll use this variable to store our result
     var viz = false
-    
-    # Adjust the beacon according to the building's height
-    self.translation.y = GlobalRef.WINDOW_UV_SIZE * roof_height
     
     if self.mcc == null:
         return
@@ -97,3 +107,11 @@ func box_update():
     viz = viz and occurrence <= mcc.profile_dict["box_occurrence"]
     # Finally, is this enabled?
     $Box.visible = viz and mcc.profile_dict["box_enabled"]
+
+# The "Total Update" function takes values from the MCC and then applies the
+# appropriate position and visual updates. This function is required to avoid
+# lagtime when doing enmasse updates.
+func total_update():
+    _mcc_update()
+    _pos_update()
+    _visual_update()

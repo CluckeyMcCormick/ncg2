@@ -32,17 +32,20 @@ enum BuildingMaterial {
 # Groups
 #
 # ~~~~~~~~~~~~~~~~
+const light_group = "lights"
 const light_group_one = "lights_one"
 const light_group_two = "lights_two"
 const light_group_three = "lights_three"
 const light_group_four = "lights_four"
 
-const beacon_group_a = "beacon_a"
-const beacon_group_b = "beacon_b"
-const beacon_group_c = "beacon_c"
+const beacon_group = "beacons"
+const beacon_group_a = "beacons_a"
+const beacon_group_b = "beacons_b"
+const beacon_group_c = "beacons_c"
 
 const box_group = "roof_boxes"
 
-const antenna_group_1 = "antenna_1"
-const antenna_group_2 = "antenna_2"
-const antenna_group_3 = "antenna_3"
+const antenna_group = "antennae"
+const antenna_group_1 = "antennae_1"
+const antenna_group_2 = "antennae_2"
+const antenna_group_3 = "antennae_3"
