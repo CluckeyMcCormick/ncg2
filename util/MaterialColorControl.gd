@@ -107,6 +107,8 @@ func _ready():
 # Asserts the current values into the dictionary
 func update_whole_dictionary():
     for key in profile_dict.keys():
+        if "antennae" in key:
+            continue
         update_key(key)
 
 func regenerate_texture_a():
@@ -419,6 +421,67 @@ func update_key(key):
         #
         "box_min_height", "box_max_height", "box_occurrence", "box_enabled":
             get_tree().call_group(GlobalRef.box_group, "box_update")
+        
+        #
+        # Antennae
+        #
+        "antennae_texture_1":
+            var tex = load( profile_dict[key] )
+            if tex != null:
+                antennae_mat_a1.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_b1.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_c1.set_shader_param("SilhouetteTexture", tex)
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "antennae_texture_2":
+            var tex = load( profile_dict[key] )
+            if tex != null:
+                antennae_mat_a2.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_b2.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_c2.set_shader_param("SilhouetteTexture", tex)
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "antennae_texture_3":
+            var tex = load( profile_dict[key] )
+            if tex != null:
+                antennae_mat_a3.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_b3.set_shader_param("SilhouetteTexture", tex)
+                antennae_mat_c3.set_shader_param("SilhouetteTexture", tex)
+            else:
+                print( "Could not load image at ", profile_dict[key] )
+        "antennae_denominator_1":
+            get_tree().call_group(
+                GlobalRef.antenna_group_1, "set_height_ratio_denom", profile_dict[key]
+            )
+        "antennae_denominator_2":
+            get_tree().call_group(
+                GlobalRef.antenna_group_2, "set_height_ratio_denom", profile_dict[key]
+            )
+        "antennae_denominator_3":
+            get_tree().call_group(
+                GlobalRef.antenna_group_3, "set_height_ratio_denom", profile_dict[key]
+            )
+        "antennae_extra_1":
+            get_tree().call_group(
+                GlobalRef.antenna_group_1, "set_extra_scalar", profile_dict[key]
+            )
+        "antennae_extra_2":
+            get_tree().call_group(
+                GlobalRef.antenna_group_2, "set_extra_scalar", profile_dict[key]
+            )
+        "antennae_extra_3":
+            get_tree().call_group(
+                GlobalRef.antenna_group_3, "set_extra_scalar", profile_dict[key]
+            )
+        "antennae_occurrence", "antennae_enabled", \
+        "antennae_min_height", "antennae_max_height":
+            get_tree().call_group(GlobalRef.antenna_group_1, "_visual_update")
+            get_tree().call_group(GlobalRef.antenna_group_2, "_visual_update")
+            get_tree().call_group(GlobalRef.antenna_group_3, "_visual_update")
+        "antennae_ratio_enabled":
+            get_tree().call_group(GlobalRef.antenna_group_1, "_adjust_height")
+            get_tree().call_group(GlobalRef.antenna_group_2, "_adjust_height")
+            get_tree().call_group(GlobalRef.antenna_group_3, "_adjust_height")
     
     # Tell everyone that we're updating
     emit_signal("key_update", key)

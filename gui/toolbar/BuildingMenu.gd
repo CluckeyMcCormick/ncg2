@@ -8,6 +8,7 @@ const BUILDING_C_ID = 20
 const LIGHTS_ID = 30
 const BEACON_ID = 40
 const BOX_ID = 50
+const ANTENNA_ID = 60
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,3 +34,5 @@ func _on_popup_id_pressed(id):
             $BeaconDialog.popup_centered_minsize()
         BOX_ID:
             $RoofBoxDialog.popup_centered_minsize()
+        ANTENNA_ID:
+            $AntennaDialog.popup_centered_minsize()

@@ -1,0 +1,256 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://gui/custom/MCC_HSlider.gd" type="Script" id=1]
+[ext_resource path="res://gui/custom/MCC_SpinBox.gd" type="Script" id=2]
+[ext_resource path="res://gui/custom/MCC_FilePathOptionButton.gd" type="Script" id=4]
+[ext_resource path="res://gui/custom/MCC_CheckButton.gd" type="Script" id=5]
+
+[node name="AntennaeControl" type="VBoxContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -203.0
+margin_top = -103.0
+margin_right = 203.0
+margin_bottom = 103.0
+
+[node name="Grid" type="GridContainer" parent="."]
+margin_right = 486.0
+margin_bottom = 98.0
+columns = 4
+
+[node name="BlockRect" type="ReferenceRect" parent="Grid"]
+margin_right = 50.0
+margin_bottom = 14.0
+
+[node name="Texture" type="Label" parent="Grid"]
+margin_left = 54.0
+margin_right = 254.0
+margin_bottom = 14.0
+text = " Texture "
+align = 1
+
+[node name="Size" type="Label" parent="Grid"]
+margin_left = 258.0
+margin_right = 394.0
+margin_bottom = 14.0
+text = "  Ratio Denominator  "
+align = 1
+
+[node name="Correction" type="Label" parent="Grid"]
+margin_left = 398.0
+margin_right = 486.0
+margin_bottom = 14.0
+text = "  Extra Scalar  "
+align = 1
+
+[node name="Type1" type="Label" parent="Grid"]
+margin_top = 23.0
+margin_right = 50.0
+margin_bottom = 37.0
+text = " Type 1 "
+
+[node name="Texture1" type="OptionButton" parent="Grid"]
+margin_left = 54.0
+margin_top = 18.0
+margin_right = 254.0
+margin_bottom = 42.0
+rect_min_size = Vector2( 200, 0 )
+script = ExtResource( 4 )
+target_key = "antennae_texture_1"
+default_directory = "res://decorations/antennae_textures/"
+default_extension = ".png"
+
+[node name="Ratio1" type="SpinBox" parent="Grid"]
+margin_left = 258.0
+margin_top = 18.0
+margin_right = 394.0
+margin_bottom = 42.0
+min_value = 1.0
+step = 0.1
+value = 1.0
+script = ExtResource( 2 )
+target_key = "antennae_denominator_1"
+
+[node name="Extra1" type="SpinBox" parent="Grid"]
+margin_left = 398.0
+margin_top = 18.0
+margin_right = 486.0
+margin_bottom = 42.0
+min_value = 0.1
+max_value = 5.0
+step = 0.01
+value = 0.1
+script = ExtResource( 2 )
+target_key = "antennae_extra_1"
+
+[node name="Type2" type="Label" parent="Grid"]
+margin_top = 51.0
+margin_right = 50.0
+margin_bottom = 65.0
+text = " Type 2 "
+
+[node name="Texture2" type="OptionButton" parent="Grid"]
+margin_left = 54.0
+margin_top = 46.0
+margin_right = 254.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 200, 0 )
+script = ExtResource( 4 )
+target_key = "antennae_texture_2"
+default_directory = "res://decorations/antennae_textures/"
+default_extension = ".png"
+
+[node name="Ratio2" type="SpinBox" parent="Grid"]
+margin_left = 258.0
+margin_top = 46.0
+margin_right = 394.0
+margin_bottom = 70.0
+min_value = 1.0
+step = 0.1
+value = 1.0
+script = ExtResource( 2 )
+target_key = "antennae_denominator_2"
+
+[node name="Extra2" type="SpinBox" parent="Grid"]
+margin_left = 398.0
+margin_top = 46.0
+margin_right = 486.0
+margin_bottom = 70.0
+min_value = 0.1
+max_value = 5.0
+step = 0.01
+value = 0.1
+script = ExtResource( 2 )
+target_key = "antennae_extra_2"
+
+[node name="Type3" type="Label" parent="Grid"]
+margin_top = 79.0
+margin_right = 50.0
+margin_bottom = 93.0
+text = " Type 3 "
+
+[node name="Texture3" type="OptionButton" parent="Grid"]
+margin_left = 54.0
+margin_top = 74.0
+margin_right = 254.0
+margin_bottom = 98.0
+rect_min_size = Vector2( 200, 0 )
+script = ExtResource( 4 )
+target_key = "antennae_texture_3"
+default_directory = "res://decorations/antennae_textures/"
+default_extension = ".png"
+
+[node name="Ratio3" type="SpinBox" parent="Grid"]
+margin_left = 258.0
+margin_top = 74.0
+margin_right = 394.0
+margin_bottom = 98.0
+min_value = 1.0
+step = 0.1
+value = 1.0
+script = ExtResource( 2 )
+target_key = "antennae_denominator_3"
+
+[node name="Extra3" type="SpinBox" parent="Grid"]
+margin_left = 398.0
+margin_top = 74.0
+margin_right = 486.0
+margin_bottom = 98.0
+min_value = 0.1
+max_value = 5.0
+step = 0.01
+value = 0.1
+script = ExtResource( 2 )
+target_key = "antennae_extra_3"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 102.0
+margin_right = 486.0
+margin_bottom = 106.0
+
+[node name="HeightHBox" type="HBoxContainer" parent="."]
+margin_top = 110.0
+margin_right = 486.0
+margin_bottom = 134.0
+alignment = 1
+
+[node name="Label" type="Label" parent="HeightHBox"]
+margin_left = 80.0
+margin_top = 5.0
+margin_right = 162.0
+margin_bottom = 19.0
+text = " Min. Height "
+
+[node name="BuildingMinHeight" type="SpinBox" parent="HeightHBox"]
+margin_left = 166.0
+margin_right = 240.0
+margin_bottom = 24.0
+script = ExtResource( 2 )
+target_key = "antennae_min_height"
+
+[node name="Label2" type="Label" parent="HeightHBox"]
+margin_left = 244.0
+margin_top = 5.0
+margin_right = 328.0
+margin_bottom = 19.0
+text = " Max. Height "
+
+[node name="BuildingMaxHeight" type="SpinBox" parent="HeightHBox"]
+margin_left = 332.0
+margin_right = 406.0
+margin_bottom = 24.0
+script = ExtResource( 2 )
+target_key = "antennae_max_height"
+
+[node name="BlockRect" type="ReferenceRect" parent="."]
+margin_top = 138.0
+margin_right = 486.0
+margin_bottom = 142.0
+rect_min_size = Vector2( 0, 4 )
+
+[node name="OccurrenceHBox" type="HBoxContainer" parent="."]
+margin_top = 146.0
+margin_right = 486.0
+margin_bottom = 162.0
+
+[node name="Label" type="Label" parent="OccurrenceHBox"]
+margin_top = 1.0
+margin_right = 74.0
+margin_bottom = 15.0
+text = "Occurrence"
+
+[node name="MCCHSlider" type="HSlider" parent="OccurrenceHBox"]
+margin_left = 78.0
+margin_right = 486.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+ticks_on_borders = true
+script = ExtResource( 1 )
+target_key = "antennae_occurrence"
+
+[node name="EnabledHBox" type="HBoxContainer" parent="."]
+margin_top = 166.0
+margin_right = 486.0
+margin_bottom = 206.0
+alignment = 1
+
+[node name="RatioEnabled" type="CheckButton" parent="EnabledHBox"]
+margin_left = 81.0
+margin_right = 270.0
+margin_bottom = 40.0
+text = "Use Ratio Scaling"
+align = 2
+script = ExtResource( 5 )
+target_key = "antennae_ratio_enabled"
+
+[node name="AntennaEnabled" type="CheckButton" parent="EnabledHBox"]
+margin_left = 274.0
+margin_right = 404.0
+margin_bottom = 40.0
+text = "Enabled"
+align = 2
+script = ExtResource( 5 )
+target_key = "antennae_enabled"

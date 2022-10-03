@@ -73,8 +73,6 @@ static func make_blueprint(blueprint : Dictionary):
         
         # Roll a random base height
         data.base_height = rng.randf_range(GEN_MIN_HEIGHT, GEN_MAX_HEIGHT)
-        # Scale using the height ratio scalar
-        data.base_height *= blueprint["len_y"] * HEIGHT_RATIO_SCALAR
         
         # Generate a random offset on X
         data.offset_x = rng.randf_range(

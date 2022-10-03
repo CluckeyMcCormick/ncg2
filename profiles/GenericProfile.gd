@@ -151,11 +151,19 @@ export var box = {
 
 export var antennae = {
     "antennae_occurrence": 100,
-    "antennae_enabled": false,
-    "antennae_a_texture": 100,
-    "antennae_a_min_height": 0,
-    "antennae_a_max_height": 100,
-    "antennae_a_height_factor": 100,
+    "antennae_enabled": true,
+    "antennae_ratio_enabled": true,
+    "antennae_min_height": 0,
+    "antennae_max_height": 100,
+    "antennae_texture_1": "res://decorations/antennae_textures/rod32px.png",
+    "antennae_texture_2": "res://decorations/antennae_textures/rod32px.png",
+    "antennae_texture_3": "res://decorations/antennae_textures/rod32px.png",
+    "antennae_denominator_1": 30.0,
+    "antennae_denominator_2": 30.0,
+    "antennae_denominator_3": 30.0,
+    "antennae_extra_1": 1.0,
+    "antennae_extra_2": 1.0,
+    "antennae_extra_3": 1.0,
 }
 
 func to_dict():
@@ -196,5 +204,8 @@ func to_dict():
 
     for key in box.keys():
         dict[key] = box[key]
-
+    
+    for key in antennae.keys():
+        dict[key] = antennae[key]
+    
     return dict

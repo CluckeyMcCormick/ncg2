@@ -4,7 +4,7 @@ extends MenuButton
 # them because we want them in a very particular order.
 var default_profiles = [
     "res://profiles/Niteflyte.tres", "res://profiles/Velvet.tres",
-    "res://profiles/Sunrise.tres", "res://profiles/Sailor.tres",
+    "res://profiles/5AM.tres", "res://profiles/Sailor.tres",
     "res://profiles/TWA.tres", "res://profiles/FairyFlossDark.tres",
     "res://profiles/BadMoon.tres", "res://profiles/FunkyFuture8.tres"
 ]
