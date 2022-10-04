@@ -46,6 +46,11 @@ var extra_scalar = 1.0 setget set_extra_scalar
 # What is the current height of this Antenna, as measured in building-windows?
 var roof_height = 0 setget set_roof_height
 
+# Sometimes, we want to limit the number of antennae found on a roof. To do
+# that, we assign each antennae a count ID - we'll then exclude those that go
+# above a certain count.
+var count_id = 0
+
 #########################################
 #
 # UPDATE FUNCTIONS
@@ -103,6 +108,9 @@ func _visual_update():
     if not "antennae_enabled" in mcc.profile_dict:
         return
     
+    if not "antennae_max_count" in mcc.profile_dict:
+        return
+    
     # First, are we at-or-above the minimum height?
     var viz = roof_height >= mcc.profile_dict["antennae_min_height"]
     
@@ -111,6 +119,9 @@ func _visual_update():
     
     # Third, is our occurrence rating at-or-below the global ocurrence rating?
     viz = viz and occurrence <= mcc.profile_dict["antennae_occurrence"]
+    
+    # Fourth, are we at-or-below the global max count?
+    viz = viz and count_id <= mcc.profile_dict["antennae_max_count"]
     
     # Finally, is this enabled?
     self.visible = viz and mcc.profile_dict["antennae_enabled"]

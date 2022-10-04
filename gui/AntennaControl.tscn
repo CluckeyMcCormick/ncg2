@@ -217,19 +217,40 @@ margin_bottom = 162.0
 
 [node name="Label" type="Label" parent="OccurrenceHBox"]
 margin_top = 1.0
-margin_right = 74.0
+margin_right = 82.0
 margin_bottom = 15.0
-text = "Occurrence"
+text = " Occurrence "
 
-[node name="MCCHSlider" type="HSlider" parent="OccurrenceHBox"]
-margin_left = 78.0
-margin_right = 486.0
+[node name="OccurenceSlider" type="HSlider" parent="OccurrenceHBox"]
+margin_left = 86.0
+margin_right = 244.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 ticks_on_borders = true
 script = ExtResource( 1 )
 target_key = "antennae_occurrence"
+
+[node name="Label2" type="Label" parent="OccurrenceHBox"]
+margin_left = 248.0
+margin_top = 1.0
+margin_right = 323.0
+margin_bottom = 15.0
+text = " Max Count "
+
+[node name="MaxCountSlider" type="HSlider" parent="OccurrenceHBox"]
+margin_left = 327.0
+margin_right = 486.0
+margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 1.0
+max_value = 6.0
+value = 1.0
+tick_count = 6
+ticks_on_borders = true
+script = ExtResource( 1 )
+target_key = "antennae_max_count"
 
 [node name="EnabledHBox" type="HBoxContainer" parent="."]
 margin_top = 166.0

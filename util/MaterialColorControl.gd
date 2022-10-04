@@ -530,7 +530,7 @@ func update_key(key):
                 GlobalRef.antenna_group_3, "set_extra_scalar", profile_dict[key]
             )
         "antennae_occurrence", "antennae_enabled", \
-        "antennae_min_height", "antennae_max_height":
+        "antennae_min_height", "antennae_max_height", "antennae_max_count":
             if _mass_update:
                 continue
             get_tree().call_group(GlobalRef.antenna_group_1, "_visual_update")

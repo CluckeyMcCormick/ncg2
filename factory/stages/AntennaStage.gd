@@ -8,7 +8,7 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const AntennaScript = preload("res://decorations/Antenna.gd")
 
 # How many atennae do we generate, per building?
-const ANTENNAE_COUNT = 5
+const ANTENNAE_COUNT = 6
 
 # Okay, so we want taller antennae on taller buildings and shorter antennae on
 # shorter buildings. Makes sense, right? To do that, we'll use this ratio...
@@ -103,6 +103,9 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     # What's the current Antenna we're trying to add?
     var ante
     
+    # What's the current id?
+    var id = 1
+    
     # For each box we're supposed to make...
     for data in blueprint["antennae"]:
         # Create a new box
@@ -158,3 +161,9 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
         # Shift the antenna around 
         ante.transform.origin.x = data.offset_x * GlobalRef.WINDOW_UV_SIZE
         ante.transform.origin.z = data.offset_z * GlobalRef.WINDOW_UV_SIZE
+        
+        # Set the count ID
+        ante.count_id = id
+        
+        # Increment the ID
+        id += 1

@@ -151,10 +151,11 @@ export var box = {
 
 export var antennae = {
     "antennae_occurrence": 100,
-    "antennae_enabled": true,
+    "antennae_enabled": false,
     "antennae_ratio_enabled": true,
     "antennae_min_height": 0,
     "antennae_max_height": 100,
+    "antennae_max_count": 6,
     "antennae_texture_1": "res://decorations/antennae_textures/rod32px.png",
     "antennae_texture_2": "res://decorations/antennae_textures/rod32px.png",
     "antennae_texture_3": "res://decorations/antennae_textures/rod32px.png",
