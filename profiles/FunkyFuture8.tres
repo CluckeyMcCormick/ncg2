@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 profile_name = "Funky Future 8"
 author_name = "[SOURCE]"
 extra_notes = "Based on FUNKYFUTURE 8 pallette retrieved from Lospec; originally by Shamaboy (@Shamaboy11 on Twitter)"
+file_name = ""
 building_a = {
 "bld_a_algorithm": 0,
 "bld_a_base_color": Color( 0.168627, 0.0588235, 0.329412, 1 ),

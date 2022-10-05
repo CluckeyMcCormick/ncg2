@@ -19,6 +19,8 @@ var id_to_res = {}
 # Popup menu ID for the profile reload button. Triggers a reload of the
 # profiles.
 var reload_id = -1
+# Popup menu ID for the edit metadata button. Opens a metadata edit menu
+var edit_id = -1
 # Popup menu ID for the save profile button. Opens a save menu.
 var save_id= -1
 
@@ -126,21 +128,27 @@ func _build_menu():
     reload_id = id
     popup.add_item("Reload Profiles", id)
     id += 1
+    # Add a "edit" item
+    edit_id = id
+    popup.add_item("Edit Profile Metadata", id)
+    id += 1
     # Add a "save" item
     save_id = id
     popup.add_item("Save Current Profile", id)
     id += 1
 
 func _on_popup_id_pressed(id):
-    # If this is the reload menu item, rebuild the menu item
+    # If this is the reload menu item, rebuild the menu items
     if reload_id == id:
         _build_menu()
-    
-    # If this is the save menu item, save the user's profile
+    # If this is the edit menu item, open the edit menu
+    elif edit_id == id:
+        $ProfileDialog.popup_centered_minsize()
+        pass
+    # If this is the save menu item, open the save menu
     elif save_id == id:
         # TODO: Implement custom profile saving to user filesystem
         print("Saving is not currently implemented. Sorry!")
-    
     # Otherwise...
     else:
         # This must be a profile. Set the current ID...

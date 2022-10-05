@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 profile_name = "Velvet Dream"
 author_name = "[SOURCE]"
 extra_notes = "Inspired by the work of Hiroshi Nagai."
+file_name = ""
 building_a = {
 "bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0.0705882, 0.0235294, 0.0431373, 1 ),

@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 profile_name = "Fairy Floss Dark"
 author_name = "[SOURCE]"
 extra_notes = "Based on Fairy Floss Dark from Gogh terminal profile project; originally by sailorhg@GitHub"
+file_name = ""
 building_a = {
 "bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0.258824, 0.223529, 0.364706, 1 ),

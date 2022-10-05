@@ -2,7 +2,7 @@
 
 [ext_resource path="res://gui/custom/MCC_Label.gd" type="Script" id=1]
 
-[node name="MCC_Label" type="CheckBox"]
+[node name="MCC_Label" type="Label"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

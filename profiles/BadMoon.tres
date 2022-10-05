@@ -7,6 +7,7 @@ script = ExtResource( 1 )
 profile_name = "Bad Moon"
 author_name = "[SOURCE]"
 extra_notes = "Based on 'gotham' from Gogh terminal profile project; possibly by get-me-power@GitHub"
+file_name = ""
 building_a = {
 "bld_a_algorithm": 1,
 "bld_a_base_color": Color( 0.0392157, 0.0588235, 0.0784314, 1 ),

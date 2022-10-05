@@ -4,6 +4,7 @@ class_name GenericProfile
 export var profile_name = "Hiroshi Nagai's Niteflyte"
 export var author_name = ""
 export var extra_notes = ""
+export var file_name = ""
 
 export var building_a = {
     "bld_a_base_color": Color("#000d20"),
@@ -174,7 +175,7 @@ export var antennae = {
 func to_dict():
     var dict = {
         "profile_name": profile_name, "author_name": author_name,
-        "extra_notes": extra_notes
+        "extra_notes": extra_notes, "file_name": file_name
     }
     
     for key in building_a.keys():
