@@ -461,10 +461,27 @@ func update_key(key):
         #
         # Rooftop Boxes
         #
-        "box_min_height", "box_max_height", "box_occurrence", "box_enabled":
+        "box_min_height", "box_max_height", "box_occurrence", "box_enabled", \
+        "box_max_count":
             if _mass_update:
                 continue
-            get_tree().call_group(GlobalRef.box_group, "box_update")
+            get_tree().call_group(GlobalRef.box_group, "_visual_update")
+        "box_extra":
+            if _mass_update:
+                continue
+            get_tree().call_group(
+                GlobalRef.box_group, "set_extra_scalar", profile_dict[key]
+            )
+        "box_denominator":
+            if _mass_update:
+                continue
+            get_tree().call_group(
+                GlobalRef.box_group, "set_height_ratio_denom", profile_dict[key]
+            )
+        "box_ratio_enabled":
+            if _mass_update:
+                continue
+            get_tree().call_group(GlobalRef.box_group, "_size_update")
         
         #
         # Antennae

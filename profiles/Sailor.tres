@@ -134,10 +134,14 @@ sparkle = {
 "sparkle_texture_c": "res://effects/particle_textures/watercolor_dot.png"
 }
 box = {
+"box_denominator": 30.0,
 "box_enabled": true,
+"box_extra": 1,
+"box_max_count": 5,
 "box_max_height": 100,
 "box_min_height": 0,
-"box_occurrence": 50
+"box_occurrence": 50,
+"box_ratio_enabled": false
 }
 antennae = {
 "antennae_denominator_1": 30.0,

@@ -146,7 +146,11 @@ export var box = {
     "box_min_height": 0,
     "box_max_height": 100,
     "box_occurrence": 100,
-    "box_enabled": false
+    "box_enabled": false,
+    "box_extra": 1.0,
+    "box_denominator": 30.0,
+    "box_ratio_enabled": false,
+    "box_max_count": 5
 }
 
 export var antennae = {

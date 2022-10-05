@@ -10,9 +10,9 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const RoofBoxScript = preload("res://decorations/RoofBox.gd")
 
 # What's the minimum height for a Roof Box, in window units?
-const HEIGHT_MIN = .75 # .375
+const HEIGHT_MIN = .375
 # What's the maximum height for a Roof Box, in window units?
-const HEIGHT_MAX = 2.5 # 1.5
+const HEIGHT_MAX = 1.5
 
 # Sometimes the rooftop boxes are far too small - they end up looking
 # just wrong. So we won't even ALLOW a rooftop box if it is LESS THAN this
@@ -20,7 +20,7 @@ const HEIGHT_MAX = 2.5 # 1.5
 const MIN_BOX_LEN = 2
 
 # How many boxes do we spawn per roof?
-const BOX_COUNT = 2
+const BOX_COUNT = 5
 
 # Class definition for our Roof Box data
 class RoofBoxData:
@@ -110,6 +110,9 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     # What's the current RoofBox we're trying to add?
     var box
     
+    # What's the current id?
+    var id = 1
+    
     # For each box we're supposed to make...
     for box_data in blueprint["roof_boxes"]:
         # Create a new box
@@ -127,8 +130,12 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
             GlobalRef.BuildingMaterial.C:
                 box.material = mcc.roofbox_mat_c
         
+        # Set the count ID
+        box.count_id = id
+        
         # Set the height
         box.roof_height = blueprint["len_y"]
+        
         # Set the occurrence
         box.occurrence = box_data.occurrence
         
@@ -143,3 +150,6 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
         # Move the box around
         box.translation.x += box_data.offset_x * GlobalRef.WINDOW_UV_SIZE
         box.translation.z += box_data.offset_z * GlobalRef.WINDOW_UV_SIZE
+
+        # Increment the ID
+        id += 1
