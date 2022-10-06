@@ -12,6 +12,11 @@ const DIRS = [
 
 # Function called when this node enters the scene.
 func _ready():
+    enforce_dirs()
+
+# Function that actually creates the directories. Having this as a function
+# allows us to enforce the directories whenever and wherever we please.
+func enforce_dirs():
     # Result value; should be an Error type
     var result
     

@@ -144,14 +144,17 @@ func _on_popup_id_pressed(id):
     # If this is the edit menu item, open the edit menu
     elif edit_id == id:
         $ProfileDialog.popup_centered_minsize()
-        pass
     # If this is the save menu item, open the save menu
     elif save_id == id:
-        # TODO: Implement custom profile saving to user filesystem
-        print("Saving is not currently implemented. Sorry!")
+        $SavefileDialog.popup_centered_minsize()
     # Otherwise...
     else:
         # This must be a profile. Set the current ID...
         current_id = id
         # Assert the profile!
         assert_profile()
+
+# When a file is saved, rebuild the menu. We want to see if we can load whatever
+# the user profile was.
+func _on_SaveControl_file_saved():
+    _build_menu()
