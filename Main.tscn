@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
 [ext_resource path="res://grow_points/BuildingMaxHeightCurve.tres" type="Curve" id=2]
@@ -9,11 +9,29 @@
 [ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
 [ext_resource path="res://grow_points/BuildingMinHeightCurve.tres" type="Curve" id=8]
 [ext_resource path="res://gui/toolbar/Toolbar.tscn" type="PackedScene" id=9]
+[ext_resource path="res://fonts/Blogger-Sans-Bold.otf" type="DynamicFontData" id=10]
 [ext_resource path="res://effects/SparkleParticalMaterial.tres" type="Material" id=14]
 [ext_resource path="res://effects/SparkleQuadMeshTypeA.tres" type="QuadMesh" id=15]
 [ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
 [ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
 [ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 10 )
+
+[sub_resource type="TextMesh" id=3]
+text = "City Loading"
+font = SubResource( 4 )
+pixel_size = 0.15
+depth = 0.01
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_unshaded = true
+albedo_color = Color( 0, 0, 0, 1 )
 
 [node name="Main" type="Spatial"]
 pause_mode = 2
@@ -102,6 +120,25 @@ projection = 1
 size = 60.0
 
 [node name="Toolbar" parent="." instance=ExtResource( 9 )]
+
+[node name="Text" type="MeshInstance" parent="."]
+transform = Transform( 0.939693, 0.0416818, 0.339471, 0, 0.992546, -0.12187, -0.34202, 0.11452, 0.932688, -31.9102, 12.4557, -75.6727 )
+portal_mode = 4
+include_in_bound = false
+allow_merging = false
+generate_lightmap = false
+mesh = SubResource( 3 )
+material/0 = SubResource( 5 )
+
+[node name="BackText" type="MeshInstance" parent="Text"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 7.45058e-09, 1, -0.2, -0.2, -0.1 )
+portal_mode = 4
+include_in_bound = false
+allow_merging = false
+generate_lightmap = false
+mesh = SubResource( 3 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 6 )
 
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
 [connection signal="regenerate" from="Toolbar" to="." method="_on_Toolbar_regenerate"]

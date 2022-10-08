@@ -33,6 +33,7 @@ func _physics_process(delta):
 
 func _on_GrowBlockCity_city_complete():
     city_built = true
+    $Text.visible = false
 
 func _on_mcc_key_update(key):
     match key:
