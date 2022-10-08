@@ -6,9 +6,6 @@ static func get_path_resources(in_path, extension):
     var resources = []
     # What's the current file we're looking at?
     var file_name
-    # What's the current id for what we're putting in our texture selection? We
-    # need to assign these manually so we can easily get to them.
-    var id = 0
     
     # Now we need to dynamically build up our list of blocks we can use. To do
     # so, we're gonna take a look at the blocks directory and see what we can
@@ -33,11 +30,13 @@ static func get_path_resources(in_path, extension):
             # Skip this file!
             file_name = dir.get_next()
             continue
+        
         # If the current file is an import...
         if ".import" in file_name.to_lower():
             # Skip this file!
             file_name = dir.get_next()
             continue
+            
         # If the current file has the appropriate extension...
         if extension in file_name.to_lower():
             # Then add it to the choice list!

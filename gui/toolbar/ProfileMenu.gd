@@ -1,7 +1,10 @@
 extends MenuButton
 
-# Where do we look for user profiles?
-const USER_PROFILE_PATH = "user://profiles/"
+# Load the Directory Resource finder so we can easily load file directly
+const DRFinder = preload("res://util/DirectoryResourceFinder.gd")
+
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # The default profiles. We specify these by hand instead of manually discovering
 # them because we want them in a very particular order.
@@ -94,44 +97,11 @@ func _build_menu():
     popup.clear()
     
     #
-    # Step 2: Find profiles
+    # Step 2: Find user profiles
     #
-        
-    # If the directory didn't open, then we can't really do anything at all.
-    # Ergo, we'll have to back out.
-    if dir.open(USER_PROFILE_PATH) != OK:
-        printerr("Couldn't load user's profile directory!")
-    
-    # OTHERWISE...
-    else:
-        # Start the directory-listing-processing thing.
-        dir.list_dir_begin(true)
-        
-        # Get the first file in the directory listing
-        file_name = dir.get_next()
-        # While we still have a file...
-        while file_name != "":        
-            # If the current file is a directory, get the next filename and skip!
-            if dir.current_is_dir():
-                file_name = dir.get_next()
-                continue
-            # If it's not a json, get the next filename and skip!
-            if not ".json" in file_name.to_lower():
-                file_name = dir.get_next()
-                continue
-            # If it's an import, get the next filename and skip!
-            if ".import" in file_name:
-                file_name = dir.get_next()
-                continue
-            
-            # Stick the full path in our map list!
-            user_profiles.append(USER_PROFILE_PATH + file_name)
-                
-            # NEXT!
-            file_name = dir.get_next()
-        
-        # Finish off the directory listing processing... thing.
-        dir.list_dir_end()
+    user_profiles = DRFinder.get_path_resources(
+        GlobalRef.PATH_USER_PROFILES, ".json"
+    )
     
     #
     # Step 3: Build menu - default profiles

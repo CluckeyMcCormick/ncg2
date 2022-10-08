@@ -1,5 +1,10 @@
 extends Node
 
+# ~~~~~~~~~~~~~~~~~~~~~
+#
+# Fundamental Constants
+#
+# ~~~~~~~~~~~~~~~~~~~~~
 # We assume that the 'window texture' is made up of a square of cells. How many
 # cells make up one length of the image? This should be 64, but we're not going
 # to take that for granted.
@@ -11,6 +16,44 @@ const WINDOW_CELL_LEN = 64
 # by WINDOW_CELL_LEN gets us the measure of a cell in the world.
 const WINDOW_UV_SIZE = 1.0 / WINDOW_CELL_LEN
 
+# ~~~~~~~~~~~~~~~~
+#
+# Filepaths 
+#
+# ~~~~~~~~~~~~~~~~
+
+# What's the user path?
+const PATH_USER = "user://"
+
+# Where do we save and load user profiles from?
+const PATH_USER_PROFILES = PATH_USER + "profiles/"
+
+# Where do we save and load user mods from?
+const PATH_USER_MODS = PATH_USER + "mods/"
+
+# Where do we save and load user antennae textures from?
+const PATH_USER_ANTENNAE = PATH_USER + "textures/antennae/"
+
+# Where do we save and load user particle textures from?
+const PATH_USER_PARTICLES = PATH_USER + "textures/particles/"
+
+# Where do we save and load user moon textures from?
+const PATH_USER_MOON = PATH_USER + "textures/moon/"
+
+# Where do we save and load user window textures from?
+const PATH_USER_WINDOWS = PATH_USER + "textures/windows/"
+
+# Iterable list of all the above constants
+const PATH_USER_MANIFEST = [
+    PATH_USER_PROFILES, PATH_USER_MODS, PATH_USER_ANTENNAE, PATH_USER_PARTICLES,
+    PATH_USER_MOON, PATH_USER_WINDOWS
+]
+
+# ~~~~~~~~~~~~~~~~
+#
+# Enums
+#
+# ~~~~~~~~~~~~~~~~
 # We support multiple window algorithms - after all, the sequence in which we
 # place the windows results in a unique look for each texture.
 enum WindowAlgorithm {
