@@ -1,11 +1,11 @@
 
 # For some types of values, we need to break them out into a dictionary that can
 # then be stored in a dictionary.
-const VALUE_TYPE_KEY = "value_type"
+const VALUE_TYPE_KEY = "json_value_type"
 
 # Save to a given dictionary to a given path
 static func save_dict(path, save_me):
-    # Get the candidate dictionary
+    # Create the candidate dictionary - this is what we'll actually save
     var candidate = {}
     
     # Create a new file so we can actually save the user's profile
@@ -19,55 +19,10 @@ static func save_dict(path, save_me):
         printerr("Cannot save non-Dictionary object!")
         return false
     
-    # For each key...
-    for key in save_me:
-        # Check the type of the current key 
-        match typeof( save_me[key] ):
-            # TODO: We "break out" colors and vectors into dictionaries - maybe
-            # we should go over arrays and dictionaries and "break out" values
-            # in those? It'd be easy to do but it'd have the potential to loop
-            # infinitely. I think it's a good idea; it just doesn't have a lot
-            # of value right now.
-            
-            # These types are JSON compatible so we can save those directly
-            TYPE_BOOL, TYPE_INT, TYPE_REAL, TYPE_STRING, TYPE_ARRAY, TYPE_DICTIONARY:
-                candidate[key] = save_me[key]
-            
-            # Save the color as hex-code
-            TYPE_COLOR:
-                candidate[key] = {
-                    VALUE_TYPE_KEY: TYPE_COLOR,
-                    "value": save_me[key].to_html()
-                }
-            
-            # Save the vector as a X and Y dict
-            TYPE_VECTOR2:
-                candidate[key] = {
-                    VALUE_TYPE_KEY: TYPE_VECTOR2,
-                    "x": save_me[key].x,
-                    "y": save_me[key].y
-                }
-            
-            # Save the vector as a X, Y, and Z dict
-            TYPE_VECTOR3:
-                candidate[key] = {
-                    VALUE_TYPE_KEY: TYPE_VECTOR3,
-                    "x": save_me[key].x,
-                    "y": save_me[key].y,
-                    "z": save_me[key].z
-                }
-            
-            # Incompatible value!!!
-            _:
-                printerr(
-                    "Invalid value type [%s] for key %s!" %
-                    [ save_me[key], key ]
-                )
+    # Okay - grab that dictionary!
+    candidate = json_expand(save_me)
     
-    # Alright, the candidate dictionary is full of JSON-compatabile goodies. Now
-    # we just gotta save it.
-    
-    # Open the file!
+    # Now it's time to save - open the file!
     err = file.open( path, File.WRITE )
     
     # If there was an error...
@@ -114,49 +69,175 @@ static func load_dict(path):
     # Close the file - we're done with it!
     file.close()
     
-    # Now, for each key in the dictionary...
-    for key in ret_dict:
-        
-        # If the value here is not a dictionary...
-        if not ret_dict[key] is Dictionary:
-            # Skip it!
-            continue
-        
-        # Okay, so this is a dictionary. If this dictionary lacks a
-        # VALUE_TYPE_KEY, then it's not a broken-out/devolved datatype, so...
-        if not VALUE_TYPE_KEY in ret_dict[key]:
-            # Skip it!
-            continue
-        
-        # Okay, so this is a dictionary and it's for-sure a devolved datatype,
-        # then we need different processing depending on the VALUE_TYPE_KEY.
-        # Note that this is wrapped in an int
-        match int(ret_dict[key][VALUE_TYPE_KEY]):
-            # Load the color using the hex value
-            TYPE_COLOR:
-                ret_dict[key] = Color( ret_dict[key]["value"] )
-            
-            # Load the vector using the X/Y
-            TYPE_VECTOR2:
-                ret_dict[key] = Vector2(
-                    ret_dict[key]["x"],
-                    ret_dict[key]["y"]
-                )
-            
-            # Load the vector using the X/Y/Z
-            TYPE_VECTOR3:
-                ret_dict[key] = Vector3(
-                    ret_dict[key]["x"],
-                    ret_dict[key]["y"],
-                    ret_dict[key]["z"]
-                )
-            
-            # Incompatible value!!!
-            _:
-                printerr(
-                    "Invalid value type %s in JSON for key %s !" %
-                    [ ret_dict[key][VALUE_TYPE_KEY], key ]
-                )
+    # Crush the dictionary down into a Godot Dictionary
+    ret_dict = json_crush(ret_dict)
     
     # Return our dictionary
     return ret_dict
+
+static func json_expand(in_value):
+    # What value will we return?
+    var ret = null
+    
+    # What's our current value we're working with? We need this for arrays and
+    # dicts
+    var curr
+    
+    # Check the type of the current key 
+    match typeof( in_value ):
+        
+        # These types are JSON compatible so we can save those directly
+        TYPE_BOOL, TYPE_REAL, TYPE_STRING:
+            ret = in_value
+        
+        # For an array, we'll need to go over the elements and do do expansion
+        # processing on all of them.
+        TYPE_ARRAY:
+            ret = []
+            
+            # For each element in the array...
+            for element_value in in_value:
+                # Expand the current value
+                curr = json_expand(element_value)
+                
+                # If we got a valid value, append it to the array
+                if curr != null:
+                    ret.append(curr)
+                
+                # Otherwise, something went wrong. Tell the user!
+                else:
+                    printerr(
+                        "Invalid expand value [%s] [type: %d] in Array! " +
+                        " Discarding value..." % \
+                        [ element_value, typeof(element_value) ]
+                    )
+        
+        # For a dictionary, we'll need to go over the keys and do expansion
+        # processing on all of them
+        TYPE_DICTIONARY:
+            ret = {}
+            
+            # For each key in the dict...
+            for key in in_value:
+                # Break out the current key
+                curr = json_expand(in_value[key])
+                
+                # If we got a valid value, stick it in the dictionary
+                if curr != null:
+                    ret[key] = curr
+                
+                # Otherwise, something went wrong. Tell the user!
+                else:
+                    printerr(
+                        "Invalid expand value [%s] [type: %d] in Dictionary" +
+                        " for key %s! Discarding value..." % \
+                        [ in_value[key], typeof(in_value[key]), key ]
+                    )
+        
+        # Save the int as a dictionary
+        TYPE_INT:
+            ret = {
+                VALUE_TYPE_KEY: TYPE_INT,
+                "int": in_value
+            }
+        
+        # Save the color as hex-code
+        TYPE_COLOR:
+            ret = {
+                VALUE_TYPE_KEY: TYPE_COLOR,
+                "value": in_value.to_html()
+            }
+        
+        # Save the vector as a X and Y dict
+        TYPE_VECTOR2:
+            ret = {
+                VALUE_TYPE_KEY: TYPE_VECTOR2,
+                "x": in_value.x,
+                "y": in_value.y
+            }
+        
+        # Save the vector as a X, Y, and Z dict
+        TYPE_VECTOR3:
+            ret = {
+                VALUE_TYPE_KEY: TYPE_VECTOR3,
+                "x": in_value.x,
+                "y": in_value.y,
+                "z": in_value.z
+            }
+        
+        # Incompatible value!!!
+        _:
+            # Skip it!
+            pass
+    
+    return ret
+
+static func json_crush(in_value):
+    # What value will we return?
+    var ret = null
+    
+    # What's our current value we're working with? We need this for arrays and
+    # dicts
+    var curr
+    
+    # Check the type of the current key 
+    match typeof( in_value ):
+        
+        # These types are JSON compatible so we can save those directly
+        TYPE_BOOL, TYPE_REAL, TYPE_STRING:
+            ret = in_value
+        
+        TYPE_ARRAY:
+            ret = []
+            # For each element in the array...
+            for element_value in in_value:
+                # Crush the current value and append it to the array
+                ret.append( json_crush(element_value) )
+        
+        TYPE_DICTIONARY:
+            ret = {}
+            
+            # If this dictionary lacks a VALUE_TYPE_KEY, then it's not an
+            # expanded datatype, so...
+            if not VALUE_TYPE_KEY in in_value:
+                # This is just a regular old dictionary! So, for each key in the
+                # dictionary...
+                for key in in_value:
+                    # Crush the current key
+                    ret[key] = json_crush(in_value[key])
+            
+            # Otherwise...
+            else:
+                # This is a JSON-expansion type. JSON only supports floats, so
+                # look at the VALUE_TYPE_KEY as an int.
+                match int(in_value[VALUE_TYPE_KEY]):
+                    # It's an int!
+                    TYPE_INT:
+                        ret = int( in_value["int"] )
+                    
+                    # It's a color!
+                    TYPE_COLOR:
+                        ret = Color( in_value["value"] )
+                    
+                    # It's a Vector2!
+                    TYPE_VECTOR2:
+                        ret = Vector2( in_value["x"], in_value["y"] )
+                    
+                    # It's a Vector3!
+                    TYPE_VECTOR3:
+                        ret = Vector3(
+                            in_value["x"], in_value["y"], in_value["z"]
+                        )
+                    
+                    # I... don't know what that is! It's a mistake, is what it
+                    # is!
+                    _:
+                        # Tell the user
+                        printerr(
+                            "Invalid crush type value [%d] for in Dictionary !" %
+                            [ int(in_value[VALUE_TYPE_KEY]) ]
+                        )
+                        # Just boil it down to nothing
+                        ret = null
+    
+    return ret
