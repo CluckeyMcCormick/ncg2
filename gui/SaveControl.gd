@@ -55,8 +55,9 @@ func _on_text_changed(new_text):
     
     # If the filename is invalid, tell the user
     if not new_text.is_valid_filename():
-        $InfoLabel.text = "Please enter a name that doesn't contain one of the "
-        $InfoLabel.text += "following: : / \\ ? * \" | % < >"
+        $InfoLabel.text = "Please enter a name that doesn't end in whitespace"
+        $InfoLabel.text += " and doesn't contain one of the following: "
+        $InfoLabel.text += ": / \\ ? * \" | % < >"
         $"%SaveButton".disabled = true
         return
     
@@ -71,7 +72,7 @@ func _on_text_changed(new_text):
     
     # If there's already a file there, tell the user.
     if file.file_exists(SAVE_PATH + new_text):
-        $InfoLabel.text = " Existing file will be overwritten!"
+        $InfoLabel.text += " Existing file will be overwritten!"
     
     # Enable the save button!
     $"%SaveButton".disabled = false
@@ -86,10 +87,10 @@ func _on_button_pressed():
     # Set the file name in the mcc
     # There's something kind of heretical about using a text value scraped from
     # a GUI at the moment you're saving a file... but I'm lazy.
-    mcc.profile_dict["file_name"] = SAVE_PATH + $"%FileLine".text
+    mcc.profile_dict["file_name"] = $"%FileLine".text
     
     # Open the file!
-    err = file.open( mcc.profile_dict["file_name"], File.WRITE )
+    err = file.open( SAVE_PATH + mcc.profile_dict["file_name"], File.WRITE )
     
     # Now, check the result...
     match err:
@@ -97,8 +98,16 @@ func _on_button_pressed():
         OK:
             # Get the JSON text and store it in the file
             file.store_line( JSON.print(mcc.profile_dict, "    ", true) )
+            
             # Close it out
             file.close()
+            
+            # Tell the user we saved
+            $InfoLabel.text = "FILE SAVED!!!"
+            
+            # Tell EVERYONE that we saved
+            emit_signal("file_saved")
+            
         # Otherwise, if there was an error...
         _:
             # Tell the user.

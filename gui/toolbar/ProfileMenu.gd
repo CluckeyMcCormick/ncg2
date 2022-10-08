@@ -1,5 +1,8 @@
 extends MenuButton
 
+# Where do we look for user profiles?
+const USER_PROFILE_PATH = "user://profiles/"
+
 # The default profiles. We specify these by hand instead of manually discovering
 # them because we want them in a very particular order.
 var default_profiles = [
@@ -36,7 +39,26 @@ func _ready():
     _build_menu()
 
 func assert_profile():
-    mcc.profile_dict = id_to_res[current_id].to_dict()
+    # If this is a dictionary, then this was a user profile. In that case...
+    if typeof(id_to_res[current_id]) == TYPE_DICTIONARY:
+        # Iterate over the keys in the user's dictionary...
+        for key in id_to_res[current_id]:
+            # If this key isn't present in the profile dictionary, that likely
+            # means it was an older key. In that case, we want to skip it.
+            if not key in mcc.profile_dict:
+                continue
+            
+            # Otherwise, this is a valid key! Set the value in the profile. This
+            # "piecemeal" setting style ensures that any "missed" keys will
+            # retain their old values.
+            mcc.profile_dict[key] = id_to_res[current_id][key]
+    # Otherwise...
+    else:
+        # This is a standardized profile resource, so just set the dictionary
+        # directly using the profile.
+        mcc.profile_dict = id_to_res[current_id].to_dict()
+    
+    # Update the whole dictionary
     mcc.update_whole_dictionary()
     
     mcc.regenerate_texture_a()
@@ -54,10 +76,13 @@ func _build_menu():
     # Temp variable; used to hold a loaded resource.
     var res
     
-    # Now we need to dynamically build up our list of blocks we can use. To do
-    # so, we're gonna take a look at the blocks directory and see what we can
+    # Now we need to dynamically build up our list of profiles we can use. To do
+    # so, we're gonna take a look at the profiles directory and see what we can
     # do.
     var dir = Directory.new()
+    
+    # To load a user profile, we'll also need a file object
+    var file = File.new()
     
     # Get our popup too
     var popup = self.get_popup()
@@ -71,12 +96,45 @@ func _build_menu():
     #
     # Step 2: Find profiles
     #
+        
+    # If the directory didn't open, then we can't really do anything at all.
+    # Ergo, we'll have to back out.
+    if dir.open(USER_PROFILE_PATH) != OK:
+        printerr("Couldn't load user's profile directory!")
     
-    # TODO: Add support for finding "user://" JSON profiles, and sticking them
-    #       into the user_profiles Array.
+    # OTHERWISE...
+    else:
+        # Start the directory-listing-processing thing.
+        dir.list_dir_begin(true)
+        
+        # Get the first file in the directory listing
+        file_name = dir.get_next()
+        # While we still have a file...
+        while file_name != "":        
+            # If the current file is a directory, get the next filename and skip!
+            if dir.current_is_dir():
+                file_name = dir.get_next()
+                continue
+            # If it's not a json, get the next filename and skip!
+            if not ".json" in file_name.to_lower():
+                file_name = dir.get_next()
+                continue
+            # If it's an import, get the next filename and skip!
+            if ".import" in file_name:
+                file_name = dir.get_next()
+                continue
+            
+            # Stick the full path in our map list!
+            user_profiles.append(USER_PROFILE_PATH + file_name)
+                
+            # NEXT!
+            file_name = dir.get_next()
+        
+        # Finish off the directory listing processing... thing.
+        dir.list_dir_end()
     
     #
-    # Step 3: Build menu and load resources
+    # Step 3: Build menu - default profiles
     #
     # First load the default profiles.
     for profile_path in default_profiles:
@@ -97,6 +155,9 @@ func _build_menu():
         # Increment the id
         id += 1
     
+    #
+    # Step 4: Build menu - user profiles
+    #
     # Add a separator between the default and user profiles
     if len(user_profiles) > 0:
         popup.add_separator("", id)
@@ -104,16 +165,31 @@ func _build_menu():
     
     # Next load the user profiles
     for profile_path in user_profiles:
-        # Load the resource
-        res = load(profile_path)
+        # Open the file
+        file.open(profile_path, File.READ)
         
-        # If we couldn't load this resource, skip it.
-        if res == null:
-            print("Couldn't load user profile: ", profile_path)
+        # Get the text out and parse it
+        res = parse_json( file.get_as_text() )
+        
+        # Close the file - we're done with it!
+        file.close()
+        
+        # If the loaded value is not a dictionary...
+        if typeof(res) != TYPE_DICTIONARY:
+            # Then it's no good to us! Tell the user!
+            printerr("File at ", profile_path, " is invalid JSON!")
+            # Skip!
             continue
-            
+        
+        # If the profile doesn't have a name...
+        if not "profile_name" in res:
+            # Then it's no good to us! Tell the user!
+            printerr("JSON file at ", profile_path, " lacks a profile name!")
+            # Skip it!
+            continue
+        
         # Add this profile as an item
-        popup.add_item(res.profile_name, id)
+        popup.add_item(res["profile_name"], id)
         
         # Track the id to the resource
         id_to_res[id] = res
@@ -121,6 +197,9 @@ func _build_menu():
         # Increment the id
         id += 1
     
+    #
+    # Step 5: Build menu - fixed options
+    #
     # Add a separator between the profiles and the functional menu items
     popup.add_separator("", id)
     id += 1

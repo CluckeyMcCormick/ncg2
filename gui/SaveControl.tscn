@@ -51,9 +51,6 @@ margin_top = 34.0
 margin_right = 320.0
 margin_bottom = 124.0
 rect_min_size = Vector2( 0, 90 )
-text = "
-Once upon a time I went down to the onceler's oncelhut and found him onceleing. It was disgusting to the maximum allowable limit.
-"
 align = 1
 valign = 1
 autowrap = true
