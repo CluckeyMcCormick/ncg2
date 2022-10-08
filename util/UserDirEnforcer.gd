@@ -3,12 +3,8 @@ extends Node
 # This node ensures the user:// directory has the appropriate subdirectories, so
 # we can save and load custom content at will.
 
-# What directories are we trying to create? These are all going to be under the
-# user:// directory/path.
-const DIRS = [
-    "profiles", "mods", "textures/antennae", "textures/particle",
-    "textures/moon", "textures/windows"
-]
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # Function called when this node enters the scene.
 func _ready():
@@ -23,11 +19,11 @@ func enforce_dirs():
     # Create a new directory object
     var dir = Directory.new()
     
-    # Open the user directory.
-    dir.open("user://")
+    # Open the user path - this is necessary for us to create the subdirectories
+    dir.open(GlobalRef.PATH_USER)
     
     # For each subdirectory...
-    for subdir in DIRS:
+    for subdir in GlobalRef.PATH_USER_MANIFEST:
         # If the subdirectory exists...
         if dir.dir_exists(subdir):
             continue
@@ -36,11 +32,8 @@ func enforce_dirs():
         result = dir.make_dir_recursive(subdir)
         
         # If we got an error, tell the user
-        match result:
-            OK:
-                continue
-            _:
-                printerr(
-                    "Couldn't make subdirectory ", subdir,
-                    "! Error code ", result
-                )
+        if result:
+            printerr(
+                "Couldn't make subdirectory %! Error code %" % [result, subdir]
+            )
+    
