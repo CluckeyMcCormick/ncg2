@@ -3,6 +3,9 @@ extends MenuButton
 # Load the Directory Resource finder so we can easily load file directly
 const DRFinder = preload("res://util/DirectoryResourceFinder.gd")
 
+# Load the DictLoadSave script so we can save and load dictionaries
+const DictLoadSave = preload("res://util/DictLoadSave.gd")
+
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
@@ -135,31 +138,15 @@ func _build_menu():
     
     # Next load the user profiles
     for profile_path in user_profiles:
-        # Open the file
-        file.open(profile_path, File.READ)
+        # Get the dictionary from the JSON file
+        res = DictLoadSave.load_dict(profile_path)
         
-        # Get the text out and parse it
-        res = parse_json( file.get_as_text() )
-        
-        # Close the file - we're done with it!
-        file.close()
-        
-        # If the loaded value is not a dictionary...
-        if typeof(res) != TYPE_DICTIONARY:
-            # Then it's no good to us! Tell the user!
-            printerr("File at ", profile_path, " is invalid JSON!")
-            # Skip!
-            continue
-        
-        # If the profile doesn't have a name...
-        if not "profile_name" in res:
-            # Then it's no good to us! Tell the user!
-            printerr("JSON file at ", profile_path, " lacks a profile name!")
-            # Skip it!
+        # If this dictionary is empty, skip it!
+        if res.empty():
             continue
         
         # Add this profile as an item
-        popup.add_item(res["profile_name"], id)
+        popup.add_item( res["profile_name"], id )
         
         # Track the id to the resource
         id_to_res[id] = res

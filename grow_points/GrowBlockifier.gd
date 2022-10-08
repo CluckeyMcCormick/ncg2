@@ -255,7 +255,7 @@ func _spawn_block():
 
     var new_aabb
     var new_block = GrowBlock.new()
-
+    
     var min_height_val
     var max_height_val
     var height

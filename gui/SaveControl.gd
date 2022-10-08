@@ -1,7 +1,10 @@
 extends VBoxContainer
 
-# Where are we saving the user's files to?
-const SAVE_PATH = "user://profiles/"
+# Load the DictLoadSave script so we can save and load dictionaries
+const DictLoadSave = preload("res://util/DictLoadSave.gd")
+
+# Load the GlobalRef script
+const GlobalRef = preload("res://util/GlobalRef.gd")
 
 # Emitted whenever we save a file
 signal file_saved()
@@ -71,50 +74,37 @@ func _on_text_changed(new_text):
     $InfoLabel.text = "File name is valid."
     
     # If there's already a file there, tell the user.
-    if file.file_exists(SAVE_PATH + new_text):
+    if file.file_exists( GlobalRef.PATH_USER_PROFILES + new_text ):
         $InfoLabel.text += " Existing file will be overwritten!"
     
     # Enable the save button!
     $"%SaveButton".disabled = false
 
 func _on_button_pressed():
-    # Create a new file so we can actually save the user's profile
-    var file = File.new()
-    
-    # Error value to make sure everything works ok
-    var err = OK
+    # We're gonna stick the filepath in here, because it might just be a bit
+    # long
+    var path
     
     # Set the file name in the mcc
     # There's something kind of heretical about using a text value scraped from
     # a GUI at the moment you're saving a file... but I'm lazy.
     mcc.profile_dict["file_name"] = $"%FileLine".text
     
-    # Open the file!
-    err = file.open( SAVE_PATH + mcc.profile_dict["file_name"], File.WRITE )
+    # Craft the path
+    path = GlobalRef.PATH_USER_PROFILES + mcc.profile_dict["file_name"]
     
-    # Now, check the result...
-    match err:
-        # If everything went down just fine...
-        OK:
-            # Get the JSON text and store it in the file
-            file.store_line( JSON.print(mcc.profile_dict, "    ", true) )
-            
-            # Close it out
-            file.close()
-            
-            # Tell the user we saved
-            $InfoLabel.text = "FILE SAVED!!!"
-            
-            # Tell EVERYONE that we saved
-            emit_signal("file_saved")
-            
-        # Otherwise, if there was an error...
-        _:
-            # Tell the user.
-            printerr(
-                "Experienced an error opening ", SAVE_PATH + $"%FileLine".text,
-                ", error code is ", err, "."
-            )
+    # Try and save - if the save is successful...
+    if DictLoadSave.save_dict(path, mcc.profile_dict):
+        # Tell the user we saved
+        $InfoLabel.text = "FILE SAVED!!!"
+        
+        # Tell EVERYONE that we saved
+        emit_signal("file_saved")
     
+    # Otherwise...
+    else:
+        # Tell the user we failed
+        $InfoLabel.text = "Could not save file due to error, try checking logs."
+
     # Tell all MCC classes the filename got updated
     mcc.update_key("file_name")

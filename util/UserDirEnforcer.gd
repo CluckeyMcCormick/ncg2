@@ -34,6 +34,6 @@ func enforce_dirs():
         # If we got an error, tell the user
         if result:
             printerr(
-                "Couldn't make subdirectory %! Error code %" % [result, subdir]
+                "Couldn't make subdirectory %s! Error code %d" % [result, subdir]
             )
     
