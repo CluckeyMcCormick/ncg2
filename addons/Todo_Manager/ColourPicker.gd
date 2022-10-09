@@ -8,9 +8,9 @@ var index : int
 onready var colour_picker := $TODOColourPickerButton
 
 func _ready() -> void:
-	$TODOColourPickerButton.color = colour
-	$Label.text = title
+    $TODOColourPickerButton.color = colour
+    $Label.text = title
 
 func set_title(value: String) -> void:
-	title = value
-	$Label.text = value 
+    title = value
+    $Label.text = value 

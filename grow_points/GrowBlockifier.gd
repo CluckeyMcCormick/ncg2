@@ -1,5 +1,8 @@
 extends Reference
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Including this scene so we can spawn GrowPoint objects.
 const GROW_POINT = preload("res://grow_points/BuildingGrowPoint.gd")
 

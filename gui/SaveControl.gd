@@ -1,5 +1,8 @@
 extends VBoxContainer
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Load the DictLoadSave script so we can save and load dictionaries
 const DictLoadSave = preload("res://util/DictLoadSave.gd")
 

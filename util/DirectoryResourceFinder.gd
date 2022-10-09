@@ -1,4 +1,7 @@
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Loads the possible resources from the in_path directory; but only those that
 # match the given extension.
 static func get_path_resources(in_path, extension):

@@ -1,5 +1,8 @@
 extends Spatial
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 const GlobalRef = preload("res://util/GlobalRef.gd")
 const GROW_BLOCKIFIER = preload("res://grow_points/GrowBlockifier.gd")
 const SECONDARY_NODE = preload("res://grow_points/SecondaryNode.tscn")

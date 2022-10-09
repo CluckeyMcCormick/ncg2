@@ -1,5 +1,8 @@
 extends Node
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # This script is a "manifest" in the sense that it's just lists - like how a
 # shipping manifest is a list of items. Anyway, we have two lists here,
 # implemented as arrays: one for blueprint stages, and one for construction

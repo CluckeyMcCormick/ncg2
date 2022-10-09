@@ -1,5 +1,8 @@
 extends Spatial
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Signal emitted when this building enters the screen - basically an echo of the
 # VisibilityNotifier's screen_entered signal.
 signal screen_entered(building)

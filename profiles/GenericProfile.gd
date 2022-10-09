@@ -1,6 +1,9 @@
 extends Resource
 class_name GenericProfile
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 export var profile_name = "Hiroshi Nagai's Niteflyte"
 export var author_name = ""
 export var extra_notes = ""

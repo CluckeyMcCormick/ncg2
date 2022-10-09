@@ -1,6 +1,9 @@
 extends WindowDialog
 class_name SlightlyBetterDialog
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # TODO: Replace Pop-up Window/Dialogs with something that doesn't freeze the GUI
 
 # We don't necessarily want to shrink ALL the way down to a minimum size. It may

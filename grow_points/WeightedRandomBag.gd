@@ -1,5 +1,8 @@
 extends Node
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 class WeightChoice:
     # What's the value of this weighted choice?
     var value

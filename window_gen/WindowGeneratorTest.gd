@@ -1,5 +1,8 @@
 extends Node2D
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 const BUILDING_SIZE = 4096
 const WINDOW_SIZE = 64
 

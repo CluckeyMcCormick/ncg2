@@ -1,5 +1,8 @@
 extends MenuButton
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 const shortcut_camera_pause = preload("res://gui/ShortCut_CameraPause.tres")
 const shortcut_effect_pause = preload("res://gui/ShortCut_EffectPause.tres")
 const shortcut_toggle_gui = preload("res://gui/ShortCut_ToggleGUI.tres")

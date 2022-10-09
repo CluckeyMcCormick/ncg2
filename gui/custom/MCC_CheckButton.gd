@@ -1,6 +1,9 @@
 extends CheckButton
 class_name MCCCheckButton
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Grab the MaterialColorControl Node - this will allow us to change colors and
 # materials on the fly.
 onready var mcc = get_node("/root/MaterialColorControl")

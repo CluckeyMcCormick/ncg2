@@ -1,5 +1,8 @@
 extends Node
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Preload the TemplateBuilding scene, since we'll be needing to spawn this.
 const TemplateBuilding = preload("res://factory/TemplateBuilding.tscn")
 

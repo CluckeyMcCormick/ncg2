@@ -1,7 +1,11 @@
 [gd_resource type="Shader" format=2]
 
 [resource]
-code = "shader_type spatial;
+code = "
+// (c) 2022 Nicolas McCormick Fredrickson
+// This code is licensed under the MIT license (see LICENSE.txt for details)
+
+shader_type spatial;
 
 render_mode depth_draw_alpha_prepass;
 

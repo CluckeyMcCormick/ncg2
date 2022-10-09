@@ -1,4 +1,7 @@
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # For some types of values, we need to break them out into a dictionary that can
 # then be stored in a dictionary.
 const VALUE_TYPE_KEY = "json_value_type"

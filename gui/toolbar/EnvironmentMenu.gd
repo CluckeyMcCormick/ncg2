@@ -1,5 +1,8 @@
 extends MenuButton
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # The menu items are fixed, with fixed IDs, so we need these constants to refer
 # to them.
 const SKY_ID = 0

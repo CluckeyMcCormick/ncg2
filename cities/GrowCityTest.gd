@@ -1,5 +1,8 @@
 extends Spatial
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 const MATERIALS = [
     preload("res://voronoi/VoroniColorA.tres"),
     preload("res://voronoi/VoroniColorB.tres"),

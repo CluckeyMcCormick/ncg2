@@ -1,6 +1,9 @@
 tool
 extends Spatial
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Grab the DebugDraw Node - this will allow us to debug shapes.
 onready var dd = get_node("/root/DebugDraw")
 

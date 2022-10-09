@@ -9,11 +9,11 @@ onready var line_edit := $LineEdit as LineEdit
 onready var remove_button := $RemoveButton as Button
 
 func _ready() -> void:
-	line_edit.text = text
-	remove_button.disabled = disabled
+    line_edit.text = text
+    remove_button.disabled = disabled
 
 
 func set_text(value: String) -> void:
-	text = value
-	if line_edit:
-		line_edit.text = value
+    text = value
+    if line_edit:
+        line_edit.text = value

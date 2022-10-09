@@ -2,6 +2,9 @@
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # How long, in pixels, is each side of the core window textures?
 const WINDOW_PIXEL_SIZE = 64
 # How many windows do we have on one side of our texture? This is just a

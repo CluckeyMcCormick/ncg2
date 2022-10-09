@@ -1,5 +1,8 @@
 extends Node
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # This node ensures the user:// directory has the appropriate subdirectories, so
 # we can save and load custom content at will.
 

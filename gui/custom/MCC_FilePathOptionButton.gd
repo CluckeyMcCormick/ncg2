@@ -1,6 +1,9 @@
 extends OptionButton
 class_name MCCFilePathOptionButton
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # TODO: Implement some sort of global cache, where resources loaded are stored
 # in arrays. These arrays are then accessed with a given directory path. We
 # would need a reload function capable of ignoring the global cache.

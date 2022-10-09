@@ -1,5 +1,8 @@
 extends MenuButton
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # Load the Directory Resource finder so we can easily load file directly
 const DRFinder = preload("res://util/DirectoryResourceFinder.gd")
 

@@ -1,5 +1,8 @@
 extends Node
 
+# (c) 2022 Nicolas McCormick Fredrickson
+# This code is licensed under the MIT license (see LICENSE.txt for details)
+
 # These functions need to return two different items - a PoolVector2Array and a
 # PoolVector3Array. Since GDScript lacks custom classes, and there's no
 # returning multiple values, we'll pack our return values into a dictionary.
