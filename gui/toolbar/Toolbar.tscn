@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://gui/toolbar/BuildingMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gui/toolbar/ProfileMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://gui/toolbar/EnvironmentMenu.tscn" type="PackedScene" id=3]
 [ext_resource path="res://gui/toolbar/Toolbar.gd" type="Script" id=4]
 [ext_resource path="res://gui/toolbar/ControlMenu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://gui/custom/SlightlyBetterDialog.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Image" id=6]
 data = {
@@ -87,7 +88,6 @@ margin_left = 141.0
 margin_top = 0.0
 margin_right = 234.0
 margin_bottom = 20.0
-items = [ "Sky", null, 0, false, false, 0, 0, null, "", false, "Stars", null, 0, false, false, 10, 0, null, "", false, "Moon", null, 0, false, false, 20, 0, null, "", false, "", null, 0, false, true, -1, 0, null, "", true, "Sparkles", null, 0, false, false, 30, 0, null, "", false ]
 
 [node name="VSeparator3" type="VSeparator" parent="HBox"]
 margin_left = 238.0
@@ -104,8 +104,61 @@ margin_top = 0.0
 margin_right = 304.0
 margin_bottom = 20.0
 
-[node name="ProfileNotes" type="Label" parent="HBox"]
+[node name="VSeparator4" type="VSeparator" parent="HBox"]
 margin_left = 308.0
+margin_right = 312.0
+margin_bottom = 20.0
+
+[node name="Credits" type="Button" parent="HBox"]
+margin_left = 316.0
+margin_right = 373.0
+margin_bottom = 20.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "Credits"
+flat = true
+
+[node name="CreditsDialog" parent="HBox/Credits" instance=ExtResource( 6 )]
+visible = true
+margin_left = -72.0
+margin_top = 143.0
+margin_right = 393.0
+margin_bottom = 460.0
+window_title = "Credits"
+horizontal_margin = 40
+vertical_margin = 30
+
+[node name="CreditsText" type="RichTextLabel" parent="HBox/Credits/CreditsDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -189.5
+margin_top = -126.5
+margin_right = 189.5
+margin_bottom = 126.5
+bbcode_enabled = true
+bbcode_text = "Program by CluckeyMcCormick.
+
+Source code available at https://github.com/CluckeyMcCormick/ncg2
+
+Special thanks to @sailorhg (Sailor Mercury) - her Sailor Moon project inspired me to pick this back up as well as inspiring a few profiles.
+
+This project is dedicated in memory of Shamus Young. 
+
+This project is an adaptation/derivation of his original Pixel City project. Shamus' writings were fundamental in developing my programming skills and this project would not exist without him."
+text = "Program by CluckeyMcCormick.
+
+Source code available at https://github.com/CluckeyMcCormick/ncg2
+
+Special thanks to @sailorhg (Sailor Mercury) - her Sailor Moon project inspired me to pick this back up as well as inspiring a few profiles.
+
+This project is dedicated in memory of Shamus Young. 
+
+This project is an adaptation/derivation of his original Pixel City project. Shamus' writings were fundamental in developing my programming skills and this project would not exist without him."
+
+[node name="ProfileNotes" type="Label" parent="HBox"]
+margin_left = 377.0
 margin_top = 3.0
 margin_right = 1586.0
 margin_bottom = 17.0
@@ -122,4 +175,5 @@ wait_time = 0.01
 [connection signal="toggle_camera_pause" from="HBox/ControlMenu" to="." method="_on_ControlMenu_toggle_camera_pause"]
 [connection signal="toggle_effect_pause" from="HBox/ControlMenu" to="." method="_on_ControlMenu_toggle_effect_pause"]
 [connection signal="toggle_gui" from="HBox/ControlMenu" to="." method="_on_ControlMenu_toggle_gui"]
+[connection signal="pressed" from="HBox/Credits" to="." method="_on_Credits_pressed"]
 [connection signal="timeout" from="VisibilityCooldown" to="." method="_on_VisibilityCooldown_timeout"]

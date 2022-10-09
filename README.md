@@ -67,7 +67,9 @@ First is [@sailorhg (sailor mercury)](https://twitter.com/sailorhg) who did a Sa
 
 The other one is [Shamus Young](https://www.shamusyoung.com/twentysidedtale/). Shamus did a project he called ["Pixel City" way back in 2009](https://www.shamusyoung.com/twentysidedtale/?p=2940). The first iteration of the NCG was an attempt to implement his algorithm, though I think I did it so poorly it ended up being it's own thing. I stopped reading his blog years ago but he even did a [second iteration back in 2018](https://www.shamusyoung.com/twentysidedtale/?p=42400). Shamus' programming blogs were fundamental in my development as a programmer, as they broke down often impenetrable computing concepts in easy-to-understand language.
 
-Unfortunately, Shamus Young is no longer with us. I had always intended to share this project with Shamus, whenever I got around to finishing it - but it seems Time, that infernal bandit, has robbed me yet again. And so my "Special Thanks" is more of an "In Memoriam". I would beg that you go back and look at Shamus' old programming blogs, especially if programming has always interested you but seemed far too opaque for you to understand. His critical essays were also excellent, and you may find that, like me, you'll lament a man you never truly knew.
+Unfortunately, Shamus Young is no longer with us. I had always intended to share this project with Shamus, whenever I got around to finishing it - but it seems Time, that infernal bandit, has robbed me yet again. And so my "Special Thanks" is more of an "In Memoriam". This project is dedicated to his memory.
+
+I would beg that you go back and look at Shamus' old programming blogs, especially if programming has always interested you but seemed far too opaque for you to understand. His critical essays were also excellent, and you may find that, like me, you'll lament a man you never truly knew.
 
 It's my hope that, with time (and documentation!) this project can turn into a learning tool, just like Shamus' old programming blogs. And a new cohort of programmers can learn from my code, just as I learned from Shamus.
 

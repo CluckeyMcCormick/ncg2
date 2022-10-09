@@ -55,6 +55,9 @@ func _on_ControlMenu_toggle_gui():
         visibility_cooldown = true
         $VisibilityCooldown.start(.01)
 
+func _on_Credits_pressed():
+    $HBox/Credits/CreditsDialog.popup_centered_minsize()
+
 func _on_VisibilityCooldown_timeout():
     visibility_cooldown = false
 

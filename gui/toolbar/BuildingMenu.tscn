@@ -125,7 +125,6 @@ margin_left = -200.5
 margin_right = 200.5
 
 [node name="RoofBoxDialog" parent="." instance=ExtResource( 8 )]
-visible = true
 margin_left = -259.0
 margin_top = 98.0
 margin_right = 186.0
