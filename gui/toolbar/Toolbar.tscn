@@ -119,7 +119,6 @@ text = "Credits"
 flat = true
 
 [node name="CreditsDialog" parent="HBox/Credits" instance=ExtResource( 6 )]
-visible = true
 margin_left = -72.0
 margin_top = 143.0
 margin_right = 393.0
