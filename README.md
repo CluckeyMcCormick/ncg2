@@ -58,7 +58,7 @@ Whenever the GUI manipulates a particular value in the MCC's profile dictionary,
 ## Licensing
 This project is licensed under the MIT License - EXCEPT for some open source fonts found in the `fonts/` directory.
 
-Although you are not required to, I would like to be attributed in projects deriving from this one. Credit where credit's due, right?
+As per the terms of the license, any projects deriving from this one must include a copy of the MIT license which includes my copyright. I'd also appreciate a shoutout in the credits, or something. That's not really required, though.
 
 ## Credits & Special Thanks
 All the work in this project was done by me - Nicolas McCormick Fredrickson! But there's two people who deserve special thanks for this project.
