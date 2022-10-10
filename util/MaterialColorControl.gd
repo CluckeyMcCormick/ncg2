@@ -401,25 +401,14 @@ func update_key(key):
                 GlobalRef.beacon_group_c,
                 "set_height_correction", profile_dict[key]
             )
-        "beacon_min_height", "beacon_max_height", "beacon_occurrence":
-            if _mass_update:
-                continue
-            get_tree().call_group(GlobalRef.beacon_group_a, "beacon_update")
-            get_tree().call_group(GlobalRef.beacon_group_b, "beacon_update")
-            get_tree().call_group(GlobalRef.beacon_group_c, "beacon_update")
+        "beacon_min_height", "beacon_max_height", "beacon_occurrence", \
         "beacon_enabled":
             if _mass_update:
                 continue
-            get_tree().call_group(
-                GlobalRef.beacon_group_a, "set_enabled", profile_dict[key]
-            )
-            get_tree().call_group(
-                GlobalRef.beacon_group_b, "set_enabled", profile_dict[key]
-            )
-            get_tree().call_group(
-                GlobalRef.beacon_group_c, "set_enabled", profile_dict[key]
-            )
-        
+            get_tree().call_group(GlobalRef.beacon_group_a, "_visual_update")
+            get_tree().call_group(GlobalRef.beacon_group_b, "_visual_update")
+            get_tree().call_group(GlobalRef.beacon_group_c, "_visual_update")
+            
         #
         # Sparkles
         #
