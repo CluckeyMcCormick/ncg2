@@ -62,6 +62,7 @@ script = ExtResource( 4 )
 target_key = "stars_type_a_texture"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorPickerButtonA" type="ColorPickerButton" parent="TypeGrid"]
 margin_left = 787.0
@@ -99,6 +100,7 @@ script = ExtResource( 4 )
 target_key = "stars_type_b_texture"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorPickerButtonB" type="ColorPickerButton" parent="TypeGrid"]
 margin_left = 787.0
@@ -136,6 +138,7 @@ script = ExtResource( 4 )
 target_key = "stars_type_c_texture"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorPickerButtonC" type="ColorPickerButton" parent="TypeGrid"]
 margin_left = 787.0

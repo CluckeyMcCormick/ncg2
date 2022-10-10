@@ -62,6 +62,7 @@ script = ExtResource( 1 )
 target_key = "moon_front_texture"
 default_directory = "res://effects/moon_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="Label4" type="Label" parent="FrontContainer/FrontGrid"]
 margin_top = 53.0
@@ -156,6 +157,7 @@ script = ExtResource( 1 )
 target_key = "moon_back_texture"
 default_directory = "res://effects/moon_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="Label4" type="Label" parent="BackContainer/BackGrid"]
 margin_top = 53.0

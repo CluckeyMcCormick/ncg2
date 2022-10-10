@@ -4,7 +4,7 @@
 
 # Loads the possible resources from the in_path directory; but only those that
 # match the given extension.
-static func get_path_resources(in_path, extension):
+static func get_path_resources(in_path, extension, standalone_import=false):
     # What are the paths to our different textures?
     var resources = []
     # What's the current file we're looking at?
@@ -33,6 +33,18 @@ static func get_path_resources(in_path, extension):
             # Skip this file!
             file_name = dir.get_next()
             continue
+        
+        # HACK: It's possible that some of the resources this function would
+        # look for, such as PNGs, get compiled out when the project is exported
+        # The only record of those resources is the .import file, which means
+        # we need to do some trickery here. I feel like there's a better way of
+        # doing this but can't quite see how.
+        
+        # If our standalone import workaround is enabled, and we're running
+        # standalone...
+        if standalone_import and OS.has_feature("standalone"):
+            # Remove any instances of ".import".
+            file_name = file_name.replace(".import", "")
         
         # If the current file is an import...
         if ".import" in file_name.to_lower():

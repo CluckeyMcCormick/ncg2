@@ -172,6 +172,7 @@ size_flags_vertical = 3
 target_key = "bld_c_texture_set"
 default_directory = "res://window_gen/windows/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="HSeparator" type="HSeparator" parent="Texture"]
 margin_top = 124.0

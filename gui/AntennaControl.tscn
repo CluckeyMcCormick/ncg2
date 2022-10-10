@@ -61,6 +61,7 @@ script = ExtResource( 4 )
 target_key = "antennae_texture_1"
 default_directory = "res://decorations/antennae_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="Ratio1" type="SpinBox" parent="Grid"]
 margin_left = 258.0
@@ -101,6 +102,7 @@ script = ExtResource( 4 )
 target_key = "antennae_texture_2"
 default_directory = "res://decorations/antennae_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="Ratio2" type="SpinBox" parent="Grid"]
 margin_left = 258.0
@@ -141,6 +143,7 @@ script = ExtResource( 4 )
 target_key = "antennae_texture_3"
 default_directory = "res://decorations/antennae_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="Ratio3" type="SpinBox" parent="Grid"]
 margin_left = 258.0

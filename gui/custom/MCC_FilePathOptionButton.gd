@@ -22,6 +22,11 @@ export(String) var target_key
 export(String) var default_directory
 # What's the extension we're looking for on files in the default directory?
 export(String) var default_extension
+# Sometimes, when running standalone, the files we're looking for actually get
+# removed - but we can still refer to them in code, though the only trace of the
+# file is the .import. So, when running standalone, do we use these .import
+# files?
+export(bool) var use_standalone_imports
 
 # What's the user directory we're targeting?
 export(String) var user_directory
@@ -57,7 +62,7 @@ func _ready():
     # Get a list of the paths-to-be-found in the configured directory (with the
     # appropriate extension, of course).
     resources = DIR_RES_FIND.get_path_resources(
-        default_directory, default_extension
+        default_directory, default_extension, use_standalone_imports
     )
 
     # TODO: add support for user directories

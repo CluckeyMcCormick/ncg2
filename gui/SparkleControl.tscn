@@ -54,6 +54,7 @@ script = ExtResource( 4 )
 target_key = "sparkle_texture_a"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorA" type="ColorPickerButton" parent="UpperGrid"]
 margin_left = 115.0
@@ -86,6 +87,7 @@ script = ExtResource( 4 )
 target_key = "sparkle_texture_b"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorB" type="ColorPickerButton" parent="UpperGrid"]
 margin_left = 115.0
@@ -118,6 +120,7 @@ script = ExtResource( 4 )
 target_key = "sparkle_texture_c"
 default_directory = "res://effects/particle_textures/"
 default_extension = ".png"
+use_standalone_imports = true
 
 [node name="ColorC" type="ColorPickerButton" parent="UpperGrid"]
 margin_left = 115.0
