@@ -42,6 +42,17 @@ static func make_blueprint(blueprint : Dictionary):
     # Create a new arrays to track the lights
     blueprint["lights"] = []
     
+    # HACK: Okay, so for some reason, if we have enough lights on Windows, all
+    # the lights start flickering in and out of existence. I don't know why this
+    # only happens on Windows, but it does. I've observed that making at least
+    # one light group invisible fixes the issue, so we're just going to not
+    # spawn one light. For now.
+    
+    # For some reason Windows freaks out if we have to many lights so we're
+    # gonna pop off the lights at the back.
+    if OS.has_feature("Windows"):
+        light_positions.pop_back()
+    
     # For each light...
     for pos in light_positions:
         # Create a new light
