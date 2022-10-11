@@ -103,11 +103,6 @@ DebugDraw="*res://addons/zylann.debug_draw/debug_draw.gd"
 settings/fps/force_fps=60
 settings/stdout/print_fps=true
 
-[display]
-
-window/size/width=1600
-window/size/height=900
-
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
