@@ -42,16 +42,16 @@ static func make_blueprint(blueprint : Dictionary):
     # Create a new arrays to track the lights
     blueprint["lights"] = []
     
-    # HACK: Okay, so for some reason, if we have enough lights on Windows, all
-    # the lights start flickering in and out of existence. I don't know why this
-    # only happens on Windows, but it does. I've observed that making at least
-    # one light group invisible fixes the issue, so we're just going to not
-    # spawn one light. For now.
+    # Okay, so for some reason, if we have too many lights on Windows, all the
+    # lights start flickering in and out of existence. I don't know why this
+    # only happens on Windows, but it does. I've observed that removing at least
+    # two lights (halving our total number of lights) fixes the issue - and you
+    # know what? I think making do with less lights is just better practice
+    # overall. When life gives you lemons, make lemonade!
     
-    # For some reason Windows freaks out if we have to many lights so we're
-    # gonna pop off the lights at the back.
-    if OS.has_feature("Windows"):
-        light_positions.pop_back()
+    # So remove two lights from the light positions at random
+    light_positions.remove( rng.randi() % len(light_positions) )
+    light_positions.remove( rng.randi() % len(light_positions) )
     
     # For each light...
     for pos in light_positions:
@@ -59,10 +59,10 @@ static func make_blueprint(blueprint : Dictionary):
         light = LightData.new()
         
         # Set the size, in world units. We want the light to climb part of the
-        # building, so we'll go between 1/4 and 3/4 of the building's total
+        # building, so we'll go between 2/5 and 4/5 of the building's total
         # height.
         light.size = rng.randf_range(
-            blueprint["len_y"] * .25, blueprint["len_y"] * .75
+            blueprint["len_y"] * .4, blueprint["len_y"] * .80
         )
         
         # Set the light's group designation, a number between one and four.
