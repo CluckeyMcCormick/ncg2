@@ -121,3 +121,6 @@ func _on_Toolbar_toggle_effect_pause():
 func _on_Toolbar_toggle_gui():
     # Flip the visibility
     $Toolbar.visible = not $Toolbar.visible
+
+func _on_Timer_timeout():
+    print("Lights: %d Visible: %d" % [mcc.overall_lights, mcc.visible_lights])

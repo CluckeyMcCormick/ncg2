@@ -64,6 +64,10 @@ var city_proc_sky = preload("res://environment/city_proc_sky.tres")
 # What's the first profile that we default to?
 const default_profile = preload("res://profiles/Niteflyte.tres")
 
+# BUGREPORT: These exist just for tracking the CityLights/Omnilights
+var overall_lights = 0
+var visible_lights = 0
+
 # ~~~~~~~~~~~~~~~~
 #
 #  Variables

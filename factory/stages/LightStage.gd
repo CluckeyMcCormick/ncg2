@@ -50,8 +50,8 @@ static func make_blueprint(blueprint : Dictionary):
     # overall. When life gives you lemons, make lemonade!
     
     # So remove two lights from the light positions at random
-    light_positions.remove( rng.randi() % len(light_positions) )
-    light_positions.remove( rng.randi() % len(light_positions) )
+    # light_positions.remove( rng.randi() % len(light_positions) )
+    # light_positions.remove( rng.randi() % len(light_positions) )
     
     # For each light...
     for pos in light_positions:
@@ -62,8 +62,8 @@ static func make_blueprint(blueprint : Dictionary):
         # building, so we'll go between 2/5 and 4/5 of the building's total
         # height.
         light.size = rng.randf_range(
-            blueprint["len_y"] * .4, blueprint["len_y"] * .80
-            #blueprint["len_y"] * .25, blueprint["len_y"] * .75
+            #blueprint["len_y"] * .4, blueprint["len_y"] * .80
+            blueprint["len_y"] * .25, blueprint["len_y"] * .75
         )
         
         # Set the light's group designation, a number between one and four.
@@ -105,6 +105,8 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     var eff_scalar = abs( 
         (blueprint["scale"].x + blueprint["scale"].y + blueprint["scale"].z) / 2
     )
+    
+    # BUGREPORT: CityLight scenes are actually spawned in right here
     
     # For each piece of light data...
     for light_data in blueprint["lights"]:

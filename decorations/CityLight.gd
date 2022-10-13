@@ -21,6 +21,8 @@ var omni_range = 1 setget set_omni_range
 # What's the current light we have stuck under this node?
 var _light : OmniLight = null
 
+# BUGREPORT: The CityLight scene is where we spawn in, and work with, omnlights
+
 # TODO: Add an "occurrence rating" to the City Light
 
 # We're able to adjust "effects" by directly manipulating their meshes and
@@ -45,6 +47,9 @@ func _ready():
     _light.omni_range = omni_range
     # Perform an MCC update to get the color and other nonsense
     _mcc_update()
+    
+    mcc.overall_lights += 1
+    mcc.visible_lights += 1
 
 func set_type(new_type):
     type = new_type
@@ -122,6 +127,8 @@ func _on_visibility_changed():
         
         # Perform an MCC update
         _mcc_update()
+        
+        mcc.visible_lights += 1
     
     # Otherwise...
     else:
@@ -133,3 +140,5 @@ func _on_visibility_changed():
         
         # Clear out our _light variable
         _light = null
+
+        mcc.visible_lights -= 1

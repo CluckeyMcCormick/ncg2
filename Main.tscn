@@ -140,8 +140,12 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 6 )
 
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
 [connection signal="regenerate" from="Toolbar" to="." method="_on_Toolbar_regenerate"]
 [connection signal="toggle_camera_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_camera_pause"]
 [connection signal="toggle_effect_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_effect_pause"]
 [connection signal="toggle_gui" from="Toolbar" to="." method="_on_Toolbar_toggle_gui"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
