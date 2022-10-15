@@ -1,37 +1,12 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://effects/Starfield.tscn" type="PackedScene" id=1]
-[ext_resource path="res://grow_points/BuildingMaxHeightCurve.tres" type="Curve" id=2]
-[ext_resource path="res://cities/GrowBlockCity.tscn" type="PackedScene" id=3]
+[ext_resource path="res://debug/DebugCity.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=4]
-[ext_resource path="res://effects/Moon.tscn" type="PackedScene" id=5]
-[ext_resource path="res://grow_points/BuildingSizeCurve.tres" type="Curve" id=6]
-[ext_resource path="res://environment/city_env.tres" type="Environment" id=7]
-[ext_resource path="res://grow_points/BuildingMinHeightCurve.tres" type="Curve" id=8]
-[ext_resource path="res://gui/toolbar/Toolbar.tscn" type="PackedScene" id=9]
-[ext_resource path="res://fonts/Blogger-Sans-Bold.otf" type="DynamicFontData" id=10]
-[ext_resource path="res://effects/SparkleParticalMaterial.tres" type="Material" id=14]
-[ext_resource path="res://effects/SparkleQuadMeshTypeA.tres" type="QuadMesh" id=15]
 [ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
-[ext_resource path="res://effects/SparkleQuadMeshTypeB.tres" type="QuadMesh" id=17]
-[ext_resource path="res://effects/SparkleQuadMeshTypeC.tres" type="QuadMesh" id=18]
 
-[sub_resource type="DynamicFont" id=4]
-size = 32
-font_data = ExtResource( 10 )
-
-[sub_resource type="TextMesh" id=3]
-text = "City Loading"
-font = SubResource( 4 )
-pixel_size = 0.15
-depth = 0.01
-
-[sub_resource type="SpatialMaterial" id=5]
-flags_unshaded = true
-
-[sub_resource type="SpatialMaterial" id=6]
-flags_unshaded = true
-albedo_color = Color( 0, 0, 0, 1 )
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0.176471, 0.176471, 0.176471, 1 )
 
 [node name="Main" type="Spatial"]
 pause_mode = 2
@@ -41,54 +16,8 @@ script = ExtResource( 4 )
 transform = Transform( 0.939693, 0.0416818, 0.339471, 0, 0.992546, -0.121869, -0.34202, 0.11452, 0.932688, 0, 1, 12 )
 cull_mask = 3
 current = true
-fov = 15.0
+fov = 50.0
 size = 3.0
-
-[node name="CameraAlignedEffects" type="Spatial" parent="UpCamera"]
-transform = Transform( 1, 0, 0, 0, 1, -7.45058e-09, 0, 0, 1, 0, 0, -100 )
-
-[node name="ParticlesA" type="Particles" parent="UpCamera/CameraAlignedEffects"]
-unique_name_in_owner = true
-transform = Transform( 1, -3.72529e-09, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 9.53674e-07, -0.749999, 58 )
-amount = 2
-lifetime = 2.5
-randomness = 1.0
-visibility_aabb = AABB( -11.4997, -3.4987, -18.4968, 22.9891, 6.99725, 50.4264 )
-local_coords = false
-process_material = ExtResource( 14 )
-draw_pass_1 = ExtResource( 15 )
-
-[node name="ParticlesB" type="Particles" parent="UpCamera/CameraAlignedEffects"]
-unique_name_in_owner = true
-transform = Transform( 1, -1.11759e-08, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 9.53674e-07, -0.749999, 58 )
-amount = 2
-lifetime = 2.5
-randomness = 1.0
-visibility_aabb = AABB( -11.4994, -3.49977, -18.484, 22.9923, 6.99947, 50.4136 )
-local_coords = false
-process_material = ExtResource( 14 )
-draw_pass_1 = ExtResource( 17 )
-
-[node name="ParticlesC" type="Particles" parent="UpCamera/CameraAlignedEffects"]
-unique_name_in_owner = true
-transform = Transform( 1, -7.45058e-09, 0, 0, 1, 7.45058e-09, 0, 1.49012e-08, 1, 1.90735e-06, -0.749999, 58 )
-amount = 2
-lifetime = 2.5
-randomness = 1.0
-visibility_aabb = AABB( -11.4997, -3.49977, -18.4984, 22.9926, 6.99886, 50.428 )
-local_coords = false
-process_material = ExtResource( 14 )
-draw_pass_1 = ExtResource( 18 )
-
-[node name="Starfield" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 1 )]
-unique_name_in_owner = true
-transform = Transform( 1, 0, 0, -1.86265e-09, 1, -7.45058e-09, 0, 0, 1, 0, 13, 0 )
-width = 50.0
-height = 15.0
-
-[node name="Moon" parent="UpCamera/CameraAlignedEffects" instance=ExtResource( 5 )]
-unique_name_in_owner = true
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, 0, 1 )
 
 [node name="RoofSlope" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
@@ -103,49 +32,23 @@ transform = Transform( 1, 0, 0, 0, 0.997127, -0.0757445, 0, 0.0757445, 0.997127,
 [node name="MeasuringBlockB2" parent="RoofSlope" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -9.848, 2.55, -27.7 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 7 )
+[node name="DebugCity" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
 
-[node name="GrowBlockCity" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -8 )
-block_z_length = 200
-buildings_per_block = 40
-max_square_size = ExtResource( 6 )
-min_height = ExtResource( 8 )
-max_height = ExtResource( 2 )
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, -32 )
 projection = 1
 size = 60.0
 
-[node name="Toolbar" parent="." instance=ExtResource( 9 )]
-
-[node name="Text" type="MeshInstance" parent="."]
-transform = Transform( 0.939693, 0.0416818, 0.339471, 0, 0.992546, -0.12187, -0.34202, 0.11452, 0.932688, -31.9102, 12.4557, -75.6727 )
-portal_mode = 4
-include_in_bound = false
-allow_merging = false
-generate_lightmap = false
-mesh = SubResource( 3 )
-material/0 = SubResource( 5 )
-
-[node name="BackText" type="MeshInstance" parent="Text"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 7.45058e-09, 1, -0.2, -0.2, -0.1 )
-portal_mode = 4
-include_in_bound = false
-allow_merging = false
-generate_lightmap = false
-mesh = SubResource( 3 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 6 )
-
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[connection signal="city_complete" from="GrowBlockCity" to="." method="_on_GrowBlockCity_city_complete"]
-[connection signal="regenerate" from="Toolbar" to="." method="_on_Toolbar_regenerate"]
-[connection signal="toggle_camera_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_camera_pause"]
-[connection signal="toggle_effect_pause" from="Toolbar" to="." method="_on_Toolbar_toggle_effect_pause"]
-[connection signal="toggle_gui" from="Toolbar" to="." method="_on_Toolbar_toggle_gui"]
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+light_color = Color( 0, 0, 0, 1 )
+directional_shadow_mode = 0
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

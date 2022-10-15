@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
-
-[ext_resource path="res://decorations/SilhouetteLightShader.tres" type="Shader" id=1]
-[ext_resource path="res://decorations/antennae_textures/rod16px.png" type="Texture" id=2]
-
-[resource]
-shader = ExtResource( 1 )
-shader_param/SilhouetteColor = Color( 0, 0.0509804, 0.12549, 1 )
-shader_param/SilhouetteTexture = ExtResource( 2 )

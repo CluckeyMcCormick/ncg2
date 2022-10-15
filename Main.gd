@@ -19,14 +19,16 @@ var gui_flip_enabled = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    # Connect to the key update signal, so we can respond to key changes.
-    mcc.connect("key_update", self, "_on_mcc_key_update")
-    randomize()
+    $DebugCity.make()
     
-    $Toolbar.assert_profile()
+    mcc.profile_dict["lights_one_color"] = Color.red
+    mcc.profile_dict["lights_two_color"] = Color.green
+    mcc.profile_dict["lights_three_color"] = Color.blue
+    mcc.profile_dict["lights_four_color"] = Color.yellow
     
-    # Spawn the city!
-    $GrowBlockCity.start_make_chain()
+    mcc.update_whole_dictionary()
+    
+    city_built = true
 
 func _physics_process(delta):
     if city_built and movement_enabled:
@@ -34,93 +36,25 @@ func _physics_process(delta):
         $Camera.global_transform.origin += Vector3(2, 0, 0) * delta 
         $RoofSlope.global_transform.origin += Vector3(2, 0, 0) * delta 
 
-func _on_GrowBlockCity_city_complete():
-    city_built = true
-    $Text.visible = false
-
-func _on_mcc_key_update(key):
-    match key:
-        #
-        # Starfield
-        #
-        "starfield_height":
-            $"%Starfield".height = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        "starfield_type_a_count":
-            $"%Starfield".field_a_count = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        "starfield_type_b_count":
-            $"%Starfield".field_b_count = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        "starfield_type_c_count":
-            $"%Starfield".field_c_count = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        "starfield_scale_mean":
-            $"%Starfield".scale_mean = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        "starfield_scale_variance":
-            $"%Starfield".scale_variance = mcc.profile_dict[key]
-            _on_Toolbar_regenerate()
-        #
-        # Moon
-        #
-        "moon_x_pos":
-            $"%Moon".translation.x = mcc.profile_dict[key]
-        "moon_y_pos":
-            $"%Moon".translation.y = mcc.profile_dict[key]
-
-        #
-        # Sparkles
-        #
-        "sparkle_count_a":
-            $"%ParticlesA".amount = mcc.profile_dict[key]
-        "sparkle_count_b":
-            $"%ParticlesB".amount = mcc.profile_dict[key]
-        "sparkle_count_c":
-            $"%ParticlesC".amount = mcc.profile_dict[key]
-        "sparkle_lifetime_a":
-            $"%ParticlesA".lifetime = mcc.profile_dict[key]
-        "sparkle_lifetime_b":
-            $"%ParticlesB".lifetime = mcc.profile_dict[key]
-        "sparkle_lifetime_c":
-            $"%ParticlesC".lifetime = mcc.profile_dict[key]
-        "sparkle_randomness_a":
-            $"%ParticlesA".randomness = mcc.profile_dict[key]
-        "sparkle_randomness_b":
-            $"%ParticlesB".randomness = mcc.profile_dict[key]
-        "sparkle_randomness_c":
-            $"%ParticlesC".randomness = mcc.profile_dict[key]
-        "sparkle_enabled_a":
-            $"%ParticlesA".emitting = mcc.profile_dict[key]
-        "sparkle_enabled_b":
-            $"%ParticlesB".emitting = mcc.profile_dict[key]
-        "sparkle_enabled_c":
-            $"%ParticlesC".emitting = mcc.profile_dict[key]
-
-func _on_Toolbar_regenerate():
-    $"%Starfield".generate_field_a()
-    $"%Starfield".generate_field_b()
-    $"%Starfield".generate_field_c()
-
-func _on_Toolbar_toggle_camera_pause():
-    movement_enabled = not movement_enabled
-
-func _on_Toolbar_toggle_effect_pause():
+func _input(event):
+    if event.is_action_pressed("control_camera_pause"):
+        movement_enabled = not movement_enabled
     
-    effects_paused = not effects_paused
+    if event.is_action_pressed("control_light_one_toggle"):
+        mcc.profile_dict["lights_one_visible"] = not mcc.profile_dict["lights_one_visible"]
+        mcc.update_key("lights_one_visible")
     
-    if effects_paused:
-        $"%ParticlesA".speed_scale = 0
-        $"%ParticlesB".speed_scale = 0
-        $"%ParticlesC".speed_scale = 0
-    else:
-        $"%ParticlesA".speed_scale = 1
-        $"%ParticlesB".speed_scale = 1
-        $"%ParticlesC".speed_scale = 1
-
-func _on_Toolbar_toggle_gui():
-    # Flip the visibility
-    $Toolbar.visible = not $Toolbar.visible
+    if event.is_action_pressed("control_light_two_toggle"):
+        mcc.profile_dict["lights_two_visible"] = not mcc.profile_dict["lights_two_visible"]
+        mcc.update_key("lights_two_visible")
+    
+    if event.is_action_pressed("control_light_three_toggle"):
+        mcc.profile_dict["lights_three_visible"] = not mcc.profile_dict["lights_three_visible"]
+        mcc.update_key("lights_three_visible")
+    
+    if event.is_action_pressed("control_light_four_toggle"):
+        mcc.profile_dict["lights_four_visible"] = not mcc.profile_dict["lights_four_visible"]
+        mcc.update_key("lights_four_visible")
 
 func _on_Timer_timeout():
     print("Lights: %d Visible: %d" % [mcc.overall_lights, mcc.visible_lights])

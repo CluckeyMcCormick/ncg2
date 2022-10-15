@@ -1,5 +1,0 @@
-[gd_resource type="QuadMesh" format=2]
-
-[resource]
-size = Vector2( 1, 2 )
-center_offset = Vector3( 0, 1, 0 )

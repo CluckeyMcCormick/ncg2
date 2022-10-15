@@ -1,9 +1,0 @@
-[gd_resource type="Environment" load_steps=2 format=2]
-
-[ext_resource path="res://environment/city_proc_sky.tres" type="ProceduralSky" id=1]
-
-[resource]
-background_mode = 2
-background_sky = ExtResource( 1 )
-background_sky_orientation = Basis( 0.939693, 0.0310933, 0.340604, 0, 0.995859, -0.0909107, -0.34202, 0.0854281, 0.935801 )
-ambient_light_energy = 0.0
