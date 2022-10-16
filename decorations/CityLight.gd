@@ -23,8 +23,6 @@ var _light : OmniLight = null
 
 # BUGREPORT: The CityLight scene is where we spawn in, and work with, omnlights
 
-# TODO: Add an "occurrence rating" to the City Light
-
 # We're able to adjust "effects" by directly manipulating their meshes and
 # materials - this is very quick and has an instantaneous effect that is
 # replicated across all instances of a node that may use that mesh or material.

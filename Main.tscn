@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://debug/DebugCity.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Main.gd" type="Script" id=4]
-[ext_resource path="res://util/MeasuringBlock.tscn" type="PackedScene" id=16]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -18,19 +17,6 @@ cull_mask = 3
 current = true
 fov = 50.0
 size = 3.0
-
-[node name="RoofSlope" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
-visible = false
-
-[node name="MeasuringBlockA" parent="RoofSlope" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 0.997127, -0.0757445, 0, 0.0757445, 0.997127, -9.848, 0.639, -7.591 )
-
-[node name="MeasuringBlockB" parent="RoofSlope" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 0.997127, -0.0757445, 0, 0.0757445, 0.997127, -9.848, 1.75, -17.6 )
-
-[node name="MeasuringBlockB2" parent="RoofSlope" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -9.848, 2.55, -27.7 )
 
 [node name="DebugCity" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
