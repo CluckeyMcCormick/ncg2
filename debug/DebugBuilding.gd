@@ -11,6 +11,7 @@ export(float) var footprint_z setget set_fpz
 export(float) var building_x setget set_bldx
 export(float) var building_z setget set_bldz
 export(float) var building_y setget set_bldy
+export(float) var light_range setget set_light_range
 
 # Signal emitted when this building enters the screen - basically an echo of the
 # VisibilityNotifier's screen_entered signal.
@@ -37,14 +38,20 @@ func _ready():
     _building_update()
 
 func _building_update():
-    # Calculate the range of the lights
-    var light_range = 1.0 * building_y
     
-    # Move the lights appropriately
-    $"+X+Z".translation = Vector3( footprint_x / 2.0, 0,  footprint_z / 2.0)
-    $"+X-Z".translation = Vector3( footprint_x / 2.0, 0, -footprint_z / 2.0)
-    $"-X+Z".translation = Vector3(-footprint_x / 2.0, 0,  footprint_z / 2.0)
-    $"-X-Z".translation = Vector3(-footprint_x / 2.0, 0, -footprint_z / 2.0)
+    # Move the lights to the base of the building
+    $"+X+Z".translation = Vector3(
+        ( building_x / 2.0) + MARGIN, 0, ( building_z / 2.0) + MARGIN
+    )
+    $"+X-Z".translation = Vector3(
+        ( building_x / 2.0) + MARGIN, 0, (-building_z / 2.0) - MARGIN
+    )
+    $"-X+Z".translation = Vector3(
+        (-building_x / 2.0) - MARGIN, 0, ( building_z / 2.0) + MARGIN
+    )
+    $"-X-Z".translation = Vector3(
+        (-building_x / 2.0) - MARGIN, 0, (-building_z / 2.0) - MARGIN
+    )
     
     # Set the range of the lights
     $"+X+Z".omni_range = light_range
@@ -126,6 +133,12 @@ func set_bldz(new_z):
 func set_bldy(new_y):
     # Ensure the building y is acceptable
     building_y = clamp(new_y, MARGIN, INF)
+    
+    # Update the buildings
+    _building_update()
+
+func set_light_range(new_range):
+    light_range = clamp(new_range, MARGIN * 2, INF)
     
     # Update the buildings
     _building_update()

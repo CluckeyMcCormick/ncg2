@@ -15,6 +15,8 @@ const BUILDING_SPACING_Z = 0
 const BASE_Y = BUILDING_SIZE
 const Z_STEP = 1
 
+const LIGHT_RANGE = 1
+
 func make():
     
     var block_origin
@@ -46,6 +48,7 @@ func make():
             new_building.building_x = BUILDING_SIZE
             new_building.building_z = BUILDING_SIZE
             new_building.building_y = 2
+            new_building.light_range = LIGHT_RANGE
             
             self.add_child(new_building)
             new_building.translation = building_shift
