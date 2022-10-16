@@ -16,7 +16,8 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # ~~~~~~~~~~~~~~~~
 
 # BUGREPORT: These exist just for tracking the CityLights/Omnilights
-var overall_lights = 0
+var potential_lights = 0
+var spawned_lights = 0
 var visible_lights = 0
 
 # Are we currently performing a mass update? This is needed to optimize how we
@@ -40,7 +41,7 @@ signal key_update(key)
 # ~~~~~~~~~~~~~~~~
 
 func _ready():
-    profile_dict["lights_one_color"] = Color.red
+    profile_dict["lights_one_color"] = Color.cyan
     profile_dict["lights_one_visible"] = true
     
     profile_dict["lights_two_color"] = Color.blue
@@ -49,7 +50,7 @@ func _ready():
     profile_dict["lights_three_color"] = Color.green
     profile_dict["lights_three_visible"] = true
     
-    profile_dict["lights_four_color"] = Color.yellow
+    profile_dict["lights_four_color"] = Color.darkviolet
     profile_dict["lights_four_visible"] = true
 
 # Asserts the current values into the dictionary

@@ -21,6 +21,8 @@ var omni_range = 1 setget set_omni_range
 # What's the current light we have stuck under this node?
 var _light : OmniLight = null
 
+var oldvis = true
+
 # BUGREPORT: The CityLight scene is where we spawn in, and work with, omnlights
 
 # We're able to adjust "effects" by directly manipulating their meshes and
@@ -43,11 +45,13 @@ func _ready():
     self.add_child(_light)
     # Force the range
     _light.omni_range = omni_range
+
+    mcc.potential_lights += 1
+    mcc.spawned_lights += 1
+    mcc.visible_lights += 1
+
     # Perform an MCC update to get the color and other nonsense
     _mcc_update()
-    
-    mcc.overall_lights += 1
-    mcc.visible_lights += 1
 
 func set_type(new_type):
     type = new_type
@@ -101,6 +105,15 @@ func _mcc_update():
             _light.visible = mcc.profile_dict["lights_four_visible"]
         _:
             pass
+    
+    if oldvis != _light.visible:
+        if _light.visible:
+            mcc.visible_lights += 1
+        else:
+            mcc.visible_lights -= 1
+    
+    oldvis = _light.visible
+    
 
 # The "Total Update" function takes values from the MCC and then applies the
 # appropriate position and visual updates. This function is required to avoid
@@ -123,13 +136,18 @@ func _on_visibility_changed():
         # Force the range
         _light.omni_range = omni_range
         
+        mcc.visible_lights += 1
+        
         # Perform an MCC update
         _mcc_update()
         
-        mcc.visible_lights += 1
+        mcc.spawned_lights += 1
     
     # Otherwise...
     else:
+        if _light.visible:
+            mcc.visible_lights -= 1
+        
         # Remove the omnilight
         self.remove_child(_light)
         
@@ -139,4 +157,4 @@ func _on_visibility_changed():
         # Clear out our _light variable
         _light = null
 
-        mcc.visible_lights -= 1
+        mcc.spawned_lights -= 1

@@ -21,20 +21,11 @@ var gui_flip_enabled = true
 func _ready():
     $DebugCity.make()
     
-    mcc.profile_dict["lights_one_color"] = Color.red
-    mcc.profile_dict["lights_two_color"] = Color.green
-    mcc.profile_dict["lights_three_color"] = Color.blue
-    mcc.profile_dict["lights_four_color"] = Color.yellow
-    
-    mcc.update_whole_dictionary()
-    
     city_built = true
 
 func _physics_process(delta):
     if city_built and movement_enabled:
         $UpCamera.global_transform.origin += Vector3(2, 0, 0) * delta
-        $Camera.global_transform.origin += Vector3(2, 0, 0) * delta 
-        $RoofSlope.global_transform.origin += Vector3(2, 0, 0) * delta 
 
 func _input(event):
     if event.is_action_pressed("control_camera_pause"):
@@ -57,4 +48,7 @@ func _input(event):
         mcc.update_key("lights_four_visible")
 
 func _on_Timer_timeout():
-    print("Lights: %d Visible: %d" % [mcc.overall_lights, mcc.visible_lights])
+    print(
+        "Potential Lights: [ %d ] Spawned Lights: [ %d ] Visible Lights: [ %d ]"
+        % [mcc.potential_lights, mcc.spawned_lights, mcc.visible_lights]
+    )

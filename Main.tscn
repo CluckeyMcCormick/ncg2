@@ -24,11 +24,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, -32 )
-projection = 1
-size = 60.0
-
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
