@@ -61,21 +61,25 @@ func set_building_material(new_material):
 func set_length_x(new_length):
     len_x = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 func set_length_y(new_length):
     len_y = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
     
 func set_length_z(new_length):
     len_z = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 func set_auto_build(new_autobuild):
     auto_build = new_autobuild
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 # --------------------------------------------------------
@@ -83,26 +87,30 @@ func set_auto_build(new_autobuild):
 # Build Functions
 #
 # --------------------------------------------------------
-func calculate_cell_uv_shift(side_len, random_add : bool = true):
+func calculate_cell_uv_shift(rng : RandomNumberGenerator = null):
     # We'll stick the return value into this Vector2
     var return_val
     
-    if random_add:
+    # If we don't have a Random Number Generator, use Godot's built in randi()
+    # function
+    if rng == null:
         return_val = Vector2(
             randi() % GlobalRef.WINDOW_CELL_LEN,
             randi() % GlobalRef.WINDOW_CELL_LEN
         )
-        return_val *= GlobalRef.WINDOW_UV_SIZE
+    # Otherwise, use the RandomNumberGenerator object
     else:
-        return_val = Vector2.ZERO
+        return_val = Vector2(
+            rng.randi() % GlobalRef.WINDOW_CELL_LEN,
+            rng.randi() % GlobalRef.WINDOW_CELL_LEN
+        )
     
-    # Next, shift the Vector2 as appropriate for the input side length. Using
-    # the parity to scale the shift allows us to skip using an if/else.
-    return_val += (side_len % 2) * odd_UV2_shift
+    # Scale the shift to WINDOW UV units
+    return_val *= GlobalRef.WINDOW_UV_SIZE
     
     return return_val
 
-func make_building():
+func make_building(rng : RandomNumberGenerator = null):
     # Calculate the world-unit length on each axis given the window/cell count
     var eff_x = len_x * GlobalRef.WINDOW_UV_SIZE
     var eff_y = len_y * GlobalRef.WINDOW_UV_SIZE
@@ -115,12 +123,26 @@ func make_building():
     # different type of Array or PoolArray; see ArrayMesh.ArrayType enumeration
     # for more
     var arrays
+    
     # Since we have multiple arrays we'll be editing, we'll just dereference
-    # them into a temporary variable for shorthand - this variable!
-    var curr_arr
-    # We'll use this temp variable to dereference an element in the current
-    # array we're looking at.
-    var curr
+    # the ones we need into these variables!
+    var vertex
+    var color
+    var uv
+    var uv2
+    
+    # We'll use these variables to dereference elements in the array we're
+    # looking at.
+    var curr_vert
+    var curr_color
+    var curr_uv
+    var curr_uv2
+    
+    # The UV shift vectors
+    var shift_north
+    var shift_south
+    var shift_west
+    var shift_east
     
     # If we don't have the building mesh for whatever reason, back out
     if not self.has_node("BuildingMesh"):
@@ -135,26 +157,100 @@ func make_building():
     # Get the arrays from the cube mesh!
     arrays = cube_mesh.get_mesh_arrays()
     
-    # Alright, first we're going to modify the vertex array
-    curr_arr = arrays[ArrayMesh.ARRAY_VERTEX]
-    for idx in range( curr_arr.size() ):
-        # Grab the current vector
-        curr = curr_arr[idx]
+    # Spread the arrays appropriately
+    vertex = arrays[ArrayMesh.ARRAY_VERTEX]
+    uv = arrays[ArrayMesh.ARRAY_TEX_UV]
+    uv2 = arrays[ArrayMesh.ARRAY_TEX_UV2]
+    
+    # Calculate some shifts
+    shift_north = calculate_cell_uv_shift(rng)
+    shift_south = calculate_cell_uv_shift(rng)
+    shift_west = calculate_cell_uv_shift(rng)
+    shift_east = calculate_cell_uv_shift(rng)
+    
+    for idx in range( vertex.size() ):
+        # Grab the current vector and uv
+        curr_vert = vertex[idx]
+        curr_uv = uv[idx]
         
         # Shift the height up since the cube is always centered at y 0
-        curr.y += CUBE_SIZE / 2
+        curr_vert.y += CUBE_SIZE / 2
         
         # Now, scale all of the points based on the effective lengths we were
         # given.
-        curr.x *= eff_x / CUBE_SIZE
-        curr.y *= eff_y / CUBE_SIZE
-        curr.z *= eff_z / CUBE_SIZE
+        curr_vert.x *= eff_x / CUBE_SIZE
+        curr_vert.y *= eff_y / CUBE_SIZE
+        curr_vert.z *= eff_z / CUBE_SIZE
         
-        # Assert the current value in the vertex array
-        curr_arr[idx] = curr
+        match idx:
+            # South face is 0 2 4 6
+            0, 2, 4, 6:
+                # We want the UVs to be between 0 and 1, so use the round
+                # function to force the range we want.
+                curr_uv = curr_uv.ceil()
+                # Scale UV's x using our X
+                curr_uv.x *= eff_x
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_south
+            # North face is 1 3 5 7
+            1, 3, 5, 7:
+                # For some reason the X ranges between 0.66 and 1 so subtract
+                # out .5
+                curr_uv.x -= .5
+                # Now round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our X
+                curr_uv.x *= eff_x
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_north
+            # East face is 8 10 12 14
+            8, 10, 12, 14:
+                # Round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our Z
+                curr_uv.x *= eff_z
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_east
+            # West face is 9 11 13 15
+            9, 11, 13, 15:
+                # UV X values typically range between 0 and .33, so add .3
+                curr_uv.x += .3
+                # UV Y values typically range between .5 and 1, so subtract .25
+                curr_uv.y -= .25
+                # Round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our Z
+                curr_uv.x *= eff_z
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_west
+            # Top face is 16 18 20 22
+            16, 18, 20, 22:
+                # Blank the UV - no textures on this face!
+                curr_uv *= 0
+            # Bottom face is 17 19 21 23
+            17, 19, 21, 23:
+                # Blank the UV - no textures on this face!
+                curr_uv *= 0
+        
+        # If we're not using window textures, blank the UV
+        if not use_window_texture:
+            curr_uv *= 0
+        
+        # Assert the modified values
+        vertex[idx] = curr_vert
+        uv[idx] = curr_uv
     
-    # Assert the current vertex array in the array-of-arrays
-    arrays[ArrayMesh.ARRAY_VERTEX] = curr_arr
+    # Assert the updated arrays in the array-of-arrays
+    arrays[ArrayMesh.ARRAY_VERTEX] = vertex
+    arrays[ArrayMesh.ARRAY_TEX_UV] = uv
     
     $BuildingMesh.mesh.add_surface_from_arrays(
         Mesh.PRIMITIVE_TRIANGLES,
@@ -163,28 +259,4 @@ func make_building():
 
     # Set the building material
     $BuildingMesh.set_surface_material(0, building_material)
-#    $ZNeg.mesh = ready_side_mesh(
-#        Vector2(-eff_x, 0),
-#        Vector2( eff_x, eff_y),
-#        -eff_z, false, calculate_cell_uv_shift(len_x)
-#    )
-#    $ZPos.mesh = ready_side_mesh(
-#        Vector2(-eff_x, eff_y),
-#        Vector2( eff_x, 0),
-#        eff_z, false, calculate_cell_uv_shift(len_x)
-#    )
-#    $XNeg.mesh = ready_side_mesh(
-#        Vector2(-eff_z, 0),
-#        Vector2( eff_z, eff_y),
-#        eff_x, true, calculate_cell_uv_shift(len_z)
-#    )
-#    $XPos.mesh = ready_side_mesh(
-#        Vector2(-eff_z, eff_y),
-#        Vector2( eff_z, 0),
-#        -eff_x, true, calculate_cell_uv_shift(len_z)
-#    )
-#    $YTop.mesh = ready_top_mesh(
-#        Vector2(-eff_x, -eff_z),
-#        Vector2( eff_x,  eff_z),
-#        eff_y
-#    )
+    
