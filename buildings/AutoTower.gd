@@ -4,9 +4,6 @@ extends Spatial
 # (c) 2022 Nicolas McCormick Fredrickson
 # This code is licensed under the MIT license (see LICENSE.txt for details)
 
-# Load the PolyGen script
-const PolyGen = preload("res://util/PolyGen.gd")
-
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
@@ -17,8 +14,13 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 # half of the size of a window.
 const odd_UV2_shift = Vector2(GlobalRef.WINDOW_UV_SIZE / 2, 0)
 
+# Our building is actually crafted using a cube - we take the mesh and then
+# manipulate the points. It's always an equal sized cube, to - how long is that
+# cube on one side?
+const CUBE_SIZE = 1.0
+
 # The material we'll use to make this building.
-export(Material) var building_material
+export(Material) var building_material setget set_building_material
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
@@ -42,6 +44,20 @@ func _ready():
 # Setters and Getters
 #
 # --------------------------------------------------------
+func set_building_material(new_material):
+    building_material = new_material
+    
+    # If we don't have the building mesh for whatever reason, back out
+    if not self.has_node("BuildingMesh"):
+        return
+    
+    # If the building mesh doesn't have a surface for us to manipulate, back out
+    if $BuildingMesh.mesh.get_surface_count() > 0:
+        return
+    
+    # Set the building material
+    $BuildingMesh.set_surface_material(0, building_material)
+
 func set_length_x(new_length):
     len_x = new_length
     if Engine.editor_hint and auto_build:
@@ -87,129 +103,88 @@ func calculate_cell_uv_shift(side_len, random_add : bool = true):
     return return_val
 
 func make_building():
+    # Calculate the world-unit length on each axis given the window/cell count
+    var eff_x = len_x * GlobalRef.WINDOW_UV_SIZE
+    var eff_y = len_y * GlobalRef.WINDOW_UV_SIZE
+    var eff_z = len_z * GlobalRef.WINDOW_UV_SIZE
     
-    # If we don't have the building nodes for whatever reason, back out
-    if not (self.has_node("ZNeg") or self.has_node("ZPos") or \
-    self.has_node("XNeg") or self.has_node("XPos") ):
+    # The cube mesh we'll base all of our work on
+    var cube_mesh
+    
+    # The arrays we'll be modifying to give our array mesh - each index is a
+    # different type of Array or PoolArray; see ArrayMesh.ArrayType enumeration
+    # for more
+    var arrays
+    # Since we have multiple arrays we'll be editing, we'll just dereference
+    # them into a temporary variable for shorthand - this variable!
+    var curr_arr
+    # We'll use this temp variable to dereference an element in the current
+    # array we're looking at.
+    var curr
+    
+    # If we don't have the building mesh for whatever reason, back out
+    if not self.has_node("BuildingMesh"):
         return
     
-    # Calculate the world-unit length on each axis given the window/cell count
-    var eff_x = (len_x * GlobalRef.WINDOW_UV_SIZE) / 2
-    var eff_y = len_y * GlobalRef.WINDOW_UV_SIZE
-    var eff_z = (len_z * GlobalRef.WINDOW_UV_SIZE) / 2
+    # Clear out our surfaces so we're not stacking surfaces on surfaces
+    $BuildingMesh.mesh.clear_surfaces()
     
-    $ZNeg.mesh = ready_side_mesh(
-        Vector2(-eff_x, 0),
-        Vector2( eff_x, eff_y),
-        -eff_z, false, calculate_cell_uv_shift(len_x)
+    # Create the cube mesh
+    cube_mesh = CubeMesh.new()
+    cube_mesh.size = Vector3(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE)
+    # Get the arrays from the cube mesh!
+    arrays = cube_mesh.get_mesh_arrays()
+    
+    # Alright, first we're going to modify the vertex array
+    curr_arr = arrays[ArrayMesh.ARRAY_VERTEX]
+    for idx in range( curr_arr.size() ):
+        # Grab the current vector
+        curr = curr_arr[idx]
+        
+        # Shift the height up since the cube is always centered at y 0
+        curr.y += CUBE_SIZE / 2
+        
+        # Now, scale all of the points based on the effective lengths we were
+        # given.
+        curr.x *= eff_x / CUBE_SIZE
+        curr.y *= eff_y / CUBE_SIZE
+        curr.z *= eff_z / CUBE_SIZE
+        
+        # Assert the current value in the vertex array
+        curr_arr[idx] = curr
+    
+    # Assert the current vertex array in the array-of-arrays
+    arrays[ArrayMesh.ARRAY_VERTEX] = curr_arr
+    
+    $BuildingMesh.mesh.add_surface_from_arrays(
+        Mesh.PRIMITIVE_TRIANGLES,
+        arrays
     )
-    $ZPos.mesh = ready_side_mesh(
-        Vector2(-eff_x, eff_y),
-        Vector2( eff_x, 0),
-        eff_z, false, calculate_cell_uv_shift(len_x)
-    )
-    $XNeg.mesh = ready_side_mesh(
-        Vector2(-eff_z, 0),
-        Vector2( eff_z, eff_y),
-        eff_x, true, calculate_cell_uv_shift(len_z)
-    )
-    $XPos.mesh = ready_side_mesh(
-        Vector2(-eff_z, eff_y),
-        Vector2( eff_z, 0),
-        -eff_x, true, calculate_cell_uv_shift(len_z)
-    )
-    $YTop.mesh = ready_top_mesh(
-        Vector2(-eff_x, -eff_z),
-        Vector2( eff_x,  eff_z),
-        eff_y
-    )
 
-func ready_side_mesh(pointA, pointB, axis_point, is_x, shift):
-    var new_mesh = Mesh.new()
-    var verts = PoolVector3Array()
-    var UVs = PoolVector2Array()
-    
-    # Points and such
-    var pd
-    
-    # UV Vector2 points
-    var uvA
-    var uvB
-    
-    # If we're using a window texture for this building...
-    if self.use_window_texture:
-        # Then the uv2 is the points we were given PLUS our dedicated shift
-        uvA = pointA + shift
-        uvB = pointB + shift
-    # Otherwise...
-    else:
-        # We'll make both points 0-0, effectively removing the texture from this
-        # building
-        uvA = Vector2.ZERO
-        uvB = Vector2.ZERO
-    
-    if is_x:
-        pd = PolyGen.create_xlock_face(
-            # Point A, Point B, Position on X
-            pointA, pointB, axis_point,
-            # Custom UV positions
-            uvA, uvB
-        )
-    else:
-        pd = PolyGen.create_zlock_face(
-            # Point A, Point B, Position on Z
-            pointA, pointB, axis_point,
-            # Custom UV positions
-            uvA, uvB
-        )
-    verts.append_array( pd[PolyGen.VECTOR3_KEY] )
-    UVs.append_array( pd[PolyGen.UV_KEY] )
-    
-    var st = SurfaceTool.new()
-    st.begin(Mesh.PRIMITIVE_TRIANGLES)
-    
-    st.set_material(building_material)
-
-    for v in verts.size():
-        st.add_uv(UVs[v])
-        st.add_vertex(verts[v])
-
-    st.generate_normals()
-    st.generate_tangents()
-
-    st.commit(new_mesh)
-    return new_mesh
-
-func ready_top_mesh(pointA, pointB, axis_point):
-    var new_mesh = Mesh.new()
-    var verts = PoolVector3Array()
-    var UVs = PoolVector2Array()
-    
-    # Points and such
-    var pd
-    
-    pd = PolyGen.create_ylock_face(
-        # Point A, Point B, Position on Y
-        pointA, pointB, axis_point,
-        # Pass in zero-zero for the UV values, meaning the roof won't have a
-        # texture - exactly what we want!
-        Vector2.ZERO, Vector2.ZERO
-    )
-    
-    verts.append_array( pd[PolyGen.VECTOR3_KEY] )
-    UVs.append_array( pd[PolyGen.UV_KEY] )
-    
-    var st = SurfaceTool.new()
-    st.begin(Mesh.PRIMITIVE_TRIANGLES)
-    
-    st.set_material(building_material)
-
-    for v in verts.size():
-        st.add_uv(UVs[v])
-        st.add_vertex(verts[v])
-
-    st.generate_normals()
-    st.generate_tangents()
-
-    st.commit(new_mesh)
-    return new_mesh
+    # Set the building material
+    $BuildingMesh.set_surface_material(0, building_material)
+#    $ZNeg.mesh = ready_side_mesh(
+#        Vector2(-eff_x, 0),
+#        Vector2( eff_x, eff_y),
+#        -eff_z, false, calculate_cell_uv_shift(len_x)
+#    )
+#    $ZPos.mesh = ready_side_mesh(
+#        Vector2(-eff_x, eff_y),
+#        Vector2( eff_x, 0),
+#        eff_z, false, calculate_cell_uv_shift(len_x)
+#    )
+#    $XNeg.mesh = ready_side_mesh(
+#        Vector2(-eff_z, 0),
+#        Vector2( eff_z, eff_y),
+#        eff_x, true, calculate_cell_uv_shift(len_z)
+#    )
+#    $XPos.mesh = ready_side_mesh(
+#        Vector2(-eff_z, eff_y),
+#        Vector2( eff_z, 0),
+#        -eff_x, true, calculate_cell_uv_shift(len_z)
+#    )
+#    $YTop.mesh = ready_top_mesh(
+#        Vector2(-eff_x, -eff_z),
+#        Vector2( eff_x,  eff_z),
+#        eff_y
+#    )
