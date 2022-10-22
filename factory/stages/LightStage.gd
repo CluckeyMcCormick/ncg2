@@ -63,6 +63,7 @@ static func make_blueprint(blueprint : Dictionary):
         # height.
         light.size = rng.randf_range(
             blueprint["len_y"] * .4, blueprint["len_y"] * .80
+            #blueprint["len_y"] * .25, blueprint["len_y"] * .75
         )
         
         # Set the light's group designation, a number between one and four.
