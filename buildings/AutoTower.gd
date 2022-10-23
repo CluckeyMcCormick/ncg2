@@ -7,13 +7,6 @@ extends Spatial
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
-# By default, the UV2 texture is centered on 0,0 - so it stretches half it's
-# length in either direction on x and z. While that normally wouldn't be
-# a problem, with our pixel-perfect texture, it bisects one of the windows
-# IF the measure on that side is odd. So we need to shift it to the side by
-# half of the size of a window.
-const odd_UV2_shift = Vector2(GlobalRef.WINDOW_UV_SIZE / 2, 0)
-
 # Our building is actually crafted using a cube - we take the mesh and then
 # manipulate the points. It's always an equal sized cube, to - how long is that
 # cube on one side?
@@ -29,10 +22,15 @@ export(float) var len_y = 16 setget set_length_y
 export(float) var len_z = 8 setget set_length_z
 
 # Do we use the window texture for this auto-tower, or do we ignore them?
-export(bool) var use_window_texture = true
+export(bool) var use_window_texture = true setget set_use_window_texture
 
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
+
+# To do lights, we pack the coordinates in the citywide light textures as UV
+# values in the UV2 vertices. In order to do THAT, we need to know the position
+# of the buildings center, in window units.
+var light_center : Vector3 = Vector3(256, 0, 256)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -72,6 +70,12 @@ func set_length_y(new_length):
     
 func set_length_z(new_length):
     len_z = new_length
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
+func set_use_window_texture(use_texture):
+    use_window_texture = use_texture
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
@@ -127,14 +131,12 @@ func make_building(rng : RandomNumberGenerator = null):
     # Since we have multiple arrays we'll be editing, we'll just dereference
     # the ones we need into these variables!
     var vertex
-    var color
     var uv
     var uv2
     
     # We'll use these variables to dereference elements in the array we're
     # looking at.
     var curr_vert
-    var curr_color
     var curr_uv
     var curr_uv2
     
@@ -160,7 +162,10 @@ func make_building(rng : RandomNumberGenerator = null):
     # Spread the arrays appropriately
     vertex = arrays[ArrayMesh.ARRAY_VERTEX]
     uv = arrays[ArrayMesh.ARRAY_TEX_UV]
-    uv2 = arrays[ArrayMesh.ARRAY_TEX_UV2]
+    
+    # We're just going to assume the UV2 array is blank, so we'll go about
+    # making our own.
+    uv2 = PoolVector2Array()
     
     # Calculate some shifts
     shift_north = calculate_cell_uv_shift(rng)
@@ -169,10 +174,26 @@ func make_building(rng : RandomNumberGenerator = null):
     shift_east = calculate_cell_uv_shift(rng)
     
     for idx in range( vertex.size() ):
-        # Grab the current vector and uv
+        # Grab the current vector and uv, default the uv2
         curr_vert = vertex[idx]
         curr_uv = uv[idx]
+        curr_uv2 = Vector2(
+            light_center.x, light_center.z
+        )
         
+        #
+        # Step 1: UV2
+        #
+        # Shift the UV2 value by the appropriate number of window units
+        curr_uv2.x += curr_vert.x * len_x
+        curr_uv2.y += curr_vert.z * len_z
+        
+        # Scale by the light noise UV size
+        curr_uv2 *= GlobalRef.LIGHT_NOISE_UV_SIZE
+        
+        #
+        # Step 2: Vertex
+        #
         # Shift the height up since the cube is always centered at y 0
         curr_vert.y += CUBE_SIZE / 2
         
@@ -182,6 +203,9 @@ func make_building(rng : RandomNumberGenerator = null):
         curr_vert.y *= eff_y / CUBE_SIZE
         curr_vert.z *= eff_z / CUBE_SIZE
         
+        #
+        # Step 3: UV
+        #
         match idx:
             # South face is 0 2 4 6
             0, 2, 4, 6:
@@ -247,10 +271,12 @@ func make_building(rng : RandomNumberGenerator = null):
         # Assert the modified values
         vertex[idx] = curr_vert
         uv[idx] = curr_uv
+        uv2.append(curr_uv2)
     
     # Assert the updated arrays in the array-of-arrays
     arrays[ArrayMesh.ARRAY_VERTEX] = vertex
     arrays[ArrayMesh.ARRAY_TEX_UV] = uv
+    arrays[ArrayMesh.ARRAY_TEX_UV2] = uv2
     
     $BuildingMesh.mesh.add_surface_from_arrays(
         Mesh.PRIMITIVE_TRIANGLES,
