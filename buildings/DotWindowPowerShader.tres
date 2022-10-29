@@ -30,36 +30,25 @@ uniform sampler2D DotTexture;
 // it as a uniform. 
 uniform float window_border_correction : hint_range(0, 1);
 
-// The color of Light One
-uniform vec4 LightOneColor : hint_color;
 // The texture we'll be using to determine the light's relative power.
 uniform sampler2D LightOnePowerTexture;
-// The color of Light Two
-uniform vec4 LightTwoColor : hint_color;
-// The texture we'll be using to determine the light's relative power.
+uniform vec4 LightOneColor : hint_color;
 uniform sampler2D LightTwoPowerTexture;
-// The color of Light Two
-uniform vec4 LightThreeColor : hint_color;
-// The texture we'll be using to determine the light's relative power.
+uniform vec4 LightTwoColor : hint_color;
 uniform sampler2D LightThreePowerTexture;
-// The color of Light Two
-uniform vec4 LightFourColor : hint_color;
-// The texture we'll be using to determine the light's relative power.
+uniform vec4 LightThreeColor : hint_color;
 uniform sampler2D LightFourPowerTexture;
-// I've found that the noise textures we use for lights don't have enough
-// contrast for my taste. To get around that, we'll put each of the light
-// textures through the adjust_contrast function (see below). What's the
-// contrast factor we feed in to that function?
-uniform float light_contrast_factor : hint_range(0, 10);
+uniform vec4 LightFourColor : hint_color;
 
-// Adjust's the \"contrast curve\" of a given color. To be honest I don't
-// understand the math at play here, but it works!
-vec3 adjust_contrast( in vec3 color, in float new_contrast) {
-    // This was actually based on shader code from Stack Overflow, provided by
-    // one Walt Ritscher:
-    // https://stackoverflow.com/questions/944713/help-with-pixel-shader-effect-for-brightness-and-contrast
-    return ((color - 0.5) * max(new_contrast, 0)) + 0.5;
-}
+uniform float base_height : hint_range(0.0, 100.0, 0.5) = 0;
+uniform float distance_coefficient : hint_range(0.0, 999.0) = 1;
+
+uniform float power_max = 1;
+uniform float power_min = 0;
+
+const float constant_attenuation = 1.0;
+uniform float linear_attenuation : hint_range(0.0, 999.0) = 1.0;
+uniform float quadratic_attenuation : hint_range(0.0, 999.0) = 1.0;
 
 void fragment(){
     // Grab the RGBA from the window dot texture
@@ -71,10 +60,6 @@ void fragment(){
     float win_a = window_texture.a;
     
     // Grab the different light colors from the appropriate light noise textures
-    vec3 light_one_power = texture(LightOnePowerTexture, UV2.xy).rgb;
-    vec3 light_two_power = texture(LightTwoPowerTexture, UV2.xy).rgb;
-    vec3 light_three_power = texture(LightThreePowerTexture, UV2.xy).rgb;
-    vec3 light_four_power = texture(LightFourPowerTexture, UV2.xy).rgb;
     
     //
     // Step 1: Determine window color, alpha, and mix factors for this fragment
@@ -109,26 +94,30 @@ void fragment(){
     //
     // Step 2: Determine light colors
     //
-    // Adjust the contrast for each light color
-    light_one_power = adjust_contrast(light_one_power, light_contrast_factor);
-    light_two_power = adjust_contrast(light_two_power, light_contrast_factor);
-    light_three_power = adjust_contrast(light_three_power, light_contrast_factor);
-    light_four_power = adjust_contrast(light_four_power, light_contrast_factor);
+    float power_one = texture(LightOnePowerTexture, UV2.xy).r;
+    float power_two = texture(LightTwoPowerTexture, UV2.xy).r;
+    float power_three = texture(LightThreePowerTexture, UV2.xy).r;
+    float power_four = texture(LightFourPowerTexture, UV2.xy).r;
     
-    vec3 building_mix = mix(mix(mix(mix(
-                    BuildingColor.rgb, LightOneColor.rgb, light_one_power
-                // Mix between black and whatever our red color is, using the
-                // \"redness\" as a scalar.
-                ), LightTwoColor.rgb, light_two_power
-            // Mix between the above result and the green color, using the
-            // \"greeness\" as a scalar
-            ), LightThreeColor.rgb, light_three_power
-        // Mix between the above result and the blue color, using the \"blueness\"
-        // as a scalar
-        ), LightFourColor.rgb, light_four_power
-    );
+    power_one = (power_max * power_one) + power_min;
+    power_two = (power_max * power_two) + power_min;
+    power_three = (power_max * power_three) + power_min;
+    power_four = (power_max * power_four) + power_min;
+    
+    vec4 model_vertex = inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0));
+    float dist = clamp(model_vertex.y - base_height, 0, 99999999) * distance_coefficient;
+    
+    float const_a = constant_attenuation;
+    float linear_a = linear_attenuation * dist;
+    float quad_a = quadratic_attenuation * (dist * dist);
+    float attenuation = 1.0 / (const_a + linear_a + quad_a);
+    
+    vec3 light_color = LightOneColor.rgb * power_one * attenuation;
+    light_color += LightTwoColor.rgb * power_two * attenuation;
+    light_color += LightThreeColor.rgb * power_three * attenuation;
+    light_color += LightFourColor.rgb * power_four * attenuation;
     
     // Just pass the building color and alpha straight through
-    ALBEDO = mix(building_mix, color_mix, win_a);
+    ALBEDO = mix(BuildingColor.rgb + light_color, color_mix, win_a);
     ALPHA = mix(BuildingColor.a, alpha_mix, win_a);
 }"

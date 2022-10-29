@@ -1,10 +1,14 @@
 [gd_resource type="NoiseTexture" load_steps=2 format=2]
 
-[ext_resource path="res://buildings/SampleSimplexNoise.tres" type="OpenSimplexNoise" id=1]
+[sub_resource type="OpenSimplexNoise" id=1]
+seed = 256
+period = 48.0
+persistence = 0.0
+lacunarity = 0.1
 
 [resource]
 width = 2048
 height = 2048
 seamless = true
 bump_strength = 32.0
-noise = ExtResource( 1 )
+noise = SubResource( 1 )
