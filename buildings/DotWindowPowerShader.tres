@@ -40,17 +40,34 @@ uniform vec4 LightThreeColor : hint_color;
 uniform sampler2D LightFourPowerTexture;
 uniform vec4 LightFourColor : hint_color;
 
-uniform float base_height : hint_range(0.0, 100.0, 0.5) = 0;
-uniform float distance_coefficient : hint_range(0.0, 999.0) = 1;
+uniform float base_height : hint_range(0.0, 100.0, 0.001) = 0;
+uniform float distance_coefficient : hint_range(0.0, 100.0) = 1;
 
 uniform float power_max = 1;
 uniform float power_min = 0;
 
 const float constant_attenuation = 1.0;
-uniform float linear_attenuation : hint_range(0.0, 999.0) = 1.0;
-uniform float quadratic_attenuation : hint_range(0.0, 999.0) = 1.0;
+uniform float linear_attenuation : hint_range(0.0, 100.0) = 1.0;
+uniform float quadratic_attenuation : hint_range(0.0, 100.0) = 1.0;
 
-void fragment(){
+// I've found that the noise textures we use for lights don't have enough
+// contrast for my taste. To get around that, we'll put each of the light
+// textures through the adjust_contrast function (see below). What's the
+// contrast factor we feed in to that function?
+uniform float light_contrast_factor : hint_range(0.0, 10.0);
+
+uniform float power_sub : hint_range(0.0, 1.0, 0.001);
+
+// Adjust's the \"contrast curve\" of a given color. To be honest I don't
+// understand the math at play here, but it works!
+float adjust_contrast( in float color, in float new_contrast ) {
+    // This was actually based on shader code from Stack Overflow, provided by
+    // one Walt Ritscher:
+    // https://stackoverflow.com/questions/944713/help-with-pixel-shader-effect-for-brightness-and-contrast
+    return ((color - 0.5) * max(new_contrast, 0)) + 0.5;
+}
+
+void fragment() {
     // Grab the RGBA from the window dot texture
     vec4 window_texture = texture(DotTexture, UV.xy);
     // Devolve the vector into individual colors
@@ -94,11 +111,24 @@ void fragment(){
     //
     // Step 2: Determine light colors
     //
+    // Get the power values
     float power_one = texture(LightOnePowerTexture, UV2.xy).r;
     float power_two = texture(LightTwoPowerTexture, UV2.xy).r;
     float power_three = texture(LightThreePowerTexture, UV2.xy).r;
     float power_four = texture(LightFourPowerTexture, UV2.xy).r;
     
+    // Adjust the contrast of the power values
+    power_one = adjust_contrast(power_one, light_contrast_factor);
+    power_two = adjust_contrast(power_two, light_contrast_factor);
+    power_three = adjust_contrast(power_three, light_contrast_factor);
+    power_four = adjust_contrast(power_four, light_contrast_factor);
+     
+    power_one = max(power_one - power_sub, 0);
+    power_two = max(power_two - power_sub, 0);
+    power_three = max(power_three - power_sub, 0);
+    power_four = max(power_four - power_sub, 0);
+    
+    // Adjust the power values to the user provided range
     power_one = (power_max * power_one) + power_min;
     power_two = (power_max * power_two) + power_min;
     power_three = (power_max * power_three) + power_min;

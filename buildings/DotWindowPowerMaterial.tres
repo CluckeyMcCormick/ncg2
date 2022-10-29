@@ -3,32 +3,34 @@
 [ext_resource path="res://buildings/DotWindowPowerShader.tres" type="Shader" id=1]
 [ext_resource path="res://buildings/window_sample_texture.png" type="Texture" id=2]
 [ext_resource path="res://buildings/LightColorOneNoise.tres" type="Texture" id=3]
-[ext_resource path="res://buildings/LightColorTwoNoise.tres" type="Texture" id=4]
-[ext_resource path="res://buildings/LightColorThreeNoise.tres" type="Texture" id=5]
+[ext_resource path="res://buildings/LightColorThreeNoise.tres" type="Texture" id=4]
+[ext_resource path="res://buildings/LightColorTwoNoise.tres" type="Texture" id=5]
 [ext_resource path="res://buildings/LightColorFourNoise.tres" type="Texture" id=6]
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/BuildingColor = Color( 0.0470588, 0.211765, 0.34902, 1 )
-shader_param/RedDotColor = Color( 0.6, 1, 0.945098, 1 )
-shader_param/RedDotLightMix = 1.0
-shader_param/GreenDotColor = Color( 1, 1, 0.501961, 1 )
-shader_param/GreenDotLightMix = 1.0
-shader_param/BlueDotColor = Color( 1, 0.701961, 0.858824, 1 )
-shader_param/BlueDotLightMix = 1.0
-shader_param/window_border_correction = 1.0
-shader_param/LightOneColor = Color( 1, 0.501961, 0.768627, 1 )
-shader_param/LightTwoColor = Color( 0.258824, 0.811765, 0.588235, 1 )
-shader_param/LightThreeColor = Color( 0.419608, 1, 0.921569, 1 )
-shader_param/LightFourColor = Color( 1, 1, 0.301961, 1 )
-shader_param/base_height = 0.0
+shader_param/BuildingColor = Color( 0.0705882, 0.0235294, 0.0431373, 1 )
+shader_param/RedDotColor = Color( 0.14902, 0.0509804, 0.0901961, 1 )
+shader_param/RedDotLightMix = null
+shader_param/GreenDotColor = Color( 0.290196, 0.231373, 0.27451, 1 )
+shader_param/GreenDotLightMix = null
+shader_param/BlueDotColor = Color( 1, 1, 0.8, 1 )
+shader_param/BlueDotLightMix = null
+shader_param/window_border_correction = null
+shader_param/LightOneColor = Color( 0.121569, 0, 0, 1 )
+shader_param/LightTwoColor = Color( 0.121569, 0, 0.0823529, 1 )
+shader_param/LightThreeColor = Color( 0.0705882, 0, 0.121569, 1 )
+shader_param/LightFourColor = Color( 0, 0.0470588, 0.121569, 1 )
+shader_param/base_height = 0.25
 shader_param/distance_coefficient = 1.0
 shader_param/power_max = 1.0
-shader_param/power_min = 0.0
+shader_param/power_min = 0.5
 shader_param/linear_attenuation = 1.0
-shader_param/quadratic_attenuation = 1.0
+shader_param/quadratic_attenuation = 5.0
+shader_param/light_contrast_factor = 10.606
+shader_param/power_sub = 1.0
 shader_param/DotTexture = ExtResource( 2 )
 shader_param/LightOnePowerTexture = ExtResource( 3 )
-shader_param/LightTwoPowerTexture = ExtResource( 4 )
-shader_param/LightThreePowerTexture = ExtResource( 5 )
+shader_param/LightTwoPowerTexture = ExtResource( 5 )
+shader_param/LightThreePowerTexture = ExtResource( 4 )
 shader_param/LightFourPowerTexture = ExtResource( 6 )
