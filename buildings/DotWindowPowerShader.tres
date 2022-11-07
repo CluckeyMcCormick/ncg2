@@ -31,25 +31,37 @@ uniform sampler2D DotTexture;
 uniform float window_border_correction : hint_range(0, 1);
 
 // The texture we'll be using to determine the first light set's relative power.
-uniform sampler2D LightOnePowerTexture;
+uniform sampler2D LightOnePowerTexture : hint_black;
 // The color we'll use for the first lights.
 uniform vec4 LightOneColor : hint_color;
 // Same as above, but for the second light set
-uniform sampler2D LightTwoPowerTexture;
+uniform sampler2D LightTwoPowerTexture : hint_black;
 uniform vec4 LightTwoColor : hint_color;
 // Same as above, but for the third light set
-uniform sampler2D LightThreePowerTexture;
+uniform sampler2D LightThreePowerTexture : hint_black;
 uniform vec4 LightThreeColor : hint_color;
 // Same as above, but for the fourth light set
-uniform sampler2D LightFourPowerTexture;
+uniform sampler2D LightFourPowerTexture : hint_black;
 uniform vec4 LightFourColor : hint_color;
 
+// We consider lights to \"start\" at a certain fixed height - below this point,
+// there is no attenutation
 uniform float base_height : hint_range(0.0, 100.0, 0.001) = 0;
+// Sometimes the attenuation just doesn't happen as quickly as it wants to - so
+// we use this coefficient to scale up the distance, thus directly scaling up
+// (or down!) the distance.
 uniform float distance_coefficient : hint_range(0.0, 100.0) = 1;
 
+// We do a bunch of processing on the power textures - including adjusting the
+// range of power values sampled from the power textures. What's the new max and
+// min value we use, instead of a min of 0 and a max of 1?
 uniform float power_max = 1;
 uniform float power_min = 0;
 
+// The attenuation factor is calculated using three coefficients - the constant
+// attenuation, the linear attenuation, and the quadratic attenuation. You can
+// play with the linear and quadratic as you please - higher numbers means more
+// (or rather, quicker) attenuation.
 const float constant_attenuation = 1.0;
 uniform float linear_attenuation : hint_range(0.0, 100.0) = 1.0;
 uniform float quadratic_attenuation : hint_range(0.0, 100.0) = 1.0;
@@ -60,7 +72,10 @@ uniform float quadratic_attenuation : hint_range(0.0, 100.0) = 1.0;
 // contrast factor we feed in to that function?
 uniform float light_contrast_factor : hint_range(0.0, 10.0);
 
-// To
+// One of the issues with the noise texture is how it doesn't create separate
+// \"islands\" of light so much as this continous flow of lights - almost like a
+// blanket or quilt. By subtracting out a value when we sample the noise
+// texture, we can essentially create \"islands\" in the noise texture.
 uniform float light_texture_sub : hint_range(0.0, 1.0, 0.001);
 
 // Adjust's the \"contrast curve\" of a given color. To be honest I don't
