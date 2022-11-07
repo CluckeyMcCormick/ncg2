@@ -19,7 +19,6 @@ extends Node
 var blueprint_stages = [
     preload("res://factory/stages/MaterialStage.gd"), # Determine the material
     preload("res://factory/stages/TransformStage.gd"), # Determine the Transform
-    preload("res://factory/stages/LightStage.gd"), # Pick lights
     preload("res://factory/stages/BeaconStage.gd"), # Set beacon type/occurrence
     preload("res://factory/stages/RoofBoxStage.gd"), # Roof Box randomization
     preload("res://factory/stages/AntennaStage.gd"),
@@ -31,7 +30,6 @@ var construction_stages = [
     preload("res://factory/stages/MaterialStage.gd"), # Set the material
     preload("res://factory/stages/TransformStage.gd"), # Set the Transform
     preload("res://factory/stages/AutoTowerBuildStage.gd"), # Build the tower
-    preload("res://factory/stages/LightStage.gd"), # Add the lights
     preload("res://factory/stages/BeaconStage.gd"), # Create beacons
     preload("res://factory/stages/RoofBoxStage.gd"), # Roof Box instantiation
     preload("res://factory/stages/AntennaStage.gd"),
