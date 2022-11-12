@@ -30,19 +30,33 @@ uniform sampler2D DotTexture;
 // it as a uniform. 
 uniform float window_border_correction : hint_range(0, 1);
 
-// The texture we'll be using to determine the first light set's relative power.
-uniform sampler2D LightOnePowerTexture : hint_black;
-// The color we'll use for the first lights.
-uniform vec4 LightOneColor : hint_color;
-// Same as above, but for the second light set
-uniform sampler2D LightTwoPowerTexture : hint_black;
-uniform vec4 LightTwoColor : hint_color;
-// Same as above, but for the third light set
-uniform sampler2D LightThreePowerTexture : hint_black;
-uniform vec4 LightThreeColor : hint_color;
-// Same as above, but for the fourth light set
-uniform sampler2D LightFourPowerTexture : hint_black;
-uniform vec4 LightFourColor : hint_color;
+// The texture we'll be using to determine the first power level of each light
+uniform sampler2D PowerTexture : hint_black;
+
+// The colors we'll use for each of the lights.
+uniform vec4 L1Color : hint_color;
+uniform vec2 L1Shift = vec2(0, 0);
+uniform vec2 L1TextureScale = vec2(1, 1);
+uniform float L1Scalar = 1;
+uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L2Color : hint_color;
+uniform vec2 L2Shift = vec2(0, 0);
+uniform vec2 L2TextureScale = vec2(1, 1);
+uniform float L2Scalar = 1;
+uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L3Color : hint_color;
+uniform vec2 L3Shift = vec2(0, 0);
+uniform vec2 L3TextureScale = vec2(1, 1);
+uniform float L3Scalar = 1;
+uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L4Color : hint_color;
+uniform vec2 L4Shift = vec2(0, 0);
+uniform vec2 L4TextureScale = vec2(1, 1);
+uniform float L4Scalar = 1;
+uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
 
 // We consider lights to \"start\" at a certain fixed height - below this point,
 // there is no attenutation
@@ -137,10 +151,22 @@ void fragment() {
     // Step 2: Calculate power values
     //
     // Get the power values
-    float power_one = texture(LightOnePowerTexture, UV2.xy).r;
-    float power_two = texture(LightTwoPowerTexture, UV2.xy).r;
-    float power_three = texture(LightThreePowerTexture, UV2.xy).r;
-    float power_four = texture(LightFourPowerTexture, UV2.xy).r;
+    float power_one = texture(
+        PowerTexture,
+        (UV2.xy * L1TextureScale) + (L1Shift * L1TextureScale) 
+    ).r;
+    float power_two = texture(
+        PowerTexture,
+        (UV2.xy * L2TextureScale) + (L2Shift * L2TextureScale) 
+    ).r;
+    float power_three = texture(
+        PowerTexture,
+        (UV2.xy * L3TextureScale) + (L3Shift * L3TextureScale) 
+    ).r;
+    float power_four = texture(
+        PowerTexture,
+        (UV2.xy * L4TextureScale) + (L4Shift * L4TextureScale) 
+    ).r;
     
     // Adjust the contrast of the power values
     power_one = adjust_contrast(power_one, light_contrast_factor);
@@ -160,6 +186,12 @@ void fragment() {
     power_two = (power_max * power_two) + power_min;
     power_three = (power_max * power_three) + power_min;
     power_four = (power_max * power_four) + power_min;
+    
+    // Use the scalars and coefficients to do one final adjustment
+    power_one *= L1Scalar * L1Coefficient;
+    power_two *= L2Scalar * L2Coefficient;
+    power_three *= L3Scalar * L3Coefficient;
+    power_four *= L4Scalar * L4Coefficient;
     
     //
     // Step 3: Calculate Attenuation
@@ -189,10 +221,10 @@ void fragment() {
     //
     // Step 4: Calculate light color, ALBEDO, and ALPHA
     //
-    vec3 light_color = LightOneColor.rgb * power_one * attenuation;
-    light_color += LightTwoColor.rgb * power_two * attenuation;
-    light_color += LightThreeColor.rgb * power_three * attenuation;
-    light_color += LightFourColor.rgb * power_four * attenuation;
+    vec3 light_color = L1Color.rgb * power_one * attenuation;
+    light_color += L2Color.rgb * power_two * attenuation;
+    light_color += L3Color.rgb * power_three * attenuation;
+    light_color += L4Color.rgb * power_four * attenuation;
     
     // Alright, so our final ALBEDO is a mix between...
     ALBEDO = mix(

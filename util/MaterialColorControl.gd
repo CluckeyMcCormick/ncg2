@@ -24,10 +24,10 @@ const dot_power_mat_b = preload("res://buildings/DotWindowPowerMaterial_B.tres")
 const dot_power_mat_c = preload("res://buildings/DotWindowPowerMaterial_C.tres")
 
 # Load our light noise textures
-var noise_texture_one = preload("res://buildings/LightColorOneNoise.tres")
-var noise_texture_two = preload("res://buildings/LightColorTwoNoise.tres")
-var noise_texture_three = preload("res://buildings/LightColorThreeNoise.tres")
-var noise_texture_four = preload("res://buildings/LightColorFourNoise.tres")
+var noise_texture_one = null
+var noise_texture_two = null
+var noise_texture_three = null
+var noise_texture_four = null
 
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.

@@ -1,11 +1,7 @@
-[gd_resource type="ShaderMaterial" load_steps=7 format=2]
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
 
 [ext_resource path="res://buildings/DotWindowPowerShader.tres" type="Shader" id=1]
 [ext_resource path="res://buildings/window_sample_texture.png" type="Texture" id=2]
-[ext_resource path="res://buildings/LightColorOneNoise.tres" type="Texture" id=3]
-[ext_resource path="res://buildings/LightColorThreeNoise.tres" type="Texture" id=4]
-[ext_resource path="res://buildings/LightColorTwoNoise.tres" type="Texture" id=5]
-[ext_resource path="res://buildings/LightColorFourNoise.tres" type="Texture" id=6]
 
 [resource]
 shader = ExtResource( 1 )
@@ -17,10 +13,26 @@ shader_param/GreenDotLightMix = 1.0
 shader_param/BlueDotColor = Color( 1, 1, 0.8, 1 )
 shader_param/BlueDotLightMix = null
 shader_param/window_border_correction = 0.0
-shader_param/LightOneColor = Color( 0.121569, 0, 0, 1 )
-shader_param/LightTwoColor = Color( 0.121569, 0, 0.0823529, 1 )
-shader_param/LightThreeColor = Color( 0.0705882, 0, 0.121569, 1 )
-shader_param/LightFourColor = Color( 0, 0.0470588, 0.121569, 1 )
+shader_param/L1Color = null
+shader_param/L1Shift = Vector2( 0, 0 )
+shader_param/L1TextureScale = Vector2( 1, 1 )
+shader_param/L1Scalar = 1.0
+shader_param/L1Coefficient = 1.0
+shader_param/L2Color = null
+shader_param/L2Shift = Vector2( 0, 0 )
+shader_param/L2TextureScale = Vector2( 1, 1 )
+shader_param/L2Scalar = 1.0
+shader_param/L2Coefficient = 1.0
+shader_param/L3Color = null
+shader_param/L3Shift = Vector2( 0, 0 )
+shader_param/L3TextureScale = Vector2( 1, 1 )
+shader_param/L3Scalar = 1.0
+shader_param/L3Coefficient = 1.0
+shader_param/L4Color = null
+shader_param/L4Shift = Vector2( 0, 0 )
+shader_param/L4TextureScale = Vector2( 1, 1 )
+shader_param/L4Scalar = 1.0
+shader_param/L4Coefficient = 1.0
 shader_param/base_height = 0.0
 shader_param/distance_coefficient = 1.0
 shader_param/power_max = 1.0
@@ -30,7 +42,3 @@ shader_param/quadratic_attenuation = 5.0
 shader_param/light_contrast_factor = 10.606
 shader_param/light_texture_sub = null
 shader_param/DotTexture = ExtResource( 2 )
-shader_param/LightOnePowerTexture = ExtResource( 3 )
-shader_param/LightTwoPowerTexture = ExtResource( 5 )
-shader_param/LightThreePowerTexture = ExtResource( 4 )
-shader_param/LightFourPowerTexture = ExtResource( 6 )

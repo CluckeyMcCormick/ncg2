@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/checkerboard.png-8732564d6122af87be710ccc1907ea77.stex"
+path="res://.import/simplex_noise1024.png-4e743992a61a9ce45e3613d577fbd761.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://util/checkerboard.png"
-dest_files=[ "res://.import/checkerboard.png-8732564d6122af87be710ccc1907ea77.stex" ]
+source_file="res://noise/simplex_noise1024.png"
+dest_files=[ "res://.import/simplex_noise1024.png-4e743992a61a9ce45e3613d577fbd761.stex" ]
 
 [params]
 
@@ -19,11 +19,11 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
+flags/repeat=2
 flags/filter=false
-flags/mipmaps=true
+flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
