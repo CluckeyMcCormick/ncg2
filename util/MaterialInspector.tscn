@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://buildings/DotWindowPowerMaterial.tres" type="Material" id=1]
+
+[sub_resource type="PrismMesh" id=1]
+subdivide_width = 12
+subdivide_height = 12
+subdivide_depth = 12
+
+[sub_resource type="CapsuleMesh" id=2]
+
+[sub_resource type="CubeMesh" id=3]
+subdivide_width = 1
+subdivide_depth = 1
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="SphereMesh" id=5]
+rings = 1
+is_hemisphere = true
+
+[node name="MaterialInspector" type="Spatial"]
+
+[node name="Prism" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="Capsule" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="Cube" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0 )
+mesh = SubResource( 3 )
+material/0 = ExtResource( 1 )
+
+[node name="Sphere" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = ExtResource( 1 )
+
+[node name="Cone" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
+mesh = SubResource( 5 )
+material/0 = ExtResource( 1 )

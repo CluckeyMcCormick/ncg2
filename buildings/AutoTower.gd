@@ -17,9 +17,9 @@ export(Material) var building_material setget set_building_material
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
-export(float) var len_x = 8 setget set_length_x
-export(float) var len_y = 16 setget set_length_y
-export(float) var len_z = 8 setget set_length_z
+export(float, 1, 512, 1.0) var len_x = 8 setget set_length_x
+export(float, 1, 512, 1.0) var len_y = 16 setget set_length_y
+export(float, 1, 512, 1.0) var len_z = 8 setget set_length_z
 
 # Do we use the window texture for this auto-tower, or do we ignore them?
 export(bool) var use_window_texture = true setget set_use_window_texture

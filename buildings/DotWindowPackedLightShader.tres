@@ -1,0 +1,212 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "
+// (c) 2022 Nicolas McCormick Fredrickson
+// This code is licensed under the MIT license (see LICENSE.txt for details)
+
+shader_type spatial;
+
+render_mode unshaded, depth_draw_alpha_prepass;
+
+// Color of the building
+uniform vec4 BuildingColor : hint_color;
+
+// Red Dot replacement color and light mixture scalar
+uniform vec4 RedDotColor : hint_color;
+uniform float RedDotLightMix : hint_range(0, 1);
+// Green Dot
+uniform vec4 GreenDotColor : hint_color;
+uniform float GreenDotLightMix : hint_range(0, 1);
+// Blue Dot
+uniform vec4 BlueDotColor : hint_color;
+uniform float BlueDotLightMix : hint_range(0, 1);
+// The actual texture we'll be using to create the building
+uniform sampler2D DotTexture;
+// Sometimes, with window textures that have gradual gradients, we'll see weird
+// color \"rings\" around the windows/dots. This is particularly noticeable when
+// you remove alpha-ing out the building. The solution is to round the texture's
+// alpha to one-or-zero - however, this results in a jagged look. Ergo, we leave
+// it as a uniform. 
+uniform float window_border_correction : hint_range(0, 1);
+
+uniform float light_shift_x = .25;
+uniform float light_shift_y = 0;
+uniform float light_shift_z = .25;
+
+// The colors we'll use for each of the lights.
+uniform vec4 L1Color : hint_color;
+uniform float L1Scalar = 1;
+uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
+uniform float L1Range = 1;
+
+uniform vec4 L2Color : hint_color;
+uniform float L2Scalar = 1;
+uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
+uniform float L2Range = 1;
+
+uniform vec4 L3Color : hint_color;
+uniform float L3Scalar = 1;
+uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
+uniform float L3Range = 1;
+
+uniform vec4 L4Color : hint_color;
+uniform float L4Scalar = 1;
+uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
+uniform float L4Range = 1;
+
+// Sometimes the attenuation just doesn't happen as quickly as it wants to - so
+// we use this coefficient to scale up the distance, thus directly scaling up
+// (or down!) the distance.
+uniform float distance_coefficient : hint_range(0.0, 100.0) = 1;
+
+// What's the base luminance/power value of all the lights?
+const float base_power = 1.0;
+
+// Okay so this shader emulates us having lights by placing lights at the four
+// \"corners\" of the mesh. Except there's no real way to designate the mesh's
+// corner. So here's what we're going to do: guess. We're just gonna guess.
+// Maybe it'll be a good guess? Who knows. If we take the absolute values of x
+// and z for every vertex, then that SHOUUUULD be the positive version of each
+// vertex. And from that, we can calculate the other versions. Probably. 
+varying vec3 pos_corner;
+
+// This function calculates an attenuation factor (between 0 and 1) for a light
+// with a given range of r and a point of a given distance away, d.
+float calculate_attenuation(float r, float d) {
+    float dist_min = r;
+    float dist_max = 0.0;
+    
+    float atten_min = 0.0;
+    float atten_max = 1.0;
+    
+    float OldRange = ( dist_max - dist_min );
+    float NewRange = (atten_max - atten_min);
+    return (((d - dist_min) * NewRange) / OldRange) + atten_min;   
+}
+void vertex() {
+    // Calculate the \"positive corner\" version of this vertex - the corner where
+    // x and z are positive
+    pos_corner = vec3(abs(VERTEX.x), 0.0, abs(VERTEX.z) );
+    // Add our shifts into this pure-positive corner light.
+    pos_corner += vec3( light_shift_x, light_shift_y, light_shift_z );
+}
+
+void fragment() {
+    // Grab the RGBA from the window dot texture
+    vec4 window_texture = texture(DotTexture, UV.xy);
+    // Devolve the vector into individual colors
+    float win_r = window_texture.r;
+    float win_g = window_texture.g;
+    float win_b = window_texture.b;
+    float win_a = window_texture.a;
+    
+    //
+    // Step 1: Determine window color, alpha, and mix factors for this fragment
+    //    
+    // Round the alpha according to our correction factor.
+    win_a = mix(win_a, round(win_a), window_border_correction);
+    
+    // Instead of using if-else checks to replace the red-green-blue of the
+    // window texture with our designated replacements, we'll use this mix
+    // monstrosity. The red, green, and blue of the texture will be used as the
+    // mix scalars. As long as the colors are pure, this will replace the dots
+    // appropriately with no issues!
+    vec3 window_color = mix(mix(mix(
+                // Mix between black and whatever our red color is, using the
+                // \"redness\" as a scalar.
+                vec3(0, 0, 0), RedDotColor.rgb, win_r
+            // Mix between the above result and the green color, using the
+            // \"greeness\" as a scalar
+            ), GreenDotColor.rgb, win_g
+        // Mix between the above result and the blue color, using the \"blueness\"
+        // as a scalar
+        ), BlueDotColor.rgb, win_b
+    );
+
+    // This is the same exact thing as above, but with alpha instead of RGB.
+    float window_alpha = mix(mix(mix(
+                0.0, RedDotColor.a, win_r
+            ), GreenDotColor.a, win_g
+        ), BlueDotColor.a, win_b
+    );
+    
+    // The same thing once again, but now with our window light mixture factor.
+    float window_light_factor = mix(mix(mix(
+                0.0, RedDotLightMix, win_r
+            ), GreenDotLightMix, win_g
+        ), BlueDotLightMix, win_b
+    );
+    
+    //
+    // Step 2: Calculate power values
+    //
+    // Use the scalars and coefficients to calculate the power for each light
+    float p1 = base_power * L1Scalar * L1Coefficient;
+    float p2 = base_power * L2Scalar * L2Coefficient;
+    float p3 = base_power * L3Scalar * L3Coefficient;
+    float p4 = base_power * L4Scalar * L4Coefficient;
+    
+    //
+    // Step 3: Calculate distance from each light
+    //
+    // Get the position of this fragment coordinate in local model space. To do
+    // that, we take the VERTEX built-in (which is the coordinate in view space)
+    // and multiply it by the CAMERA_MATRIX, which is the view space to
+    // world space transform matrix. Now we're in world space, and we want to
+    // be in model space. Unfortunately all we have is the WORLD_MATRIX, which
+    // converts from model space to world space. BUT, if we invert that, that
+    // gives us world space to model space, so we can multiply that by our world
+    // vertex to get the vertex in model space.
+    vec3 model_vertex = (
+        inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0))
+    ).xyz;
+    
+    // Using the pure-positive corner light, determine the positions of each of
+    // the other corners.
+    vec3 l1_pos = pos_corner;
+    vec3 l2_pos = vec3( pos_corner.x, pos_corner.y, -pos_corner.z);
+    vec3 l3_pos = vec3(-pos_corner.x, pos_corner.y, -pos_corner.z);
+    vec3 l4_pos = vec3(-pos_corner.x, pos_corner.y,  pos_corner.z);
+    
+    // Now we need to measure our distance from each lights, which have a y
+    // position at \"base_height\". Multiply that by our distance coefficient to
+    // control how this distance scales
+    float d1 = distance(l1_pos, model_vertex) * distance_coefficient;
+    float d2 = distance(l2_pos, model_vertex) * distance_coefficient;
+    float d3 = distance(l3_pos, model_vertex) * distance_coefficient;
+    float d4 = distance(l4_pos, model_vertex) * distance_coefficient;
+    
+    //
+    // Step 4: Calculate light color
+    //
+    vec3 l1c = L1Color.rgb * p1 * calculate_attenuation(L1Range, d1);
+    vec3 l2c = L2Color.rgb * p2 * calculate_attenuation(L2Range, d2);
+    vec3 l3c = L3Color.rgb * p3 * calculate_attenuation(L3Range, d3);
+    vec3 l4c= L4Color.rgb * p4 * calculate_attenuation(L4Range, d4);
+    
+    // Clamp the colors down (otherwise they might disapear!)
+    l1c = clamp(l1c, 0.0, 1.0);
+    l2c = clamp(l2c, 0.0, 1.0);
+    l3c = clamp(l3c, 0.0, 1.0);
+    l4c = clamp(l4c, 0.0, 1.0);
+    
+    //
+    // Step 5: Calculate ALBEDO and ALPHA
+    //
+    
+    // Alright, so our final ALBEDO is a mix between...
+    ALBEDO = mix(
+        // The building color, lighted appropriately
+        BuildingColor.rgb + l1c + l2c + l3c + l4c,
+        // The window color, lighted appropriately according to the light mix
+        // factor
+        window_color + ((l1c + l2c + l3c + l4c) * window_light_factor),
+        // The mix between these two colors is determined by the window
+        // texture's alpha, where 1 = window and 0 = building.
+        win_a
+    );
+    // The ALPHA is just a mix between the building's alpha and the window
+    // color's alpha, as determined by the window texture's alpha
+    ALPHA = mix(BuildingColor.a, window_alpha, win_a);
+}"
