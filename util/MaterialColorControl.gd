@@ -16,18 +16,9 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const ImageGenerator = preload("res://window_gen/WindowGenerator.gd")
 
 # Load our different materials
-const dot_light_mat_a = preload("res://buildings/DotWindowLightMaterial_A.tres")
-const dot_light_mat_b = preload("res://buildings/DotWindowLightMaterial_B.tres")
-const dot_light_mat_c = preload("res://buildings/DotWindowLightMaterial_C.tres")
-const dot_power_mat_a = preload("res://buildings/DotWindowPowerMaterial_A.tres")
-const dot_power_mat_b = preload("res://buildings/DotWindowPowerMaterial_B.tres")
-const dot_power_mat_c = preload("res://buildings/DotWindowPowerMaterial_C.tres")
-
-# Load our light noise textures
-var noise_texture_one = null
-var noise_texture_two = null
-var noise_texture_three = null
-var noise_texture_four = null
+const window_mat_a = preload("res://buildings/WindowMaterial_A.tres")
+const window_mat_b = preload("res://buildings/WindowMaterial_B.tres")
+const window_mat_c = preload("res://buildings/WindowMaterial_C.tres")
 
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
@@ -82,9 +73,9 @@ const default_profile = preload("res://profiles/Niteflyte.tres")
 # Assign the three active materials to the DotWindowPowerMaterial shaders. We
 # use these intermediary variables so we can avoid tying code to a specific
 # preloaded material.
-var mat_a = dot_power_mat_a
-var mat_b = dot_power_mat_b
-var mat_c = dot_power_mat_c
+var mat_a = window_mat_a
+var mat_b = window_mat_b
+var mat_c = window_mat_c
 
 var texture_gen_a = ImageGenerator.WindowGenerator.new()
 var texture_gen_b = ImageGenerator.WindowGenerator.new()
@@ -119,12 +110,6 @@ func _ready():
     texture_gen_a.paint_blank()
     texture_gen_b.paint_blank()
     texture_gen_c.paint_blank()
-    
-    # Randomize the noise textures
-    #noise_texture_one.noise.seed = randi()
-    #noise_texture_two.noise.seed = randi()
-    #noise_texture_three.noise.seed = randi()
-    #noise_texture_four.noise.seed = randi()
     
 # Asserts the current values into the dictionary
 func update_whole_dictionary():
@@ -296,57 +281,57 @@ func update_key(key):
         # Lights
         #
         "lights_one_color":
-            mat_a.set_shader_param("LightOneColor", profile_dict[key])
-            mat_b.set_shader_param("LightOneColor", profile_dict[key])
-            mat_c.set_shader_param("LightOneColor", profile_dict[key])
+            mat_a.set_shader_param("L1Color", profile_dict[key])
+            mat_b.set_shader_param("L1Color", profile_dict[key])
+            mat_c.set_shader_param("L1Color", profile_dict[key])
         "lights_two_color":
-            mat_a.set_shader_param("LightTwoColor", profile_dict[key])
-            mat_b.set_shader_param("LightTwoColor", profile_dict[key])
-            mat_c.set_shader_param("LightTwoColor", profile_dict[key])
+            mat_a.set_shader_param("L2Color", profile_dict[key])
+            mat_b.set_shader_param("L2Color", profile_dict[key])
+            mat_c.set_shader_param("L2Color", profile_dict[key])
         "lights_three_color":
-            mat_a.set_shader_param("LightThreeColor", profile_dict[key])
-            mat_b.set_shader_param("LightThreeColor", profile_dict[key])
-            mat_c.set_shader_param("LightThreeColor", profile_dict[key])
+            mat_a.set_shader_param("L3Color", profile_dict[key])
+            mat_b.set_shader_param("L3Color", profile_dict[key])
+            mat_c.set_shader_param("L3Color", profile_dict[key])
         "lights_four_color":
-            mat_a.set_shader_param("LightFourColor", profile_dict[key])
-            mat_b.set_shader_param("LightFourColor", profile_dict[key])
-            mat_c.set_shader_param("LightFourColor", profile_dict[key])
+            mat_a.set_shader_param("L4Color", profile_dict[key])
+            mat_b.set_shader_param("L4Color", profile_dict[key])
+            mat_c.set_shader_param("L4Color", profile_dict[key])
         "lights_one_visible":
             if profile_dict[key]:
-                mat_a.set_shader_param("LightOnePowerTexture", noise_texture_one)
-                mat_b.set_shader_param("LightOnePowerTexture", noise_texture_one)
-                mat_c.set_shader_param("LightOnePowerTexture", noise_texture_one)
+                mat_a.set_shader_param("L1Coefficient", 1)
+                mat_b.set_shader_param("L1Coefficient", 1)
+                mat_c.set_shader_param("L1Coefficient", 1)
             else:
-                mat_a.set_shader_param("LightOnePowerTexture", null)
-                mat_b.set_shader_param("LightOnePowerTexture", null)
-                mat_c.set_shader_param("LightOnePowerTexture", null)
+                mat_a.set_shader_param("L1Coefficient", 0)
+                mat_b.set_shader_param("L1Coefficient", 0)
+                mat_c.set_shader_param("L1Coefficient", 0)
         "lights_two_visible":
             if profile_dict[key]:
-                mat_a.set_shader_param("LightTwoPowerTexture", noise_texture_two)
-                mat_b.set_shader_param("LightTwoPowerTexture", noise_texture_two)
-                mat_c.set_shader_param("LightTwoPowerTexture", noise_texture_two)
+                mat_a.set_shader_param("L2Coefficient", 1)
+                mat_b.set_shader_param("L2Coefficient", 1)
+                mat_c.set_shader_param("L2Coefficient", 1)
             else:
-                mat_a.set_shader_param("LightTwoPowerTexture", null)
-                mat_b.set_shader_param("LightTwoPowerTexture", null)
-                mat_c.set_shader_param("LightTwoPowerTexture", null)
+                mat_a.set_shader_param("L2Coefficient", 0)
+                mat_b.set_shader_param("L2Coefficient", 0)
+                mat_c.set_shader_param("L2Coefficient", 0)
         "lights_three_visible":
             if profile_dict[key]:
-                mat_a.set_shader_param("LightThreePowerTexture", noise_texture_three)
-                mat_b.set_shader_param("LightThreePowerTexture", noise_texture_three)
-                mat_c.set_shader_param("LightThreePowerTexture", noise_texture_three)
+                mat_a.set_shader_param("L3Coefficient", 1)
+                mat_b.set_shader_param("L3Coefficient", 1)
+                mat_c.set_shader_param("L3Coefficient", 1)
             else:
-                mat_a.set_shader_param("LightThreePowerTexture", null)
-                mat_b.set_shader_param("LightThreePowerTexture", null)
-                mat_c.set_shader_param("LightThreePowerTexture", null)
+                mat_a.set_shader_param("L3Coefficient", 0)
+                mat_b.set_shader_param("L3Coefficient", 0)
+                mat_c.set_shader_param("L3Coefficient", 0)
         "lights_four_visible":
             if profile_dict[key]:
-                mat_a.set_shader_param("LightFourPowerTexture", noise_texture_four)
-                mat_b.set_shader_param("LightFourPowerTexture", noise_texture_four)
-                mat_c.set_shader_param("LightFourPowerTexture", noise_texture_four)
+                mat_a.set_shader_param("L4Coefficient", 1)
+                mat_b.set_shader_param("L4Coefficient", 1)
+                mat_c.set_shader_param("L4Coefficient", 1)
             else:
-                mat_a.set_shader_param("LightFourPowerTexture", null)
-                mat_b.set_shader_param("LightFourPowerTexture", null)
-                mat_c.set_shader_param("LightFourPowerTexture", null)
+                mat_a.set_shader_param("L4Coefficient", 0)
+                mat_b.set_shader_param("L4Coefficient", 0)
+                mat_c.set_shader_param("L4Coefficient", 0)
         #
         # Sky
         #

@@ -38,27 +38,27 @@ uniform float light_shift_z = .25;
 uniform vec4 L1Color : hint_color;
 uniform float L1Scalar = 1;
 uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L1Range = 1;
+uniform float L1Range = 75;
 
 uniform vec4 L2Color : hint_color;
 uniform float L2Scalar = 1;
 uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L2Range = 1;
+uniform float L2Range = 55;
 
 uniform vec4 L3Color : hint_color;
 uniform float L3Scalar = 1;
 uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L3Range = 1;
+uniform float L3Range = 35;
 
 uniform vec4 L4Color : hint_color;
 uniform float L4Scalar = 1;
 uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L4Range = 1;
+uniform float L4Range = 15;
 
 // Sometimes the attenuation just doesn't happen as quickly as it wants to - so
 // we use this coefficient to scale up the distance, thus directly scaling up
 // (or down!) the distance.
-uniform float distance_coefficient : hint_range(0.0, 100.0) = 1;
+uniform float distance_coefficient : hint_range(0.0, 100.0) = 64;
 
 // What's the base luminance/power value of all the lights?
 const float base_power = 1.0;
@@ -183,7 +183,7 @@ void fragment() {
     vec3 l1c = L1Color.rgb * p1 * calculate_attenuation(L1Range, d1);
     vec3 l2c = L2Color.rgb * p2 * calculate_attenuation(L2Range, d2);
     vec3 l3c = L3Color.rgb * p3 * calculate_attenuation(L3Range, d3);
-    vec3 l4c= L4Color.rgb * p4 * calculate_attenuation(L4Range, d4);
+    vec3 l4c = L4Color.rgb * p4 * calculate_attenuation(L4Range, d4);
     
     // Clamp the colors down (otherwise they might disapear!)
     l1c = clamp(l1c, 0.0, 1.0);

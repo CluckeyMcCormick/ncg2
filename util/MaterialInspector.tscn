@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://buildings/DotWindowPowerMaterial.tres" type="Material" id=1]
+[ext_resource path="res://buildings/WindowMaterial.tres" type="Material" id=1]
 
 [sub_resource type="PrismMesh" id=1]
 subdivide_width = 12
