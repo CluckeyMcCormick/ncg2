@@ -71,6 +71,13 @@ const float base_power = 1.0;
 // vertex. And from that, we can calculate the other versions. Probably. 
 varying vec3 pos_corner;
 
+// Okay, so the NORMAL in the fragment shader is kind of... weird. I think it's
+// in view space, but I couldn't get it into the model view space - not even
+// using my inverse matrix technique. So I decided to just capture the surface
+// normal in the vertex shader and pass it to the fragment shader. Lazy,
+// incorrect - functional!
+varying vec3 actual_normal;
+
 // This function calculates an attenuation factor (between 0 and 1) for a light
 // with a given range of r and a point of a given distance away, d.
 float calculate_attenuation(float r, float d) {
@@ -84,12 +91,15 @@ float calculate_attenuation(float r, float d) {
     float NewRange = (atten_max - atten_min);
     return (((d - dist_min) * NewRange) / OldRange) + atten_min;   
 }
+
 void vertex() {
     // Calculate the \"positive corner\" version of this vertex - the corner where
     // x and z are positive
     pos_corner = vec3(abs(VERTEX.x), 0.0, abs(VERTEX.z) );
     // Add our shifts into this pure-positive corner light.
     pos_corner += vec3( light_shift_x, light_shift_y, light_shift_z );
+    // Grab the normal now so we can carry it over to the fragment shader
+    actual_normal = normalize(NORMAL);
 }
 
 void fragment() {
@@ -158,7 +168,7 @@ void fragment() {
     // converts from model space to world space. BUT, if we invert that, that
     // gives us world space to model space, so we can multiply that by our world
     // vertex to get the vertex in model space.
-    vec3 model_vertex = (
+    vec3 frag_pos = (
         inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0))
     ).xyz;
     
@@ -172,18 +182,42 @@ void fragment() {
     // Now we need to measure our distance from each lights, which have a y
     // position at \"base_height\". Multiply that by our distance coefficient to
     // control how this distance scales
-    float d1 = distance(l1_pos, model_vertex) * distance_coefficient;
-    float d2 = distance(l2_pos, model_vertex) * distance_coefficient;
-    float d3 = distance(l3_pos, model_vertex) * distance_coefficient;
-    float d4 = distance(l4_pos, model_vertex) * distance_coefficient;
+    float d1 = distance(l1_pos, frag_pos) * distance_coefficient;
+    float d2 = distance(l2_pos, frag_pos) * distance_coefficient;
+    float d3 = distance(l3_pos, frag_pos) * distance_coefficient;
+    float d4 = distance(l4_pos, frag_pos) * distance_coefficient;
     
     //
-    // Step 4: Calculate light color
+    // Step 4: Calculate the theta using the normal and the light positions
     //
-    vec3 l1c = L1Color.rgb * p1 * calculate_attenuation(L1Range, d1);
-    vec3 l2c = L2Color.rgb * p2 * calculate_attenuation(L2Range, d2);
-    vec3 l3c = L3Color.rgb * p3 * calculate_attenuation(L3Range, d3);
-    vec3 l4c = L4Color.rgb * p4 * calculate_attenuation(L4Range, d4);
+    // Calculate the unitized direction
+    vec3 l1_dir = normalize(l1_pos - frag_pos);
+    vec3 l2_dir = normalize(l2_pos - frag_pos);
+    vec3 l3_dir = normalize(l3_pos - frag_pos);
+    vec3 l4_dir = normalize(l4_pos - frag_pos);
+    
+    // The \"theta\" is the angle at which the light is hitting a particular
+    // surface. If we take the dot product of the normal and the light direction
+    // unit vector, then the resulting vaue will be 0 if the theta is 0 degrees
+    // or 1 if it is 90 degrees. This allows us to effectively scale the power
+    // of a light depending on it's theta to the normal.
+    float t1 = max( dot(actual_normal, l1_dir), 0.0 );
+    float t2 = max( dot(actual_normal, l2_dir), 0.0 );
+    float t3 = max( dot(actual_normal, l3_dir), 0.0 );
+    float t4 = max( dot(actual_normal, l4_dir), 0.0 );
+    
+    // NOTE: Step 4 might not have been a lot, but it took me a long time to
+    // work out. Shout out to Joey de Vries and his Learn Open GL website,
+    // because I would NOT have figured this out without his article:
+    // https://learnopengl.com/Lighting/Basic-Lighting
+    
+    //
+    // Step 5: Calculate light color
+    //
+    vec3 l1c = L1Color.rgb * p1 * t1 * calculate_attenuation(L1Range, d1);
+    vec3 l2c = L2Color.rgb * p2 * t2 * calculate_attenuation(L2Range, d2);
+    vec3 l3c = L3Color.rgb * p3 * t3 * calculate_attenuation(L3Range, d3);
+    vec3 l4c = L4Color.rgb * p4 * t4 * calculate_attenuation(L4Range, d4);
     
     // Clamp the colors down (otherwise they might disapear!)
     l1c = clamp(l1c, 0.0, 1.0);
@@ -192,7 +226,7 @@ void fragment() {
     l4c = clamp(l4c, 0.0, 1.0);
     
     //
-    // Step 5: Calculate ALBEDO and ALPHA
+    // Step 6: Calculate ALBEDO and ALPHA
     //
     
     // Alright, so our final ALBEDO is a mix between...

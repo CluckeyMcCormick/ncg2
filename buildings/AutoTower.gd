@@ -283,6 +283,8 @@ func make_building(rng : RandomNumberGenerator = null):
         arrays
     )
 
+    $BuildingMesh.mesh.regen_normalmaps()
+
     # Set the building material
     $BuildingMesh.set_surface_material(0, building_material)
     
