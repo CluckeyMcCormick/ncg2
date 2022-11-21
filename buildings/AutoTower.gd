@@ -6,6 +6,8 @@ extends Spatial
 
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
+# Load the Packed Light Scene
+const PackedLightScene = preload("res://buildings/PackedLight.gd")
 
 # Our building is actually crafted using a cube - we take the mesh and then
 # manipulate the points. It's always an equal sized cube, to - how long is that
@@ -27,10 +29,35 @@ export(bool) var use_window_texture = true setget set_use_window_texture
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
 
-# To do lights, we pack the coordinates in the citywide light textures as UV
-# values in the UV2 vertices. In order to do THAT, we need to know the position
-# of the buildings center, in window units.
-var light_center : Vector3 = Vector3(256, 0, 256)
+export(PackedLightScene.LightGroups) var l1_group setget set_l1_group
+export(int, 0, 127) var l1_range = 8 setget set_l1_range
+export(int, 0, 31) var l1_x_pos = 4 setget set_l1_x_pos
+export(int, 0, 31) var l1_y_pos = 4 setget set_l1_y_pos
+
+export(PackedLightScene.LightGroups) var l2_group setget set_l2_group
+export(int, 0, 127) var l2_range = 8 setget set_l2_range
+export(int, 0, 31) var l2_x_pos = 4 setget set_l2_x_pos
+export(int, 0, 31) var l2_y_pos = 4 setget set_l2_y_pos
+
+export(PackedLightScene.LightGroups) var l3_group setget set_l3_group
+export(int, 0, 127) var l3_range = 8 setget set_l3_range
+export(int, 0, 31) var l3_x_pos = 4 setget set_l3_x_pos
+export(int, 0, 31) var l3_y_pos = 4 setget set_l3_y_pos
+
+export(PackedLightScene.LightGroups) var l4_group setget set_l4_group
+export(int, 0, 127) var l4_range = 8 setget set_l4_range
+export(int, 0, 31) var l4_x_pos = 4 setget set_l4_x_pos
+export(int, 0, 31) var l4_y_pos = 4 setget set_l4_y_pos
+
+# The light data for each light.
+# Light Positioned in the +x+z corner
+var light_one = PackedLightScene.PackedLight.new()
+# Light Positioned in the +x-z corner
+var light_two = PackedLightScene.PackedLight.new()
+# Light Positioned in the -x-z corner
+var light_three = PackedLightScene.PackedLight.new()
+# Light Positioned in the -x+z corner
+var light_four = PackedLightScene.PackedLight.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -86,6 +113,118 @@ func set_auto_build(new_autobuild):
         randomize()
         make_building()
 
+#
+# Light 1
+#
+func set_l1_group(new_group):
+    l1_group = new_group
+    light_one.set_group(new_group)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l1_range(new_range):
+    l1_range = new_range
+    light_one.set_range(new_range)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l1_x_pos(new_pos):
+    l1_x_pos = new_pos
+    light_one.set_pos_x(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l1_y_pos(new_pos):
+    l1_y_pos = new_pos
+    light_one.set_pos_y(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
+#
+# Light 2
+#
+func set_l2_group(new_group):
+    l2_group = new_group
+    light_two.set_group(new_group)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l2_range(new_range):
+    l2_range = new_range
+    light_two.set_range(new_range)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l2_x_pos(new_pos):
+    l2_x_pos = new_pos
+    light_two.set_pos_x(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l2_y_pos(new_pos):
+    l2_y_pos = new_pos
+    light_two.set_pos_y(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
+#
+# Light 3
+#
+func set_l3_group(new_group):
+    l3_group = new_group
+    light_three.set_group(new_group)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l3_range(new_range):
+    l3_range = new_range
+    light_three.set_range(new_range)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l3_x_pos(new_pos):
+    l3_x_pos = new_pos
+    light_three.set_pos_x(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l3_y_pos(new_pos):
+    l3_y_pos = new_pos
+    light_three.set_pos_y(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
+#
+# Light 4
+#
+func set_l4_group(new_group):
+    l4_group = new_group
+    light_four.set_group(new_group)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l4_range(new_range):
+    l4_range = new_range
+    light_four.set_range(l1_range)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l4_x_pos(new_pos):
+    l4_x_pos = new_pos
+    light_four.set_pos_x(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+func set_l4_y_pos(new_pos):
+    l4_y_pos = new_pos
+    light_four.set_pos_y(new_pos)
+    if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
 # --------------------------------------------------------
 #
 # Build Functions
@@ -132,12 +271,14 @@ func make_building(rng : RandomNumberGenerator = null):
     # the ones we need into these variables!
     var vertex
     var uv
+    var color
     var uv2
     
     # We'll use these variables to dereference elements in the array we're
     # looking at.
     var curr_vert
     var curr_uv
+    var curr_color
     var curr_uv2
     
     # The UV shift vectors
@@ -163,6 +304,10 @@ func make_building(rng : RandomNumberGenerator = null):
     vertex = arrays[ArrayMesh.ARRAY_VERTEX]
     uv = arrays[ArrayMesh.ARRAY_TEX_UV]
     
+    # We're just going to assume the color array is blank, so we'll go about
+    # making our own.
+    color = PoolColorArray()
+    
     # We're just going to assume the UV2 array is blank, so we'll go about
     # making our own.
     uv2 = PoolVector2Array()
@@ -174,12 +319,12 @@ func make_building(rng : RandomNumberGenerator = null):
     shift_east = calculate_cell_uv_shift(rng)
     
     for idx in range( vertex.size() ):
-        # Grab the current vector and uv, default the uv2
+        # Grab the current vector and uv, default the uv2 and color
         curr_vert = vertex[idx]
         curr_uv = uv[idx]
-        curr_uv2 = Vector2(
-            light_center.x, light_center.z
-        )
+        
+        curr_uv2 = uv[idx]
+        curr_color = Color(0, 0, 0, 0)
         
         #
         # Step 1: UV2
@@ -204,7 +349,26 @@ func make_building(rng : RandomNumberGenerator = null):
         curr_vert.z *= eff_z / CUBE_SIZE
         
         #
-        # Step 3: UV
+        # Step 3: Vertex Color
+        #
+        curr_color.r = light_one.to_zero_one_float()
+        curr_color.g = light_two.to_zero_one_float()
+        curr_color.b = light_three.to_zero_one_float()
+        curr_color.a = light_four.to_zero_one_float()
+        print(curr_color)
+        print(light_one.to_int())
+        print(curr_color.r)
+        print(curr_color.r * 1000000.0)
+        print(int(curr_color.r * 1000000.0))
+        var pl = PackedLightScene.PackedLight.new()
+        pl.from_zero_one_float( curr_color.r )
+        print( "l1 group: ", pl.group,     " vs pre: ", light_one.group)
+        print( "l1 range: ", pl.range_val, " vs pre: ", light_one.range_val )
+        print( "l1 pos: ",   pl.pos_x,     " vs pre: ", light_one.pos_x )
+        print( "l1 pos: ",   pl.pos_y,     " vs pre: ", light_one.pos_y )
+        
+        #
+        # Step 4: UV
         #
         match idx:
             # South face is 0 2 4 6
@@ -271,11 +435,13 @@ func make_building(rng : RandomNumberGenerator = null):
         # Assert the modified values
         vertex[idx] = curr_vert
         uv[idx] = curr_uv
+        color.append(curr_color)
         uv2.append(curr_uv2)
     
     # Assert the updated arrays in the array-of-arrays
     arrays[ArrayMesh.ARRAY_VERTEX] = vertex
     arrays[ArrayMesh.ARRAY_TEX_UV] = uv
+    arrays[ArrayMesh.ARRAY_COLOR] = color
     arrays[ArrayMesh.ARRAY_TEX_UV2] = uv2
     
     $BuildingMesh.mesh.add_surface_from_arrays(

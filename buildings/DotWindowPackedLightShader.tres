@@ -38,22 +38,18 @@ uniform float light_shift_z = .25;
 uniform vec4 L1Color : hint_color;
 uniform float L1Scalar = 1;
 uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L1Range = 75;
 
 uniform vec4 L2Color : hint_color;
 uniform float L2Scalar = 1;
 uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L2Range = 55;
 
 uniform vec4 L3Color : hint_color;
 uniform float L3Scalar = 1;
 uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L3Range = 35;
 
 uniform vec4 L4Color : hint_color;
 uniform float L4Scalar = 1;
 uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
-uniform float L4Range = 15;
 
 // Sometimes the attenuation just doesn't happen as quickly as it wants to - so
 // we use this coefficient to scale up the distance, thus directly scaling up
@@ -90,6 +86,25 @@ float calculate_attenuation(float r, float d) {
     float OldRange = ( dist_max - dist_min );
     float NewRange = (atten_max - atten_min);
     return (((d - dist_min) * NewRange) / OldRange) + atten_min;   
+}
+
+// This function takes in a packed light int and returns the numeric group ID.
+int extract_light_group(int packed_light) {
+    return packed_light & 0x00003;
+}
+
+// This function takes in a packed light int and returns the float range value.
+float extract_light_range(int packed_light) {
+    return float((packed_light & 0x001FC) >> 2);
+}
+
+// This function takes in a packed light int and returns the vec3 position. Note
+// this value will NOT be quadrant adjusted.
+vec3 extract_light_pos(int packed_light) {
+    vec3 ret_vec = vec3(0.0, 0.0, 0.0);
+    ret_vec.x = float((packed_light & 0x03E00) >> 9);
+    ret_vec.z = float((packed_light & 0x7C000) >> 14);
+    return ret_vec;
 }
 
 void vertex() {
@@ -149,13 +164,85 @@ void fragment() {
     );
     
     //
-    // Step 2: Calculate power values
+    // Step 2: Calculate power values for each light group
     //
     // Use the scalars and coefficients to calculate the power for each light
     float p1 = base_power * L1Scalar * L1Coefficient;
     float p2 = base_power * L2Scalar * L2Coefficient;
     float p3 = base_power * L3Scalar * L3Coefficient;
     float p4 = base_power * L4Scalar * L4Coefficient;
+    
+    //
+    // Step 3: Unpack light information
+    //
+    int se_int = int(COLOR.r * 1000000.0);
+    int ne_int = int(COLOR.g * 1000000.0);
+    int nw_int = int(COLOR.b * 1000000.0);
+    int sw_int = int(COLOR.a * 1000000.0);
+    
+    vec4 se_color;
+    float se_range;
+    vec3 se_pos;
+    float se_power;
+    
+    vec4 ne_color;
+    float ne_range;
+    vec3 ne_pos;
+    float ne_power;
+    
+    vec4 nw_color;
+    float nw_range;
+    vec3 nw_pos;
+    float nw_power;
+    
+    vec4 sw_color;
+    float sw_range;
+    vec3 sw_pos;
+    float sw_power;
+    
+    // From each int, extract the group. Set the color and powers appropriately.
+    switch( extract_light_group(se_int) ){
+        case 0: se_color = L1Color; se_power = p1; break;
+        case 1: se_color = L2Color; se_power = p2; break;
+        case 2: se_color = L3Color; se_power = p3; break;
+        case 3: se_color = L4Color; se_power = p4; break;
+    }
+    switch( extract_light_group(ne_int) ){
+        case 0: ne_color = L1Color; ne_power = p1; break;
+        case 1: ne_color = L2Color; ne_power = p2; break;
+        case 2: ne_color = L3Color; ne_power = p3; break;
+        case 3: ne_color = L4Color; ne_power = p4; break;
+    }
+    switch( extract_light_group(nw_int) ){
+        case 0: nw_color = L1Color; nw_power = p1; break;
+        case 1: nw_color = L2Color; nw_power = p2; break;
+        case 2: nw_color = L3Color; nw_power = p3; break;
+        case 3: nw_color = L4Color; nw_power = p4; break;
+    }
+    switch( extract_light_group(sw_int) ){
+        case 0: sw_color = L1Color; sw_power = p1; break;
+        case 1: sw_color = L2Color; sw_power = p2; break;
+        case 2: sw_color = L3Color; sw_power = p3; break;
+        case 3: sw_color = L4Color; sw_power = p4; break;
+    }
+    
+    // Extract the range of the lights
+    se_range = extract_light_range(se_int);
+    ne_range = extract_light_range(ne_int);
+    nw_range = extract_light_range(nw_int);
+    sw_range = extract_light_range(sw_int);
+
+    // Extract the positions of the lights
+    se_pos = extract_light_pos(se_int);
+    ne_pos = extract_light_pos(ne_int);
+    nw_pos = extract_light_pos(nw_int);
+    sw_pos = extract_light_pos(sw_int);
+    
+    // Adjust the positions of the lights for their quadrants
+    se_pos.x =  abs(se_pos.x); se_pos.z =  abs(se_pos.z);
+    ne_pos.x =  abs(ne_pos.x); ne_pos.z = -abs(ne_pos.z);
+    nw_pos.x = -abs(nw_pos.x); nw_pos.z = -abs(nw_pos.z);
+    sw_pos.x = -abs(sw_pos.x); sw_pos.z =  abs(sw_pos.z);
     
     //
     // Step 3: Calculate distance from each light
@@ -172,39 +259,32 @@ void fragment() {
         inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0))
     ).xyz;
     
-    // Using the pure-positive corner light, determine the positions of each of
-    // the other corners.
-    vec3 l1_pos = pos_corner;
-    vec3 l2_pos = vec3( pos_corner.x, pos_corner.y, -pos_corner.z);
-    vec3 l3_pos = vec3(-pos_corner.x, pos_corner.y, -pos_corner.z);
-    vec3 l4_pos = vec3(-pos_corner.x, pos_corner.y,  pos_corner.z);
-    
     // Now we need to measure our distance from each lights, which have a y
     // position at \"base_height\". Multiply that by our distance coefficient to
     // control how this distance scales
-    float d1 = distance(l1_pos, frag_pos) * distance_coefficient;
-    float d2 = distance(l2_pos, frag_pos) * distance_coefficient;
-    float d3 = distance(l3_pos, frag_pos) * distance_coefficient;
-    float d4 = distance(l4_pos, frag_pos) * distance_coefficient;
+    float se_d = distance(se_pos, frag_pos) * distance_coefficient;
+    float ne_d = distance(ne_pos, frag_pos) * distance_coefficient;
+    float nw_d = distance(nw_pos, frag_pos) * distance_coefficient;
+    float sw_d = distance(sw_pos, frag_pos) * distance_coefficient;
     
     //
     // Step 4: Calculate the theta using the normal and the light positions
     //
     // Calculate the unitized direction
-    vec3 l1_dir = normalize(l1_pos - frag_pos);
-    vec3 l2_dir = normalize(l2_pos - frag_pos);
-    vec3 l3_dir = normalize(l3_pos - frag_pos);
-    vec3 l4_dir = normalize(l4_pos - frag_pos);
+    vec3 se_dir = normalize(se_pos - frag_pos);
+    vec3 ne_dir = normalize(ne_pos - frag_pos);
+    vec3 nw_dir = normalize(nw_pos - frag_pos);
+    vec3 sw_dir = normalize(sw_pos - frag_pos);
     
     // The \"theta\" is the angle at which the light is hitting a particular
     // surface. If we take the dot product of the normal and the light direction
     // unit vector, then the resulting vaue will be 0 if the theta is 0 degrees
     // or 1 if it is 90 degrees. This allows us to effectively scale the power
     // of a light depending on it's theta to the normal.
-    float t1 = max( dot(actual_normal, l1_dir), 0.0 );
-    float t2 = max( dot(actual_normal, l2_dir), 0.0 );
-    float t3 = max( dot(actual_normal, l3_dir), 0.0 );
-    float t4 = max( dot(actual_normal, l4_dir), 0.0 );
+    float se_t = max( dot(actual_normal, se_dir), 0.0 );
+    float ne_t = max( dot(actual_normal, ne_dir), 0.0 );
+    float nw_t = max( dot(actual_normal, nw_dir), 0.0 );
+    float sw_t = max( dot(actual_normal, sw_dir), 0.0 );
     
     // NOTE: Step 4 might not have been a lot, but it took me a long time to
     // work out. Shout out to Joey de Vries and his Learn Open GL website,
@@ -214,16 +294,16 @@ void fragment() {
     //
     // Step 5: Calculate light color
     //
-    vec3 l1c = L1Color.rgb * p1 * t1 * calculate_attenuation(L1Range, d1);
-    vec3 l2c = L2Color.rgb * p2 * t2 * calculate_attenuation(L2Range, d2);
-    vec3 l3c = L3Color.rgb * p3 * t3 * calculate_attenuation(L3Range, d3);
-    vec3 l4c = L4Color.rgb * p4 * t4 * calculate_attenuation(L4Range, d4);
+    vec3 se_c = se_color.rgb * se_power * se_t * calculate_attenuation(se_range, se_d);
+    vec3 ne_c = ne_color.rgb * ne_power * ne_t * calculate_attenuation(ne_range, ne_d);
+    vec3 nw_c = nw_color.rgb * nw_power * nw_t * calculate_attenuation(nw_range, nw_d);
+    vec3 sw_c = sw_color.rgb * sw_power * sw_t * calculate_attenuation(sw_range, sw_d);
     
     // Clamp the colors down (otherwise they might disapear!)
-    l1c = clamp(l1c, 0.0, 1.0);
-    l2c = clamp(l2c, 0.0, 1.0);
-    l3c = clamp(l3c, 0.0, 1.0);
-    l4c = clamp(l4c, 0.0, 1.0);
+    se_c = clamp(se_c, 0.0, 1.0);
+    ne_c = clamp(ne_c, 0.0, 1.0);
+    nw_c = clamp(nw_c, 0.0, 1.0);
+    sw_c = clamp(sw_c, 0.0, 1.0);
     
     //
     // Step 6: Calculate ALBEDO and ALPHA
@@ -232,10 +312,10 @@ void fragment() {
     // Alright, so our final ALBEDO is a mix between...
     ALBEDO = mix(
         // The building color, lighted appropriately
-        BuildingColor.rgb + l1c + l2c + l3c + l4c,
+        BuildingColor.rgb + se_c + ne_c + nw_c + sw_c,
         // The window color, lighted appropriately according to the light mix
         // factor
-        window_color + ((l1c + l2c + l3c + l4c) * window_light_factor),
+        window_color + ((se_c + ne_c + nw_c + sw_c) * window_light_factor),
         // The mix between these two colors is determined by the window
         // texture's alpha, where 1 = window and 0 = building.
         win_a
