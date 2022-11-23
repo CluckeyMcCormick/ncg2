@@ -7,7 +7,7 @@ extends Spatial
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the Packed Light Scene
-const PackedLightScene = preload("res://buildings/PackedLight.gd")
+const PLS = preload("res://buildings/PackedLight.gd")
 
 # Our building is actually crafted using a cube - we take the mesh and then
 # manipulate the points. It's always an equal sized cube, to - how long is that
@@ -19,9 +19,9 @@ export(Material) var building_material setget set_building_material
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
-export(float, 1, 512, 1.0) var len_x = 8 setget set_length_x
-export(float, 1, 512, 1.0) var len_y = 16 setget set_length_y
-export(float, 1, 512, 1.0) var len_z = 8 setget set_length_z
+export(float, 1, 4096, 1.0) var len_x = 8 setget set_length_x
+export(float, 1, 4096, 1.0) var len_y = 16 setget set_length_y
+export(float, 1, 4096, 1.0) var len_z = 8 setget set_length_z
 
 # Do we use the window texture for this auto-tower, or do we ignore them?
 export(bool) var use_window_texture = true setget set_use_window_texture
@@ -29,35 +29,27 @@ export(bool) var use_window_texture = true setget set_use_window_texture
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
 
-export(PackedLightScene.LightGroups) var l1_group setget set_l1_group
-export(int, 0, 127) var l1_range = 8 setget set_l1_range
-export(int, 0, 31) var l1_x_pos = 4 setget set_l1_x_pos
-export(int, 0, 31) var l1_y_pos = 4 setget set_l1_y_pos
+export(PLS.LightGroups) var se_group setget set_se_group
+export(int, 0, 255) var se_range = 16 setget set_se_range
 
-export(PackedLightScene.LightGroups) var l2_group setget set_l2_group
-export(int, 0, 127) var l2_range = 8 setget set_l2_range
-export(int, 0, 31) var l2_x_pos = 4 setget set_l2_x_pos
-export(int, 0, 31) var l2_y_pos = 4 setget set_l2_y_pos
+export(PLS.LightGroups) var ne_group setget set_ne_group
+export(int, 0, 255) var ne_range = 16 setget set_ne_range
 
-export(PackedLightScene.LightGroups) var l3_group setget set_l3_group
-export(int, 0, 127) var l3_range = 8 setget set_l3_range
-export(int, 0, 31) var l3_x_pos = 4 setget set_l3_x_pos
-export(int, 0, 31) var l3_y_pos = 4 setget set_l3_y_pos
+export(PLS.LightGroups) var nw_group setget set_nw_group
+export(int, 0, 255) var nw_range = 16 setget set_nw_range
 
-export(PackedLightScene.LightGroups) var l4_group setget set_l4_group
-export(int, 0, 127) var l4_range = 8 setget set_l4_range
-export(int, 0, 31) var l4_x_pos = 4 setget set_l4_x_pos
-export(int, 0, 31) var l4_y_pos = 4 setget set_l4_y_pos
+export(PLS.LightGroups) var sw_group setget set_sw_group
+export(int, 0, 255) var sw_range = 16 setget set_sw_range
 
 # The light data for each light.
 # Light Positioned in the +x+z corner
-var light_one = PackedLightScene.PackedLight.new()
+var light_se = PLS.PackedLight.new()
 # Light Positioned in the +x-z corner
-var light_two = PackedLightScene.PackedLight.new()
+var light_ne = PLS.PackedLight.new()
 # Light Positioned in the -x-z corner
-var light_three = PackedLightScene.PackedLight.new()
+var light_nw = PLS.PackedLight.new()
 # Light Positioned in the -x+z corner
-var light_four = PackedLightScene.PackedLight.new()
+var light_sw = PLS.PackedLight.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -116,27 +108,15 @@ func set_auto_build(new_autobuild):
 #
 # Light 1
 #
-func set_l1_group(new_group):
-    l1_group = new_group
-    light_one.set_group(new_group)
+func set_se_group(new_group):
+    se_group = new_group
+    light_se.set_group(new_group)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
-func set_l1_range(new_range):
-    l1_range = new_range
-    light_one.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l1_x_pos(new_pos):
-    l1_x_pos = new_pos
-    light_one.set_pos_x(new_pos)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l1_y_pos(new_pos):
-    l1_y_pos = new_pos
-    light_one.set_pos_y(new_pos)
+func set_se_range(new_range):
+    se_range = new_range
+    light_se.set_range(new_range)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
@@ -144,27 +124,15 @@ func set_l1_y_pos(new_pos):
 #
 # Light 2
 #
-func set_l2_group(new_group):
-    l2_group = new_group
-    light_two.set_group(new_group)
+func set_ne_group(new_group):
+    ne_group = new_group
+    light_ne.set_group(new_group)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
-func set_l2_range(new_range):
-    l2_range = new_range
-    light_two.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l2_x_pos(new_pos):
-    l2_x_pos = new_pos
-    light_two.set_pos_x(new_pos)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l2_y_pos(new_pos):
-    l2_y_pos = new_pos
-    light_two.set_pos_y(new_pos)
+func set_ne_range(new_range):
+    ne_range = new_range
+    light_ne.set_range(new_range)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
@@ -172,27 +140,15 @@ func set_l2_y_pos(new_pos):
 #
 # Light 3
 #
-func set_l3_group(new_group):
-    l3_group = new_group
-    light_three.set_group(new_group)
+func set_nw_group(new_group):
+    nw_group = new_group
+    light_nw.set_group(new_group)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
-func set_l3_range(new_range):
-    l3_range = new_range
-    light_three.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l3_x_pos(new_pos):
-    l3_x_pos = new_pos
-    light_three.set_pos_x(new_pos)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l3_y_pos(new_pos):
-    l3_y_pos = new_pos
-    light_three.set_pos_y(new_pos)
+func set_nw_range(new_range):
+    nw_range = new_range
+    light_nw.set_range(new_range)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
@@ -200,27 +156,15 @@ func set_l3_y_pos(new_pos):
 #
 # Light 4
 #
-func set_l4_group(new_group):
-    l4_group = new_group
-    light_four.set_group(new_group)
+func set_sw_group(new_group):
+    sw_group = new_group
+    light_sw.set_group(new_group)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
-func set_l4_range(new_range):
-    l4_range = new_range
-    light_four.set_range(l1_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l4_x_pos(new_pos):
-    l4_x_pos = new_pos
-    light_four.set_pos_x(new_pos)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_l4_y_pos(new_pos):
-    l4_y_pos = new_pos
-    light_four.set_pos_y(new_pos)
+func set_sw_range(new_range):
+    sw_range = new_range
+    light_sw.set_range(new_range)
     if Engine.editor_hint and auto_build:
         randomize()
         make_building()
@@ -323,18 +267,19 @@ func make_building(rng : RandomNumberGenerator = null):
         curr_vert = vertex[idx]
         curr_uv = uv[idx]
         
-        curr_uv2 = uv[idx]
+        curr_uv2 = Vector2.ZERO
         curr_color = Color(0, 0, 0, 0)
         
         #
         # Step 1: UV2
         #
-        # Shift the UV2 value by the appropriate number of window units
-        curr_uv2.x += curr_vert.x * len_x
-        curr_uv2.y += curr_vert.z * len_z
-        
-        # Scale by the light noise UV size
-        curr_uv2 *= GlobalRef.LIGHT_NOISE_UV_SIZE
+        # Pack the positions of each light into X and Y
+        curr_uv2.x = PLS.float_compress(
+           light_ne.to_northeast_range_int() | light_se.to_southeast_range_int()
+        )
+        curr_uv2.y =  PLS.float_compress(
+           light_nw.to_northwest_range_int() | light_sw.to_southwest_range_int()
+        )
         
         #
         # Step 2: Vertex
@@ -351,21 +296,10 @@ func make_building(rng : RandomNumberGenerator = null):
         #
         # Step 3: Vertex Color
         #
-        curr_color.r = light_one.to_zero_one_float()
-        curr_color.g = light_two.to_zero_one_float()
-        curr_color.b = light_three.to_zero_one_float()
-        curr_color.a = light_four.to_zero_one_float()
-        print(curr_color)
-        print(light_one.to_int())
-        print(curr_color.r)
-        print(curr_color.r * 1000000.0)
-        print(int(curr_color.r * 1000000.0))
-        var pl = PackedLightScene.PackedLight.new()
-        pl.from_zero_one_float( curr_color.r )
-        print( "l1 group: ", pl.group,     " vs pre: ", light_one.group)
-        print( "l1 range: ", pl.range_val, " vs pre: ", light_one.range_val )
-        print( "l1 pos: ",   pl.pos_x,     " vs pre: ", light_one.pos_x )
-        print( "l1 pos: ",   pl.pos_y,     " vs pre: ", light_one.pos_y )
+        curr_color.r = light_se.to_compressed_group()
+        curr_color.g = light_ne.to_compressed_group()
+        curr_color.b = light_nw.to_compressed_group()
+        curr_color.a = light_sw.to_compressed_group()
         
         #
         # Step 4: UV
@@ -446,7 +380,7 @@ func make_building(rng : RandomNumberGenerator = null):
     
     $BuildingMesh.mesh.add_surface_from_arrays(
         Mesh.PRIMITIVE_TRIANGLES,
-        arrays
+        arrays, [], 0
     )
 
     $BuildingMesh.mesh.regen_normalmaps()
