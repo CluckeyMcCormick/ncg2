@@ -7,21 +7,11 @@ enum LightGroups {
     THREE = 3,
      FOUR = 4,
 }
-# Mask for getting and setting the above values.
-const LIGHT_GROUP_MASK = LightGroups.FOUR;
+const LIGHT_GROUP_PACK_FACTOR = 100
 
-# The range of this light. 8 Bits, meaning value caps out at 255. By default
-# this is in world units, though the shader options may change that. We have
-# four possible light positions (SouthEast, NorthEast, NorthWest, SouthWest) and
-# each one has a unique mask.
-const RANGE_SE_MASK = 0x00FF;
-const RANGE_NE_MASK = 0xFF00;
-const RANGE_NW_MASK = 0xFF00;
-const RANGE_SW_MASK = 0x00FF;
-# How many bits are allocated to range?
-const RANGE_WIDTH = 8;
 # What's the maximum value for the RANGE?
-const RANGE_MAX = RANGE_SW_MASK;
+const RANGE_MAX = 999
+const RANGE_PACK_FACTOR = 1000
 
 # Class for packing light options into a float between 0 and 1
 class PackedLight:
@@ -36,49 +26,31 @@ class PackedLight:
     func set_range(new_range):
         range_val = clamp(int(new_range), 0, RANGE_MAX)
     
-    func to_compressed_group():
-        # Return the group value as a 0 to 1 float
-        return group / float(len(LightGroups))
+    func to_range_float():
+        # Return the range and group value-packed as a 0 to 1 float
+        return range_val / float(RANGE_PACK_FACTOR)
     
-    func from_compressed_group(in_val):
-        # Now unpack the values
-        group = float( round( in_val * len(LightGroups) ) )
+    func from_range_float(in_val):
+        # Unpack the range
+        self.range_val = int(in_val * RANGE_PACK_FACTOR) % RANGE_PACK_FACTOR
     
-    func to_southeast_range_int():
-        return range_val
-
-    func to_northeast_range_int():
-        return (range_val << RANGE_WIDTH);
-
-    func to_northwest_range_int():
-        return (range_val << RANGE_WIDTH);
-
-    func to_southwest_range_int():
-        return range_val
-
-
-    func from_southeast_range_int(int_val):
-        range_val = int_val & RANGE_SE_MASK;
-
-    func from_northeast_range_int(int_val):
-        range_val = (int_val & RANGE_NE_MASK) >> RANGE_WIDTH;
-
-    func from_northwest_range_int(int_val):
-        range_val = (int_val & RANGE_NW_MASK) >> RANGE_WIDTH;
-
-    func from_southwest_range_int(int_val):
-        range_val = int_val & RANGE_SW_MASK;
+    func to_southern_group_float():
+        # Return the group, reduced to 0.0x - add .0001 though! We've had
+        # floating point errors even when a value is just 0.xx, so we'll add a
+        # padding 0 and a useless digit (i.e. two MORE significant figures) so
+        # the part we want to preserve is preserved! 
+        return group / float(LIGHT_GROUP_PACK_FACTOR) + 0.0001
     
-# Process an int so it can be passed into the shader as a float
-static func float_compress(int_val):
-    # Divide the int by one hundred thousand. This should stick five figures
-    # onto the end of the float - that means we can pass this value through
-    # a clamp(x, 0, 1) call without problems. This should also be large
-    # enough to avoid floating point errors.
-    return stepify(float(int_val) / 100000.0, 0.000001 )
+    func to_northern_group_float():
+        # Return the group, reduced to 0.x - add .0001 though! We've had
+        # floating point errors even when a value is just 0.xx, so we'll add a
+        # padding 0 and a useless digit (i.e. two MORE significant figures) so
+        # the part we want to preserve is preserved! 
+        return (group * 10) / float(LIGHT_GROUP_PACK_FACTOR) + 0.0001
 
-# Process a float, return an int that can be bit-masked
-static func float_decompress(float_val):
-    # Multiply by one hundred thousand, convert to an int, and return it.
-    return int(round(float_val * stepify(100000.0, 0.000001)))
-    # All done!
+    func from_southern_group_float(in_val):
+        group =  int(in_val * LIGHT_GROUP_PACK_FACTOR) % 10
+    
+    func from_northern_group_float(in_val):
+        group = int((in_val * LIGHT_GROUP_PACK_FACTOR) / 10.0) % 10
+        

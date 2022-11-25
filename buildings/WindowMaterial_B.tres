@@ -1,18 +1,17 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
 [ext_resource path="res://buildings/DotWindowPackedLightShader.tres" type="Shader" id=1]
-[ext_resource path="res://buildings/window_sample_texture.png" type="Texture" id=2]
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/BuildingColor = Color( 0.0705882, 0.0235294, 0.0431373, 1 )
-shader_param/RedDotColor = Color( 0.14902, 0.0509804, 0.0901961, 1 )
-shader_param/RedDotLightMix = 1.0
-shader_param/GreenDotColor = Color( 0.290196, 0.231373, 0.27451, 1 )
-shader_param/GreenDotLightMix = 1.0
-shader_param/BlueDotColor = Color( 1, 1, 0.8, 1 )
+shader_param/BuildingColor = null
+shader_param/RedDotColor = null
+shader_param/RedDotLightMix = null
+shader_param/GreenDotColor = null
+shader_param/GreenDotLightMix = null
+shader_param/BlueDotColor = null
 shader_param/BlueDotLightMix = null
-shader_param/window_border_correction = 0.0
+shader_param/window_border_correction = null
 shader_param/light_shift_x = 4.0
 shader_param/light_shift_y = 0.0
 shader_param/light_shift_z = 4.0
@@ -30,4 +29,3 @@ shader_param/L4Scalar = 1.0
 shader_param/L4Coefficient = 1.0
 shader_param/ud_position = 64.0
 shader_param/ud_range = 64.0
-shader_param/DotTexture = ExtResource( 2 )

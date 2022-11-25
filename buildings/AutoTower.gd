@@ -29,17 +29,17 @@ export(bool) var use_window_texture = true setget set_use_window_texture
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
 
-export(PLS.LightGroups) var se_group setget set_se_group
-export(int, 0, 255) var se_range = 16 setget set_se_range
+export(PLS.LightGroups) var se_group = PLS.LightGroups.ONE setget set_se_group
+export(int, 0, 999) var se_range = 16 setget set_se_range
 
-export(PLS.LightGroups) var ne_group setget set_ne_group
-export(int, 0, 255) var ne_range = 16 setget set_ne_range
+export(PLS.LightGroups) var ne_group = PLS.LightGroups.TWO setget set_ne_group
+export(int, 0, 999) var ne_range = 16 setget set_ne_range
 
-export(PLS.LightGroups) var nw_group setget set_nw_group
-export(int, 0, 255) var nw_range = 16 setget set_nw_range
+export(PLS.LightGroups) var nw_group = PLS.LightGroups.THREE setget set_nw_group
+export(int, 0, 999) var nw_range = 16 setget set_nw_range
 
-export(PLS.LightGroups) var sw_group setget set_sw_group
-export(int, 0, 255) var sw_range = 16 setget set_sw_range
+export(PLS.LightGroups) var sw_group = PLS.LightGroups.FOUR setget set_sw_group
+export(int, 0, 999) var sw_range = 16 setget set_sw_range
 
 # The light data for each light.
 # Light Positioned in the +x+z corner
@@ -266,20 +266,16 @@ func make_building(rng : RandomNumberGenerator = null):
         # Grab the current vector and uv, default the uv2 and color
         curr_vert = vertex[idx]
         curr_uv = uv[idx]
-        
         curr_uv2 = Vector2.ZERO
         curr_color = Color(0, 0, 0, 0)
         
         #
         # Step 1: UV2
         #
-        # Pack the positions of each light into X and Y
-        curr_uv2.x = PLS.float_compress(
-           light_ne.to_northeast_range_int() | light_se.to_southeast_range_int()
-        )
-        curr_uv2.y =  PLS.float_compress(
-           light_nw.to_northwest_range_int() | light_sw.to_southwest_range_int()
-        )
+        curr_uv2.x = \
+        light_se.to_southern_group_float() + light_ne.to_northern_group_float()
+        curr_uv2.y = \
+        light_sw.to_southern_group_float() + light_nw.to_northern_group_float()
         
         #
         # Step 2: Vertex
@@ -296,10 +292,10 @@ func make_building(rng : RandomNumberGenerator = null):
         #
         # Step 3: Vertex Color
         #
-        curr_color.r = light_se.to_compressed_group()
-        curr_color.g = light_ne.to_compressed_group()
-        curr_color.b = light_nw.to_compressed_group()
-        curr_color.a = light_sw.to_compressed_group()
+        curr_color.r = light_se.to_range_float()
+        curr_color.g = light_ne.to_range_float()
+        curr_color.b = light_nw.to_range_float()
+        curr_color.a = light_sw.to_range_float()
         
         #
         # Step 4: UV

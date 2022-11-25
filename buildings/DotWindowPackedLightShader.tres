@@ -82,30 +82,20 @@ varying vec3 pos_corner;
 // incorrect - functional!
 varying vec3 actual_normal;
 
-// Unfortunately, many of the values we need to pass into the shader need to be
-// compressed into floats that fall between 0 and 1. This function
-// \"decompresses\" these values and returns them as ints.
-int decompress_float(highp float packed_float) {
-    highp float pf = packed_float * 100000.0;
-    pf = round(pf);
-    return int( pf );
-}
-
-// This function takes in a packed group float and returns the numeric group ID.
-int extract_light_group(float packed_group) {
-    return int( round(packed_group * 4.0) );
-}
-
 // This function takes in a packed light, extracts the southern range portion of
 // the light and returns it
-float extract_south_light_range(int packed_range) {
-    return float(packed_range & 0x00FF);
+float extract_light_range(float packed_range) {
+    return float(int(packed_range * 1000.0) % 1000);
 }
 
 // This function takes in a packed light, extracts the northern range portion of
 // the light and returns it
-float extract_north_light_range(int packed_range) {
-    return float((packed_range & 0xFF00) >> 8);
+int extract_north_light_group(float packed_groups) {
+    return int((packed_groups * 100.0) / 10.0) % 10;
+}
+
+int extract_south_light_group(float packed_groups) {
+    return int( packed_groups * 100.0) % 10;
 }
 
 // This function calculates an attenuation factor (between 0 and 1) for a light
@@ -192,8 +182,6 @@ void fragment() {
     //
     // Step 3: Unpack light information
     //
-    int eastern_range = decompress_float(UV2.x);
-    int western_range = decompress_float(UV2.y);
     
     vec4  se_color, ne_color, nw_color, sw_color;
     float se_range, ne_range, nw_range, sw_range;
@@ -201,28 +189,28 @@ void fragment() {
     float se_power, ne_power, nw_power, sw_power; 
     
     // From each int, extract the group. Set the color and powers appropriately.
-    switch( extract_light_group(COLOR.r) ){
+    switch( extract_south_light_group(UV2.x) ){
         case 1: se_color = L1Color;  se_power = p1; break;
         case 2: se_color = L2Color;  se_power = p2; break;
         case 3: se_color = L3Color;  se_power = p3; break;
         case 4: se_color = L4Color;  se_power = p4; break;
         default: se_color = L1Color; se_power = p1; break;
     }
-    switch( extract_light_group(COLOR.g) ){
+    switch( extract_north_light_group(UV2.x) ){
         case 1: ne_color = L1Color;  ne_power = p1; break;
         case 2: ne_color = L2Color;  ne_power = p2; break;
         case 3: ne_color = L3Color;  ne_power = p3; break;
         case 4: ne_color = L4Color;  ne_power = p4; break;
         default: ne_color = L2Color; ne_power = p2;  break;
     }
-    switch( extract_light_group(COLOR.b) ){
+    switch( extract_north_light_group(UV2.y) ){
         case 1: nw_color = L1Color;  nw_power = p1; break;
         case 2: nw_color = L2Color;  nw_power = p2; break;
         case 3: nw_color = L3Color;  nw_power = p3; break;
         case 4: nw_color = L4Color;  nw_power = p4; break;
         default: nw_color = L3Color; nw_power = p3; break;
     }
-    switch( extract_light_group(COLOR.a) ){
+    switch( extract_south_light_group(UV2.y) ){
         case 1: sw_color = L1Color;  sw_power = p1; break;
         case 2: sw_color = L2Color;  sw_power = p2; break;
         case 3: sw_color = L3Color;  sw_power = p3; break;
@@ -231,10 +219,10 @@ void fragment() {
     }
     
     // Extract the range of the lights
-    se_range = extract_south_light_range(eastern_range) / ud_range;
-    ne_range = extract_north_light_range(eastern_range) / ud_range;
-    nw_range = extract_north_light_range(western_range) / ud_range;
-    sw_range = extract_south_light_range(western_range) / ud_range;
+    se_range = float(extract_light_range(COLOR.r)) / ud_range;
+    ne_range = float(extract_light_range(COLOR.g)) / ud_range;
+    nw_range = float(extract_light_range(COLOR.b)) / ud_range;
+    sw_range = float(extract_light_range(COLOR.a)) / ud_range;
     
     // Using the pure-positive corner light, determine the positions of each of
     // the other corners.

@@ -5,14 +5,14 @@
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/BuildingColor = Color( 0.0705882, 0.0235294, 0.0431373, 1 )
-shader_param/RedDotColor = Color( 1, 1, 0, 1 )
-shader_param/RedDotLightMix = 0.0
-shader_param/GreenDotColor = Color( 0.290196, 1, 1, 1 )
-shader_param/GreenDotLightMix = 0.0
+shader_param/BuildingColor = Color( 0.14902, 0.0352941, 0.145098, 1 )
+shader_param/RedDotColor = Color( 0, 1, 1, 1 )
+shader_param/RedDotLightMix = null
+shader_param/GreenDotColor = Color( 1, 1, 0, 1 )
+shader_param/GreenDotLightMix = null
 shader_param/BlueDotColor = Color( 1, 0, 1, 1 )
-shader_param/BlueDotLightMix = 0.0
-shader_param/window_border_correction = 1.0
+shader_param/BlueDotLightMix = null
+shader_param/window_border_correction = null
 shader_param/light_shift_x = 4.0
 shader_param/light_shift_y = 0.0
 shader_param/light_shift_z = 4.0
@@ -25,7 +25,7 @@ shader_param/L2Coefficient = 1.0
 shader_param/L3Color = Color( 0, 0, 1, 1 )
 shader_param/L3Scalar = 1.0
 shader_param/L3Coefficient = 1.0
-shader_param/L4Color = Color( 1, 0, 1, 1 )
+shader_param/L4Color = Color( 1, 1, 0, 1 )
 shader_param/L4Scalar = 1.0
 shader_param/L4Coefficient = 1.0
 shader_param/ud_position = 64.0
