@@ -37,20 +37,20 @@ uniform float light_shift_z  : hint_range(0.0, 16.0, .05) = 4;
 // The colors we'll use for each of the lights.
 uniform vec4 L1Color : hint_color;
 // A scalar to finely tune the power of each light
-uniform float L1Scalar = 1;
+uniform float L1PowerScalar = 1;
 // A coefficient that's either 0 or 1, effectively acting as an on-or-off switch
 uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
 
 uniform vec4 L2Color : hint_color;
-uniform float L2Scalar = 1;
+uniform float L2PowerScalar = 1;
 uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
 
 uniform vec4 L3Color : hint_color;
-uniform float L3Scalar = 1;
+uniform float L3PowerScalar = 1;
 uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
 
 uniform vec4 L4Color : hint_color;
-uniform float L4Scalar = 1;
+uniform float L4PowerScalar = 1;
 uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
 
 // By default, the position and range are in perfectly normal world units. That
@@ -174,10 +174,10 @@ void fragment() {
     // Step 2: Calculate power values for each light group
     //
     // Use the scalars and coefficients to calculate the power for each light
-    float p1 = base_power * L1Scalar * L1Coefficient;
-    float p2 = base_power * L2Scalar * L2Coefficient;
-    float p3 = base_power * L3Scalar * L3Coefficient;
-    float p4 = base_power * L4Scalar * L4Coefficient;
+    float p1 = base_power * L1PowerScalar * L1Coefficient;
+    float p2 = base_power * L2PowerScalar * L2Coefficient;
+    float p3 = base_power * L3PowerScalar * L3Coefficient;
+    float p4 = base_power * L4PowerScalar * L4Coefficient;
     
     //
     // Step 3: Unpack light information

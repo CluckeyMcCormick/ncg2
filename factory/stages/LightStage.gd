@@ -5,157 +5,46 @@
 # Load the GlobalRef script so we have that
 const GlobalRef = preload("res://util/GlobalRef.gd")
 
-# We include the radius of the lights when calculating the building's Visibility
-# AABB (which determines if we're on screen or not). However, it's been observed
-# that sometimes the building loads in but the lights won't load until later. To
-# get around that, we'll use this scalar to increase the light radius included
-# in the AABB - that means the buildings will load in sooner, and so too will
-# their lights.
-const LIGHT_SCALAR = 2
-
 # Class definition for our light data
 class LightData:
-    # What's the size of the light, in window units?
+    # What's the range of the light, in window units?
     var size
     # What's the group of this light? This determines the color.
     var group
-    # What's the position of this light, in realspace units?
-    var pos
 
 # Determine the size, position, and group for each light.
 static func make_blueprint(blueprint : Dictionary):
-    # Declare our light positions ahead of time.
-    var light_positions = [
-        Vector2( blueprint["footprint_x"],  blueprint["footprint_z"]),
-        Vector2(-blueprint["footprint_x"],  blueprint["footprint_z"]),
-        Vector2( blueprint["footprint_x"], -blueprint["footprint_z"]),
-        Vector2(-blueprint["footprint_x"], -blueprint["footprint_z"])
-    ]
-    
     # Grab the Random Number Generator so we don't need to constantly peek the
     # dictionary.
     var rng = blueprint["rngen"]
     
-    # The current light we're working on.
-    var light = null
+    # Create a new array of lights - one per corner.
+    blueprint["lights"] = [
+        LightData.new(), # Southeast
+        LightData.new(), # Northeast
+        LightData.new(), # Northwest
+        LightData.new()  # Southwest
+    ]
     
-    # Create a new arrays to track the lights
-    blueprint["lights"] = []
-    
-    # Okay, so for some reason, if we have too many lights on Windows, all the
-    # lights start flickering in and out of existence. I don't know why this
-    # only happens on Windows, but it does. I've observed that removing at least
-    # two lights (halving our total number of lights) fixes the issue - and you
-    # know what? I think making do with less lights is just better practice
-    # overall. When life gives you lemons, make lemonade!
-    
-    # So remove two lights from the light positions at random
-    light_positions.remove( rng.randi() % len(light_positions) )
-    light_positions.remove( rng.randi() % len(light_positions) )
+    # TODO: Remove some lights? Could look good, could look bad.
     
     # For each light...
-    for pos in light_positions:
-        # Create a new light
-        light = LightData.new()
+    for light in blueprint["lights"]:
         
         # Set the size, in world units. We want the light to climb part of the
-        # building, so we'll go between 2/5 and 4/5 of the building's total
+        # building, so we'll go between 2/5 and 5/5 of the building's total
         # height.
         light.size = rng.randf_range(
-            blueprint["len_y"] * .4, blueprint["len_y"] * .80
-            #blueprint["len_y"] * .25, blueprint["len_y"] * .75
+            blueprint["len_y"] * .4, blueprint["len_y"] * 2.0
         )
+        
+        # The range needs to be a whole value, so round it
+        light.size = round( light.size )
         
         # Set the light's group designation, a number between one and four.
-        light.group = rng.randi() % 4
-        
-        # Set the appropriate translation for the light.
-        light.pos = pos * GlobalRef.WINDOW_UV_SIZE
-        
-        # Append the light data
-        blueprint["lights"].append(light)
+        light.group = (rng.randi() % 4) + 1
 
-# Spawn in the lights, setting the position, radius, and all that other light
-# nonsense.
 static func make_construction(building : Spatial, blueprint : Dictionary):
-    # Load the CityLight scene
-    var CityLight = load("res://decorations/CityLight.tscn")
-    
-    # Get the Visibility node
-    var visi = building.get_node("VisibilityNotifier")
-    
-    # Get the Footprint Effects node, which is where we're supposed to put
-    # footprint-aligned decorations.
-    var ftpfx = building.get_node("FootprintFX")
-    
-    # We'll need to include the lights in the visibility AABB, which means we'll
-    # need to adjust the position and size of the visibility AABB. And to do
-    # THAT, we'll need to know the size of the footprint (in real-units)
-    var fp_x = blueprint["footprint_x"] * GlobalRef.WINDOW_UV_SIZE
-    var fp_z = blueprint["footprint_z"] * GlobalRef.WINDOW_UV_SIZE
-    
-    # What's the maximum AABB-length on x and z that we'll need?
-    var max_x = fp_x
-    var max_z = fp_z
-    
-    # The range of an OmniLight doesn't scale up and down with... scale, so we
-    # need to do it manually. And to do that, we'll calculate the effective
-    # scalar for the omni-light.
-    # This is a horrendously lazy way of doing it, but it works for what I need.
-    var eff_scalar = abs( 
-        (blueprint["scale"].x + blueprint["scale"].y + blueprint["scale"].z) / 2
-    )
-    
-    # For each piece of light data...
-    for light_data in blueprint["lights"]:
-        # Create a new light
-        var light = CityLight.instance()
-        
-        # Set the range
-        light.omni_range = light_data.size * GlobalRef.WINDOW_UV_SIZE
-        
-        # Stick the light under the footprint's FX manager
-        ftpfx.add_child(light)
-        
-        # Now that the light is in the scene, it should have access to the MCC;
-        # ergo we can safely set the type.
-        match light_data.group:
-            0:
-                light.type = light.LightCategory.ONE
-            1:
-                light.type = light.LightCategory.TWO
-            2:
-                light.type = light.LightCategory.THREE
-            3:
-                light.type = light.LightCategory.FOUR
-        
-        # Shift the light appropriately
-        light.translation = Vector3( light_data.pos.x, 0, light_data.pos.y )
-        
-        # We're going to do this as lazily as possible: Let's say, in this
-        # diagram, B & Y are the edges of the building. A is the farthest point
-        # reached by a light at B. Z is the farthest point reached by a light at
-        # Z. We can observe:
-        #                       A-------B#####Y-------Z
-        # Basically, we need to update the effective x and z such that they
-        # encompass A through Z. That means doubling the omni_radius and adding
-        # it onto the length of the appropriate side of the footprint.
-        max_x = max(
-            fp_x + (light.omni_range * 2 * LIGHT_SCALAR), 
-            max_x
-        )
-        max_z = max(
-            fp_z + (light.omni_range * 2 * LIGHT_SCALAR), 
-            max_z
-        )
-        
-        # Now, after all that, apply the effective scalar. Our AABB will scale,
-        # but not the light's range.
-        light.omni_range *= eff_scalar
-    
-    # Update the visibility's AABB position and size based on our light
-    # adjustments
-    visi.aabb.position.x = -max_x / 2.0
-    visi.aabb.position.z = -max_z / 2.0
-    visi.aabb.size.x = max_x
-    visi.aabb.size.z = max_z
+    # Lights now need to be packed into meshes at construction time - so there's
+    # nothing for us to do here!
+    pass

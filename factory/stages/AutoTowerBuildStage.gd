@@ -20,6 +20,18 @@ static func make_construction(building : Spatial, blueprint : Dictionary):
     autotower.len_y = blueprint["len_y"]
     autotower.len_z = blueprint["len_z"]
 
+    # Set the light groups
+    autotower.se_group = blueprint["lights"][0].group
+    autotower.ne_group = blueprint["lights"][1].group
+    autotower.nw_group = blueprint["lights"][2].group
+    autotower.sw_group = blueprint["lights"][3].group
+
+    # Set the light sizes
+    autotower.se_range = blueprint["lights"][0].size
+    autotower.ne_range = blueprint["lights"][1].size
+    autotower.nw_range = blueprint["lights"][2].size
+    autotower.sw_range = blueprint["lights"][3].size
+
     # Make the building
     autotower.make_building()
 
