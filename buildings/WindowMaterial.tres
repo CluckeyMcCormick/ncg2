@@ -30,4 +30,5 @@ shader_param/L4PowerScalar = 1.0
 shader_param/L4Coefficient = 1.0
 shader_param/ud_position = 64.0
 shader_param/ud_range = 64.0
+shader_param/decay = 1.0
 shader_param/DotTexture = ExtResource( 2 )

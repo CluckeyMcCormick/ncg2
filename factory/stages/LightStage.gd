@@ -31,11 +31,10 @@ static func make_blueprint(blueprint : Dictionary):
     # For each light...
     for light in blueprint["lights"]:
         
-        # Set the size, in world units. We want the light to climb part of the
-        # building, so we'll go between 2/5 and 5/5 of the building's total
-        # height.
+        # Set the size, in world units. We'll roll a random length based on the
+        # building's height.
         light.size = rng.randf_range(
-            blueprint["len_y"] * .4, blueprint["len_y"] * 2.0
+            blueprint["len_y"] * .6, blueprint["len_y"] * 1.60
         )
         
         # The range needs to be a whole value, so round it

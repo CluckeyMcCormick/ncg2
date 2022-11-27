@@ -67,6 +67,9 @@ uniform float ud_range    : hint_range(1.0, 128.0, 1.0) = 64;
 // What's the base luminance/power value of all the lights?
 const float base_power = 1.0;
 
+// The decay factor controls how quickly the light's energy decays.
+uniform float decay : hint_range(0.0, 10.0, 0.001) = 1.0;
+
 // Okay so this shader emulates us having lights by placing lights at the four
 // \"corners\" of the mesh. Except there's no real way to designate the mesh's
 // corner. So here's what we're going to do: guess. We're just gonna guess.
@@ -98,18 +101,15 @@ int extract_south_light_group(float packed_groups) {
     return int( packed_groups * 100.0) % 10;
 }
 
-// This function calculates an attenuation factor (between 0 and 1) for a light
-// with a given range of r and a point of a given distance away, d.
-float calculate_attenuation(float r, float d) {
-    float dist_min = r;
-    float dist_max = 0.0;
-    
-    float atten_min = 0.0;
-    float atten_max = 1.0;
-    
-    float OldRange = ( dist_max - dist_min );
-    float NewRange = (atten_max - atten_min);
-    return (((d - dist_min) * NewRange) / OldRange) + atten_min;   
+// Taken from Godot 4.0 source! See modules/lightmapper_rd/lm_compute.glsl
+float get_omni_attenuation(float r, float d) {
+    float inv_range = 1.0 / r;
+    float nd = d * inv_range;
+    nd *= nd;
+    nd *= nd; // nd^4
+    nd = max(1.0 - nd, 0.0);
+    nd *= nd; // nd^2
+    return nd * pow(max(d, 0.0001), -decay);
 }
 
 void vertex() {
@@ -281,10 +281,10 @@ void fragment() {
     //
     // Step 4: Calculate light color
     //
-    vec3 se_c = se_color.rgb * se_power * se_t * calculate_attenuation(se_range, se_d);
-    vec3 ne_c = ne_color.rgb * ne_power * ne_t * calculate_attenuation(ne_range, ne_d);
-    vec3 nw_c = nw_color.rgb * nw_power * nw_t * calculate_attenuation(nw_range, nw_d);
-    vec3 sw_c = sw_color.rgb * sw_power * sw_t * calculate_attenuation(sw_range, sw_d);
+    vec3 se_c = se_color.rgb * se_power * se_t * get_omni_attenuation(se_range, se_d);
+    vec3 ne_c = ne_color.rgb * ne_power * ne_t * get_omni_attenuation(ne_range, ne_d);
+    vec3 nw_c = nw_color.rgb * nw_power * nw_t * get_omni_attenuation(nw_range, nw_d);
+    vec3 sw_c = sw_color.rgb * sw_power * sw_t * get_omni_attenuation(sw_range, sw_d);
     
     // Clamp the colors down (otherwise they might disapear!)
     se_c = clamp(se_c, 0.0, 1.0);
