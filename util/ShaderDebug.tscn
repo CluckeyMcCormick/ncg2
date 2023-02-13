@@ -8,6 +8,9 @@
 [node name="AutoTower" parent="." instance=ExtResource( 1 )]
 transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, -2.60649e-07, 5.96046e-08, 0 )
 building_material = ExtResource( 2 )
+len_x = 8
+len_y = 16
+len_z = 8
 
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 0.999983, -0.00582763, -0.00036424, 0.00582782, 0.999983, 0.000542813, 0.000361071, -0.000544927, 1, 0.499809, 0.00318532, 0.50018 )

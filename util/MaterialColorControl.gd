@@ -74,8 +74,8 @@ const default_profile = preload("res://profiles/Niteflyte.tres")
 # use these intermediary variables so we can avoid tying code to a specific
 # preloaded material.
 var mat_a = window_mat_a
-var mat_b = window_mat_b
-var mat_c = window_mat_c
+var mat_b = window_mat_a #window_mat_b
+var mat_c = window_mat_a #window_mat_c
 
 var texture_gen_a = ImageGenerator.WindowGenerator.new()
 var texture_gen_b = ImageGenerator.WindowGenerator.new()
