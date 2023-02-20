@@ -4,6 +4,9 @@ extends Spatial
 # (c) 2022 Nicolas McCormick Fredrickson
 # This code is licensed under the MIT license (see LICENSE.txt for details)
 
+# LOGOFF: (02/16/23) Need to work more on the top-is-bottom shading technique.
+# Colors do not seem to be blending correctly. See DotWindowTexLightShader
+
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the Packed Light Scene
@@ -28,28 +31,6 @@ export(bool) var use_window_texture = true setget set_use_window_texture
 
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
-
-export(PLS.LightGroups) var se_group = PLS.LightGroups.ONE setget set_se_group
-export(int, 0, 999) var se_range = 16 setget set_se_range
-
-export(PLS.LightGroups) var ne_group = PLS.LightGroups.TWO setget set_ne_group
-export(int, 0, 999) var ne_range = 16 setget set_ne_range
-
-export(PLS.LightGroups) var nw_group = PLS.LightGroups.THREE setget set_nw_group
-export(int, 0, 999) var nw_range = 16 setget set_nw_range
-
-export(PLS.LightGroups) var sw_group = PLS.LightGroups.FOUR setget set_sw_group
-export(int, 0, 999) var sw_range = 16 setget set_sw_range
-
-# The light data for each light.
-# Light Positioned in the +x+z corner
-var light_se = PLS.PackedLight.new()
-# Light Positioned in the +x-z corner
-var light_ne = PLS.PackedLight.new()
-# Light Positioned in the -x-z corner
-var light_nw = PLS.PackedLight.new()
-# Light Positioned in the -x+z corner
-var light_sw = PLS.PackedLight.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -105,70 +86,6 @@ func set_auto_build(new_autobuild):
         randomize()
         make_building()
 
-#
-# Light 1
-#
-func set_se_group(new_group):
-    se_group = new_group
-    light_se.set_group(new_group)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_se_range(new_range):
-    se_range = new_range
-    light_se.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-
-#
-# Light 2
-#
-func set_ne_group(new_group):
-    ne_group = new_group
-    light_ne.set_group(new_group)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_ne_range(new_range):
-    ne_range = new_range
-    light_ne.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-
-#
-# Light 3
-#
-func set_nw_group(new_group):
-    nw_group = new_group
-    light_nw.set_group(new_group)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_nw_range(new_range):
-    nw_range = new_range
-    light_nw.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-
-#
-# Light 4
-#
-func set_sw_group(new_group):
-    sw_group = new_group
-    light_sw.set_group(new_group)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-func set_sw_range(new_range):
-    sw_range = new_range
-    light_sw.set_range(new_range)
-    if Engine.editor_hint and auto_build:
-        randomize()
-        make_building()
-
 # --------------------------------------------------------
 #
 # Build Functions
@@ -215,15 +132,11 @@ func make_building(rng : RandomNumberGenerator = null):
     # the ones we need into these variables!
     var vertex
     var uv
-    var color
-    var uv2
     
     # We'll use these variables to dereference elements in the array we're
     # looking at.
     var curr_vert
     var curr_uv
-    var curr_color
-    var curr_uv2
     
     # The UV shift vectors
     var shift_north
@@ -248,14 +161,6 @@ func make_building(rng : RandomNumberGenerator = null):
     vertex = arrays[ArrayMesh.ARRAY_VERTEX]
     uv = arrays[ArrayMesh.ARRAY_TEX_UV]
     
-    # We're just going to assume the color array is blank, so we'll go about
-    # making our own.
-    color = PoolColorArray()
-    
-    # We're just going to assume the UV2 array is blank, so we'll go about
-    # making our own.
-    uv2 = PoolVector2Array()
-    
     # Calculate some shifts
     shift_north = calculate_cell_uv_shift(rng)
     shift_south = calculate_cell_uv_shift(rng)
@@ -263,25 +168,16 @@ func make_building(rng : RandomNumberGenerator = null):
     shift_east = calculate_cell_uv_shift(rng)
     
     for idx in range( vertex.size() ):
-        # Grab the current vector and uv, default the uv2 and color
+        # Grab the current vector and uv
         curr_vert = vertex[idx]
         curr_uv = uv[idx]
-        curr_uv2 = Vector2.ZERO
-        curr_color = Color(0, 0, 0, 0)
         
         #
-        # Step 1: UV2
+        # Step 1: Vertex
         #
-        curr_uv2.x = \
-        light_se.to_southern_group_float() + light_ne.to_northern_group_float()
-        curr_uv2.y = \
-        light_sw.to_southern_group_float() + light_nw.to_northern_group_float()
-        
-        #
-        # Step 2: Vertex
-        #
-        # Shift the height up since the cube is always centered at y 0
-        curr_vert.y += CUBE_SIZE / 2
+        # Shift the height down since the cube is always centered at y 0. This
+        # should force the building's roof to be at 0. We can use
+        curr_vert.y -= CUBE_SIZE / 2
         
         # Now, scale all of the points based on the effective lengths we were
         # given.
@@ -290,15 +186,7 @@ func make_building(rng : RandomNumberGenerator = null):
         curr_vert.z *= eff_z / CUBE_SIZE
         
         #
-        # Step 3: Vertex Color
-        #
-        curr_color.r = light_se.to_range_float()
-        curr_color.g = light_ne.to_range_float()
-        curr_color.b = light_nw.to_range_float()
-        curr_color.a = light_sw.to_range_float()
-        
-        #
-        # Step 4: UV
+        # Step 2: UV
         #
         match idx:
             # South face is 0 2 4 6
@@ -365,14 +253,10 @@ func make_building(rng : RandomNumberGenerator = null):
         # Assert the modified values
         vertex[idx] = curr_vert
         uv[idx] = curr_uv
-        color.append(curr_color)
-        uv2.append(curr_uv2)
     
     # Assert the updated arrays in the array-of-arrays
     arrays[ArrayMesh.ARRAY_VERTEX] = vertex
     arrays[ArrayMesh.ARRAY_TEX_UV] = uv
-    arrays[ArrayMesh.ARRAY_COLOR] = color
-    arrays[ArrayMesh.ARRAY_TEX_UV2] = uv2
     
     $BuildingMesh.mesh.add_surface_from_arrays(
         Mesh.PRIMITIVE_TRIANGLES,
@@ -384,3 +268,4 @@ func make_building(rng : RandomNumberGenerator = null):
     # Set the building material
     $BuildingMesh.set_surface_material(0, building_material)
     
+    $BuildingMesh.transform.origin = Vector3(0, eff_y, 0)

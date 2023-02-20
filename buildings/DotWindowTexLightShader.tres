@@ -56,12 +56,12 @@ uniform float ShiftMinWU : hint_range(0.1, 128.0, 0.1) = 48.0;
 // be between 0 and this value, inclusive.
 uniform float ShiftMaxVariWU : hint_range(0.0, 128.0, 0.1) = 0.1;//16.0;
 
-// The minimum range of each light, in window units.
-uniform float RangeMinWU : hint_range(8.0, 128.0, 0.1) = 16.0;
-// The maximum range variance of each light, in window units. This will be
-// added to the RangeMinWU - the actual value added will be between 0 and this
-// value, inclusive.
-uniform float RangeMaxVariWU : hint_range(1.0, 128.0, 0.5) = 80.0;
+// The minimum range coefficient of each light.
+uniform float RangeMinCo : hint_range(0.0, 1.0, 0.01) = 0.25;
+// The range coefficient variance of each light This will be added to the
+// RangeMinCo - the actual value added will be between 0 and this value,
+// inclusive.
+uniform float RangeVariCo : hint_range(0.0, 1.0, 0.01) = 0.5;
 
 // The texture we'll use to get light information
 uniform sampler2D LightDataTexture;
@@ -135,8 +135,8 @@ float get_data_power(vec2 data_uv){
 
 float get_data_range(vec2 data_uv){
     float d_range = texture(LightDataTexture, data_uv).g;
-    d_range = (d_range * RangeMaxVariWU) + RangeMinWU;
-    return d_range / WindowUnit;
+    d_range = (d_range * RangeVariCo) + RangeMinCo;
+    return d_range;
 }
 
 // Using a given UV coordinate, access the Light Data texture and determine the
@@ -208,9 +208,9 @@ void fragment() {
     // The origin of the model, in World Units/Global Space
     vec3 origin_world = WORLD_MATRIX[3].xyz;
     // The origin of the model, in Window Units
-    vec2 origin_window = round( origin_world * WindowUnit ).xz;
+    vec3 origin_window = round( origin_world * WindowUnit );
     // Transform the origin in window units to a UV in data units
-    vec2 data_uv = origin_window / DataUnit;
+    vec2 data_uv = origin_window.xz / DataUnit;
     // Calculate individual UV shifts for each direction
     vec2 data_uv_se = data_uv + vec2( 0.01,  0.01);
     vec2 data_uv_ne = data_uv + vec2( 0.01, -0.01);
@@ -226,44 +226,52 @@ void fragment() {
     float se_offset, ne_offset, nw_offset, sw_offset; 
     float se_power,  ne_power,  nw_power,  sw_power; 
     
+    // 
+    float building_height = origin_world.y;
+    
     se_color = get_data_color(data_uv_se);
     se_power = get_data_power(data_uv_se);
-    se_range = get_data_range(data_uv_se);
+    se_range = get_data_range(data_uv_se) * building_height;
     se_offset = get_data_offset(data_uv_se);
     se_pos = pos_corner + vec3(se_offset, 0, se_offset);
+    se_pos = vec3(
+        pos_corner.x + se_offset,
+        -building_height,
+        pos_corner.z + se_offset
+    );
     
     ne_color = get_data_color(data_uv_ne);
     ne_power = get_data_power(data_uv_ne);
-    ne_range = get_data_range(data_uv_ne);
+    ne_range = get_data_range(data_uv_ne) * building_height;
     ne_offset = get_data_offset(data_uv_ne);
     ne_pos = vec3(
         pos_corner.x + ne_offset,
-        pos_corner.y,
+        -building_height,
         -pos_corner.z - ne_offset
     );
 
     nw_color = get_data_color(data_uv_nw);
     nw_power = get_data_power(data_uv_nw);
-    nw_range = get_data_range(data_uv_nw);
+    nw_range = get_data_range(data_uv_nw) * building_height;
     nw_offset = get_data_offset(data_uv_nw);
     nw_pos = vec3(
         -pos_corner.x - nw_offset,
-        pos_corner.y,
+        -building_height,
         -pos_corner.z - nw_offset
     );
     
     sw_color = get_data_color(data_uv_sw);
     sw_power = get_data_power(data_uv_sw);
-    sw_range = get_data_range(data_uv_sw);
+    sw_range = get_data_range(data_uv_sw) * building_height;
     sw_offset = get_data_offset(data_uv_sw);
     sw_pos = vec3(
         -pos_corner.x - sw_offset,
-        pos_corner.y,
+        -building_height,
         pos_corner.z + sw_offset
     );
     
     //
-    // Step 5: Calculate distance from each light
+    // Step 6: Calculate distance from each light
     //
     // Get the position of this fragment coordinate in local model space. To do
     // that, we take the VERTEX built-in (which is the coordinate in view space)
