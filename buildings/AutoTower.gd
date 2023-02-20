@@ -4,9 +4,6 @@ extends Spatial
 # (c) 2022 Nicolas McCormick Fredrickson
 # This code is licensed under the MIT license (see LICENSE.txt for details)
 
-# LOGOFF: (02/16/23) Need to work more on the top-is-bottom shading technique.
-# Colors do not seem to be blending correctly. See DotWindowTexLightShader
-
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
 # Load the Packed Light Scene
@@ -176,7 +173,8 @@ func make_building(rng : RandomNumberGenerator = null):
         # Step 1: Vertex
         #
         # Shift the height down since the cube is always centered at y 0. This
-        # should force the building's roof to be at 0. We can use
+        # should force the building's roof to be at 0. This allows us to use the
+        # model origin as the building's height in a shader.
         curr_vert.y -= CUBE_SIZE / 2
         
         # Now, scale all of the points based on the effective lengths we were

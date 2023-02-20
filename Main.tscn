@@ -90,6 +90,8 @@ height = 15.0
 unique_name_in_owner = true
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 1.49012e-08, 1, 0, 0, 1 )
 
+[node name="Spatial" type="Spatial" parent="UpCamera"]
+
 [node name="RoofSlope" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0 )
 visible = false
@@ -107,7 +109,7 @@ transform = Transform( 1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -
 environment = ExtResource( 7 )
 
 [node name="GrowBlockCity" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -8 )
+transform = Transform( 1, 8.74228e-08, 0, -8.74228e-08, 1, 0, 0, 0, -1, 0, 0, -8 )
 block_z_length = 200
 buildings_per_block = 40
 max_square_size = ExtResource( 6 )

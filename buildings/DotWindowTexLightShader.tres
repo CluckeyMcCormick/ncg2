@@ -203,14 +203,27 @@ void fragment() {
     );
     
     //
-    // Step 3: Calculate light sampling positions
+    // Step 2: Calculate light sampling positions
     //
-    // The origin of the model, in World Units/Global Space
+    // The global origin of the model, in World Units
     vec3 origin_world = WORLD_MATRIX[3].xyz;
-    // The origin of the model, in Window Units
+    // The global origin of the model, in Window Units
     vec3 origin_window = round( origin_world * WindowUnit );
+    // The current VERTEX in GLOBAL SPACE. VERTEX is in viewspace by default so
+    // we need to use the CAMERA_MATRIX
+    vec3 vertex_global = (CAMERA_MATRIX * vec4(VERTEX, 1.0)).xyz;
+    // The current VERTEX in MODEL SPACE. There's no WORLD to MODEL matrix so we
+    // use the inverse of the WORLD_MATRIX.
+    vec3 vertex_model = (inverse(WORLD_MATRIX) * vec4(vertex_global, 1.0)).xyz;
+    
+    // Get the global vertex as an offset from the origin, then divide by the
+    // corresponding model offset. That should give us the individual scalars,
+    // per-axis
+    vec3 vertex_scale = (vertex_global - origin_world) / vertex_model;
+    
     // Transform the origin in window units to a UV in data units
     vec2 data_uv = origin_window.xz / DataUnit;
+    
     // Calculate individual UV shifts for each direction
     vec2 data_uv_se = data_uv + vec2( 0.01,  0.01);
     vec2 data_uv_ne = data_uv + vec2( 0.01, -0.01);
@@ -218,7 +231,7 @@ void fragment() {
     vec2 data_uv_sw = data_uv + vec2(-0.01,  0.01);
     
     //
-    // Step 4: Unpack light information
+    // Step 3: Unpack light information
     //
     vec4  se_color,  ne_color,  nw_color,  sw_color;
     float se_range,  ne_range,  nw_range,  sw_range;
@@ -227,7 +240,7 @@ void fragment() {
     float se_power,  ne_power,  nw_power,  sw_power; 
     
     // 
-    float building_height = origin_world.y;
+    float building_height = origin_world.y / vertex_scale.y;
     
     se_color = get_data_color(data_uv_se);
     se_power = get_data_power(data_uv_se);
@@ -271,36 +284,25 @@ void fragment() {
     );
     
     //
-    // Step 6: Calculate distance from each light
+    // Step 4: Calculate distance from each light
     //
-    // Get the position of this fragment coordinate in local model space. To do
-    // that, we take the VERTEX built-in (which is the coordinate in view space)
-    // and multiply it by the CAMERA_MATRIX, which is the view space to
-    // world space transform matrix. Now we're in world space, and we want to
-    // be in model space. Unfortunately all we have is the WORLD_MATRIX, which
-    // converts from model space to world space. BUT, if we invert that, that
-    // gives us world space to model space, so we can multiply that by our world
-    // vertex to get the vertex in model space.
-    vec3 frag_model_pos = (
-        inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0))
-    ).xyz;
     
     // Now we need to measure our distance from each lights, which have a y
     // position at \"base_height\". Multiply that by our distance coefficient to
     // control how this distance scales
-    float se_d = distance(se_pos, frag_model_pos);
-    float ne_d = distance(ne_pos, frag_model_pos);
-    float nw_d = distance(nw_pos, frag_model_pos);
-    float sw_d = distance(sw_pos, frag_model_pos);
+    float se_d = distance(se_pos, vertex_model);
+    float ne_d = distance(ne_pos, vertex_model);
+    float nw_d = distance(nw_pos, vertex_model);
+    float sw_d = distance(sw_pos, vertex_model);
     
     //
-    // Step 6: Calculate the theta using the normal and the light positions
+    // Step 5: Calculate the theta using the normal and the light positions
     //
     // Calculate the unitized direction
-    vec3 se_dir = normalize(se_pos - frag_model_pos);
-    vec3 ne_dir = normalize(ne_pos - frag_model_pos);
-    vec3 nw_dir = normalize(nw_pos - frag_model_pos);
-    vec3 sw_dir = normalize(sw_pos - frag_model_pos);
+    vec3 se_dir = normalize(se_pos - vertex_model);
+    vec3 ne_dir = normalize(ne_pos - vertex_model);
+    vec3 nw_dir = normalize(nw_pos - vertex_model);
+    vec3 sw_dir = normalize(sw_pos - vertex_model);
     
     // The \"theta\" is the angle at which the light is hitting a particular
     // surface. If we take the dot product of the normal and the light direction
@@ -312,13 +314,13 @@ void fragment() {
     float nw_t = max( dot(actual_normal, nw_dir), 0.0 );
     float sw_t = max( dot(actual_normal, sw_dir), 0.0 );
     
-    // NOTE: Step 6 might not have been a lot, but it took me a long time to
+    // NOTE: Step 5 might not have been a lot, but it took me a long time to
     // work out. Shout out to Joey de Vries and his Learn Open GL website,
     // because I would NOT have figured this out without his article:
     // https://learnopengl.com/Lighting/Basic-Lighting
     
     //
-    // Step 7: Calculate light color
+    // Step 6: Calculate light color
     //
     vec3 se_c = se_color.rgb * se_power * se_t * get_omni_attenuation(se_range, se_d);
     vec3 ne_c = ne_color.rgb * ne_power * ne_t * get_omni_attenuation(ne_range, ne_d);
@@ -332,7 +334,7 @@ void fragment() {
     sw_c = clamp(sw_c, 0.0, 1.0);
     
     //
-    // Step 8: Calculate ALBEDO and ALPHA
+    // Step 7: Calculate ALBEDO and ALPHA
     //
     
     // Alright, so our final ALBEDO is a mix between...
