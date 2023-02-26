@@ -10,7 +10,7 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const PLS = preload("res://buildings/PackedLight.gd")
 
 # Our building is actually crafted using a cube - we take the mesh and then
-# manipulate the points. It's always an equal sized cube, to - how long is that
+# manipulate the points. It's always an equal sized cube, too - how long is that
 # cube on one side?
 const CUBE_SIZE = 1.0
 
