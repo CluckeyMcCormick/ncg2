@@ -1,9 +1,30 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
 
-[ext_resource path="res://decorations/SilhouetteLightShader.tres" type="Shader" id=1]
+[ext_resource path="res://decorations/SilhouetteTexLightShader.tres" type="Shader" id=1]
 [ext_resource path="res://decorations/antennae_textures/rod16px.png" type="Texture" id=2]
+[ext_resource path="res://noise/rgb_hurl_noise1024.png" type="Texture" id=3]
 
 [resource]
 shader = ExtResource( 1 )
-shader_param/SilhouetteColor = Color( 0, 0.0509804, 0.12549, 1 )
+shader_param/SilhouetteColor = Color( 0, 0, 0, 1 )
+shader_param/L1Color = Color( 1, 0, 0, 1 )
+shader_param/L1PowerScalar = 1.0
+shader_param/L1Coefficient = 1.0
+shader_param/L2Color = Color( 0, 1, 0, 1 )
+shader_param/L2PowerScalar = 1.0
+shader_param/L2Coefficient = 1.0
+shader_param/L3Color = Color( 0, 0, 1, 1 )
+shader_param/L3PowerScalar = 1.0
+shader_param/L3Coefficient = 1.0
+shader_param/L4Color = Color( 1, 1, 0, 1 )
+shader_param/L4PowerScalar = 1.0
+shader_param/L4Coefficient = 1.0
+shader_param/ShiftMinWU = 3.0
+shader_param/ShiftMaxVariWU = 4.0
+shader_param/RangeMinCo = 0.5
+shader_param/RangeVariCo = 1.0
+shader_param/WindowUnit = 64.0
+shader_param/DataUnit = 1024.0
+shader_param/decay = 0.5
 shader_param/SilhouetteTexture = ExtResource( 2 )
+shader_param/LightDataTexture = ExtResource( 3 )
