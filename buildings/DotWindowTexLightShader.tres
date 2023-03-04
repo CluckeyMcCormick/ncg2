@@ -1,0 +1,354 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "
+// (c) 2022 Nicolas McCormick Fredrickson
+// This code is licensed under the MIT license (see LICENSE.txt for details)
+
+shader_type spatial;
+
+render_mode unshaded, depth_draw_alpha_prepass;
+
+// Color of the building
+uniform vec4 BuildingColor : hint_color;
+
+// Red Dot replacement color and light mixture scalar
+uniform vec4 RedDotColor : hint_color;
+uniform float RedDotLightMix : hint_range(0, 1);
+// Green Dot
+uniform vec4 GreenDotColor : hint_color;
+uniform float GreenDotLightMix : hint_range(0, 1);
+// Blue Dot
+uniform vec4 BlueDotColor : hint_color;
+uniform float BlueDotLightMix : hint_range(0, 1);
+// The actual texture we'll be using to create the building
+uniform sampler2D DotTexture;
+// Sometimes, with window textures that have gradual gradients, we'll see weird
+// color \"rings\" around the windows/dots. This is particularly noticeable when
+// you remove alpha-ing out the building. The solution is to round the texture's
+// alpha to one-or-zero - however, this results in a jagged look. Ergo, we leave
+// it as a uniform. 
+uniform float window_border_correction : hint_range(0, 1);
+
+// The colors we'll use for each of the lights.
+uniform vec4 L1Color : hint_color;
+// A scalar to finely tune the power of each light
+uniform float L1PowerScalar = 1;
+// A coefficient that's either 0 or 1, effectively acting as an on-or-off switch
+uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L2Color : hint_color;
+uniform float L2PowerScalar = 1;
+uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L3Color : hint_color;
+uniform float L3PowerScalar = 1;
+uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L4Color : hint_color;
+uniform float L4PowerScalar = 1;
+uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+// The offset/shift of each light, in window units. This is the minimum shift.
+uniform float ShiftMinWU : hint_range(0.1, 128.0, 0.1) = 3.0;
+// The offset/shift of each light, in window units. This is the maximum
+// variance that will be added to the ShiftMinWU - the actual value added will
+// be between 0 and this value, inclusive.
+uniform float ShiftMaxVariWU : hint_range(0.0, 128.0, 0.1) = 4.0;
+
+// The minimum range coefficient of each light.
+uniform float RangeMinCo : hint_range(0.0, 1.0, 0.01) = 0.5;
+// The range coefficient variance of each light This will be added to the
+// RangeMinCo - the actual value added will be between 0 and this value,
+// inclusive.
+uniform float RangeVariCo : hint_range(0.0, 1.0, 0.01) = 1.0;
+
+// The texture we'll use to get light information
+uniform sampler2D LightDataTexture;
+
+// How many window units fit inside of 1 Godot unit? 
+uniform float WindowUnit : hint_range(   8.0,  128.0,   8.0 ) = 64.0;
+// How many window units compose the light data texture? This will determine how
+// the light data texture is sampled.
+uniform float DataUnit   : hint_range( 256.0, 2048.0, 256.0 ) = 1024.0;
+
+// What's the base luminance/power value of all the lights?
+const float base_power = 1.0;
+
+// The decay factor controls how quickly the light's energy decays.
+uniform float decay : hint_range(0.0, 10.0, 0.001) = 0.5;
+
+// Okay so this shader emulates us having lights by placing lights at the four
+// \"corners\" of the mesh. Except there's no real way to designate the mesh's
+// corner. So here's what we're going to do: guess. We're just gonna guess.
+// Maybe it'll be a good guess? Who knows. If we take the absolute values of x
+// and z for every vertex, then that SHOUUUULD be the positive version of each
+// vertex. And from that, we can calculate the other versions. Probably. 
+varying vec3 pos_corner;
+
+// Okay, so the NORMAL in the fragment shader is kind of... weird. I think it's
+// in view space, but I couldn't get it into the model view space - not even
+// using my inverse matrix technique. So I decided to just capture the surface
+// normal in the vertex shader and pass it to the fragment shader. Lazy,
+// incorrect - functional!
+varying vec3 actual_normal;
+
+// Taken from Godot 4.0 source! See modules/lightmapper_rd/lm_compute.glsl
+float get_omni_attenuation(float r, float d) {
+    float inv_range = 1.0 / r;
+    float nd = d * inv_range;
+    nd *= nd;
+    nd *= nd; // nd^4
+    nd = max(1.0 - nd, 0.0);
+    nd *= nd; // nd^2
+    return nd * pow(max(d, 0.0001), -decay);
+}
+
+// Using a given UV coordinate, access the Light Data texture and determine the
+// light's GROUP. Using that group, we return the corresponding color.
+vec4 get_data_color(vec2 data_uv){
+    float red_val = texture(LightDataTexture, data_uv).r;
+    
+    if( red_val <= 0.25 )
+        return L1Color;
+    else if( red_val <= 0.50 )
+        return L2Color;
+    else if( red_val <= 0.75 )
+        return L3Color;
+    else
+        return L4Color;
+}
+// Using a given UV coordinate, access the Light Data texture and determine the
+// light's GROUP. Using that group, we return the corresponding power.
+float get_data_power(vec2 data_uv){
+    float red_val = texture(LightDataTexture, data_uv).r;
+    
+    if( red_val <= 0.25 )
+        return base_power * L1PowerScalar * L1Coefficient;
+    else if( red_val <= 0.50 )
+        return base_power * L2PowerScalar * L2Coefficient;
+    else if( red_val <= 0.75 )
+        return base_power * L3PowerScalar * L3Coefficient;
+    else
+        return base_power * L4PowerScalar * L4Coefficient;
+}
+
+float get_data_range(vec2 data_uv){
+    float d_range = texture(LightDataTexture, data_uv).g;
+    d_range = (d_range * RangeVariCo) + RangeMinCo;
+    return d_range;
+}
+
+// Using a given UV coordinate, access the Light Data texture and determine the
+// light's GROUP. Using that group, we return the corresponding color.
+float get_data_offset(vec2 data_uv){
+    float d_offset = texture(LightDataTexture, data_uv).b ;
+    d_offset = (d_offset * ShiftMaxVariWU) + ShiftMinWU;
+    return d_offset / WindowUnit;
+}
+
+void vertex() {
+    // Calculate the \"positive corner\" version of this vertex - the corner where
+    // x and z are positive
+    pos_corner = vec3(abs(VERTEX.x), 0.0, abs(VERTEX.z) );
+    
+    // Grab the normal now so we can carry it over to the fragment shader
+    actual_normal = normalize(NORMAL);
+}
+
+void fragment() {
+    // Grab the RGBA from the window dot texture
+    vec4 window_texture = texture(DotTexture, UV.xy);
+    // Devolve the vector into individual colors
+    float win_r = window_texture.r;
+    float win_g = window_texture.g;
+    float win_b = window_texture.b;
+    float win_a = window_texture.a;
+    
+    //
+    // Step 1: Determine window color, alpha, and mix factors for this fragment
+    //    
+    // Round the alpha according to our correction factor.
+    win_a = mix(win_a, round(win_a), window_border_correction);
+    
+    // Instead of using if-else checks to replace the red-green-blue of the
+    // window texture with our designated replacements, we'll use this mix
+    // monstrosity. The red, green, and blue of the texture will be used as the
+    // mix scalars. As long as the colors are pure, this will replace the dots
+    // appropriately with no issues!
+    vec3 window_color = mix(mix(mix(
+                // Mix between black and whatever our red color is, using the
+                // \"redness\" as a scalar.
+                vec3(0, 0, 0), RedDotColor.rgb, win_r
+            // Mix between the above result and the green color, using the
+            // \"greeness\" as a scalar
+            ), GreenDotColor.rgb, win_g
+        // Mix between the above result and the blue color, using the \"blueness\"
+        // as a scalar
+        ), BlueDotColor.rgb, win_b
+    );
+
+    // This is the same exact thing as above, but with alpha instead of RGB.
+    float window_alpha = mix(mix(mix(
+                0.0, RedDotColor.a, win_r
+            ), GreenDotColor.a, win_g
+        ), BlueDotColor.a, win_b
+    );
+    
+    // The same thing once again, but now with our window light mixture factor.
+    float window_light_factor = mix(mix(mix(
+                0.0, RedDotLightMix, win_r
+            ), GreenDotLightMix, win_g
+        ), BlueDotLightMix, win_b
+    );
+    
+    //
+    // Step 2: Calculate light sampling positions
+    //
+    // The global origin of the model, in World Units
+    vec3 origin_world = WORLD_MATRIX[3].xyz;
+    // The global origin of the model, in Window Units
+    vec3 origin_window = round( origin_world * WindowUnit );
+    // The current VERTEX in GLOBAL SPACE. VERTEX is in viewspace by default so
+    // we need to use the CAMERA_MATRIX
+    vec3 vertex_global = (CAMERA_MATRIX * vec4(VERTEX, 1.0)).xyz;
+    // The current VERTEX in MODEL SPACE. There's no WORLD to MODEL matrix so we
+    // use the inverse of the WORLD_MATRIX.
+    vec3 vertex_model = (inverse(WORLD_MATRIX) * vec4(vertex_global, 1.0)).xyz;
+    
+    // Get the global vertex as an offset from the origin, then divide by the
+    // corresponding model offset. That should give us the individual scalars,
+    // per-axis
+    vec3 vertex_scale = (vertex_global - origin_world) / vertex_model;
+    
+    // Transform the origin in window units to a UV in data units
+    vec2 data_uv = origin_window.xz / DataUnit;
+    
+    // Calculate individual UV shifts for each direction
+    vec2 data_uv_se = data_uv + vec2( 0.01,  0.01);
+    vec2 data_uv_ne = data_uv + vec2( 0.01, -0.01);
+    vec2 data_uv_nw = data_uv + vec2(-0.01, -0.01);
+    vec2 data_uv_sw = data_uv + vec2(-0.01,  0.01);
+    
+    //
+    // Step 3: Unpack light information
+    //
+    vec4  se_color,  ne_color,  nw_color,  sw_color;
+    float se_range,  ne_range,  nw_range,  sw_range;
+    vec3  se_pos,    ne_pos,    nw_pos,    sw_pos;
+    float se_offset, ne_offset, nw_offset, sw_offset; 
+    float se_power,  ne_power,  nw_power,  sw_power; 
+    
+    // 
+    float building_height = origin_world.y / vertex_scale.y;
+    
+    se_color = get_data_color(data_uv_se);
+    se_power = get_data_power(data_uv_se);
+    se_range = get_data_range(data_uv_se) * building_height;
+    se_offset = get_data_offset(data_uv_se);
+    se_pos = pos_corner + vec3(se_offset, 0, se_offset);
+    se_pos = vec3(
+        pos_corner.x + se_offset,
+        -building_height,
+        pos_corner.z + se_offset
+    );
+    
+    ne_color = get_data_color(data_uv_ne);
+    ne_power = get_data_power(data_uv_ne);
+    ne_range = get_data_range(data_uv_ne) * building_height;
+    ne_offset = get_data_offset(data_uv_ne);
+    ne_pos = vec3(
+        pos_corner.x + ne_offset,
+        -building_height,
+        -pos_corner.z - ne_offset
+    );
+
+    nw_color = get_data_color(data_uv_nw);
+    nw_power = get_data_power(data_uv_nw);
+    nw_range = get_data_range(data_uv_nw) * building_height;
+    nw_offset = get_data_offset(data_uv_nw);
+    nw_pos = vec3(
+        -pos_corner.x - nw_offset,
+        -building_height,
+        -pos_corner.z - nw_offset
+    );
+    
+    sw_color = get_data_color(data_uv_sw);
+    sw_power = get_data_power(data_uv_sw);
+    sw_range = get_data_range(data_uv_sw) * building_height;
+    sw_offset = get_data_offset(data_uv_sw);
+    sw_pos = vec3(
+        -pos_corner.x - sw_offset,
+        -building_height,
+        pos_corner.z + sw_offset
+    );
+    
+    //
+    // Step 4: Calculate distance from each light
+    //
+    
+    // Now we need to measure our distance from each lights, which have a y
+    // position at \"base_height\". Multiply that by our distance coefficient to
+    // control how this distance scales
+    float se_d = distance(se_pos, vertex_model);
+    float ne_d = distance(ne_pos, vertex_model);
+    float nw_d = distance(nw_pos, vertex_model);
+    float sw_d = distance(sw_pos, vertex_model);
+    
+    //
+    // Step 5: Calculate the theta using the normal and the light positions
+    //
+    // Calculate the unitized direction
+    vec3 se_dir = normalize(se_pos - vertex_model);
+    vec3 ne_dir = normalize(ne_pos - vertex_model);
+    vec3 nw_dir = normalize(nw_pos - vertex_model);
+    vec3 sw_dir = normalize(sw_pos - vertex_model);
+    
+    // The \"theta\" is the angle at which the light is hitting a particular
+    // surface. If we take the dot product of the normal and the light direction
+    // unit vector, then the resulting vaue will be 0 if the theta is 0 degrees
+    // or 1 if it is 90 degrees. This allows us to effectively scale the power
+    // of a light depending on it's theta to the normal.
+    float se_t = max( dot(actual_normal, se_dir), 0.0 );
+    float ne_t = max( dot(actual_normal, ne_dir), 0.0 );
+    float nw_t = max( dot(actual_normal, nw_dir), 0.0 );
+    float sw_t = max( dot(actual_normal, sw_dir), 0.0 );
+    
+    // NOTE: Step 5 might not have been a lot, but it took me a long time to
+    // work out. Shout out to Joey de Vries and his Learn Open GL website,
+    // because I would NOT have figured this out without his article:
+    // https://learnopengl.com/Lighting/Basic-Lighting
+    
+    //
+    // Step 6: Calculate light color
+    //
+    vec3 se_c = se_color.rgb * se_power * se_t * get_omni_attenuation(se_range, se_d);
+    vec3 ne_c = ne_color.rgb * ne_power * ne_t * get_omni_attenuation(ne_range, ne_d);
+    vec3 nw_c = nw_color.rgb * nw_power * nw_t * get_omni_attenuation(nw_range, nw_d);
+    vec3 sw_c = sw_color.rgb * sw_power * sw_t * get_omni_attenuation(sw_range, sw_d);
+    
+    // Clamp the colors down (otherwise they might disapear!)
+    se_c = clamp(se_c, 0.0, 1.0);
+    ne_c = clamp(ne_c, 0.0, 1.0);
+    nw_c = clamp(nw_c, 0.0, 1.0);
+    sw_c = clamp(sw_c, 0.0, 1.0);
+    
+    //
+    // Step 7: Calculate ALBEDO and ALPHA
+    //
+    
+    // Alright, so our final ALBEDO is a mix between...
+    ALBEDO = mix(
+        // The building color, lighted appropriately
+        BuildingColor.rgb + se_c + ne_c + nw_c + sw_c,
+        // The window color, lighted appropriately according to the light mix
+        // factor
+        window_color + ((se_c + ne_c + nw_c + sw_c) * window_light_factor),
+        // The mix between these two colors is determined by the window
+        // texture's alpha, where 1 = window and 0 = building.
+        win_a
+    );
+    // The ALPHA is just a mix between the building's alpha and the window
+    // color's alpha, as determined by the window texture's alpha
+    ALPHA = mix(BuildingColor.a, window_alpha, win_a);
+}"

@@ -1,0 +1,243 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "
+// (c) 2022 Nicolas McCormick Fredrickson
+// This code is licensed under the MIT license (see LICENSE.txt for details)
+
+shader_type spatial;
+
+render_mode unshaded, depth_draw_alpha_prepass;
+
+// Color of the building
+uniform vec4 BuildingColor : hint_color;
+
+// Red Dot replacement color and light mixture scalar
+uniform vec4 RedDotColor : hint_color;
+uniform float RedDotLightMix : hint_range(0, 1);
+// Green Dot
+uniform vec4 GreenDotColor : hint_color;
+uniform float GreenDotLightMix : hint_range(0, 1);
+// Blue Dot
+uniform vec4 BlueDotColor : hint_color;
+uniform float BlueDotLightMix : hint_range(0, 1);
+// The actual texture we'll be using to create the building
+uniform sampler2D DotTexture;
+// Sometimes, with window textures that have gradual gradients, we'll see weird
+// color \"rings\" around the windows/dots. This is particularly noticeable when
+// you remove alpha-ing out the building. The solution is to round the texture's
+// alpha to one-or-zero - however, this results in a jagged look. Ergo, we leave
+// it as a uniform. 
+uniform float window_border_correction : hint_range(0, 1);
+
+// The texture we'll be using to determine the first power level of each light
+uniform sampler2D PowerTexture : hint_black;
+
+// The colors we'll use for each of the lights.
+uniform vec4 L1Color : hint_color;
+uniform vec2 L1Shift = vec2(0, 0);
+uniform vec2 L1TextureScale = vec2(1, 1);
+uniform float L1Scalar = 1;
+uniform float L1Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L2Color : hint_color;
+uniform vec2 L2Shift = vec2(0, 0);
+uniform vec2 L2TextureScale = vec2(1, 1);
+uniform float L2Scalar = 1;
+uniform float L2Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L3Color : hint_color;
+uniform vec2 L3Shift = vec2(0, 0);
+uniform vec2 L3TextureScale = vec2(1, 1);
+uniform float L3Scalar = 1;
+uniform float L3Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+uniform vec4 L4Color : hint_color;
+uniform vec2 L4Shift = vec2(0, 0);
+uniform vec2 L4TextureScale = vec2(1, 1);
+uniform float L4Scalar = 1;
+uniform float L4Coefficient : hint_range(0.0, 1.0, 1) = 1;
+
+// We consider lights to \"start\" at a certain fixed height - below this point,
+// there is no attenutation
+uniform float base_height : hint_range(0.0, 100.0, 0.001) = 0;
+// Sometimes the attenuation just doesn't happen as quickly as it wants to - so
+// we use this coefficient to scale up the distance, thus directly scaling up
+// (or down!) the distance.
+uniform float distance_coefficient : hint_range(0.0, 100.0) = 1;
+
+// We do a bunch of processing on the power textures - including adjusting the
+// range of power values sampled from the power textures. What's the new max and
+// min value we use, instead of a min of 0 and a max of 1?
+uniform float power_max = 1;
+uniform float power_min = 0;
+
+// The attenuation factor is calculated using three coefficients - the constant
+// attenuation, the linear attenuation, and the quadratic attenuation. You can
+// play with the linear and quadratic as you please - higher numbers means more
+// (or rather, quicker) attenuation.
+const float constant_attenuation = 1.0;
+uniform float linear_attenuation : hint_range(0.0, 100.0) = 1.0;
+uniform float quadratic_attenuation : hint_range(0.0, 100.0) = 1.0;
+
+// I've found that the noise textures we use for lights don't have enough
+// contrast for my taste. To get around that, we'll put each of the light
+// textures through the adjust_contrast function (see below). What's the
+// contrast factor we feed in to that function?
+uniform float light_contrast_factor : hint_range(0.0, 10.0);
+
+// One of the issues with the noise texture is how it doesn't create separate
+// \"islands\" of light so much as this continous flow of lights - almost like a
+// blanket or quilt. By subtracting out a value when we sample the noise
+// texture, we can essentially create \"islands\" in the noise texture.
+uniform float light_texture_sub : hint_range(0.0, 1.0, 0.001);
+
+// Adjust's the \"contrast curve\" of a given color. To be honest I don't
+// understand the math at play here, but it works!
+float adjust_contrast( in float color, in float new_contrast ) {
+    // This was actually based on shader code from Stack Overflow, provided by
+    // one Walt Ritscher:
+    // https://stackoverflow.com/questions/944713/help-with-pixel-shader-effect-for-brightness-and-contrast
+    return ((color - 0.5) * max(new_contrast, 0)) + 0.5;
+}
+
+void fragment() {
+    // Grab the RGBA from the window dot texture
+    vec4 window_texture = texture(DotTexture, UV.xy);
+    // Devolve the vector into individual colors
+    float win_r = window_texture.r;
+    float win_g = window_texture.g;
+    float win_b = window_texture.b;
+    float win_a = window_texture.a;
+    
+    //
+    // Step 1: Determine window color, alpha, and mix factors for this fragment
+    //    
+    // Round the alpha according to our correction factor.
+    win_a = mix(win_a, round(win_a), window_border_correction);
+    
+    // Instead of using if-else checks to replace the red-green-blue of the
+    // window texture with our designated replacements, we'll use this mix
+    // monstrosity. The red, green, and blue of the texture will be used as the
+    // mix scalars. As long as the colors are pure, this will replace the dots
+    // appropriately with no issues!
+    vec3 window_color = mix(mix(mix(
+                // Mix between black and whatever our red color is, using the
+                // \"redness\" as a scalar.
+                vec3(0, 0, 0), RedDotColor.rgb, win_r
+            // Mix between the above result and the green color, using the
+            // \"greeness\" as a scalar
+            ), GreenDotColor.rgb, win_g
+        // Mix between the above result and the blue color, using the \"blueness\"
+        // as a scalar
+        ), BlueDotColor.rgb, win_b
+    );
+
+    // This is the same exact thing as above, but with alpha instead of RGB.
+    float window_alpha = mix(mix(mix(
+                0.0, RedDotColor.a, win_r
+            ), GreenDotColor.a, win_g
+        ), BlueDotColor.a, win_b
+    );
+    
+    // The same thing once again, but now with our window light mixture factor.
+    float window_light_factor = mix(mix(mix(
+                0.0, RedDotLightMix, win_r
+            ), GreenDotLightMix, win_g
+        ), BlueDotLightMix, win_b
+    );
+    
+    //
+    // Step 2: Calculate power values
+    //
+    // Get the power values
+    float power_one = texture(
+        PowerTexture,
+        (UV2.xy * L1TextureScale) + (L1Shift * L1TextureScale) 
+    ).r;
+    float power_two = texture(
+        PowerTexture,
+        (UV2.xy * L2TextureScale) + (L2Shift * L2TextureScale) 
+    ).r;
+    float power_three = texture(
+        PowerTexture,
+        (UV2.xy * L3TextureScale) + (L3Shift * L3TextureScale) 
+    ).r;
+    float power_four = texture(
+        PowerTexture,
+        (UV2.xy * L4TextureScale) + (L4Shift * L4TextureScale) 
+    ).r;
+    
+    // Adjust the contrast of the power values
+    power_one = adjust_contrast(power_one, light_contrast_factor);
+    power_two = adjust_contrast(power_two, light_contrast_factor);
+    power_three = adjust_contrast(power_three, light_contrast_factor);
+    power_four = adjust_contrast(power_four, light_contrast_factor);
+    
+    // Subtract out our power subtractraction factor. Don't let it go below
+    // zero or things may go funky!
+    power_one = max(power_one - light_texture_sub, 0);
+    power_two = max(power_two - light_texture_sub, 0);
+    power_three = max(power_three - light_texture_sub, 0);
+    power_four = max(power_four - light_texture_sub, 0);
+    
+    // Adjust the power values to the user provided range
+    power_one = (power_max * power_one) + power_min;
+    power_two = (power_max * power_two) + power_min;
+    power_three = (power_max * power_three) + power_min;
+    power_four = (power_max * power_four) + power_min;
+    
+    // Use the scalars and coefficients to do one final adjustment
+    power_one *= L1Scalar * L1Coefficient;
+    power_two *= L2Scalar * L2Coefficient;
+    power_three *= L3Scalar * L3Coefficient;
+    power_four *= L4Scalar * L4Coefficient;
+    
+    //
+    // Step 3: Calculate Attenuation
+    //
+    // Get the position of this fragment coordinate in local model space. To do
+    // that, we take the VERTEX built-in (which is the coordinate in view space)
+    // and multiply it by the CAMERA_MATRIX, which is the view space to
+    // world space transform matrix. Now we're in world space, and we want to
+    // be in model space. Unfortunately all we have is the WORLD_MATRIX, which
+    // converts from model space to world space. BUT, if we invert that, that
+    // gives us world space to model space, so we can multiply that by our world
+    // vertex to get the vertex in model space.
+    vec4 model_vertex = inverse(WORLD_MATRIX) * (CAMERA_MATRIX * vec4(VERTEX, 1.0));
+    
+    // Now we need to measure our \"distance\" from the lights, which have a y
+    // position at \"base_height\". Multiply that by our distance coefficient to
+    // control how this distance scales
+    float dist = max(model_vertex.y - base_height, 0) * distance_coefficient;
+    
+    // Calculate attenuation, which is composed of constant, linear, and
+    // quadratic attenuation.
+    float const_a = constant_attenuation;
+    float linear_a = linear_attenuation * dist;
+    float quad_a = quadratic_attenuation * (dist * dist);
+    float attenuation = 1.0 / (const_a + linear_a + quad_a);
+    
+    //
+    // Step 4: Calculate light color, ALBEDO, and ALPHA
+    //
+    vec3 light_color = L1Color.rgb * power_one * attenuation;
+    light_color += L2Color.rgb * power_two * attenuation;
+    light_color += L3Color.rgb * power_three * attenuation;
+    light_color += L4Color.rgb * power_four * attenuation;
+    
+    // Alright, so our final ALBEDO is a mix between...
+    ALBEDO = mix(
+        // The building color, lighted appropriately
+        BuildingColor.rgb + light_color,
+        // The window color, lighted appropriately according to the light mix
+        // factor
+        window_color + (light_color * window_light_factor),
+        // The mix between these two colors is determined by the window
+        // texture's alpha, where 1 = window and 0 = building.
+        win_a
+    );
+    // The ALPHA is just a mix between the building's alpha and the window
+    // color's alpha, as determined by the window texture's alpha
+    ALPHA = mix(BuildingColor.a, window_alpha, win_a);
+}"

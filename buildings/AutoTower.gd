@@ -4,30 +4,27 @@ extends Spatial
 # (c) 2022 Nicolas McCormick Fredrickson
 # This code is licensed under the MIT license (see LICENSE.txt for details)
 
-# Load the PolyGen script
-const PolyGen = preload("res://util/PolyGen.gd")
-
 # Load the GlobalRef script
 const GlobalRef = preload("res://util/GlobalRef.gd")
+# Load the Packed Light Scene
+const PLS = preload("res://buildings/PackedLight.gd")
 
-# By default, the UV2 texture is centered on 0,0 - so it stretches half it's
-# length in either direction on x and z. While that normally wouldn't be
-# a problem, with our pixel-perfect texture, it bisects one of the windows
-# IF the measure on that side is odd. So we need to shift it to the side by
-# half of the size of a window.
-const odd_UV2_shift = Vector2(GlobalRef.WINDOW_UV_SIZE / 2, 0)
+# Our building is actually crafted using a cube - we take the mesh and then
+# manipulate the points. It's always an equal sized cube, too - how long is that
+# cube on one side?
+const CUBE_SIZE = 1.0
 
 # The material we'll use to make this building.
-export(Material) var building_material
+export(Material) var building_material setget set_building_material
 
 # The length (in total number of cells) of each side of the building. It's a
 # rectangular prism, so we measure the length on each axis.
-export(float) var len_x = 8 setget set_length_x
-export(float) var len_y = 16 setget set_length_y
-export(float) var len_z = 8 setget set_length_z
+export(float, 1, 4096, 1.0) var len_x = 8 setget set_length_x
+export(float, 1, 4096, 1.0) var len_y = 16 setget set_length_y
+export(float, 1, 4096, 1.0) var len_z = 8 setget set_length_z
 
 # Do we use the window texture for this auto-tower, or do we ignore them?
-export(bool) var use_window_texture = true
+export(bool) var use_window_texture = true setget set_use_window_texture
 
 # Do we auto-build on entering the scene?
 export(bool) var auto_build = true setget set_auto_build
@@ -42,24 +39,48 @@ func _ready():
 # Setters and Getters
 #
 # --------------------------------------------------------
+func set_building_material(new_material):
+    building_material = new_material
+    
+    # If we don't have the building mesh for whatever reason, back out
+    if not self.has_node("BuildingMesh"):
+        return
+    
+    # If the building mesh doesn't have a surface for us to manipulate, back out
+    if $BuildingMesh.mesh.get_surface_count() > 0:
+        return
+    
+    # Set the building material
+    $BuildingMesh.set_surface_material(0, building_material)
+
 func set_length_x(new_length):
     len_x = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 func set_length_y(new_length):
     len_y = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
     
 func set_length_z(new_length):
     len_z = new_length
     if Engine.editor_hint and auto_build:
+        randomize()
+        make_building()
+
+func set_use_window_texture(use_texture):
+    use_window_texture = use_texture
+    if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 func set_auto_build(new_autobuild):
     auto_build = new_autobuild
     if Engine.editor_hint and auto_build:
+        randomize()
         make_building()
 
 # --------------------------------------------------------
@@ -67,149 +88,182 @@ func set_auto_build(new_autobuild):
 # Build Functions
 #
 # --------------------------------------------------------
-func calculate_cell_uv_shift(side_len, random_add : bool = true):
+func calculate_cell_uv_shift(rng : RandomNumberGenerator = null):
     # We'll stick the return value into this Vector2
     var return_val
     
-    if random_add:
+    # If we don't have a Random Number Generator, use Godot's built in randi()
+    # function
+    if rng == null:
         return_val = Vector2(
             randi() % GlobalRef.WINDOW_CELL_LEN,
             randi() % GlobalRef.WINDOW_CELL_LEN
         )
-        return_val *= GlobalRef.WINDOW_UV_SIZE
+    # Otherwise, use the RandomNumberGenerator object
     else:
-        return_val = Vector2.ZERO
+        return_val = Vector2(
+            rng.randi() % GlobalRef.WINDOW_CELL_LEN,
+            rng.randi() % GlobalRef.WINDOW_CELL_LEN
+        )
     
-    # Next, shift the Vector2 as appropriate for the input side length. Using
-    # the parity to scale the shift allows us to skip using an if/else.
-    return_val += (side_len % 2) * odd_UV2_shift
+    # Scale the shift to WINDOW UV units
+    return_val *= GlobalRef.WINDOW_UV_SIZE
     
     return return_val
 
-func make_building():
+func make_building(rng : RandomNumberGenerator = null):
+    # Calculate the world-unit length on each axis given the window/cell count
+    var eff_x = len_x * GlobalRef.WINDOW_UV_SIZE
+    var eff_y = len_y * GlobalRef.WINDOW_UV_SIZE
+    var eff_z = len_z * GlobalRef.WINDOW_UV_SIZE
     
-    # If we don't have the building nodes for whatever reason, back out
-    if not (self.has_node("ZNeg") or self.has_node("ZPos") or \
-    self.has_node("XNeg") or self.has_node("XPos") ):
+    # The cube mesh we'll base all of our work on
+    var cube_mesh
+    
+    # The arrays we'll be modifying to give our array mesh - each index is a
+    # different type of Array or PoolArray; see ArrayMesh.ArrayType enumeration
+    # for more
+    var arrays
+    
+    # Since we have multiple arrays we'll be editing, we'll just dereference
+    # the ones we need into these variables!
+    var vertex
+    var uv
+    
+    # We'll use these variables to dereference elements in the array we're
+    # looking at.
+    var curr_vert
+    var curr_uv
+    
+    # The UV shift vectors
+    var shift_north
+    var shift_south
+    var shift_west
+    var shift_east
+    
+    # If we don't have the building mesh for whatever reason, back out
+    if not self.has_node("BuildingMesh"):
         return
     
-    # Calculate the world-unit length on each axis given the window/cell count
-    var eff_x = (len_x * GlobalRef.WINDOW_UV_SIZE) / 2
-    var eff_y = len_y * GlobalRef.WINDOW_UV_SIZE
-    var eff_z = (len_z * GlobalRef.WINDOW_UV_SIZE) / 2
+    # Clear out our surfaces so we're not stacking surfaces on surfaces
+    $BuildingMesh.mesh.clear_surfaces()
     
-    $ZNeg.mesh = ready_side_mesh(
-        Vector2(-eff_x, 0),
-        Vector2( eff_x, eff_y),
-        -eff_z, false, calculate_cell_uv_shift(len_x)
+    # Create the cube mesh
+    cube_mesh = CubeMesh.new()
+    cube_mesh.size = Vector3(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE)
+    # Get the arrays from the cube mesh!
+    arrays = cube_mesh.get_mesh_arrays()
+    
+    # Spread the arrays appropriately
+    vertex = arrays[ArrayMesh.ARRAY_VERTEX]
+    uv = arrays[ArrayMesh.ARRAY_TEX_UV]
+    
+    # Calculate some shifts
+    shift_north = calculate_cell_uv_shift(rng)
+    shift_south = calculate_cell_uv_shift(rng)
+    shift_west = calculate_cell_uv_shift(rng)
+    shift_east = calculate_cell_uv_shift(rng)
+    
+    for idx in range( vertex.size() ):
+        # Grab the current vector and uv
+        curr_vert = vertex[idx]
+        curr_uv = uv[idx]
+        
+        #
+        # Step 1: Vertex
+        #
+        # Shift the height down since the cube is always centered at y 0. This
+        # should force the building's roof to be at 0. This allows us to use the
+        # model origin as the building's height in a shader.
+        curr_vert.y -= CUBE_SIZE / 2
+        
+        # Now, scale all of the points based on the effective lengths we were
+        # given.
+        curr_vert.x *= eff_x / CUBE_SIZE
+        curr_vert.y *= eff_y / CUBE_SIZE
+        curr_vert.z *= eff_z / CUBE_SIZE
+        
+        #
+        # Step 2: UV
+        #
+        match idx:
+            # South face is 0 2 4 6
+            0, 2, 4, 6:
+                # We want the UVs to be between 0 and 1, so use the round
+                # function to force the range we want.
+                curr_uv = curr_uv.ceil()
+                # Scale UV's x using our X
+                curr_uv.x *= eff_x
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_south
+            # North face is 1 3 5 7
+            1, 3, 5, 7:
+                # For some reason the X ranges between 0.66 and 1 so subtract
+                # out .5
+                curr_uv.x -= .5
+                # Now round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our X
+                curr_uv.x *= eff_x
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_north
+            # East face is 8 10 12 14
+            8, 10, 12, 14:
+                # Round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our Z
+                curr_uv.x *= eff_z
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_east
+            # West face is 9 11 13 15
+            9, 11, 13, 15:
+                # UV X values typically range between 0 and .33, so add .3
+                curr_uv.x += .3
+                # UV Y values typically range between .5 and 1, so subtract .25
+                curr_uv.y -= .25
+                # Round to force between 0 and 1
+                curr_uv = curr_uv.round()
+                # Scale UV's x using our Z
+                curr_uv.x *= eff_z
+                # Scale up the UV's y - it's ALWAYS our effective y
+                curr_uv.y *= eff_y
+                # Shift using the appropriate vector
+                curr_uv += shift_west
+            # Top face is 16 18 20 22
+            16, 18, 20, 22:
+                # Blank the UV - no textures on this face!
+                curr_uv *= 0
+            # Bottom face is 17 19 21 23
+            17, 19, 21, 23:
+                # Blank the UV - no textures on this face!
+                curr_uv *= 0
+        
+        # If we're not using window textures, blank the UV
+        if not use_window_texture:
+            curr_uv *= 0
+        
+        # Assert the modified values
+        vertex[idx] = curr_vert
+        uv[idx] = curr_uv
+    
+    # Assert the updated arrays in the array-of-arrays
+    arrays[ArrayMesh.ARRAY_VERTEX] = vertex
+    arrays[ArrayMesh.ARRAY_TEX_UV] = uv
+    
+    $BuildingMesh.mesh.add_surface_from_arrays(
+        Mesh.PRIMITIVE_TRIANGLES,
+        arrays, [], 0
     )
-    $ZPos.mesh = ready_side_mesh(
-        Vector2(-eff_x, eff_y),
-        Vector2( eff_x, 0),
-        eff_z, false, calculate_cell_uv_shift(len_x)
-    )
-    $XNeg.mesh = ready_side_mesh(
-        Vector2(-eff_z, 0),
-        Vector2( eff_z, eff_y),
-        eff_x, true, calculate_cell_uv_shift(len_z)
-    )
-    $XPos.mesh = ready_side_mesh(
-        Vector2(-eff_z, eff_y),
-        Vector2( eff_z, 0),
-        -eff_x, true, calculate_cell_uv_shift(len_z)
-    )
-    $YTop.mesh = ready_top_mesh(
-        Vector2(-eff_x, -eff_z),
-        Vector2( eff_x,  eff_z),
-        eff_y
-    )
 
-func ready_side_mesh(pointA, pointB, axis_point, is_x, shift):
-    var new_mesh = Mesh.new()
-    var verts = PoolVector3Array()
-    var UVs = PoolVector2Array()
-    
-    # Points and such
-    var pd
-    
-    # UV Vector2 points
-    var uvA
-    var uvB
-    
-    # If we're using a window texture for this building...
-    if self.use_window_texture:
-        # Then the uv2 is the points we were given PLUS our dedicated shift
-        uvA = pointA + shift
-        uvB = pointB + shift
-    # Otherwise...
-    else:
-        # We'll make both points 0-0, effectively removing the texture from this
-        # building
-        uvA = Vector2.ZERO
-        uvB = Vector2.ZERO
-    
-    if is_x:
-        pd = PolyGen.create_xlock_face(
-            # Point A, Point B, Position on X
-            pointA, pointB, axis_point,
-            # Custom UV positions
-            uvA, uvB
-        )
-    else:
-        pd = PolyGen.create_zlock_face(
-            # Point A, Point B, Position on Z
-            pointA, pointB, axis_point,
-            # Custom UV positions
-            uvA, uvB
-        )
-    verts.append_array( pd[PolyGen.VECTOR3_KEY] )
-    UVs.append_array( pd[PolyGen.UV_KEY] )
-    
-    var st = SurfaceTool.new()
-    st.begin(Mesh.PRIMITIVE_TRIANGLES)
-    
-    st.set_material(building_material)
+    $BuildingMesh.mesh.regen_normalmaps()
 
-    for v in verts.size():
-        st.add_uv(UVs[v])
-        st.add_vertex(verts[v])
-
-    st.generate_normals()
-    st.generate_tangents()
-
-    st.commit(new_mesh)
-    return new_mesh
-
-func ready_top_mesh(pointA, pointB, axis_point):
-    var new_mesh = Mesh.new()
-    var verts = PoolVector3Array()
-    var UVs = PoolVector2Array()
+    # Set the building material
+    $BuildingMesh.set_surface_material(0, building_material)
     
-    # Points and such
-    var pd
-    
-    pd = PolyGen.create_ylock_face(
-        # Point A, Point B, Position on Y
-        pointA, pointB, axis_point,
-        # Pass in zero-zero for the UV values, meaning the roof won't have a
-        # texture - exactly what we want!
-        Vector2.ZERO, Vector2.ZERO
-    )
-    
-    verts.append_array( pd[PolyGen.VECTOR3_KEY] )
-    UVs.append_array( pd[PolyGen.UV_KEY] )
-    
-    var st = SurfaceTool.new()
-    st.begin(Mesh.PRIMITIVE_TRIANGLES)
-    
-    st.set_material(building_material)
-
-    for v in verts.size():
-        st.add_uv(UVs[v])
-        st.add_vertex(verts[v])
-
-    st.generate_normals()
-    st.generate_tangents()
-
-    st.commit(new_mesh)
-    return new_mesh
+    $BuildingMesh.transform.origin = Vector3(0, eff_y, 0)

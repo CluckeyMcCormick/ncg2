@@ -16,9 +16,9 @@ const GlobalRef = preload("res://util/GlobalRef.gd")
 const ImageGenerator = preload("res://window_gen/WindowGenerator.gd")
 
 # Load our different materials
-const dot_mat_a = preload("res://buildings/DotWindowLightMaterial_A.tres")
-const dot_mat_b = preload("res://buildings/DotWindowLightMaterial_B.tres")
-const dot_mat_c = preload("res://buildings/DotWindowLightMaterial_C.tres")
+const window_mat_a = preload("res://buildings/WindowMaterial_A.tres")
+const window_mat_b = preload("res://buildings/WindowMaterial_B.tres")
+const window_mat_c = preload("res://buildings/WindowMaterial_C.tres")
 
 # These need to be var because otherwise we can't modify the "Albedo Color"
 # member variable.
@@ -70,12 +70,12 @@ const default_profile = preload("res://profiles/Niteflyte.tres")
 #
 # ~~~~~~~~~~~~~~~~
 
-# Assign the three active materials to the DotWindowLightMaterial_V2 shaders. We
+# Assign the three active materials to the DotWindowPowerMaterial shaders. We
 # use these intermediary variables so we can avoid tying code to a specific
 # preloaded material.
-var mat_a = dot_mat_a
-var mat_b = dot_mat_b
-var mat_c = dot_mat_c
+var mat_a = window_mat_a
+var mat_b = window_mat_b
+var mat_c = window_mat_c
 
 var texture_gen_a = ImageGenerator.WindowGenerator.new()
 var texture_gen_b = ImageGenerator.WindowGenerator.new()
@@ -122,9 +122,6 @@ func update_whole_dictionary():
     
     # Now we need to call the "total update" functions on all of our groups -
     # this SHOULD save us from queuing multiple redundant calls.
-    
-    # Lights
-    get_tree().call_group(GlobalRef.light_group, "total_update")
     
     # Beacons
     get_tree().call_group(GlobalRef.beacon_group, "total_update")
@@ -283,22 +280,106 @@ func update_key(key):
         #
         # Lights
         #
-        "lights_one_color", "lights_one_visible":
-            if _mass_update:
-                continue
-            get_tree().call_group(GlobalRef.light_group_one, "_mcc_update")
-        "lights_two_color", "lights_two_visible":
-            if _mass_update:
-                continue
-            get_tree().call_group(GlobalRef.light_group_two, "_mcc_update")
-        "lights_three_color", "lights_three_visible":
-            if _mass_update:
-                continue
-            get_tree().call_group(GlobalRef.light_group_three, "_mcc_update")
-        "lights_four_color", "lights_four_visible":
-            if _mass_update:
-                continue
-            get_tree().call_group(GlobalRef.light_group_four, "_mcc_update")
+        "lights_one_color":
+            mat_a.set_shader_param("L1Color", profile_dict[key])
+            mat_b.set_shader_param("L1Color", profile_dict[key])
+            mat_c.set_shader_param("L1Color", profile_dict[key])
+            roofbox_mat_a.set_shader_param("L1Color", profile_dict[key])
+            roofbox_mat_b.set_shader_param("L1Color", profile_dict[key])
+            roofbox_mat_c.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_a1.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_a2.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_a3.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_b1.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_b2.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_b3.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_c1.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_c2.set_shader_param("L1Color", profile_dict[key])
+            antennae_mat_c3.set_shader_param("L1Color", profile_dict[key])
+        "lights_two_color":
+            mat_a.set_shader_param("L2Color", profile_dict[key])
+            mat_b.set_shader_param("L2Color", profile_dict[key])
+            mat_c.set_shader_param("L2Color", profile_dict[key])
+            roofbox_mat_a.set_shader_param("L2Color", profile_dict[key])
+            roofbox_mat_b.set_shader_param("L2Color", profile_dict[key])
+            roofbox_mat_c.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_a1.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_a2.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_a3.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_b1.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_b2.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_b3.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_c1.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_c2.set_shader_param("L2Color", profile_dict[key])
+            antennae_mat_c3.set_shader_param("L2Color", profile_dict[key])
+        "lights_three_color":
+            mat_a.set_shader_param("L3Color", profile_dict[key])
+            mat_b.set_shader_param("L3Color", profile_dict[key])
+            mat_c.set_shader_param("L3Color", profile_dict[key])
+            roofbox_mat_a.set_shader_param("L3Color", profile_dict[key])
+            roofbox_mat_b.set_shader_param("L3Color", profile_dict[key])
+            roofbox_mat_c.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_a1.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_a2.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_a3.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_b1.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_b2.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_b3.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_c1.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_c2.set_shader_param("L3Color", profile_dict[key])
+            antennae_mat_c3.set_shader_param("L3Color", profile_dict[key])
+        "lights_four_color":
+            mat_a.set_shader_param("L4Color", profile_dict[key])
+            mat_b.set_shader_param("L4Color", profile_dict[key])
+            mat_c.set_shader_param("L4Color", profile_dict[key])
+            roofbox_mat_a.set_shader_param("L4Color", profile_dict[key])
+            roofbox_mat_b.set_shader_param("L4Color", profile_dict[key])
+            roofbox_mat_c.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_a1.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_a2.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_a3.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_b1.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_b2.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_b3.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_c1.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_c2.set_shader_param("L4Color", profile_dict[key])
+            antennae_mat_c3.set_shader_param("L4Color", profile_dict[key])
+        "lights_one_visible":
+            if profile_dict[key]:
+                mat_a.set_shader_param("L1Coefficient", 1)
+                mat_b.set_shader_param("L1Coefficient", 1)
+                mat_c.set_shader_param("L1Coefficient", 1)
+            else:
+                mat_a.set_shader_param("L1Coefficient", 0)
+                mat_b.set_shader_param("L1Coefficient", 0)
+                mat_c.set_shader_param("L1Coefficient", 0)
+        "lights_two_visible":
+            if profile_dict[key]:
+                mat_a.set_shader_param("L2Coefficient", 1)
+                mat_b.set_shader_param("L2Coefficient", 1)
+                mat_c.set_shader_param("L2Coefficient", 1)
+            else:
+                mat_a.set_shader_param("L2Coefficient", 0)
+                mat_b.set_shader_param("L2Coefficient", 0)
+                mat_c.set_shader_param("L2Coefficient", 0)
+        "lights_three_visible":
+            if profile_dict[key]:
+                mat_a.set_shader_param("L3Coefficient", 1)
+                mat_b.set_shader_param("L3Coefficient", 1)
+                mat_c.set_shader_param("L3Coefficient", 1)
+            else:
+                mat_a.set_shader_param("L3Coefficient", 0)
+                mat_b.set_shader_param("L3Coefficient", 0)
+                mat_c.set_shader_param("L3Coefficient", 0)
+        "lights_four_visible":
+            if profile_dict[key]:
+                mat_a.set_shader_param("L4Coefficient", 1)
+                mat_b.set_shader_param("L4Coefficient", 1)
+                mat_c.set_shader_param("L4Coefficient", 1)
+            else:
+                mat_a.set_shader_param("L4Coefficient", 0)
+                mat_b.set_shader_param("L4Coefficient", 0)
+                mat_c.set_shader_param("L4Coefficient", 0)
         #
         # Sky
         #
